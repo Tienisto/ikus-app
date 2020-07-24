@@ -1,4 +1,4 @@
-package de.ovgu.ikus_app
+package de.ovgu.ikus
 
 import io.flutter.embedding.android.FlutterActivity
 
