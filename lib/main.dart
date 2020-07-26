@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 
+import 'i18n/messages.g.dart';
+
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
+
+    LocaleSettings.useDeviceLocale().then((_) {
+      setState((){});
+    });
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'IKUS',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -71,11 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(t.welcome.title),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -97,9 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
+            Text('test'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
