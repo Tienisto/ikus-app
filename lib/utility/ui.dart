@@ -10,6 +10,9 @@ class OvguColor {
 
 class OvguPixels {
 
+  static const EdgeInsets mainScreenPadding = EdgeInsets.symmetric(horizontal: 20);
+  static const double headerSize = 20, headerDistance = 10;
+
   static const BorderRadius borderRadius = const BorderRadius.all(Radius.circular(15));
   static const double elevation = 5;
   static const ShapeBorder shape = RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius);

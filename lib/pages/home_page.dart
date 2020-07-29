@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/event_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
@@ -7,7 +8,11 @@ import 'package:ikus_app/components/post_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/screens/events_screen.dart';
+import 'package:ikus_app/screens/map_screen.dart';
+import 'package:ikus_app/screens/mensa_screen.dart';
 import 'package:ikus_app/utility/extensions.dart';
+import 'package:ikus_app/utility/ui.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,13 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  static const EdgeInsets PADDING = EdgeInsets.symmetric(horizontal: 20);
-  static const double HEADER_SIZE = 20, HEADER_DISTANCE = 10;
-
   static const List<Event> EVENTS = [
     Event("Immatrikulationsfeier", "15.10.2020, 19 Uhr", "Festung Mark"),
-    Event("Immatrikulationsfeier", "15.10.2020, 19 Uhr", "Festung Mark"),
-    Event("Immatrikulationsfeier", "15.10.2020, 19 Uhr", "Festung Mark")
+    Event("Wohnheim-Spieleabend", "23.10.2020, 20 Uhr", "Campus Theater"),
+    Event("Grillen", "17.10.2020, 16 Uhr", "vor Gebäude 16")
   ];
 
   static List<Post> POSTS = [
@@ -41,15 +43,15 @@ class _HomePageState extends State<HomePage> {
         children: [
           SizedBox(height: 20),
           Padding(
-            padding: PADDING,
+            padding: OvguPixels.mainScreenPadding,
             child: IconText(
-              size: HEADER_SIZE,
-              distance: HEADER_DISTANCE,
+              size: OvguPixels.headerSize,
+              distance: OvguPixels.headerDistance,
               icon: Icons.today,
               text: t.main.home.nextEvents,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           CarouselSlider(
             options: CarouselOptions(
               height: 100,
@@ -89,35 +91,41 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 10),
           Padding(
-            padding: PADDING,
+            padding: OvguPixels.mainScreenPadding,
             child: IconText(
-              size: HEADER_SIZE,
-              distance: HEADER_DISTANCE,
+              size: OvguPixels.headerSize,
+              distance: OvguPixels.headerDistance,
               icon: Icons.favorite,
               text: t.main.home.favorites,
             ),
           ),
           SizedBox(height: 20),
           Padding(
-            padding: PADDING,
+            padding: OvguPixels.mainScreenPadding,
             child: SizedBox(
               height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FavoriteButton(icon: Icons.map, text: t.main.catalog.map, callback: () {}),
-                  FavoriteButton(icon: Icons.restaurant, text: t.main.catalog.mensa, callback: () {}),
-                  FavoriteButton(icon: Icons.calendar_today, text: t.main.catalog.events, callback: () {}),
+                  FavoriteButton(icon: Icons.map, text: t.main.catalog.content.map, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
+                  }),
+                  FavoriteButton(icon: Icons.restaurant, text: t.main.catalog.content.mensa, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
+                  }),
+                  FavoriteButton(icon: Icons.calendar_today, text: t.main.catalog.content.events, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => EventsScreen()));
+                  }),
                 ],
               ),
             ),
           ),
           SizedBox(height: 30),
           Padding(
-            padding: PADDING,
+            padding: OvguPixels.mainScreenPadding,
             child: IconText(
-              size: HEADER_SIZE,
-              distance: HEADER_DISTANCE,
+              size: OvguPixels.headerSize,
+              distance: OvguPixels.headerDistance,
               icon: Icons.announcement,
               text: t.main.home.news,
             ),

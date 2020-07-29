@@ -14,10 +14,32 @@
       "news": "Neuigkeiten"
     },
     "catalog": {
-      "events": "Events",
-      "links": "Links",
-      "map": "Karte",
-      "mensa": "Mensa"
+      "title": "Katalog",
+      "content": {
+        "events": "Events",
+        "faq": "FAQ",
+        "links": "Links",
+        "map": "Karte",
+        "mensa": "Mensa"
+      }
+    },
+    "settings": {
+      "title": "Einstellungen"
     }
+  },
+  "events": {
+    "title": "Events"
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen"
+  },
+  "links": {
+    "title": "Hilfreiche Links"
+  },
+  "map": {
+    "title": "Karte der Universität"
+  },
+  "mensa": {
+    "title": "Mensa"
   }
 }

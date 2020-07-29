@@ -3,7 +3,7 @@ ikus_key.jks
 android/key.properties
 
 # i18n (generated dart files)
-*g.dart
+*.g.dart
 
 # Miscellaneous
 *.class

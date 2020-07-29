@@ -14,10 +14,32 @@
       "news": "News"
     },
     "catalog": {
-      "events": "Events",
-      "links": "Links",
-      "map": "Map",
-      "mensa": "Mensa"
+      "title": "Catalog",
+      "content": {
+        "events": "Events",
+        "faq": "FAQ",
+        "links": "Links",
+        "map": "Map",
+        "mensa": "Mensa"
+      }
+    },
+    "settings": {
+      "title": "Settings"
     }
+  },
+  "events": {
+    "title": "Events"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions"
+  },
+  "links": {
+    "title": "Useful Links"
+  },
+  "map": {
+    "title": "Map of the University"
+  },
+  "mensa": {
+    "title": "Mensa"
   }
 }
