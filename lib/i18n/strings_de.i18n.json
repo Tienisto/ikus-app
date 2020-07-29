@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Willkommen in der IKUS-App!"
+  },
+  "main": {
+    "bottomBar": [
+      "Home",
+      "Katalog",
+      "Einst."
+    ],
+    "home": {
+      "nextEvents": "Nächsten Events",
+      "favorites": "Favoriten",
+      "news": "Neuigkeiten"
+    },
+    "catalog": {
+      "events": "Events",
+      "links": "Links",
+      "map": "Karte",
+      "mensa": "Mensa"
+    }
+  }
+}
