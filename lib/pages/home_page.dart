@@ -41,7 +41,28 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: ListView(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 30),
+          Padding(
+            padding: OvguPixels.mainScreenPadding,
+            child: SizedBox(
+              height: 70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FavoriteButton(icon: Icons.map, text: t.main.catalog.content.map, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
+                  }),
+                  FavoriteButton(icon: Icons.restaurant, text: t.main.catalog.content.mensa, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
+                  }),
+                  FavoriteButton(icon: Icons.calendar_today, text: t.main.catalog.content.events, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => EventsScreen()));
+                  }),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 30),
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: IconText(
@@ -90,37 +111,6 @@ class _HomePageState extends State<HomePage> {
             }).toList(),
           ),
           SizedBox(height: 10),
-          Padding(
-            padding: OvguPixels.mainScreenPadding,
-            child: IconText(
-              size: OvguPixels.headerSize,
-              distance: OvguPixels.headerDistance,
-              icon: Icons.favorite,
-              text: t.main.home.favorites,
-            ),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: OvguPixels.mainScreenPadding,
-            child: SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FavoriteButton(icon: Icons.map, text: t.main.catalog.content.map, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
-                  }),
-                  FavoriteButton(icon: Icons.restaurant, text: t.main.catalog.content.mensa, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
-                  }),
-                  FavoriteButton(icon: Icons.calendar_today, text: t.main.catalog.content.events, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => EventsScreen()));
-                  }),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 30),
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: IconText(
