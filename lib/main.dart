@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/utility/ui.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(IkusApp()));
 }
 
-class MyApp extends StatefulWidget {
+class IkusApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _IkusAppState createState() => _IkusAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _IkusAppState extends State<IkusApp> {
 
   bool _initialized = false;
 

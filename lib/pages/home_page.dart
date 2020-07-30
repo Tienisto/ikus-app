@@ -11,6 +11,7 @@ import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/screens/links_screen.dart';
 import 'package:ikus_app/screens/map_screen.dart';
 import 'package:ikus_app/screens/mensa_screen.dart';
+import 'package:ikus_app/service/event_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -21,20 +22,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  static const List<Event> EVENTS = [
-    Event("Immatrikulationsfeier", "15.10.2020, 19 Uhr", "Festung Mark"),
-    Event("Wohnheim-Spieleabend", "23.10.2020, 20 Uhr", "Campus Theater"),
-    Event("Grillen", "17.10.2020, 16 Uhr", "vor Gebäude 16")
-  ];
-
   static List<Post> POSTS = [
-    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "IKUS", "15.07.2020", Image.asset('assets/img/logo-512-alpha.png')),
-    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "Wohnheim", "15.07.2020", null),
+    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "IKUS", "15.07.2020", null),
+    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "Wohnheim", "15.07.2020", Image.asset('assets/img/logo-512-alpha.png')),
     Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "AKAA", "15.07.2020", Image.asset('assets/img/logo-512-alpha.png')),
     Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "Wohnheim", "15.07.2020", null)
   ];
 
   int _currentEventIndex = 0;
+
+  List<Event> _events;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _events = EventService.getNextEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 });
               }
             ),
-            items: EVENTS.map((event) {
+            items: _events.map((event) {
               return Builder(
                 builder: (BuildContext context) {
                   return Padding(
@@ -97,7 +101,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: EVENTS.mapIndexed((event, index) {
+            children: _events.mapIndexed((event, index) {
               return Container(
                 width: 8.0,
                 height: 8.0,

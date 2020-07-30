@@ -14,7 +14,8 @@
       "news": "News"
     },
     "calendar": {
-      "title": "Calendar"
+      "title": "Calendar",
+      "listed": "Event List"
     },
     "features": {
       "title": "Features",
