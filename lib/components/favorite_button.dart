@@ -13,7 +13,7 @@ class FavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: (MediaQuery.of(context).size.width - 30 * 2) / 3,
+      width: (MediaQuery.of(context).size.width - 20 * 2 - OvguPixels.mainScreenPadding.horizontal) / 3,
       child: RaisedButton(
         color: OvguColor.primary,
         elevation: OvguPixels.elevation,
