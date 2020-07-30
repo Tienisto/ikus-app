@@ -14,17 +14,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
+  bool _initialized = false;
+
   @override
   void initState() {
     super.initState();
 
     LocaleSettings.useDeviceLocale().whenComplete(() {
-      setState((){});
+      setState((){
+        _initialized = true;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    if (!_initialized)
+      return Container(color: Colors.white);
+
     return MaterialApp(
       title: 'IKUS',
       debugShowCheckedModeBanner: false,
