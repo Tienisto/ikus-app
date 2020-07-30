@@ -6,7 +6,7 @@ import 'package:ikus_app/utility/extensions.dart';
 
 List<IconData> _icons = [
   Icons.home,
-  Icons.menu,
+  Icons.apps,
   Icons.settings
 ];
 

@@ -27,7 +27,7 @@ class _CatalogPageState extends State<CatalogPage> {
             child: IconText(
               size: OvguPixels.headerSize,
               distance: OvguPixels.headerDistance,
-              icon: Icons.menu,
+              icon: Icons.apps,
               text: t.main.catalog.title,
             ),
           ),
