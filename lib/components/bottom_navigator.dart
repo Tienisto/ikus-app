@@ -6,6 +6,7 @@ import 'package:ikus_app/utility/extensions.dart';
 
 List<IconData> _icons = [
   Icons.home,
+  Icons.today,
   Icons.apps,
   Icons.settings
 ];
@@ -24,7 +25,7 @@ class BottomNavigator extends StatelessWidget {
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey[200],
+        unselectedItemColor: Colors.grey[400],
         items: _icons.mapIndexed((icons, index) {
           return BottomNavigationBarItem(
             icon: Icon(icons),

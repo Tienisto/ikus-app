@@ -8,7 +8,7 @@ import 'package:ikus_app/components/post_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/post.dart';
-import 'package:ikus_app/screens/events_screen.dart';
+import 'package:ikus_app/screens/links_screen.dart';
 import 'package:ikus_app/screens/map_screen.dart';
 import 'package:ikus_app/screens/mensa_screen.dart';
 import 'package:ikus_app/utility/extensions.dart';
@@ -49,14 +49,14 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FavoriteButton(icon: Icons.map, text: t.main.catalog.content.map, callback: () {
+                  FavoriteButton(icon: Icons.language, text: t.main.features.content.links, callback: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => LinksScreen()));
+                  }),
+                  FavoriteButton(icon: Icons.map, text: t.main.features.content.map, callback: () {
                     Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
                   }),
-                  FavoriteButton(icon: Icons.restaurant, text: t.main.catalog.content.mensa, callback: () {
+                  FavoriteButton(icon: Icons.restaurant, text: t.main.features.content.mensa, callback: () {
                     Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
-                  }),
-                  FavoriteButton(icon: Icons.calendar_today, text: t.main.catalog.content.events, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => EventsScreen()));
                   }),
                 ],
               ),
@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 20),
           ...POSTS.map((post) => Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: PostCard(post: post),
           )),
           SizedBox(height: 50),

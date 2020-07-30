@@ -14,7 +14,7 @@ class OvguPixels {
   static const double headerSize = 20, headerDistance = 10;
 
   static const BorderRadius borderRadius = const BorderRadius.all(Radius.circular(15));
-  static const double elevation = 5;
+  static const double elevation = 3;
   static const ShapeBorder shape = RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius);
 
   static List<BoxShadow> boxShadow = [

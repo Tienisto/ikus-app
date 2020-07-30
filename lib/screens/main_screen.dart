@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/bottom_navigator.dart';
-import 'package:ikus_app/pages/catalog_page.dart';
+import 'package:ikus_app/pages/calendar_page.dart';
+import 'package:ikus_app/pages/features_page.dart';
 import 'package:ikus_app/pages/home_page.dart';
 import 'package:ikus_app/pages/settings_page.dart';
 
@@ -21,7 +22,8 @@ class _MainScreenState extends State<MainScreen> {
 
     pages = [
       HomePage(),
-      CatalogPage(),
+      CalendarPage(),
+      FeaturesPage(),
       SettingsPage()
     ];
     _pageController = PageController();

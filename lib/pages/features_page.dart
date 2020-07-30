@@ -3,19 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/button_catalog.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/screens/events_screen.dart';
 import 'package:ikus_app/screens/faq_screen.dart';
 import 'package:ikus_app/screens/links_screen.dart';
 import 'package:ikus_app/screens/map_screen.dart';
 import 'package:ikus_app/screens/mensa_screen.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class CatalogPage extends StatefulWidget {
+class FeaturesPage extends StatefulWidget {
   @override
-  _CatalogPageState createState() => _CatalogPageState();
+  _FeaturesPageState createState() => _FeaturesPageState();
 }
 
-class _CatalogPageState extends State<CatalogPage> {
+class _FeaturesPageState extends State<FeaturesPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,29 +27,21 @@ class _CatalogPageState extends State<CatalogPage> {
               size: OvguPixels.headerSize,
               distance: OvguPixels.headerDistance,
               icon: Icons.apps,
-              text: t.main.catalog.title,
+              text: t.main.features.title,
             ),
           ),
           SizedBox(height: 30),
           ButtonCatalog(
-            icon: Icons.calendar_today,
-            text: t.main.catalog.content.events,
-            favorite: true,
-            callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => EventsScreen()));
-            },
-          ),
-          ButtonCatalog(
             icon: Icons.language,
-            text: t.main.catalog.content.links,
-            favorite: false,
+            text: t.main.features.content.links,
+            favorite: true,
             callback: () {
               Navigator.push(context, CupertinoPageRoute(builder: (context) => LinksScreen()));
             },
           ),
           ButtonCatalog(
             icon: Icons.map,
-            text: t.main.catalog.content.map,
+            text: t.main.features.content.map,
             favorite: true,
             callback: () {
               Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
@@ -58,7 +49,7 @@ class _CatalogPageState extends State<CatalogPage> {
           ),
           ButtonCatalog(
             icon: Icons.restaurant,
-            text: t.main.catalog.content.mensa,
+            text: t.main.features.content.mensa,
             favorite: true,
             callback: () {
               Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
@@ -66,7 +57,7 @@ class _CatalogPageState extends State<CatalogPage> {
           ),
           ButtonCatalog(
             icon: Icons.help,
-            text: t.main.catalog.content.faq,
+            text: t.main.features.content.faq,
             favorite: false,
             callback: () {
               Navigator.push(context, CupertinoPageRoute(builder: (context) => FAQScreen()));

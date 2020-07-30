@@ -5,17 +5,20 @@
   "main": {
     "bottomBar": [
       "Home",
-      "Catalog",
+      "Calendar",
+      "Features",
       "Settings"
     ],
     "home": {
       "nextEvents": "Next Events",
       "news": "News"
     },
-    "catalog": {
-      "title": "Catalog",
+    "calendar": {
+      "title": "Calendar"
+    },
+    "features": {
+      "title": "Features",
       "content": {
-        "events": "Events",
         "faq": "FAQ",
         "links": "Links",
         "map": "Map",
@@ -25,9 +28,6 @@
     "settings": {
       "title": "Settings"
     }
-  },
-  "events": {
-    "title": "Events"
   },
   "faq": {
     "title": "Frequently Asked Questions"
