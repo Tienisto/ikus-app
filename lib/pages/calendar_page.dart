@@ -84,7 +84,7 @@ class _CalendarPageState extends State<CalendarPage> {
               size: OvguPixels.headerSize,
               distance: OvguPixels.headerDistance,
               icon: Icons.list,
-              text: t.main.calendar.listed,
+              text: t.main.calendar.events,
             ),
           ),
           SizedBox(height: 20),

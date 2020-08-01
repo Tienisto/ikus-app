@@ -15,7 +15,7 @@
     },
     "calendar": {
       "title": "Calendar",
-      "listed": "Event List"
+      "events": "Events"
     },
     "features": {
       "title": "Features",
