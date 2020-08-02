@@ -27,7 +27,8 @@
       }
     },
     "settings": {
-      "title": "Einstellungen"
+      "title": "Einstellungen",
+      "language": "Sprache"
     }
   },
   "faq": {

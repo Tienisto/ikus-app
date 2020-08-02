@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -10,10 +11,10 @@ void main() {
 
 class IkusApp extends StatefulWidget {
   @override
-  _IkusAppState createState() => _IkusAppState();
+  IkusAppState createState() => IkusAppState();
 }
 
-class _IkusAppState extends State<IkusApp> {
+class IkusAppState extends State<IkusApp> {
 
   bool _initialized = false;
 
@@ -25,6 +26,14 @@ class _IkusAppState extends State<IkusApp> {
       setState((){
         _initialized = true;
       });
+    });
+
+    Globals.ikusAppState = this;
+  }
+
+  void setLocale(String locale) {
+    setState(() {
+      LocaleSettings.setLocale(locale);
     });
   }
 

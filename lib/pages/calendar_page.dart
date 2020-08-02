@@ -54,7 +54,7 @@ class _CalendarPageState extends State<CalendarPage> {
               shape: OvguPixels.shape,
               elevation: OvguPixels.elevation,
               child: TableCalendar(
-                locale: LocaleSettings.currentLocale == '' ? 'en' : LocaleSettings.currentLocale,
+                locale: LocaleSettings.currentLocale,
                 calendarController: _calendarController,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 headerStyle: HeaderStyle(
