@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class ButtonCatalog extends StatelessWidget {
+class ButtonFeature extends StatelessWidget {
 
-  final Callback callback;
-  final IconData icon;
-  final String text;
+  final Feature feature;
   final bool favorite;
+  final Callback selectCallback;
+  final Callback favoriteCallback;
 
-  const ButtonCatalog({@required this.callback, @required this.icon, @required this.text, @required this.favorite});
+  const ButtonFeature({@required this.feature, @required this.favorite, @required this.selectCallback, @required this.favoriteCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +22,12 @@ class ButtonCatalog extends StatelessWidget {
             child: FlatButton(
               padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
               shape: OvguPixels.shape,
-              onPressed: callback,
+              onPressed: selectCallback,
               child: Row(
                 children: [
-                  Icon(icon),
+                  Icon(feature.icon),
                   SizedBox(width: 20),
-                  Text(text, style: TextStyle(fontSize: 20))
+                  Text(feature.name, style: TextStyle(fontSize: 20))
                 ],
               )
             ),
@@ -35,7 +36,7 @@ class ButtonCatalog extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
             shape: OvguPixels.shape,
             child: Icon(favorite ? Icons.favorite : Icons.favorite_border),
-            onPressed: () {},
+            onPressed: favoriteCallback,
           )
         ],
       ),

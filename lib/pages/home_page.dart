@@ -7,11 +7,10 @@ import 'package:ikus_app/components/favorite_button.dart';
 import 'package:ikus_app/components/post_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
+import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/model/post.dart';
-import 'package:ikus_app/screens/links_screen.dart';
-import 'package:ikus_app/screens/map_screen.dart';
-import 'package:ikus_app/screens/mensa_screen.dart';
 import 'package:ikus_app/service/event_service.dart';
+import 'package:ikus_app/service/favorite_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -42,30 +41,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<Feature> favorites = FavoriteService.getFavorites();
+    double favoriteMargin = favorites.length <= 3 ? 20 : 10;
+    double favoriteFontSize = favorites.length <= 3 ? 14 : 12;
+    double favoriteWidth = (MediaQuery.of(context).size.width - favoriteMargin * (favorites.length - 1) - OvguPixels.mainScreenPadding.horizontal) / favorites.length;
+
     return SafeArea(
       child: ListView(
         children: [
-          SizedBox(height: 30),
-          Padding(
-            padding: OvguPixels.mainScreenPadding,
-            child: SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FavoriteButton(icon: Icons.language, text: t.main.features.content.links, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => LinksScreen()));
-                  }),
-                  FavoriteButton(icon: Icons.map, text: t.main.features.content.map, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
-                  }),
-                  FavoriteButton(icon: Icons.restaurant, text: t.main.features.content.mensa, callback: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
-                  }),
-                ],
+          if (favorites.isNotEmpty)
+            SizedBox(height: 30),
+          if (favorites.isNotEmpty)
+            Padding(
+              padding: OvguPixels.mainScreenPadding,
+              child: SizedBox(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: favorites.map((Feature feature) => FavoriteButton(
+                    icon: feature.icon,
+                    text: feature.name,
+                    width: favoriteWidth,
+                    fontSize: favoriteFontSize,
+                    callback: () {
+                      Navigator.push(context, CupertinoPageRoute(builder: (context) => feature.widget));
+                    }
+                  )).toList(),
+                ),
               ),
             ),
-          ),
           SizedBox(height: 30),
           Padding(
             padding: OvguPixels.mainScreenPadding,

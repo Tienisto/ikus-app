@@ -7,13 +7,15 @@ class FavoriteButton extends StatelessWidget {
   final Callback callback;
   final IconData icon;
   final String text;
+  final double width;
+  final double fontSize;
 
-  const FavoriteButton({@required this.callback, @required this.icon, @required this.text});
+  const FavoriteButton({@required this.callback, @required this.icon, @required this.text, @required this.width, @required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: (MediaQuery.of(context).size.width - 20 * 2 - OvguPixels.mainScreenPadding.horizontal) / 3,
+      width: width,
       child: RaisedButton(
         color: OvguColor.primary,
         elevation: OvguPixels.elevation,
@@ -23,7 +25,7 @@ class FavoriteButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(icon, color: Colors.white),
-            Text(text, style: TextStyle(color: Colors.white))
+            Text(text, style: TextStyle(fontSize: fontSize, color: Colors.white))
           ],
         )
       ),

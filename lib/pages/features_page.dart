@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/button_catalog.dart';
+import 'package:ikus_app/components/button_feature.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/screens/faq_screen.dart';
-import 'package:ikus_app/screens/links_screen.dart';
-import 'package:ikus_app/screens/map_screen.dart';
-import 'package:ikus_app/screens/mensa_screen.dart';
+import 'package:ikus_app/model/feature.dart';
+import 'package:ikus_app/service/favorite_service.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class FeaturesPage extends StatefulWidget {
@@ -31,38 +29,18 @@ class _FeaturesPageState extends State<FeaturesPage> {
             ),
           ),
           SizedBox(height: 30),
-          ButtonCatalog(
-            icon: Icons.language,
-            text: t.main.features.content.links,
-            favorite: true,
-            callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => LinksScreen()));
+          ...Feature.values.map((feature) => ButtonFeature(
+            feature: feature,
+            favorite: FavoriteService.isFavorite(feature),
+            selectCallback: () {
+              Navigator.push(context, CupertinoPageRoute(builder: (context) => feature.widget));
             },
-          ),
-          ButtonCatalog(
-            icon: Icons.map,
-            text: t.main.features.content.map,
-            favorite: true,
-            callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => MapScreen()));
+            favoriteCallback: () {
+              setState(() {
+                FavoriteService.toggleFavorite(feature);
+              });
             },
-          ),
-          ButtonCatalog(
-            icon: Icons.restaurant,
-            text: t.main.features.content.mensa,
-            favorite: true,
-            callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => MensaScreen()));
-            },
-          ),
-          ButtonCatalog(
-            icon: Icons.help,
-            text: t.main.features.content.faq,
-            favorite: false,
-            callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => FAQScreen()));
-            },
-          ),
+          ))
         ],
       ),
     );
