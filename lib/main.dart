@@ -42,6 +42,9 @@ class IkusAppState extends State<IkusApp> {
   @override
   Widget build(BuildContext context) {
 
+    precacheImage(AssetImage("assets/img/maps/campus-main.jpg"), context);
+    precacheImage(AssetImage("assets/img/maps/campus-med.jpg"), context);
+
     if (!_initialized)
       return Container(color: Colors.white);
 
