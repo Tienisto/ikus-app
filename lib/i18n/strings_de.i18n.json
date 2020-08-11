@@ -39,6 +39,7 @@
   },
   "map": {
     "title": "Karte der Universität",
+    "zoomInfo": "Du kannst die Karte zoomen!",
     "main": "Hauptcampus",
     "med": "Medizin-Campus"
   },

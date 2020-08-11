@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 enum MapControlsPosition {
@@ -20,14 +21,45 @@ class MapViewScreen extends StatefulWidget {
 class _MapViewScreenState extends State<MapViewScreen> {
 
   Widget _getControls() {
-    return RaisedButton(
-      color: OvguColor.primary,
-      shape: OvguPixels.shape,
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Icon(Icons.arrow_back, color: Colors.white),
-    );
+    if (widget.controls == MapControlsPosition.LEFT)
+      return Column(
+        children: [
+          RaisedButton(
+            color: OvguColor.primary,
+            shape: OvguPixels.shape,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back, color: Colors.white),
+          ),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                  width: 100,
+                  child: Text(t.map.zoomInfo, textAlign: TextAlign.center)
+              ),
+            ),
+          )
+        ],
+      );
+    else
+      return Row (
+        children: [
+          RaisedButton(
+            color: OvguColor.primary,
+            shape: OvguPixels.shape,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back, color: Colors.white),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(t.map.zoomInfo),
+            ),
+          )
+        ],
+      );
   }
 
   Widget _getMapView() {
@@ -43,7 +75,6 @@ class _MapViewScreenState extends State<MapViewScreen> {
   Widget _getContent() {
     if (widget.controls == MapControlsPosition.LEFT)
       return Row (
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
