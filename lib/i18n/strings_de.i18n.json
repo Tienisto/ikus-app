@@ -38,7 +38,9 @@
     "title": "Hilfreiche Links"
   },
   "map": {
-    "title": "Karte der Universität"
+    "title": "Karte der Universität",
+    "main": "Hauptcampus",
+    "med": "Medizin-Campus"
   },
   "mensa": {
     "title": "Mensa"

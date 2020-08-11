@@ -38,7 +38,9 @@
     "title": "Useful Links"
   },
   "map": {
-    "title": "Map of the University"
+    "title": "Map of the University",
+    "main": "Main Campus",
+    "med": "Medicine Campus"
   },
   "mensa": {
     "title": "Mensa"
