@@ -13,7 +13,8 @@ class OvguPixels {
   static const EdgeInsets mainScreenPadding = EdgeInsets.symmetric(horizontal: 20);
   static const double headerSize = 20, headerDistance = 10;
 
-  static const BorderRadius borderRadius = const BorderRadius.all(Radius.circular(15));
+  static const double borderRadiusPlain = 15;
+  static const BorderRadius borderRadius = BorderRadius.all(Radius.circular(borderRadiusPlain));
   static const double elevation = 3;
   static const ShapeBorder shape = RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius);
 

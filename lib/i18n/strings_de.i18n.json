@@ -44,6 +44,21 @@
     "med": "Medizin-Campus"
   },
   "mensa": {
-    "title": "Mensa"
+    "title": "Mensa",
+    "locations": {
+      "uniCampusDown": "UniCampus Unten",
+      "uniCampusUp": "UniCampus Oben",
+      "zschokke": "Kellercafé Zschokkestraße",
+      "herrenkrug": "Herrenkrug"
+    },
+    "tags": {
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarisch",
+      "garlic": "Knoblauch",
+      "fish": "Fisch",
+      "chicken": "Huhn",
+      "beef": "Rind",
+      "pig": "Schwein"
+    }
   }
 }

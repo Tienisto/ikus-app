@@ -11,6 +11,7 @@ import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/service/event_service.dart';
 import 'package:ikus_app/service/favorite_service.dart';
+import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
       child: ListView(
+        physics: Adaptive.getScrollPhysics(),
         children: [
           if (favorites.isNotEmpty)
             SizedBox(height: 30),
