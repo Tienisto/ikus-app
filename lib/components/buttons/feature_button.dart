@@ -3,14 +3,14 @@ import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class ButtonFeature extends StatelessWidget {
+class FeatureButton extends StatelessWidget {
 
   final Feature feature;
   final bool favorite;
   final Callback selectCallback;
   final Callback favoriteCallback;
 
-  const ButtonFeature({@required this.feature, @required this.favorite, @required this.selectCallback, @required this.favoriteCallback});
+  const FeatureButton({@required this.feature, @required this.favorite, @required this.selectCallback, @required this.favoriteCallback});
 
   @override
   Widget build(BuildContext context) {

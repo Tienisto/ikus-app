@@ -4,12 +4,12 @@ import 'package:ikus_app/model/food.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
 
-class CardFood extends StatelessWidget {
+class FoodCard extends StatelessWidget {
   static NumberFormat currencyFormat =
       NumberFormat("#.00", LocaleSettings.currentLocale);
   final Food food;
 
-  const CardFood({@required this.food});
+  const FoodCard({@required this.food});
 
   @override
   Widget build(BuildContext context) {

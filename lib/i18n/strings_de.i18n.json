@@ -31,6 +31,9 @@
       "language": "Sprache"
     }
   },
+  "event": {
+    "title": "Event"
+  },
   "faq": {
     "title": "Häufig gestellte Fragen"
   },
@@ -60,5 +63,8 @@
       "beef": "Rind",
       "pig": "Schwein"
     }
+  },
+  "post": {
+    "title": "Beitrag"
   }
 }

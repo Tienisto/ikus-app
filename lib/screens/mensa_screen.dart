@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/card_food.dart';
+import 'package:ikus_app/components/cards/food_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/menu.dart';
 import 'package:ikus_app/service/mensa_service.dart';
@@ -19,7 +19,7 @@ class MensaScreen extends StatelessWidget {
           child: Column (
             children: menu.food.map((food) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child: CardFood(food: food),
+              child: FoodCard(food: food),
             )).toList(),
           ),
         ),

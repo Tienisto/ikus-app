@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class PostCard extends StatelessWidget {
 
   final Post post;
+  final Callback callback;
 
-  const PostCard({this.post});
+  const PostCard({@required this.post, @required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +18,7 @@ class PostCard extends StatelessWidget {
       shape: OvguPixels.shape,
       child: InkWell(
         customBorder: OvguPixels.shape,
-        onTap: () {
-          print('press');
-        },
+        onTap: callback,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

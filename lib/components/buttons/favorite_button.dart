@@ -14,12 +14,12 @@ class FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       child: RaisedButton(
         color: OvguColor.primary,
-        elevation: OvguPixels.elevation,
         shape: OvguPixels.shape,
+        elevation: OvguPixels.elevation,
         onPressed: callback,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

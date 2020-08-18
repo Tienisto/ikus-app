@@ -1,14 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/event_card.dart';
+import 'package:ikus_app/components/buttons/favorite_button.dart';
+import 'package:ikus_app/components/cards/event_card.dart';
+import 'package:ikus_app/components/cards/post_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
-import 'package:ikus_app/components/favorite_button.dart';
-import 'package:ikus_app/components/post_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/screens/event_screen.dart';
+import 'package:ikus_app/screens/post_screen.dart';
 import 'package:ikus_app/service/event_service.dart';
 import 'package:ikus_app/service/favorite_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
@@ -100,7 +102,9 @@ class _HomePageState extends State<HomePage> {
                 builder: (BuildContext context) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: EventCard(event: event),
+                    child: EventCard(event: event, callback: () {
+                      Navigator.push(context, CupertinoPageRoute(builder: (context) => EventScreen()));
+                    }),
                   );
                 },
               );
@@ -134,7 +138,9 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 20),
           ...POSTS.map((post) => Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-            child: PostCard(post: post),
+            child: PostCard(post: post, callback: () {
+              Navigator.push(context, CupertinoPageRoute(builder: (context) => PostScreen()));
+            }),
           )),
           SizedBox(height: 50),
         ],

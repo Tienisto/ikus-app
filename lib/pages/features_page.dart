@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/button_feature.dart';
+import 'package:ikus_app/components/buttons/feature_button.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
@@ -29,7 +29,7 @@ class _FeaturesPageState extends State<FeaturesPage> {
             ),
           ),
           SizedBox(height: 30),
-          ...Feature.values.map((feature) => ButtonFeature(
+          ...Feature.values.map((feature) => FeatureButton(
             feature: feature,
             favorite: FavoriteService.isFavorite(feature),
             selectCallback: () {
