@@ -33,10 +33,10 @@ extension FoodMembers on FoodTag {
   Color get color => {
     FoodTag.VEGAN: Colors.green,
     FoodTag.VEGETARIAN: Colors.green,
-    FoodTag.GARLIC: Colors.brown,
+    FoodTag.GARLIC: Colors.purple,
     FoodTag.FISH: Colors.blue,
-    FoodTag.CHICKEN: Colors.pinkAccent,
-    FoodTag.BEEF: Colors.pinkAccent,
-    FoodTag.PIG: Colors.pinkAccent
+    FoodTag.CHICKEN: Colors.pink,
+    FoodTag.BEEF: Colors.pink,
+    FoodTag.PIG: Colors.pink
   }[this];
 }
