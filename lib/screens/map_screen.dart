@@ -5,6 +5,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/map_view_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MapScreen extends StatelessWidget {
@@ -32,7 +33,7 @@ class MapScreen extends StatelessWidget {
           MapCard(
             image: campusMain,
             callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => MapViewScreen(image: campusMain, controls: MapControlsPosition.LEFT), settings: RouteSettings(arguments: ScreenOrientation.LANDSCAPE)));
+              pushScreen(context, () => MapViewScreen(image: campusMain, controls: MapControlsPosition.LEFT), ScreenOrientation.LANDSCAPE);
             },
           ),
           SizedBox(height: 30),
@@ -45,7 +46,7 @@ class MapScreen extends StatelessWidget {
           MapCard(
             image: campusMed,
             callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => MapViewScreen(image: campusMed, controls: MapControlsPosition.TOP,)));
+              pushScreen(context, () => MapViewScreen(image: campusMed, controls: MapControlsPosition.TOP));
             },
           ),
           SizedBox(height: 50),

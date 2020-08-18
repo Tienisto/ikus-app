@@ -15,6 +15,7 @@ import 'package:ikus_app/service/event_service.dart';
 import 'package:ikus_app/service/favorite_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/extensions.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class HomePage extends StatefulWidget {
@@ -63,15 +64,17 @@ class _HomePageState extends State<HomePage> {
                 height: 70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: favorites.map((Feature feature) => FavoriteButton(
-                    icon: feature.icon,
-                    text: feature.name,
-                    width: favoriteWidth,
-                    fontSize: favoriteFontSize,
-                    callback: () {
-                      Navigator.push(context, CupertinoPageRoute(builder: (context) => feature.widget));
-                    }
-                  )).toList(),
+                  children: favorites.map((Feature feature) {
+                      return FavoriteButton(
+                      icon: feature.icon,
+                      text: feature.name,
+                      width: favoriteWidth,
+                      fontSize: favoriteFontSize,
+                      callback: () {
+                        pushScreen(context, () => feature.widget);
+                      }
+                    );
+                  }).toList(),
                 ),
               ),
             ),
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: EventCard(event: event, callback: () {
-                      Navigator.push(context, CupertinoPageRoute(builder: (context) => EventScreen()));
+                      pushScreen(context, () => EventScreen());
                     }),
                   );
                 },
@@ -139,7 +142,7 @@ class _HomePageState extends State<HomePage> {
           ...POSTS.map((post) => Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: PostCard(post: post, callback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => PostScreen()));
+              pushScreen(context, () => PostScreen());
             }),
           )),
           SizedBox(height: 50),

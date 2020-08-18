@@ -5,6 +5,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/service/favorite_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class FeaturesPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _FeaturesPageState extends State<FeaturesPage> {
             feature: feature,
             favorite: FavoriteService.isFavorite(feature),
             selectCallback: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => feature.widget));
+              pushScreen(context, () => feature.widget);
             },
             favoriteCallback: () {
               setState(() {
