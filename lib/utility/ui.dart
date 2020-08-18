@@ -14,7 +14,9 @@ class OvguPixels {
   static const double headerSize = 20, headerDistance = 10;
 
   static const double borderRadiusPlain = 15;
+  static const double borderRadiusImagePlain = 5;
   static const BorderRadius borderRadius = BorderRadius.all(Radius.circular(borderRadiusPlain));
+  static const BorderRadius borderRadiusImage = BorderRadius.all(Radius.circular(borderRadiusImagePlain));
   static const double elevation = 3;
   static const ShapeBorder shape = RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius);
 

@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   fast_i18n: ^1.6.0
   intl: ^0.16.1 # used by table_calendar and for formatting dates
+  flutter_html: ^1.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

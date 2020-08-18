@@ -35,7 +35,7 @@ class PostCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5, right: 10),
-                  child: Text(post.date, style: TextStyle(color: OvguColor.secondaryDarken)),
+                  child: Text(Post.dateFormatter.format(post.date), style: TextStyle(color: OvguColor.secondaryDarken)),
                 )
               ],
             ),
@@ -44,8 +44,13 @@ class PostCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (post.image != null)
-                    post.image,
+                  if (post.images.isNotEmpty)
+                    ClipRRect(
+                        borderRadius: OvguPixels.borderRadiusImage,
+                        child: post.images.first
+                    ),
+                  if (post.images.isNotEmpty)
+                    SizedBox(height: 15),
                   Text(post.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10),
                   Text(post.preview),

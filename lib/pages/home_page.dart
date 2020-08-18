@@ -8,11 +8,11 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/feature.dart';
-import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/screens/post_screen.dart';
 import 'package:ikus_app/service/event_service.dart';
 import 'package:ikus_app/service/favorite_service.dart';
+import 'package:ikus_app/service/post_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
@@ -24,13 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  static List<Post> POSTS = [
-    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "IKUS", "15.07.2020", null),
-    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "Wohnheim", "15.07.2020", Image.asset('assets/img/logo-512-alpha.png')),
-    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "AKAA", "15.07.2020", Image.asset('assets/img/logo-512-alpha.png')),
-    Post("Dr.-Ing Jens Strackeljan als Rektor gewählt", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", "Wohnheim", "15.07.2020", null)
-  ];
 
   int _currentEventIndex = 0;
 
@@ -139,10 +132,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20),
-          ...POSTS.map((post) => Padding(
+          ...PostService.getPosts().map((post) => Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: PostCard(post: post, callback: () {
-              pushScreen(context, () => PostScreen());
+              pushScreen(context, () => PostScreen(post: post));
             }),
           )),
           SizedBox(height: 50),
