@@ -27,7 +27,7 @@ dependencies:
   intl: ^0.16.1 # used by table_calendar and for formatting dates
   flutter_html: ^1.0.2 # show post content encoded in html
   flutter_map: ^0.10.1 # show event location in-app
-  maps_launcher: ^1.2.2 # launch external map app
+  map_launcher: ^0.12.0 # launch external map app
   add_2_calendar: ^1.4.0 # add calendar reminders
 
   # The following adds the Cupertino Icons font to your application.

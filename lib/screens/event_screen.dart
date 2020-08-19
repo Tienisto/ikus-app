@@ -7,7 +7,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/ui.dart';
-import 'package:maps_launcher/maps_launcher.dart';
+import 'package:map_launcher/map_launcher.dart' as map_launcher;
 
 class EventScreen extends StatelessWidget {
 
@@ -153,8 +153,10 @@ class EventScreen extends StatelessWidget {
                               color: OvguColor.primary,
                               shape: OvguPixels.shape,
                               elevation: OvguPixels.elevation,
-                              onPressed: () {
-                                MapsLauncher.launchCoordinates(event.coords.latitude, event.coords.longitude);
+                              onPressed: () async {
+                                List<map_launcher.AvailableMap> availableMaps = await map_launcher.MapLauncher.installedMaps;
+                                map_launcher.AvailableMap app = availableMaps.firstWhere((a) => a.mapType == map_launcher.MapType.google, orElse: () => availableMaps.first);
+                                await app.showMarker(coords: map_launcher.Coords(event.coords.latitude, event.coords.longitude), title: event.place);
                               },
                               child: Text(t.event.openMapApp, style: TextStyle(color: Colors.white)),
                             ),
