@@ -47,7 +47,7 @@ class IkusAppState extends State<IkusApp> {
     precacheImage(AssetImage("assets/img/maps/campus-med.jpg"), context);
 
     if (!_initialized)
-      return Container(color: Colors.white);
+      return Container(color: OvguColor.primary);
 
     return MaterialApp(
       title: 'IKUS',
