@@ -6,39 +6,47 @@ class Event {
 
   static final DateFormat _format = DateFormat('dd.MM.yyyy, kk:mm', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale);
-  static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEEE, dd.MM.yyyy', LocaleSettings.currentLocale);
+  static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEE, dd.MM.yyyy', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyTime= DateFormat('kk:mm', LocaleSettings.currentLocale);
 
   final String name;
-  final DateTime timestamp;
+  final DateTime start;
+  final DateTime end;
   final String place;
   final LatLng coords;
 
-  const Event(this.name, this.timestamp, this.place, this.coords);
+  const Event(this.name, this.start, this.end, this.place, this.coords);
 
   String get formattedTimestamp {
     if (hasTime)
-      return _format.format(timestamp);
+      return _format.format(start);
     else
-      return _formatOnlyDate.format(timestamp);
+      return _formatOnlyDate.format(start);
   }
 
   /// same as formattedTimestamp but only date
-  String get formattedDate {
-    return _formatOnlyDate.format(timestamp);
+  String get formattedStartDate {
+    return _formatOnlyDate.format(start);
   }
 
   /// same as formattedDate but with weekday
-  String get formattedDateWithWeekday {
-    return _formatOnlyDateWithWeekday.format(timestamp);
+  String get formattedStartDateWithWeekday {
+    return _formatOnlyDateWithWeekday.format(start);
   }
 
   /// same as formattedTimestamp but only time
   String get formattedTime {
-    return _formatOnlyTime.format(timestamp);
+    if (hasEndTime)
+      return _formatOnlyTime.format(start) + ' - ' + _formatOnlyTime.format(end);
+    else
+      return _formatOnlyTime.format(start);
   }
 
   bool get hasTime {
-    return timestamp.hour != 0 || timestamp.minute != 0;
+    return start.hour != 0 || start.minute != 0;
+  }
+
+  bool get hasEndTime {
+    return end != null;
   }
 }

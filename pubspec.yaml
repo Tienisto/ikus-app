@@ -23,11 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  fast_i18n: ^1.6.0
+  fast_i18n: ^1.6.0 #
   intl: ^0.16.1 # used by table_calendar and for formatting dates
-  flutter_html: ^1.0.2
-  flutter_map: ^0.10.1
-  maps_launcher: ^1.2.2
+  flutter_html: ^1.0.2 # show post content encoded in html
+  flutter_map: ^0.10.1 # show event location in-app
+  maps_launcher: ^1.2.2 # launch external map app
+  add_2_calendar: ^1.4.0 # add calendar reminders
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

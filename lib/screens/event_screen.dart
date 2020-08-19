@@ -1,3 +1,4 @@
+import 'package:add_2_calendar/add_2_calendar.dart' as calendar;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:ikus_app/components/icon_text.dart';
@@ -12,6 +13,7 @@ class EventScreen extends StatelessWidget {
 
   static final TextStyle keyStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static final double valueSize = 20;
+  static final double buttonWidth = 60;
 
   final Event event;
 
@@ -40,24 +42,50 @@ class EventScreen extends StatelessWidget {
             elevation: OvguPixels.elevation,
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(t.event.when, style: keyStyle),
-                  SizedBox(height: 10),
-                  IconText(
-                    size: valueSize,
-                    icon: Icons.event,
-                    text: event.formattedDateWithWeekday,
-                  ),
-                  if(event.hasTime)
-                    SizedBox(height: 10),
-                  if(event.hasTime)
-                    IconText(
-                      size: valueSize,
-                      icon: Icons.access_time,
-                      text: event.formattedTime,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(t.event.when, style: keyStyle),
+                        SizedBox(height: 10),
+                        IconText(
+                          size: valueSize,
+                          icon: Icons.event,
+                          text: event.formattedStartDateWithWeekday,
+                        ),
+                        if(event.hasTime)
+                          SizedBox(height: 10),
+                        if(event.hasTime)
+                          IconText(
+                            size: valueSize,
+                            icon: Icons.access_time,
+                            text: event.formattedTime,
+                          ),
+                      ],
                     ),
+                  ),
+                  SizedBox(
+                    width: buttonWidth,
+                    child: RaisedButton(
+                      color: OvguColor.primary,
+                      shape: OvguPixels.shape,
+                      elevation: OvguPixels.elevation,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
+                      onPressed: () {
+                        calendar.Add2Calendar.addEvent2Cal(calendar.Event(
+                            title: event.name,
+                            location: event.place,
+                            startDate: event.start,
+                            endDate: event.hasEndTime ? event.end : event.hasTime ? event.start.add(Duration(hours: 10)) : event.start,
+                            allDay: !event.hasTime
+                        ));
+                      },
+                      child: Icon(Icons.add_alert, color: Colors.white),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -128,7 +156,7 @@ class EventScreen extends StatelessWidget {
                               onPressed: () {
                                 MapsLauncher.launchCoordinates(event.coords.latitude, event.coords.longitude);
                               },
-                              child: Text(t.event.openApp, style: TextStyle(color: Colors.white)),
+                              child: Text(t.event.openMapApp, style: TextStyle(color: Colors.white)),
                             ),
                           )
                         ],
