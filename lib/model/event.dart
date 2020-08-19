@@ -5,7 +5,7 @@ import "package:latlong/latlong.dart";
 class Event {
 
   static final DateFormat _format = DateFormat('dd.MM.yyyy, kk:mm', LocaleSettings.currentLocale);
-  static final DateFormat _formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale);
+  static final DateFormat formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEE, dd.MM.yyyy', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyTime= DateFormat('kk:mm', LocaleSettings.currentLocale);
 
@@ -22,12 +22,12 @@ class Event {
     if (hasTime)
       return _format.format(start);
     else
-      return _formatOnlyDate.format(start);
+      return formatOnlyDate.format(start);
   }
 
   /// same as formattedTimestamp but only date
   String get formattedStartDate {
-    return _formatOnlyDate.format(start);
+    return formatOnlyDate.format(start);
   }
 
   /// same as formattedDate but with weekday

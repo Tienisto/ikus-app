@@ -34,8 +34,7 @@
   "event": {
     "title": "Event",
     "when": "Wann?",
-    "where": "Wo?",
-    "openMapApp": "Navigation"
+    "where": "Wo?"
   },
   "faq": {
     "title": "Häufig gestellte Fragen"
@@ -69,5 +68,16 @@
   },
   "post": {
     "title": "Beitrag"
+  },
+  "components": {
+    "mapWithMarker": {
+      "openMapApp": "Navigation"
+    }
+  },
+  "popups": {
+    "datePopup": {
+      "normal": "Folgende Events gibt es an diesem Tag:",
+      "empty": "Es gibt keine Events an diesem Tag."
+    }
   }
 }
