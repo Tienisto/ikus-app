@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ikus_app/utility/ui.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 
 class Popups {
 
@@ -26,10 +26,7 @@ class Popups {
             child: SizedBox(
               width: width,
               height: height,
-              child: Card(
-                color: OvguColor.secondary,
-                shape: OvguPixels.shape,
-                elevation: OvguPixels.elevation,
+              child: OvguCard(
                 child: Material(
                   type: MaterialType.transparency,
                   child: body

@@ -1,5 +1,6 @@
 import 'package:add_2_calendar/add_2_calendar.dart' as calendar;
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/map_with_marker.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
@@ -11,7 +12,6 @@ class EventScreen extends StatelessWidget {
 
   static final TextStyle keyStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static final double valueSize = 20;
-  static final double buttonWidth = 60;
 
   final Event event;
 
@@ -41,10 +41,7 @@ class EventScreen extends StatelessWidget {
               child: Text(event.info, style: TextStyle(fontSize: 16)),
             ),
           SizedBox(height: 20),
-          Card(
-            color: OvguColor.secondary,
-            shape: OvguPixels.shape,
-            elevation: OvguPixels.elevation,
+          OvguCard(
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -73,7 +70,7 @@ class EventScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: buttonWidth,
+                    width: 60,
                     child: RaisedButton(
                       color: OvguColor.primary,
                       shape: OvguPixels.shape,
@@ -96,10 +93,7 @@ class EventScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          Card(
-            color: OvguColor.secondary,
-            shape: OvguPixels.shape,
-            elevation: OvguPixels.elevation,
+          OvguCard(
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(

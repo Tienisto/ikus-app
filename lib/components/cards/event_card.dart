@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/utility/callbacks.dart';
@@ -13,11 +14,8 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return OvguCard(
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
-      color: OvguColor.secondary,
-      shape: OvguPixels.shape,
-      elevation: OvguPixels.elevation,
       child: InkWell(
         customBorder: OvguPixels.shape,
         onTap: callback,

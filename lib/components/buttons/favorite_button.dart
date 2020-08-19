@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/utility/callbacks.dart';
-import 'package:ikus_app/utility/ui.dart';
 
 class FavoriteButton extends StatelessWidget {
 
@@ -16,11 +16,8 @@ class FavoriteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: RaisedButton(
-        color: OvguColor.primary,
-        shape: OvguPixels.shape,
-        elevation: OvguPixels.elevation,
-        onPressed: callback,
+      child: OvguButton(
+        callback: callback,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

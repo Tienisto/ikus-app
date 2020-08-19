@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -12,10 +13,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: OvguPixels.elevation,
-      color: OvguColor.secondary,
-      shape: OvguPixels.shape,
+    return OvguCard(
       child: InkWell(
         customBorder: OvguPixels.shape,
         onTap: callback,

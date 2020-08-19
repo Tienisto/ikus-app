@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/popups/date_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
@@ -54,10 +55,7 @@ class _CalendarPageState extends State<CalendarPage> {
           SizedBox(height: 20),
           Padding(
             padding: OvguPixels.mainScreenPadding,
-            child: Card(
-              color: OvguColor.secondary,
-              shape: OvguPixels.shape,
-              elevation: OvguPixels.elevation,
+            child: OvguCard(
               child: TableCalendar(
                 locale: LocaleSettings.currentLocale,
                 calendarController: _calendarController,

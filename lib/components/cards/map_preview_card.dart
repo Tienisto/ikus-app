@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -14,10 +15,7 @@ class MapPreviewCard extends StatelessWidget {
     return InkWell(
       onTap: callback,
       borderRadius: OvguPixels.borderRadius,
-      child: Card(
-        color: OvguColor.secondary,
-        shape: OvguPixels.shape,
-        elevation: OvguPixels.elevation,
+      child: OvguCard(
         child: Padding(
           padding: const EdgeInsets.all(5),
           child: ClipRRect(

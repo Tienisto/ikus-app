@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/food.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -15,10 +16,7 @@ class FoodCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Card(
-        color: OvguColor.secondary,
-        shape: OvguPixels.shape,
-        elevation: OvguPixels.elevation,
+      child: OvguCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
