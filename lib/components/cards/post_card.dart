@@ -35,7 +35,7 @@ class PostCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5, right: 10),
-                  child: Text(Post.dateFormatter.format(post.date), style: TextStyle(color: OvguColor.secondaryDarken)),
+                  child: Text(post.formattedDate, style: TextStyle(color: OvguColor.secondaryDarken2)),
                 )
               ],
             ),

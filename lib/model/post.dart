@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class Post {
 
-  static DateFormat dateFormatter = DateFormat("dd.MM.yyyy");
+  static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
 
   final String title;
   final String preview;
@@ -13,4 +13,8 @@ class Post {
   final List<Image> images;
 
   const Post(this.title, this.preview, this.content, this.group, this.date, this.images);
+
+  String get formattedDate {
+    return _dateFormatter.format(date);
+  }
 }

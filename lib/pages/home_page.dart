@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: EventCard(event: event, callback: () {
-                      pushScreen(context, () => EventScreen());
+                      pushScreen(context, () => EventScreen(event));
                     }),
                   );
                 },
@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
           ...PostService.getPosts().map((post) => Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: PostCard(post: post, callback: () {
-              pushScreen(context, () => PostScreen(post: post));
+              pushScreen(context, () => PostScreen(post));
             }),
           )),
           SizedBox(height: 50),

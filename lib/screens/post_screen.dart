@@ -5,13 +5,14 @@ import 'package:flutter_html/style.dart';
 import 'package:ikus_app/components/badge.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class PostScreen extends StatelessWidget {
 
   final Post post;
 
-  const PostScreen({@required this.post});
+  const PostScreen(this.post);
 
   Widget getImageWithName(Image image) {
     return Column(
@@ -34,6 +35,7 @@ class PostScreen extends StatelessWidget {
         title: Text(t.post.title),
       ),
       body: ListView(
+        physics: Adaptive.getScrollPhysics(),
         children: [
           SizedBox(height: 30),
           Padding(
@@ -42,7 +44,7 @@ class PostScreen extends StatelessWidget {
               children: [
                 Badge(text: post.group),
                 SizedBox(width: 10),
-                Badge(text: Post.dateFormatter.format(post.date)),
+                Badge(text: post.formattedDate),
               ],
             ),
           ),

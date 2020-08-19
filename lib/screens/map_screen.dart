@@ -5,6 +5,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/map_view_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
+import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -21,6 +22,7 @@ class MapScreen extends StatelessWidget {
         title: Text(t.map.title),
       ),
       body: ListView(
+        physics: Adaptive.getScrollPhysics(),
         padding: OvguPixels.mainScreenPadding,
         children: [
           SizedBox(height: 30),

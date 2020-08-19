@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
+import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/service/event_service.dart';
+import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -35,6 +37,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
+        physics: Adaptive.getScrollPhysics(),
         children: [
           SizedBox(height: 20),
           Padding(
@@ -98,23 +101,32 @@ class _CalendarPageState extends State<CalendarPage> {
                 children: [
                   SizedBox(
                     width: 110,
-                    child: Text(events.first.getFormattedDate(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
+                    child: Text(events.first.formattedDate, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: events.map((event) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(event.name, style: TextStyle(fontSize: 16)),
-                            if (event.hasTime())
-                              Text(event.getFormattedTime(), style: TextStyle(color: OvguColor.secondaryDarken)),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: events.map((event) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: InkWell(
+                            onTap: () {
+                              pushScreen(context, () => EventScreen(event));
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(event.name, style: TextStyle(fontSize: 16)),
+                                if (event.hasTime)
+                                  Text(event.formattedTime, style: TextStyle(color: OvguColor.secondaryDarken2)),
+                                if (!event.hasTime)
+                                  SizedBox(height: 10) // placeholder
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               ),

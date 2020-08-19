@@ -5,6 +5,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/service/favorite_service.dart';
+import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -18,6 +19,7 @@ class _FeaturesPageState extends State<FeaturesPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
+        physics: Adaptive.getScrollPhysics(),
         children: [
           SizedBox(height: 20),
           Padding(

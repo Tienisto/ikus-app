@@ -5,7 +5,8 @@ class OvguColor {
   static const Color primary = Color(0xff7a003f);
   static const Color primaryDarken = Color(0xff3d0020);
   static const Color secondary = Color(0xffe0e2e3);
-  static const Color secondaryDarken = Color(0xff99a0a3);
+  static const Color secondaryDarken1 = Color(0xffc9cdcf);
+  static const Color secondaryDarken2 = Color(0xff99a0a3);
 }
 
 class OvguPixels {

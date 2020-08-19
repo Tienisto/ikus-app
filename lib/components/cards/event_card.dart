@@ -31,7 +31,7 @@ class EventCard extends StatelessWidget {
               IconText(
                 size: 16,
                 icon: Icons.access_time,
-                text: event.getFormattedTimestamp(),
+                text: event.formattedTimestamp,
               ),
               IconText(
                 size: 16,

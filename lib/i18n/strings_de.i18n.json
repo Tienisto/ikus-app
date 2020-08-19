@@ -32,7 +32,10 @@
     }
   },
   "event": {
-    "title": "Event"
+    "title": "Event",
+    "when": "Wann?",
+    "where": "Wo?",
+    "openApp": "Navigiere mich!"
   },
   "faq": {
     "title": "Häufig gestellte Fragen"
