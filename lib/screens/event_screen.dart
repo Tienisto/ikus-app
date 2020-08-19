@@ -28,12 +28,19 @@ class EventScreen extends StatelessWidget {
         physics: Adaptive.getScrollPhysics(),
         padding: OvguPixels.mainScreenPadding,
         children: [
-          SizedBox(height: 40),
+          SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Text(event.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           ),
-          SizedBox(height: 40),
+          if (event.info != null)
+            SizedBox(height: 20),
+          if (event.info != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(event.info, style: TextStyle(fontSize: 16)),
+            ),
+          SizedBox(height: 20),
           Card(
             color: OvguColor.secondary,
             shape: OvguPixels.shape,
@@ -88,7 +95,7 @@ class EventScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 20),
           Card(
             color: OvguColor.secondary,
             shape: OvguPixels.shape,
