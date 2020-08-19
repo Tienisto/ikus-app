@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ikus_app/components/bottom_navigator.dart';
 import 'package:ikus_app/pages/calendar_page.dart';
 import 'package:ikus_app/pages/features_page.dart';
@@ -40,19 +41,22 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(builder: (BuildContext context) {
-        return PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() {
-              _page = index;
-            });
-          },
-          children: pages,
-        );
-      }),
-      bottomNavigationBar: BottomNavigator(_page, animateToPage),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+      child: Scaffold(
+        body: Builder(builder: (BuildContext context) {
+          return PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _page = index;
+              });
+            },
+            children: pages,
+          );
+        }),
+        bottomNavigationBar: BottomNavigator(_page, animateToPage),
+      ),
     );
   }
 }
