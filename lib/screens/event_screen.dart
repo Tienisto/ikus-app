@@ -50,7 +50,8 @@ class EventScreen extends StatelessWidget {
                     icon: Icons.event,
                     text: event.formattedDateWithWeekday,
                   ),
-                  SizedBox(height: 10),
+                  if(event.hasTime)
+                    SizedBox(height: 10),
                   if(event.hasTime)
                     IconText(
                       size: valueSize,
@@ -79,7 +80,7 @@ class EventScreen extends StatelessWidget {
                     text: event.place,
                   ),
                   if (event.coords != null)
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                   if (event.coords != null)
                     SizedBox(
                       height: 250,
