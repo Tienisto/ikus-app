@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class MapCard extends StatelessWidget {
+class MapPreviewCard extends StatelessWidget {
 
   final Image image;
   final Callback callback;
 
-  const MapCard({@required this.image, @required this.callback});
+  const MapPreviewCard({@required this.image, @required this.callback});
 
   @override
   Widget build(BuildContext context) {

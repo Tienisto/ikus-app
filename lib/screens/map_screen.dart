@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/cards/map_card.dart';
+import 'package:ikus_app/components/cards/map_preview_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/map_view_screen.dart';
@@ -32,7 +32,7 @@ class MapScreen extends StatelessWidget {
             icon: Icons.flag
           ),
           SizedBox(height: 10),
-          MapCard(
+          MapPreviewCard(
             image: campusMain,
             callback: () {
               pushScreen(context, () => MapViewScreen(image: campusMain, controls: MapControlsPosition.LEFT), ScreenOrientation.LANDSCAPE);
@@ -45,7 +45,7 @@ class MapScreen extends StatelessWidget {
               icon: Icons.local_hospital
           ),
           SizedBox(height: 10),
-          MapCard(
+          MapPreviewCard(
             image: campusMed,
             callback: () {
               pushScreen(context, () => MapViewScreen(image: campusMed, controls: MapControlsPosition.TOP));
