@@ -1,5 +1,6 @@
 import 'package:add_2_calendar/add_2_calendar.dart' as calendar;
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/map_with_marker.dart';
@@ -71,12 +72,8 @@ class EventScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 60,
-                    child: RaisedButton(
-                      color: OvguColor.primary,
-                      shape: OvguPixels.shape,
-                      elevation: OvguPixels.elevation,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
-                      onPressed: () {
+                    child: OvguButton(
+                      callback: () {
                         calendar.Add2Calendar.addEvent2Cal(calendar.Event(
                             title: event.name,
                             location: event.place,

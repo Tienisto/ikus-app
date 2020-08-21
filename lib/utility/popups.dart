@@ -4,6 +4,7 @@ import 'package:ikus_app/components/cards/ovgu_card.dart';
 class Popups {
 
   static const double DEFAULT_HEIGHT = 270;
+  static const double marginBottom = 5;
 
   static void generic({
     @required BuildContext context,
@@ -18,15 +19,16 @@ class Popups {
       barrierLabel: '',
       transitionBuilder: (context, a1, a2, widget) {
         final double curvedValue = Curves.easeInOutQuad.transform(1 - a1.value);
-        final double width = MediaQuery.of(context).size.width - 30;
+        final double width = MediaQuery.of(context).size.width - 2;
         return Align(
           alignment: Alignment.bottomCenter,
           child: Transform.translate(
-            offset: Offset(0, -15 + curvedValue * height),
+            offset: Offset(0, curvedValue * height - marginBottom),
             child: SizedBox(
               width: width,
               height: height,
               child: OvguCard(
+                color: Colors.white,
                 child: Material(
                   type: MaterialType.transparency,
                   child: body

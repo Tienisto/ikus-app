@@ -79,7 +79,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 onDaySelected: (DateTime date, List<dynamic> events) {
                   Popups.generic(
                     context: context,
-                    height: 240,
+                    height: 250,
                     body: DatePopup(
                       date: date,
                       events: events.cast<Event>(),

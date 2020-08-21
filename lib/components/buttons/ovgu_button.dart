@@ -7,18 +7,29 @@ class OvguButton extends StatelessWidget {
   final Widget child;
   final Callback callback;
   final EdgeInsets padding;
+  final bool flat;
 
-  const OvguButton({@required this.child, @required this.callback, this.padding});
+  const OvguButton({@required this.child, @required this.callback, this.padding, this.flat = false});
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      color: OvguColor.primary,
-      shape: OvguPixels.shape,
-      elevation: OvguPixels.elevation,
-      padding: padding,
-      onPressed: callback,
-      child: child,
-    );
+    if (flat)
+      return FlatButton(
+        shape: OvguPixels.shape,
+        padding: padding,
+        onPressed: callback,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
+        child: child,
+      );
+    else
+      return RaisedButton(
+        color: OvguColor.primary,
+        shape: OvguPixels.shape,
+        elevation: OvguPixels.elevation,
+        padding: padding,
+        onPressed: callback,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
+        child: child,
+      );
   }
 }

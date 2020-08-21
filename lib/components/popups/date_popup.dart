@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
@@ -16,19 +17,47 @@ class DatePopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: Adaptive.getScrollPhysics(),
-      padding: EdgeInsets.all(15),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Event.formatOnlyDate.format(date), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15, top: 15),
+              child: Text(Event.formatOnlyDate.format(date), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: SizedBox(
+                width: 60,
+                child: OvguButton(
+                  flat: true,
+                  callback: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.close),
+                ),
+              ),
+            )
+          ],
+        ),
         SizedBox(height: 20),
         if (events.isEmpty)
-          Text(t.popups.datePopup.empty, style: TextStyle(fontSize: 16)),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Text(t.popups.datePopup.empty, style: TextStyle(fontSize: 16)),
+          ),
         if (events.isNotEmpty)
-          Text(t.popups.datePopup.normal, style: TextStyle(fontSize: 16)),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Text(t.popups.datePopup.normal, style: TextStyle(fontSize: 16)),
+          ),
         if (events.isNotEmpty)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        Expanded(
+          child: ListView(
+            physics: Adaptive.getScrollPhysics(),
+            padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
             children: events.map((event) {
               return Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -63,7 +92,8 @@ class DatePopup extends StatelessWidget {
                 ),
               );
             }).toList(),
-          )
+          ),
+        ),
       ],
     );
   }
