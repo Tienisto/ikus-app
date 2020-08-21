@@ -67,7 +67,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 availableGestures: AvailableGestures.none,
                 calendarStyle: CalendarStyle(
                   todayColor: OvguColor.primary,
-                  highlightSelected: false
+                  highlightSelected: false,
                 ),
                 events: _events,
                 onCalendarCreated: (first, last, format) {
@@ -119,6 +119,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
+                            customBorder: OvguPixels.shape,
                             onTap: () {
                               pushScreen(context, () => EventScreen(event));
                             },
