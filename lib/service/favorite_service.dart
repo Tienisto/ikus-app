@@ -2,14 +2,14 @@ import 'package:ikus_app/model/feature.dart';
 
 class FavoriteService {
 
-  static List<Feature> _favorites = [ Feature.LINKS, Feature.MAP, Feature.MENSA ];
+  static List<Feature> _favorites = [ Feature.MAP, Feature.MENSA, Feature.LINKS ];
 
   static List<Feature> getFavorites() {
     return _favorites;
   }
 
   static void addFavorite(Feature feature) {
-    _favorites = [ ..._favorites, feature ].toSet().toList()..sort((a, b) => b.index - a.index);
+    _favorites = [ ..._favorites, feature ].toSet().toList()..sort((a, b) => a.index - b.index);
   }
 
   static void removeFavorite(Feature feature) {

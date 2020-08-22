@@ -23,13 +23,18 @@
         "faq": "FAQ",
         "links": "Links",
         "map": "Map",
-        "mensa": "Mensa"
+        "mensa": "Mensa",
+        "handbook": "Handbook",
+        "contact": "Contact"
       }
     },
     "settings": {
       "title": "Settings",
       "language": "Language"
     }
+  },
+  "contact": {
+    "title": "Contact"
   },
   "event": {
     "title": "Event",
@@ -41,6 +46,9 @@
     "search": "Search Question...",
     "suggestions": "Suggestions",
     "noResults": "No Results."
+  },
+  "handbook": {
+    "title": "Handbook"
   },
   "links": {
     "title": "Useful Links"

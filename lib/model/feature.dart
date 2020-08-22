@@ -1,40 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/screens/contact_screen.dart';
 import 'package:ikus_app/screens/faq_screen.dart';
+import 'package:ikus_app/screens/handbook_screen.dart';
 import 'package:ikus_app/screens/links_screen.dart';
 import 'package:ikus_app/screens/map_screen.dart';
 import 'package:ikus_app/screens/mensa_screen.dart';
 
 enum Feature {
-  FAQ, LINKS, MAP, MENSA
+  MAP, MENSA, LINKS, HANDBOOK, FAQ, CONTACT
 }
 
 extension FeatureMembers on Feature {
   int get index => const {
-    Feature.LINKS: 0,
-    Feature.MAP: 1,
-    Feature.MENSA: 2,
-    Feature.FAQ: 3
+    Feature.MAP: 0,
+    Feature.MENSA: 1,
+    Feature.LINKS: 2,
+    Feature.HANDBOOK: 3,
+    Feature.FAQ: 4,
+    Feature.CONTACT: 5
   }[this];
 
   IconData get icon => const {
-    Feature.LINKS: Icons.language,
     Feature.MAP: Icons.map,
     Feature.MENSA: Icons.restaurant,
-    Feature.FAQ: Icons.help
+    Feature.LINKS: Icons.language,
+    Feature.HANDBOOK: Icons.book,
+    Feature.FAQ: Icons.help,
+    Feature.CONTACT: Icons.person
   }[this];
 
   String get name => {
-    Feature.LINKS: t.main.features.content.links,
     Feature.MAP: t.main.features.content.map,
     Feature.MENSA: t.main.features.content.mensa,
-    Feature.FAQ: t.main.features.content.faq
+    Feature.LINKS: t.main.features.content.links,
+    Feature.HANDBOOK: t.main.features.content.handbook,
+    Feature.FAQ: t.main.features.content.faq,
+    Feature.CONTACT: t.main.features.content.contact
   }[this];
 
   Widget get widget => {
-    Feature.LINKS: LinksScreen(),
     Feature.MAP: MapScreen(),
     Feature.MENSA: MensaScreen(),
-    Feature.FAQ: FAQScreen()
+    Feature.LINKS: LinksScreen(),
+    Feature.HANDBOOK: HandbookScreen(),
+    Feature.FAQ: FAQScreen(),
+    Feature.CONTACT: ContactScreen()
   }[this];
 }

@@ -23,13 +23,18 @@
         "faq": "FAQ",
         "links": "Links",
         "map": "Karte",
-        "mensa": "Mensa"
+        "mensa": "Mensa",
+        "handbook": "Handbuch",
+        "contact": "Kontakt"
       }
     },
     "settings": {
       "title": "Einstellungen",
       "language": "Sprache"
     }
+  },
+  "contact": {
+    "title": "Kontakt"
   },
   "event": {
     "title": "Event",
@@ -41,6 +46,9 @@
     "search": "Frage suchen...",
     "suggestions": "Vorschläge",
     "noResults": "Keine Ergebnisse."
+  },
+  "handbook": {
+    "title": "Handbuch"
   },
   "links": {
     "title": "Hilfreiche Links"
