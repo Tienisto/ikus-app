@@ -9,7 +9,7 @@ class OvguButton extends StatelessWidget {
   final EdgeInsets padding;
   final bool flat;
 
-  const OvguButton({@required this.child, @required this.callback, this.padding, this.flat = false});
+  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false});
 
   @override
   Widget build(BuildContext context) {

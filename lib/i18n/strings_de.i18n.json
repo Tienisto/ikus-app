@@ -37,7 +37,10 @@
     "where": "Wo?"
   },
   "faq": {
-    "title": "Häufig gestellte Fragen"
+    "title": "Häufig gestellte Fragen",
+    "search": "Frage suchen...",
+    "suggestions": "Vorschläge",
+    "noResults": "Keine Ergebnisse."
   },
   "links": {
     "title": "Hilfreiche Links"
