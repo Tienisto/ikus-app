@@ -41,7 +41,7 @@ class PostScreen extends StatelessWidget {
             padding: OvguPixels.mainScreenPadding,
             child: Row(
               children: [
-                Badge(text: post.group),
+                Badge(text: post.channel.name),
                 SizedBox(width: 10),
                 Badge(text: post.formattedDate),
               ],

@@ -90,6 +90,10 @@
       "normal": "Folgende Events gibt es an diesem Tag:",
       "empty": "Es gibt keine Events an diesem Tag."
     },
+    "channelPopup": {
+      "title": "Kanäle",
+      "all": "Alle"
+    },
     "handbookPopup": {
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"

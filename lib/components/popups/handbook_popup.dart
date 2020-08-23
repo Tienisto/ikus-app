@@ -9,7 +9,7 @@ import 'package:ikus_app/utility/ui.dart';
 class HandbookPopup extends StatelessWidget {
 
   final List<PdfBookmark> bookmarks;
-  final IndexCallback callback;
+  final IntCallback callback;
 
   const HandbookPopup({@required this.bookmarks, @required this.callback});
 

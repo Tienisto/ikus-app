@@ -16,7 +16,7 @@ class FAQResultItem extends StatelessWidget {
       callback: callback,
       child: Row(
         children: [
-          Text(post.group + ':', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          Text(post.channel.name + ':', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           SizedBox(width: 10),
           Expanded(
               child: Padding(

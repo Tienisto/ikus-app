@@ -40,7 +40,7 @@ class _FAQGroupCardState extends State<FAQGroupCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.postGroup.name, style: TextStyle(fontSize: 16)),
+                  Text(widget.postGroup.channel.name, style: TextStyle(fontSize: 16)),
                   SizedBox(
                     width: 60,
                     child: OvguButton(

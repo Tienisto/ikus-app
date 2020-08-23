@@ -14,7 +14,7 @@ List<IconData> _icons = [
 class BottomNavigator extends StatelessWidget {
 
   final int selectedIndex;
-  final IndexCallback callback;
+  final IntCallback callback;
 
   const BottomNavigator(this.selectedIndex, this.callback);
 

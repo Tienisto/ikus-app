@@ -29,7 +29,7 @@ class PostCard extends StatelessWidget {
                     color: OvguColor.primary,
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), bottomRight: Radius.circular(OvguPixels.borderRadiusPlain))
                   ),
-                  child: Text(post.group, style: TextStyle(color: Colors.white))
+                  child: Text(post.channel.name, style: TextStyle(color: Colors.white))
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5, right: 10),

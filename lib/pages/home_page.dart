@@ -4,11 +4,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/favorite_button.dart';
+import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/event_card.dart';
 import 'package:ikus_app/components/cards/post_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/channel_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/screens/event_screen.dart';
@@ -18,6 +21,7 @@ import 'package:ikus_app/service/favorite_service.dart';
 import 'package:ikus_app/service/post_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class HomePage extends StatefulWidget {
@@ -125,11 +129,45 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 10),
           Padding(
             padding: OvguPixels.mainScreenPadding,
-            child: IconText(
-              size: OvguPixels.headerSize,
-              distance: OvguPixels.headerDistance,
-              icon: Icons.announcement,
-              text: t.main.home.news,
+            child: Row(
+              children: [
+                Expanded(
+                  child: IconText(
+                    size: OvguPixels.headerSize,
+                    distance: OvguPixels.headerDistance,
+                    icon: Icons.announcement,
+                    text: t.main.home.news,
+                  ),
+                ),
+                SizedBox(
+                  width: 60,
+                  child: OvguButton(
+                    flat: true,
+                    callback: () {
+                      List<Channel> channels = PostService.getChannels();
+                      List<Channel> selected = PostService.getSubscribed();
+                      double height = MediaQuery.of(context).size.height;
+                      Popups.generic(
+                          context: context,
+                          height: min(height - 300, 500),
+                          body: ChannelPopup(
+                            available: channels,
+                            selected: selected,
+                            callback: (channel, selected) async {
+                              if (selected)
+                                await PostService.subscribe(channel);
+                              else
+                                await PostService.unsubscribe(channel);
+
+                              setState(() {});
+                            },
+                          )
+                      );
+                    },
+                    child: Icon(Icons.filter_list),
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(height: 20),

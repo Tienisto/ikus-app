@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/model/post_group.dart';
 
@@ -8,20 +9,24 @@ class FAQService {
   static Image _img0 = Image.asset('assets/img/logo-512-alpha.png', semanticLabel: "OVGU");
   static Image _img1 = Image.network('https://www.ovgu.de/unimagdeburg_media/Presse/Bilder/Pressemitteilungen/2020/Studieninteressierte+auf+dem+Campus+%28c%29+Stefan+Berger-height-600-p-85676-width-900.jpg', semanticLabel: "Studenten");
   static Image _img2 = Image.network('https://www.ovgu.de/unimagdeburg_media/Universit%C3%A4t/Was+uns+auszeichnet/2020_3/Dr_+Kristin+Hecht+im+Labor+%28c%29+Jana+Du%CC%88nnhaupt+Uni+Magdeburg-height-600-width-900-p-85822.jpg', semanticLabel: 'Labor');
+
+  static Channel _allgemeines = Channel(1, "Allgemeines");
+  static Channel _prufung = Channel(2, "Prüfung");
+  static Channel _finanzierung = Channel(3, "Finanzierung");
   static List<Post> _posts = [
-    Post("Bis wann kann ich mich immatrikulieren?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, "Allgemeines", DateTime(2020, 7, 15), []),
-    Post("Wie aktiviere ich meine Studentenkarte?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, "Allgemeines", DateTime(2020, 7, 15), [_img1, _img2]),
-    Post("Wie lade ich Geld auf meine Studentenkarte auf?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, "Allgemeines", DateTime(2020, 7, 15), [_img0]),
-    Post("Wo kann ich ausdrucken?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, "Allgemeines", DateTime(2020, 7, 15), [_img2, _img0])
+    Post("Bis wann kann ich mich immatrikulieren?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), []),
+    Post("Wie aktiviere ich meine Studentenkarte?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), [_img1, _img2]),
+    Post("Wie lade ich Geld auf meine Studentenkarte auf?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), [_img0]),
+    Post("Wo kann ich ausdrucken?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), [_img2, _img0])
   ];
 
-  static List<PostGroup> _faq = [
-    PostGroup("Allgemeines", _posts),
-    PostGroup("Prüfung", _posts),
-    PostGroup("Finanzierung", _posts),
+  static List<PostGroup> _groups = [
+    PostGroup(_allgemeines, _posts),
+    PostGroup(_prufung, _posts),
+    PostGroup(_finanzierung, _posts)
   ];
 
   static List<PostGroup> getFAQ() {
-    return _faq;
+    return _groups;
   }
 }
