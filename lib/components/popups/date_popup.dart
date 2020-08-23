@@ -24,20 +24,18 @@ class DatePopup extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15),
+              padding: const EdgeInsets.only(left: 15, top: 10),
               child: Text(Event.formatOnlyDate.format(date), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: SizedBox(
-                width: 60,
-                child: OvguButton(
-                  flat: true,
-                  callback: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.close),
-                ),
+            SizedBox(
+              width: 60,
+              child: OvguButton(
+                flat: true,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                callback: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.close),
               ),
             )
           ],

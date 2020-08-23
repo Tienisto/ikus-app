@@ -89,6 +89,10 @@
     "datePopup": {
       "normal": "Following events are on this day:",
       "empty": "There are no events on this day."
+    },
+    "handbookPopup": {
+      "title": "Structure",
+      "page": "P. $page"
     }
   }
 }

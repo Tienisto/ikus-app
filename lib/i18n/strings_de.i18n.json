@@ -89,6 +89,10 @@
     "datePopup": {
       "normal": "Folgende Events gibt es an diesem Tag:",
       "empty": "Es gibt keine Events an diesem Tag."
+    },
+    "handbookPopup": {
+      "title": "Inhaltsverzeichnis",
+      "page": "S. $page"
     }
   }
 }

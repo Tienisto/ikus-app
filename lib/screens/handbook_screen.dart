@@ -1,8 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/buttons/ovgu_button.dart';
+import 'package:ikus_app/components/popups/handbook_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/pdf_bookmark.dart';
 import 'package:ikus_app/service/handbook_service.dart';
+import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HandbookScreen extends StatefulWidget {
   @override
@@ -27,9 +35,56 @@ class _HandbookScreenState extends State<HandbookScreen> {
         backgroundColor: OvguColor.primary,
         title: Text(t.handbook.title)
       ),
-      body: PdfView(
-        controller: pdfController,
-        scrollDirection: Axis.vertical,
+      body: Stack(
+        children: [
+          PdfView(
+            controller: pdfController,
+            scrollDirection: Axis.vertical,
+          ),
+          Positioned(
+            right: 20,
+            bottom: 20,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: OvguButton(
+                    callback: () async {
+                      List<PdfBookmark> bookmarks = await HandbookService.getBookmarks();
+                      double height = MediaQuery.of(context).size.height;
+                      Popups.generic(
+                          context: context,
+                          height: max(height - 300, 300),
+                          body: HandbookPopup(
+                            bookmarks: bookmarks,
+                            callback: (page) async {
+                              Navigator.pop(context);
+                              await sleep(300);
+                              pdfController.animateToPage(page,
+                                duration: Duration(milliseconds: 1000),
+                                curve: Curves.easeInOutCubic
+                              );
+                            },
+                          )
+                      );
+                    },
+                    child: Icon(Icons.list, color: Colors.white),
+                  ),
+                ),
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 60,
+                  child: OvguButton(
+                    callback: () async {
+                      await launch(HandbookService.URL);
+                    },
+                    child: Icon(Icons.cloud_download, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
