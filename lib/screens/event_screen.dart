@@ -31,14 +31,20 @@ class EventScreen extends StatelessWidget {
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Text(event.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(event.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))
+            ),
           ),
           if (event.info != null)
             SizedBox(height: 20),
           if (event.info != null)
             Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: Text(event.info, style: TextStyle(fontSize: 16)),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(event.info, style: TextStyle(fontSize: 16))
+              ),
             ),
           SizedBox(height: 20),
           OvguCard(
