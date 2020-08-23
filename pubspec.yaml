@@ -30,6 +30,8 @@ dependencies:
   map_launcher: ^0.12.0 # launch external map app
   add_2_calendar: ^1.4.0 # add calendar reminders
   url_launcher: ^5.5.0 # open links
+  native_pdf_view: ^3.8.0 # render handbook as pdf
+  http: ^0.12.2 # download pdf
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -59,6 +61,7 @@ flutter:
   assets:
     - assets/img/
     - assets/img/maps/
+    - assets/pdf/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
