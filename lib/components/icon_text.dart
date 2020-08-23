@@ -16,7 +16,9 @@ class IconText extends StatelessWidget {
       children: [
         Icon(icon, size: size, color: color),
         SizedBox(width: distance),
-        Text(text, style: TextStyle(color: color, fontSize: size))
+        Expanded(
+            child: Text(text, style: TextStyle(color: color, fontSize: size))
+        )
       ],
     );
   }
