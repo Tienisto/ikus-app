@@ -77,56 +77,59 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           SizedBox(height: 30),
-          Padding(
-            padding: OvguPixels.mainScreenPadding,
-            child: IconText(
-              size: OvguPixels.headerSize,
-              distance: OvguPixels.headerDistance,
-              icon: Icons.today,
-              text: t.main.home.nextEvents,
-            ),
-          ),
-          SizedBox(height: 20),
-          CarouselSlider(
-            options: CarouselOptions(
-                height: 100,
-                viewportFraction: 1,
-                autoPlay: true,
-                onPageChanged: (index, _) {
-                  setState(() {
-                    _currentEventIndex = index;
-                  });
-                }
-            ),
-            items: _events.map((event) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: EventCard(event: event, callback: () {
-                      pushScreen(context, () => EventScreen(event));
-                    }),
+          if (_events.isNotEmpty)
+            ...[
+              Padding(
+                padding: OvguPixels.mainScreenPadding,
+                child: IconText(
+                  size: OvguPixels.headerSize,
+                  distance: OvguPixels.headerDistance,
+                  icon: Icons.today,
+                  text: t.main.home.nextEvents,
+                ),
+              ),
+              SizedBox(height: 20),
+              CarouselSlider(
+                options: CarouselOptions(
+                    height: 100,
+                    viewportFraction: 1,
+                    autoPlay: true,
+                    onPageChanged: (index, _) {
+                      setState(() {
+                        _currentEventIndex = index;
+                      });
+                    }
+                ),
+                items: _events.map((event) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: EventCard(event: event, callback: () {
+                          pushScreen(context, () => EventScreen(event));
+                        }),
+                      );
+                    },
                   );
-                },
-              );
-            }).toList(),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _events.mapIndexed((event, index) {
-              return Container(
-                width: 8.0,
-                height: 8.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentEventIndex == index
-                        ? Color.fromRGBO(0, 0, 0, 0.9)
-                        : Color.fromRGBO(0, 0, 0, 0.4)),
-              );
-            }).toList(),
-          ),
-          SizedBox(height: 10),
+                }).toList(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _events.mapIndexed((event, index) {
+                  return Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentEventIndex == index
+                            ? Color.fromRGBO(0, 0, 0, 0.9)
+                            : Color.fromRGBO(0, 0, 0, 0.4)),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 10),
+            ],
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: Row(
@@ -146,10 +149,9 @@ class _HomePageState extends State<HomePage> {
                     callback: () {
                       List<Channel> channels = PostService.getChannels();
                       List<Channel> selected = PostService.getSubscribed();
-                      double height = MediaQuery.of(context).size.height;
                       Popups.generic(
                           context: context,
-                          height: min(height - 300, 500),
+                          height: ChannelPopup.calculateHeight(context),
                           body: ChannelPopup(
                             available: channels,
                             selected: selected,
@@ -158,7 +160,6 @@ class _HomePageState extends State<HomePage> {
                                 await PostService.subscribe(channel);
                               else
                                 await PostService.unsubscribe(channel);
-
                               setState(() {});
                             },
                           )

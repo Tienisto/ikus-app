@@ -1,4 +1,5 @@
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/channel.dart';
 import 'package:intl/intl.dart';
 import "package:latlong/latlong.dart";
 
@@ -11,12 +12,13 @@ class Event {
 
   final String name;
   final String info;
+  final Channel channel;
   final DateTime start;
   final DateTime end;
   final String place;
   final LatLng coords;
 
-  const Event(this.name, this.info, this.start, this.end, this.place, this.coords);
+  const Event(this.name, this.info, this.channel, this.start, this.end, this.place, this.coords);
 
   String get formattedTimestamp {
     if (hasTime)

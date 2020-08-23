@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/checkbox_text.dart';
@@ -17,6 +19,11 @@ class ChannelPopup extends StatefulWidget {
 
   @override
   _ChannelPopupState createState() => _ChannelPopupState();
+
+  static double calculateHeight(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    return min(height - 300, 500);
+  }
 }
 
 class _ChannelPopupState extends State<ChannelPopup> {

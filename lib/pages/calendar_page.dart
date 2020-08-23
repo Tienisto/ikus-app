@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/channel_popup.dart';
 import 'package:ikus_app/components/popups/date_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/service/event_service.dart';
@@ -44,11 +47,51 @@ class _CalendarPageState extends State<CalendarPage> {
           SizedBox(height: 20),
           Padding(
             padding: OvguPixels.mainScreenPadding,
-            child: IconText(
-              size: OvguPixels.headerSize,
-              distance: OvguPixels.headerDistance,
-              icon: Icons.today,
-              text: t.main.calendar.title,
+            child: Row(
+              children: [
+                Expanded(
+                  child: IconText(
+                    size: OvguPixels.headerSize,
+                    distance: OvguPixels.headerDistance,
+                    icon: Icons.today,
+                    text: t.main.calendar.title,
+                  ),
+                ),
+                SizedBox(
+                  width: 60,
+                  child: OvguButton(
+                    flat: true,
+                    callback: () {
+                      List<Channel> channels = EventService.getChannels();
+                      List<Channel> selected = EventService.getSubscribed();
+                      Popups.generic(
+                          context: context,
+                          height: ChannelPopup.calculateHeight(context),
+                          body: ChannelPopup(
+                            available: channels,
+                            selected: selected,
+                            callback: (channel, selected) async {
+                              if (selected)
+                                await EventService.subscribe(channel);
+                              else
+                                await EventService.unsubscribe(channel);
+                              setState(() {
+                                _events = EventService.getEventsGroupByDate();
+
+                                // update again if user changed subscribed channels
+                                // _events change -> updated visible events -> nextFrame -> setState
+                                nextFrame(() {
+                                  setState(() {});
+                                });
+                              });
+                            },
+                          )
+                      );
+                    },
+                    child: Icon(Icons.filter_list),
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(height: 20),

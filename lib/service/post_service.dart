@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/utility/channel_handler.dart';
 
 class PostService {
 
   static Channel _akaa = Channel(1, "AKAA");
   static Channel _ikus = Channel(2, "IKUS");
   static Channel _wohnheim = Channel(3, "Wohnheim");
-  static List<Channel> _channels = [_akaa, _ikus, _wohnheim];
-  static List<Channel> _subscribed = [_akaa, _ikus, _wohnheim];
+  static ChannelHandler<Post> _channelHandler = ChannelHandler([_akaa, _ikus, _wohnheim], [_akaa, _ikus, _wohnheim]);
 
   static String _loremIpsum = 'At <b>vero</b> eos et <span style="color: red">accusamus</span> et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.<br><br>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.<br><table><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></table><br>Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.';
   static Image _img0 = Image.asset('assets/img/logo-512-alpha.png', semanticLabel: "OVGU");
@@ -22,25 +22,22 @@ class PostService {
   ];
 
   static List<Post> getPosts() {
-    return _posts.where((post) => _subscribed.any((channel) => post.channel.id == channel.id)).toList();
+    return _channelHandler.filter(_posts, (item) => item.channel.id);
   }
 
   static List<Channel> getChannels() {
-    return _channels;
+    return _channelHandler.getAvailable();
   }
 
   static List<Channel> getSubscribed() {
-    return _subscribed;
-  }
-
-  static Future<void> unsubscribe(Channel channel) async {
-    _subscribed = _subscribed.where((subscribed) => subscribed.id != channel.id).toList();
+    return _channelHandler.getSubscribed();
   }
 
   static Future<void> subscribe(Channel channel) async {
-    if (_subscribed.any((subscribed) => subscribed.id == channel.id))
-      return;
+    await _channelHandler.subscribe(channel);
+  }
 
-    _subscribed.add(channel);
+  static Future<void> unsubscribe(Channel channel) async {
+    await _channelHandler.unsubscribe(channel);
   }
 }
