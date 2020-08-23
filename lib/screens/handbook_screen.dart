@@ -54,7 +54,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
                       double height = MediaQuery.of(context).size.height;
                       Popups.generic(
                           context: context,
-                          height: max(height - 300, 300),
+                          height: min(height - 300, 500),
                           body: HandbookPopup(
                             bookmarks: bookmarks,
                             callback: (page) async {

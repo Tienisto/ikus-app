@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/icon_text.dart';
+import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -14,8 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView(
-        physics: Adaptive.getScrollPhysics(),
+      child: MainListView(
         children: [
           SizedBox(height: 20),
           Padding(

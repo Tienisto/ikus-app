@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
+import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/link_group.dart';
 import 'package:ikus_app/service/link_service.dart';
-import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,8 +18,7 @@ class LinksScreen extends StatelessWidget {
         backgroundColor: OvguColor.primary,
         title: Text(t.links.title)
       ),
-      body: ListView(
-        physics: Adaptive.getScrollPhysics(),
+      body: MainListView(
         children: [
           ...links.map((group) => Padding(
             padding: EdgeInsets.only(top: 30),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/contact_card.dart';
+import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/contact.dart';
 import 'package:ikus_app/service/contact_service.dart';
-import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class ContactScreen extends StatelessWidget {
@@ -17,8 +17,7 @@ class ContactScreen extends StatelessWidget {
         backgroundColor: OvguColor.primary,
         title: Text(t.contact.title)
       ),
-      body: ListView(
-        physics: Adaptive.getScrollPhysics(),
+      body: MainListView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         children: [
           ...contacts.map((contact) => Padding(

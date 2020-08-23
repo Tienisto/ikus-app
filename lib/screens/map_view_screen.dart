@@ -85,7 +85,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
       );
     else
       return Column (
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(10),

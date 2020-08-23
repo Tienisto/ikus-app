@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:ikus_app/components/badge.dart';
+import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
-import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class PostScreen extends StatelessWidget {
@@ -34,8 +34,7 @@ class PostScreen extends StatelessWidget {
         backgroundColor: OvguColor.primary,
         title: Text(t.post.title),
       ),
-      body: ListView(
-        physics: Adaptive.getScrollPhysics(),
+      body: MainListView(
         children: [
           SizedBox(height: 30),
           Padding(
@@ -51,7 +50,10 @@ class PostScreen extends StatelessWidget {
           SizedBox(height: 30),
           Padding(
             padding: OvguPixels.mainScreenPadding,
-            child: Text(post.title, style: TextStyle(fontSize: OvguPixels.headerSize, fontWeight: FontWeight.bold)),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(post.title, style: TextStyle(fontSize: OvguPixels.headerSize, fontWeight: FontWeight.bold))
+            ),
           ),
           SizedBox(height: 30),
           Padding(

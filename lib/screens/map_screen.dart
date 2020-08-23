@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/map_preview_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
+import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/map_view_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
-import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -21,8 +21,7 @@ class MapScreen extends StatelessWidget {
         backgroundColor: OvguColor.primary,
         title: Text(t.map.title),
       ),
-      body: ListView(
-        physics: Adaptive.getScrollPhysics(),
+      body: MainListView(
         padding: OvguPixels.mainScreenPadding,
         children: [
           SizedBox(height: 30),
