@@ -18,6 +18,7 @@ class FavoriteButton extends StatelessWidget {
       width: width,
       child: OvguButton(
         callback: callback,
+        padding: EdgeInsets.zero,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
