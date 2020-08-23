@@ -14,32 +14,29 @@ class FeatureButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, bottom: 10),
-      child: Row(
-        children: [
-          Expanded(
-            child: FlatButton(
-              padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
-              shape: OvguPixels.shape,
-              onPressed: selectCallback,
-              child: Row(
-                children: [
-                  Icon(feature.icon),
-                  SizedBox(width: 20),
-                  Text(feature.name, style: TextStyle(fontSize: 20))
-                ],
-              )
-            ),
-          ),
-          FlatButton(
-            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+    return Row(
+      children: [
+        Expanded(
+          child: FlatButton(
+            padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
             shape: OvguPixels.shape,
-            child: Icon(favorite ? Icons.favorite : Icons.favorite_border),
-            onPressed: favoriteCallback,
-          )
-        ],
-      ),
+            onPressed: selectCallback,
+            child: Row(
+              children: [
+                Icon(feature.icon, size: 20),
+                SizedBox(width: 20),
+                Text(feature.name, style: TextStyle(fontSize: 16))
+              ],
+            )
+          ),
+        ),
+        FlatButton(
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          shape: OvguPixels.shape,
+          child: Icon(favorite ? Icons.favorite : Icons.favorite_border),
+          onPressed: favoriteCallback,
+        )
+      ],
     );
   }
 }

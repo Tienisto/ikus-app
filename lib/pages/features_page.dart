@@ -31,17 +31,20 @@ class _FeaturesPageState extends State<FeaturesPage> {
             ),
           ),
           SizedBox(height: 30),
-          ...Feature.values.map((feature) => FeatureButton(
-            feature: feature,
-            favorite: FavoriteService.isFavorite(feature),
-            selectCallback: () {
-              pushScreen(context, () => feature.widget);
-            },
-            favoriteCallback: () {
-              setState(() {
-                FavoriteService.toggleFavorite(feature);
-              });
-            },
+          ...Feature.values.map((feature) => Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 5),
+            child: FeatureButton(
+              feature: feature,
+              favorite: FavoriteService.isFavorite(feature),
+              selectCallback: () {
+                pushScreen(context, () => feature.widget);
+              },
+              favoriteCallback: () {
+                setState(() {
+                  FavoriteService.toggleFavorite(feature);
+                });
+              },
+            ),
           ))
         ],
       ),
