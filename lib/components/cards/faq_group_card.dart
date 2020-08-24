@@ -41,12 +41,10 @@ class _FAQGroupCardState extends State<FAQGroupCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.postGroup.channel.name, style: TextStyle(fontSize: 16)),
-                  SizedBox(
-                    width: 60,
-                    child: OvguButton(
-                      flat: true,
-                      child: Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.black),
-                    ),
+                  OvguButton(
+                    flat: true,
+                    useIconWidth: true,
+                    child: Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.black),
                   )
                 ],
               ),

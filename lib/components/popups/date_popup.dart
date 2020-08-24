@@ -27,16 +27,14 @@ class DatePopup extends StatelessWidget {
               padding: const EdgeInsets.only(left: 15, top: 10),
               child: Text(Event.formatOnlyDate.format(date), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
-            SizedBox(
-              width: 60,
-              child: OvguButton(
-                flat: true,
-                padding: EdgeInsets.symmetric(vertical: 10),
-                callback: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(Icons.close),
-              ),
+            OvguButton(
+              flat: true,
+              useIconWidth: true,
+              padding: EdgeInsets.symmetric(vertical: 10),
+              callback: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.close),
             )
           ],
         ),

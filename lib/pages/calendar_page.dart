@@ -57,39 +57,37 @@ class _CalendarPageState extends State<CalendarPage> {
                     text: t.main.calendar.title,
                   ),
                 ),
-                SizedBox(
-                  width: 60,
-                  child: OvguButton(
-                    flat: true,
-                    callback: () {
-                      List<Channel> channels = EventService.getChannels();
-                      List<Channel> selected = EventService.getSubscribed();
-                      Popups.generic(
-                          context: context,
-                          height: ChannelPopup.calculateHeight(context),
-                          body: ChannelPopup(
-                            available: channels,
-                            selected: selected,
-                            callback: (channel, selected) async {
-                              if (selected)
-                                await EventService.subscribe(channel);
-                              else
-                                await EventService.unsubscribe(channel);
-                              setState(() {
-                                _events = EventService.getEventsGroupByDate();
+                OvguButton(
+                  flat: true,
+                  useIconWidth: true,
+                  callback: () {
+                    List<Channel> channels = EventService.getChannels();
+                    List<Channel> selected = EventService.getSubscribed();
+                    Popups.generic(
+                        context: context,
+                        height: ChannelPopup.calculateHeight(context),
+                        body: ChannelPopup(
+                          available: channels,
+                          selected: selected,
+                          callback: (channel, selected) async {
+                            if (selected)
+                              await EventService.subscribe(channel);
+                            else
+                              await EventService.unsubscribe(channel);
+                            setState(() {
+                              _events = EventService.getEventsGroupByDate();
 
-                                // update again if user changed subscribed channels
-                                // _events change -> updated visible events -> nextFrame -> setState
-                                nextFrame(() {
-                                  setState(() {});
-                                });
+                              // update again if user changed subscribed channels
+                              // _events change -> updated visible events -> nextFrame -> setState
+                              nextFrame(() {
+                                setState(() {});
                               });
-                            },
-                          )
-                      );
-                    },
-                    child: Icon(Icons.filter_list),
-                  ),
+                            });
+                          },
+                        )
+                    );
+                  },
+                  child: Icon(Icons.filter_list),
                 )
               ],
             ),

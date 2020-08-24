@@ -48,14 +48,12 @@ class LinksScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          width: 60,
-                          child: OvguButton(
-                            callback: () async {
-                              await launch(link.url);
-                            },
-                            child: Icon(Icons.arrow_forward, color: Colors.white),
-                          ),
+                        OvguButton(
+                          useIconWidth: true,
+                          callback: () async {
+                            await launch(link.url);
+                          },
+                          child: Icon(Icons.arrow_forward, color: Colors.white),
                         ),
                         SizedBox(width: 20)
                       ],

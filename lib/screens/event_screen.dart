@@ -75,20 +75,18 @@ class EventScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 60,
-                    child: OvguButton(
-                      callback: () {
-                        calendar.Add2Calendar.addEvent2Cal(calendar.Event(
-                            title: event.name,
-                            location: event.place,
-                            startDate: event.start,
-                            endDate: event.hasEndTime ? event.end : event.hasTime ? event.start.add(Duration(hours: 10)) : event.start,
-                            allDay: !event.hasTime
-                        ));
-                      },
-                      child: Icon(Icons.add_alert, color: Colors.white),
-                    ),
+                  OvguButton(
+                    useIconWidth: true,
+                    callback: () {
+                      calendar.Add2Calendar.addEvent2Cal(calendar.Event(
+                          title: event.name,
+                          location: event.place,
+                          startDate: event.start,
+                          endDate: event.hasEndTime ? event.end : event.hasTime ? event.start.add(Duration(hours: 10)) : event.start,
+                          allDay: !event.hasTime
+                      ));
+                    },
+                    child: Icon(Icons.add_alert, color: Colors.white),
                   )
                 ],
               ),

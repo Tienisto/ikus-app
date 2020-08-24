@@ -8,11 +8,11 @@ class OvguButton extends StatelessWidget {
   final Callback callback;
   final EdgeInsets padding;
   final bool flat;
+  final bool useIconWidth;
 
-  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false});
+  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false, this.useIconWidth = false});
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _getButton() {
     if (flat)
       return FlatButton(
         shape: OvguPixels.shape,
@@ -31,5 +31,16 @@ class OvguButton extends StatelessWidget {
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
         child: child,
       );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (useIconWidth)
+      return SizedBox(
+        width: 60,
+        child: _getButton(),
+      );
+    else
+      return _getButton();
   }
 }

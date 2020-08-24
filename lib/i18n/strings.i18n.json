@@ -30,7 +30,22 @@
     },
     "settings": {
       "title": "Settings",
-      "language": "Language"
+      "language": "Language",
+      "sync": "Synchronization",
+      "syncInfo": "This app regularly downloads data from the server to keep you up to date. You can use the app offline using the locally stored data.",
+      "syncItems": {
+        "news": "News",
+        "calendar": "Calendar",
+        "mensa": "Mensa",
+        "links": "Links",
+        "handbook": "Handbook",
+        "faq": "FAQ",
+        "contact": "Contacts"
+      },
+      "reset": "Reset Data",
+      "about": "About the app",
+      "licenses": "Licenses",
+      "theIkusApp": "IKUS App"
     }
   },
   "contact": {

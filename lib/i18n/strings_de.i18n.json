@@ -30,7 +30,22 @@
     },
     "settings": {
       "title": "Einstellungen",
-      "language": "Sprache"
+      "language": "Sprache",
+      "sync": "Synchronisation",
+      "syncInfo": "Diese App lädt regelmäßig Daten vom Server herunter, damit du auf dem neusten Stand bleibst. Du kannst die App mit den lokal gespeicherten Daten offline verwenden.",
+      "syncItems": {
+        "news": "Neuigkeiten",
+        "calendar": "Kalender",
+        "mensa": "Mensa",
+        "links": "Links",
+        "handbook": "Handbuch",
+        "faq": "FAQ",
+        "contact": "Kontakte"
+      },
+      "reset": "Daten zurücksetzen",
+      "about": "Über die App",
+      "licenses": "Lizenzen",
+      "theIkusApp": "IKUS-App"
     }
   },
   "contact": {

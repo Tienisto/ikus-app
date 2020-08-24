@@ -142,31 +142,29 @@ class _HomePageState extends State<HomePage> {
                     text: t.main.home.news,
                   ),
                 ),
-                SizedBox(
-                  width: 60,
-                  child: OvguButton(
-                    flat: true,
-                    callback: () {
-                      List<Channel> channels = PostService.getChannels();
-                      List<Channel> selected = PostService.getSubscribed();
-                      Popups.generic(
-                          context: context,
-                          height: ChannelPopup.calculateHeight(context),
-                          body: ChannelPopup(
-                            available: channels,
-                            selected: selected,
-                            callback: (channel, selected) async {
-                              if (selected)
-                                await PostService.subscribe(channel);
-                              else
-                                await PostService.unsubscribe(channel);
-                              setState(() {});
-                            },
-                          )
-                      );
-                    },
-                    child: Icon(Icons.filter_list),
-                  ),
+                OvguButton(
+                  flat: true,
+                  useIconWidth: true,
+                  callback: () {
+                    List<Channel> channels = PostService.getChannels();
+                    List<Channel> selected = PostService.getSubscribed();
+                    Popups.generic(
+                        context: context,
+                        height: ChannelPopup.calculateHeight(context),
+                        body: ChannelPopup(
+                          available: channels,
+                          selected: selected,
+                          callback: (channel, selected) async {
+                            if (selected)
+                              await PostService.subscribe(channel);
+                            else
+                              await PostService.unsubscribe(channel);
+                            setState(() {});
+                          },
+                        )
+                    );
+                  },
+                  child: Icon(Icons.filter_list),
                 )
               ],
             ),

@@ -46,40 +46,36 @@ class _HandbookScreenState extends State<HandbookScreen> {
             bottom: 20,
             child: Row(
               children: [
-                SizedBox(
-                  width: 60,
-                  child: OvguButton(
-                    callback: () async {
-                      List<PdfBookmark> bookmarks = await HandbookService.getBookmarks();
-                      double height = MediaQuery.of(context).size.height;
-                      Popups.generic(
-                          context: context,
-                          height: min(height - 300, 500),
-                          body: HandbookPopup(
-                            bookmarks: bookmarks,
-                            callback: (page) async {
-                              Navigator.pop(context);
-                              await sleep(300);
-                              pdfController.animateToPage(page,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.easeInOutCubic
-                              );
-                            },
-                          )
-                      );
-                    },
-                    child: Icon(Icons.list, color: Colors.white),
-                  ),
+                OvguButton(
+                  useIconWidth: true,
+                  callback: () async {
+                    List<PdfBookmark> bookmarks = await HandbookService.getBookmarks();
+                    double height = MediaQuery.of(context).size.height;
+                    Popups.generic(
+                        context: context,
+                        height: min(height - 300, 500),
+                        body: HandbookPopup(
+                          bookmarks: bookmarks,
+                          callback: (page) async {
+                            Navigator.pop(context);
+                            await sleep(300);
+                            pdfController.animateToPage(page,
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.easeInOutCubic
+                            );
+                          },
+                        )
+                    );
+                  },
+                  child: Icon(Icons.list, color: Colors.white),
                 ),
                 SizedBox(width: 20),
-                SizedBox(
-                  width: 60,
-                  child: OvguButton(
-                    callback: () async {
-                      await launch(HandbookService.URL);
-                    },
-                    child: Icon(Icons.cloud_download, color: Colors.white),
-                  ),
+                OvguButton(
+                  useIconWidth: true,
+                  callback: () async {
+                    await launch(HandbookService.URL);
+                  },
+                  child: Icon(Icons.cloud_download, color: Colors.white),
                 ),
               ],
             ),
