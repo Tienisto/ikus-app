@@ -48,6 +48,12 @@
       "theIkusApp": "IKUS App"
     }
   },
+  "about": {
+    "title": "About the app",
+    "main": "The IKUS App is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
+    "idea": "Idea",
+    "technicalImplementation": "Technical Implementation"
+  },
   "contact": {
     "title": "Contact"
   },

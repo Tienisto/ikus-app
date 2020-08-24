@@ -6,8 +6,9 @@ class MainListView extends StatelessWidget {
   static const double MAX_WIDTH = 550;
   final List<Widget> children;
   final EdgeInsets padding;
+  final CrossAxisAlignment crossAxisAlignment;
 
-  const MainListView({@required this.children, this.padding});
+  const MainListView({@required this.children, this.padding, this.crossAxisAlignment = CrossAxisAlignment.start});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class MainListView extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(minWidth: 0, maxWidth: MAX_WIDTH),
             child: Column(
+              crossAxisAlignment: crossAxisAlignment,
               children: children,
             ),
           ),

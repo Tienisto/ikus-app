@@ -4,6 +4,7 @@ import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/screens/about_screen.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -70,6 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return SafeArea(
       child: MainListView(
         padding: OvguPixels.mainScreenPadding,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 20),
           IconText(
@@ -149,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
               right: OvguButton(
                 useIconWidth: true,
                 callback: () {
-                  pushScreen(context, () => LicensePage(applicationName: 'IKUS App', applicationVersion: '1.0.0'));
+                  pushScreen(context, () => LicensePage(applicationName: 'IKUS App', applicationVersion: _version));
                 },
                 child: Icon(Icons.description, color: Colors.white),
               )
@@ -160,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
               right: OvguButton(
                 useIconWidth: true,
                 callback: () {
-
+                  pushScreen(context, () => AboutScreen());
                 },
                 child: Icon(Icons.info, color: Colors.white),
               )
