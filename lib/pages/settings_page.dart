@@ -16,6 +16,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
+  static const Color LOGO_COLOR = Color(0xFFAFAFAF);
   String _version = '';
 
   @override
@@ -169,11 +170,12 @@ class _SettingsPageState extends State<SettingsPage> {
             opacity: 0.3,
             child: Image.asset('assets/img/logo-512-alpha.png', width: 200)
           ),
-          Text(t.main.settings.theIkusApp, style: TextStyle(color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 3)),
           SizedBox(height: 10),
-          Text('Version $_version', style: TextStyle(color: Colors.grey, fontSize: 14)),
+          Text(t.main.settings.theIkusApp, style: TextStyle(color: LOGO_COLOR, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 3)),
+          SizedBox(height: 10),
+          Text('Version $_version', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
           SizedBox(height: 5),
-          Text('© 2020 OVGU', style: TextStyle(color: Colors.grey, fontSize: 14)),
+          Text('© 2020 OVGU', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
           SizedBox(height: 100),
         ],
       ),
