@@ -32,6 +32,7 @@ dependencies:
   url_launcher: ^5.5.0 # open links
   native_pdf_view: ^3.8.0 # render handbook as pdf
   http: ^0.12.2 # download pdf
+  package_info: ^0.4.3 # show version and build of the app
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

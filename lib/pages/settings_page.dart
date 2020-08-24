@@ -7,6 +7,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
+import 'package:package_info/package_info.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -14,6 +15,18 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  String _version = '';
+
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((info) {
+      setState(() {
+        _version = info.version+' ('+info.buildNumber+')';
+      });
+    });
+  }
 
   Widget getSettingsItem({@required String left, @required Widget right}) {
     return Row(
@@ -158,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           Text(t.main.settings.theIkusApp, style: TextStyle(color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 3)),
           SizedBox(height: 10),
-          Text('Version 1.0.0 (4)', style: TextStyle(color: Colors.grey, fontSize: 14)),
+          Text('Version $_version', style: TextStyle(color: Colors.grey, fontSize: 14)),
           SizedBox(height: 5),
           Text('© 2020 OVGU', style: TextStyle(color: Colors.grey, fontSize: 14)),
           SizedBox(height: 100),
