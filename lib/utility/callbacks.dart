@@ -6,4 +6,5 @@ typedef void Callback();
 typedef void IntCallback(int integer);
 typedef void BoolCallback(bool boolean);
 typedef void PostCallback(Post post);
+typedef Future<void> FutureCallback();
 typedef Future<void> ChannelBooleanCallback(Channel channel, bool boolean);

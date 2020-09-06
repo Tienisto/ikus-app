@@ -5,8 +5,8 @@ import "package:latlong/latlong.dart";
 
 class EventService {
 
-  static Channel _allgemein = Channel(1, "Allgemein");
-  static Channel _wohnheim = Channel(2, "Wohnheim");
+  static Channel _allgemein = Channel(id: 1, name: "Allgemein");
+  static Channel _wohnheim = Channel(id: 2, name: "Wohnheim");
   static ChannelHandler<Event> _channelHandler = ChannelHandler([_allgemein, _wohnheim], [_allgemein, _wohnheim]);
 
   static LatLng _coords = LatLng(52.137813, 11.646508);

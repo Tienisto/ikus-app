@@ -10,14 +10,14 @@ class FAQService {
   static Image _img1 = Image.network('https://www.ovgu.de/unimagdeburg_media/Presse/Bilder/Pressemitteilungen/2020/Studieninteressierte+auf+dem+Campus+%28c%29+Stefan+Berger-height-600-p-85676-width-900.jpg', semanticLabel: "Studenten");
   static Image _img2 = Image.network('https://www.ovgu.de/unimagdeburg_media/Universit%C3%A4t/Was+uns+auszeichnet/2020_3/Dr_+Kristin+Hecht+im+Labor+%28c%29+Jana+Du%CC%88nnhaupt+Uni+Magdeburg-height-600-width-900-p-85822.jpg', semanticLabel: 'Labor');
 
-  static Channel _allgemeines = Channel(1, "Allgemeines");
-  static Channel _prufung = Channel(2, "Prüfung");
-  static Channel _finanzierung = Channel(3, "Finanzierung");
+  static Channel _allgemeines = Channel(id: 1, name: "Allgemeines");
+  static Channel _prufung = Channel(id: 2, name: "Prüfung");
+  static Channel _finanzierung = Channel(id: 3, name: "Finanzierung");
   static List<Post> _posts = [
-    Post("Bis wann kann ich mich immatrikulieren?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), []),
-    Post("Wie aktiviere ich meine Studentenkarte?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), [_img1, _img2]),
-    Post("Wie lade ich Geld auf meine Studentenkarte auf?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), [_img0]),
-    Post("Wo kann ich ausdrucken?", "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", _loremIpsum, _allgemeines, DateTime(2020, 7, 15), [_img2, _img0])
+    Post(title: "Bis wann kann ich mich immatrikulieren?", preview: "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", content: _loremIpsum, channel: _allgemeines, date: DateTime(2020, 7, 15), images: []),
+    Post(title: "Wie aktiviere ich meine Studentenkarte?", preview: "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", content: _loremIpsum, channel: _allgemeines, date: DateTime(2020, 7, 15), images: [_img1, _img2]),
+    Post(title: "Wie lade ich Geld auf meine Studentenkarte auf?", preview: "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", content: _loremIpsum, channel: _allgemeines, date: DateTime(2020, 7, 15), images: [_img0]),
+    Post(title: "Wo kann ich ausdrucken?", preview: "Prof. Dr.-Ing. Jens Strackeljan wurde als Rektor der Otto-von-Guericke-Universität Magdeburg im Amt wiedergewählt. Am 15. Juli 2020 hat der erweiterte Senat, das höchste Gremium der Universität,", content: _loremIpsum, channel: _allgemeines, date: DateTime(2020, 7, 15), images: [_img2, _img0])
   ];
 
   static List<PostGroup> _groups = [

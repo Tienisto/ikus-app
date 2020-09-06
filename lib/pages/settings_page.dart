@@ -3,8 +3,10 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
+import 'package:ikus_app/service/post_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -19,6 +21,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   static const Color LOGO_COLOR = Color(0xFFAFAFAF);
   String _version = '';
+
+  Map<String, bool> syncing = Map();
 
   @override
   void initState() {
@@ -41,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget getSyncItem(String name, Callback callback) {
+  Widget getSyncItem(String name, FutureCallback callback) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -58,8 +62,16 @@ class _SettingsPageState extends State<SettingsPage> {
           OvguButton(
             useIconWidth: true,
             flat: true,
-            callback: callback,
-            child: Icon(Icons.sync),
+            callback: () async {
+              setState(() {
+                syncing[name] = true;
+              });
+              await callback();
+              setState(() {
+                syncing[name] = false;
+              });
+            },
+            child: syncing[name] == true ? Rotating(child: Icon(Icons.sync)) : Icon(Icons.sync),
           )
         ],
       ),
@@ -123,13 +135,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 10),
                   Text(t.main.settings.syncInfo),
                   SizedBox(height: 5),
-                  getSyncItem(t.main.settings.syncItems.news, () { }),
-                  getSyncItem(t.main.settings.syncItems.calendar, () { }),
-                  getSyncItem(t.main.settings.syncItems.mensa, () { }),
-                  getSyncItem(t.main.settings.syncItems.links, () { }),
-                  getSyncItem(t.main.settings.syncItems.handbook, () { }),
-                  getSyncItem(t.main.settings.syncItems.faq, () { }),
-                  getSyncItem(t.main.settings.syncItems.contact, () { })
+                  getSyncItem(t.main.settings.syncItems.news, () async {
+                    await PostService.sync();
+                  }),
+                  getSyncItem(t.main.settings.syncItems.calendar, () {
+                    return Future.value();
+                  }),
+                  getSyncItem(t.main.settings.syncItems.mensa, () {
+                    return Future.value();
+                  }),
+                  getSyncItem(t.main.settings.syncItems.links, () {
+                    return Future.value();
+                  }),
+                  getSyncItem(t.main.settings.syncItems.handbook, () {
+                    return Future.value();
+                  }),
+                  getSyncItem(t.main.settings.syncItems.faq, () {
+                    return Future.value();
+                  }),
+                  getSyncItem(t.main.settings.syncItems.contact, () {
+                    return Future.value();
+                  })
                 ],
               ),
             ),
