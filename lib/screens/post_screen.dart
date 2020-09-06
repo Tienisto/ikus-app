@@ -7,6 +7,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/utility/ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostScreen extends StatelessWidget {
 
@@ -62,6 +63,9 @@ class PostScreen extends StatelessWidget {
               data: post.content,
               style: {
                 "body": Style(fontSize: FontSize.large), // make text bigger
+              },
+              onLinkTap: (url) async {
+                await launch(url);
               },
             ),
           ),
