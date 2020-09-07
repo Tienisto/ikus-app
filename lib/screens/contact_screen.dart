@@ -10,7 +10,7 @@ class ContactScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<Contact> contacts = ContactService.getContacts();
+    List<Contact> contacts = ContactService.instance.getContacts();
 
     return Scaffold(
       appBar: AppBar(

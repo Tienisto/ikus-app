@@ -30,7 +30,7 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
     _calendarController = CalendarController();
-    _events = EventService.getEventsGroupByDate();
+    _events = EventService.instance.getEventsGroupByDate();
   }
 
   @override
@@ -61,8 +61,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   flat: true,
                   useIconWidth: true,
                   callback: () {
-                    List<Channel> channels = EventService.getChannels();
-                    List<Channel> selected = EventService.getSubscribed();
+                    List<Channel> channels = EventService.instance.getChannels();
+                    List<Channel> selected = EventService.instance.getSubscribed();
                     Popups.generic(
                         context: context,
                         height: ChannelPopup.calculateHeight(context),
@@ -71,11 +71,11 @@ class _CalendarPageState extends State<CalendarPage> {
                           selected: selected,
                           callback: (channel, selected) async {
                             if (selected)
-                              await EventService.subscribe(channel);
+                              await EventService.instance.subscribe(channel);
                             else
-                              await EventService.unsubscribe(channel);
+                              await EventService.instance.unsubscribe(channel);
                             setState(() {
-                              _events = EventService.getEventsGroupByDate();
+                              _events = EventService.instance.getEventsGroupByDate();
 
                               // update again if user changed subscribed channels
                               // _events change -> updated visible events -> nextFrame -> setState

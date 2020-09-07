@@ -6,10 +6,17 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
+import 'package:ikus_app/service/contact_service.dart';
+import 'package:ikus_app/service/event_service.dart';
+import 'package:ikus_app/service/faq_service.dart';
+import 'package:ikus_app/service/handbook_service.dart';
+import 'package:ikus_app/service/link_service.dart';
+import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/post_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -19,6 +26,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
+  static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy, HH:mm");
   static const Color LOGO_COLOR = Color(0xFFAFAFAF);
   String _version = '';
 
@@ -45,7 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget getSyncItem(String name, FutureCallback callback) {
+  Widget getSyncItem(String name, DateTime lastUpdate, FutureCallback callback) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -55,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('24.08.2020, 13:32')
+                  Text(_dateFormatter.format(lastUpdate))
                 ],
               )
           ),
@@ -135,26 +143,18 @@ class _SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 10),
                   Text(t.main.settings.syncInfo),
                   SizedBox(height: 5),
-                  getSyncItem(t.main.settings.syncItems.news, () async {
-                    await PostService.sync();
-                  }),
-                  getSyncItem(t.main.settings.syncItems.calendar, () {
-                    return Future.value();
-                  }),
-                  getSyncItem(t.main.settings.syncItems.mensa, () {
-                    return Future.value();
-                  }),
-                  getSyncItem(t.main.settings.syncItems.links, () {
-                    return Future.value();
-                  }),
-                  getSyncItem(t.main.settings.syncItems.handbook, () {
-                    return Future.value();
-                  }),
-                  getSyncItem(t.main.settings.syncItems.faq, () {
-                    return Future.value();
-                  }),
-                  getSyncItem(t.main.settings.syncItems.contact, () {
-                    return Future.value();
+                  ...[
+                    PostService.instance,
+                    EventService.instance,
+                    MensaService.instance,
+                    LinkService.instance,
+                    HandbookService.instance,
+                    FAQService.instance,
+                    ContactService.instance
+                  ].map((service) {
+                    return getSyncItem(service.getName(), service.getLastUpdate(), () async {
+                      await service.sync();
+                    });
                   })
                 ],
               ),

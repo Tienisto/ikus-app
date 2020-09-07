@@ -11,7 +11,7 @@ class LinksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<LinkGroup> links = LinkService.getLinks();
+    List<LinkGroup> links = LinkService.instance.getLinks();
 
     return Scaffold(
       appBar: AppBar(

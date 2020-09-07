@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _events = EventService.getNextEvents();
+    _events = EventService.instance.getNextEvents();
   }
 
   @override
@@ -146,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                   flat: true,
                   useIconWidth: true,
                   callback: () {
-                    List<Channel> channels = PostService.getChannels();
-                    List<Channel> selected = PostService.getSubscribed();
+                    List<Channel> channels = PostService.instance.getChannels();
+                    List<Channel> selected = PostService.instance.getSubscribed();
                     Popups.generic(
                         context: context,
                         height: ChannelPopup.calculateHeight(context),
@@ -156,9 +156,9 @@ class _HomePageState extends State<HomePage> {
                           selected: selected,
                           callback: (channel, selected) async {
                             if (selected)
-                              await PostService.subscribe(channel);
+                              await PostService.instance.subscribe(channel);
                             else
-                              await PostService.unsubscribe(channel);
+                              await PostService.instance.unsubscribe(channel);
                             setState(() {});
                           },
                         )
@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20),
-          ...PostService.getPosts().map((post) => Padding(
+          ...PostService.instance.getPosts().map((post) => Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: PostCard(post: post, callback: () {
               pushScreen(context, () => PostScreen(post));

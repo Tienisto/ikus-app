@@ -31,7 +31,7 @@ class MensaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<Menu> menu = MensaService.getMenu();
+    List<Menu> menu = MensaService.instance.getMenu();
 
     return Scaffold(
       appBar: AppBar(

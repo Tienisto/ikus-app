@@ -20,7 +20,7 @@ class HandbookScreen extends StatefulWidget {
 class _HandbookScreenState extends State<HandbookScreen> {
 
   final pdfController = PdfController(
-    document: HandbookService.getPDF().then((value) {
+    document: HandbookService.instance.getPDF().then((value) {
       if (value != null)
         return PdfDocument.openData(value);
       else
@@ -48,8 +48,8 @@ class _HandbookScreenState extends State<HandbookScreen> {
               children: [
                 OvguButton(
                   useIconWidth: true,
-                  callback: () async {
-                    List<PdfBookmark> bookmarks = await HandbookService.getBookmarks();
+                  callback: () {
+                    List<PdfBookmark> bookmarks = HandbookService.instance.getBookmarks();
                     double height = MediaQuery.of(context).size.height;
                     Popups.generic(
                         context: context,

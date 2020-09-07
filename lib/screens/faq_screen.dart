@@ -29,7 +29,7 @@ class _FAQScreenState extends State<FAQScreen> {
     super.initState();
 
     setState(() {
-      faq = FAQService.getFAQ();
+      faq = FAQService.instance.getFAQ();
       pool = faq.expand((i) => i.posts).toList();
       results = [];
     });

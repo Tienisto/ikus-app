@@ -1,34 +1,63 @@
+import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
+import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/channel_handler.dart';
+import 'package:ikus_app/utility/globals.dart';
 import "package:latlong/latlong.dart";
 
-class EventService {
+class EventService implements SyncableService {
 
-  static Channel _allgemein = Channel(id: 1, name: "Allgemein");
-  static Channel _wohnheim = Channel(id: 2, name: "Wohnheim");
-  static ChannelHandler<Event> _channelHandler = ChannelHandler([_allgemein, _wohnheim], [_allgemein, _wohnheim]);
+  static final EventService _instance = _init();
+  static EventService get instance => _instance;
 
-  static LatLng _coords = LatLng(52.137813, 11.646508);
-  static String _info = "Zum Willkommenstag an der Otto-von-Guericke-Universität Magdeburg erwartet Studienanfängerinnen und Studienanfänger jährlich ein umfangreiches Programm auf dem Campus.";
+  DateTime _lastUpdate;
+  ChannelHandler<Event> _channelHandler;
+  List<Event> _events;
 
-  static List<Event> _events = [
-    Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 2, 19), null, "Festung Mark", _coords),
-    Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 9, 2, 20), null, "Campus Theater", _coords),
-    Event("Grillen", _info, _allgemein, DateTime(2020, 9, 6, 16), null, "vor Gebäude 16", _coords),
-    Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 7, 19), DateTime(2020, 9, 7, 22), "Festung Mark", _coords),
-    Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 9, 8, 20), null, "Campus Theater", _coords),
-    Event("Grillen", _info, _allgemein, DateTime(2020, 9, 8, 16), DateTime(2020, 9, 8, 20), "vor Gebäude 16", _coords),
-    Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 10, 20), null, "vor Gebäude 16", _coords),
-    Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 10), null, "vor Gebäude 16", _coords),
-    Event("Grillen", _info, _allgemein, DateTime(2020, 9, 11), null, "vor Gebäude 16", _coords)
-  ];
+  static EventService _init() {
+    EventService service = EventService();
 
-  static List<Event> getEvents() {
+    Channel _allgemein = Channel(id: 1, name: "Allgemein");
+    Channel _wohnheim = Channel(id: 2, name: "Wohnheim");
+    service._channelHandler = ChannelHandler([_allgemein, _wohnheim], [_allgemein, _wohnheim]);
+
+    LatLng _coords = LatLng(52.137813, 11.646508);
+    String _info = "Zum Willkommenstag an der Otto-von-Guericke-Universität Magdeburg erwartet Studienanfängerinnen und Studienanfänger jährlich ein umfangreiches Programm auf dem Campus.";
+    service._events = [
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 2, 19), null, "Festung Mark", _coords),
+      Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 9, 2, 20), null, "Campus Theater", _coords),
+      Event("Grillen", _info, _allgemein, DateTime(2020, 9, 6, 16), null, "vor Gebäude 16", _coords),
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 7, 19), DateTime(2020, 9, 7, 22), "Festung Mark", _coords),
+      Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 9, 8, 20), null, "Campus Theater", _coords),
+      Event("Grillen", _info, _allgemein, DateTime(2020, 9, 8, 16), DateTime(2020, 9, 8, 20), "vor Gebäude 16", _coords),
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 10, 20), null, "vor Gebäude 16", _coords),
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 10), null, "vor Gebäude 16", _coords),
+      Event("Grillen", _info, _allgemein, DateTime(2020, 9, 11), null, "vor Gebäude 16", _coords)
+    ];
+
+    service._lastUpdate = DateTime(2020, 8, 24, 13, 12);
+    return service;
+  }
+
+  @override
+  String getName() => t.main.settings.syncItems.calendar;
+
+  @override
+  Future<void> sync() async {
+    await sleep(500);
+  }
+
+  @override
+  DateTime getLastUpdate() {
+    return _lastUpdate;
+  }
+
+  List<Event> getEvents() {
     return _channelHandler.filter(_events, (item) => item.channel.id);
   }
 
-  static Map<DateTime, List<Event>> getEventsGroupByDate() {
+  Map<DateTime, List<Event>> getEventsGroupByDate() {
     List<Event> events = getEvents();
     Map<DateTime, List<Event>> map = Map();
     events.forEach((event) {
@@ -44,7 +73,7 @@ class EventService {
     return map;
   }
 
-  static List<Event> getNextEvents() {
+  List<Event> getNextEvents() {
     DateTime now = DateTime.now();
     List<Event> events = getEvents();
     List<Event> nextEvents = [];
@@ -58,19 +87,19 @@ class EventService {
     return nextEvents;
   }
 
-  static List<Channel> getChannels() {
+  List<Channel> getChannels() {
     return _channelHandler.getAvailable();
   }
 
-  static List<Channel> getSubscribed() {
+  List<Channel> getSubscribed() {
     return _channelHandler.getSubscribed();
   }
 
-  static Future<void> subscribe(Channel channel) async {
+  Future<void> subscribe(Channel channel) async {
     await _channelHandler.subscribe(channel);
   }
 
-  static Future<void> unsubscribe(Channel channel) async {
+  Future<void> unsubscribe(Channel channel) async {
     await _channelHandler.unsubscribe(channel);
   }
 }

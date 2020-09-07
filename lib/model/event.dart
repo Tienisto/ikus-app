@@ -5,7 +5,7 @@ import "package:latlong/latlong.dart";
 
 class Event {
 
-  static final DateFormat _format = DateFormat('dd.MM.yyyy, kk:mm', LocaleSettings.currentLocale);
+  static final DateFormat _format = DateFormat('dd.MM.yyyy, HH:mm', LocaleSettings.currentLocale);
   static final DateFormat formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEE, dd.MM.yyyy', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyTime= DateFormat('kk:mm', LocaleSettings.currentLocale);
