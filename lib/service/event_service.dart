@@ -25,15 +25,15 @@ class EventService implements SyncableService {
     LatLng _coords = LatLng(52.137813, 11.646508);
     String _info = "Zum Willkommenstag an der Otto-von-Guericke-Universität Magdeburg erwartet Studienanfängerinnen und Studienanfänger jährlich ein umfangreiches Programm auf dem Campus.";
     service._events = [
-      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 2, 19), null, "Festung Mark", _coords),
-      Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 9, 2, 20), null, "Campus Theater", _coords),
-      Event("Grillen", _info, _allgemein, DateTime(2020, 9, 6, 16), null, "vor Gebäude 16", _coords),
-      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 7, 19), DateTime(2020, 9, 7, 22), "Festung Mark", _coords),
-      Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 9, 8, 20), null, "Campus Theater", _coords),
-      Event("Grillen", _info, _allgemein, DateTime(2020, 9, 8, 16), DateTime(2020, 9, 8, 20), "vor Gebäude 16", _coords),
-      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 10, 20), null, "vor Gebäude 16", _coords),
-      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 9, 10), null, "vor Gebäude 16", _coords),
-      Event("Grillen", _info, _allgemein, DateTime(2020, 9, 11), null, "vor Gebäude 16", _coords)
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 10, 2, 19), null, "Festung Mark", _coords),
+      Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 10, 2, 20), null, "Campus Theater", _coords),
+      Event("Grillen", _info, _allgemein, DateTime(2020, 10, 6, 16), null, "vor Gebäude 16", _coords),
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 10, 7, 19), DateTime(2020, 9, 7, 22), "Festung Mark", _coords),
+      Event("Wohnheim-Spieleabend", _info, _wohnheim, DateTime(2020, 10, 8, 20), null, "Campus Theater", _coords),
+      Event("Grillen", _info, _allgemein, DateTime(2020, 10, 8, 16), DateTime(2020, 10, 8, 20), "vor Gebäude 16", _coords),
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 10, 10, 20), null, "vor Gebäude 16", _coords),
+      Event("Immatrikulationsfeier", _info, _allgemein, DateTime(2020, 10, 10), null, "vor Gebäude 16", _coords),
+      Event("Grillen", _info, _allgemein, DateTime(2020, 10, 11), null, "vor Gebäude 16", _coords)
     ];
 
     service._lastUpdate = DateTime(2020, 8, 24, 13, 12);
