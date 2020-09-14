@@ -68,7 +68,7 @@ class PostScreen extends StatelessWidget {
           if(post.images.length > 1)
             CarouselSlider(
               options: CarouselOptions(
-                  height: 500,
+                  height: 350,
                   viewportFraction: 0.8,
                   autoPlay: true,
               ),
@@ -77,9 +77,12 @@ class PostScreen extends StatelessWidget {
                   builder: (BuildContext context) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ClipRRect(
-                          borderRadius: OvguPixels.borderRadiusImage,
-                          child: image
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: ClipRRect(
+                            borderRadius: OvguPixels.borderRadiusImage,
+                            child: image
+                        ),
                       ),
                     );
                   },
