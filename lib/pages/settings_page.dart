@@ -177,7 +177,7 @@ class _SettingsPageState extends State<SettingsPage> {
               right: OvguButton(
                 useIconWidth: true,
                 callback: () {
-                  pushScreen(context, () => LicensePage(applicationName: 'IKUS App', applicationVersion: _version));
+                  pushScreen(context, () => LicensePage(applicationName: t.main.settings.appName, applicationVersion: _version));
                 },
                 child: Icon(Icons.description, color: Colors.white),
               )
@@ -199,7 +199,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Image.asset('assets/img/logo-512-alpha.png', width: 200)
           ),
           SizedBox(height: 10),
-          Text(t.main.settings.theIkusApp, style: TextStyle(color: LOGO_COLOR, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 3)),
+          Text(t.main.settings.appName, style: TextStyle(color: LOGO_COLOR, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 2)),
           SizedBox(height: 10),
           Text('Version $_version', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
           SizedBox(height: 5),

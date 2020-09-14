@@ -45,12 +45,12 @@
       "reset": "Daten zurücksetzen",
       "about": "Über die App",
       "licenses": "Lizenzen",
-      "theIkusApp": "IKUS-App"
+      "appName": "Welcome at OVGU"
     }
   },
   "about": {
     "title": "Über die App",
-    "main": "Die IKUS-App ist eine Initiative des akademischen Auslandamts der Otto-von-Guericke Universität Magdeburg mit dem Ziel, die Digitalisierung an der Universität voranzutreiben und den Studienalltag - insbesondere für internationale Studierende zu erleichtern.",
+    "main": "Die Welcome at OVGU - App ist eine Initiative des akademischen Auslandamts der Otto-von-Guericke Universität Magdeburg mit dem Ziel, die Digitalisierung an der Universität voranzutreiben und den Studienalltag - insbesondere für internationale Studierende zu erleichtern.",
     "idea": "Idee",
     "technicalImplementation": "Technische Umsetzung"
   },

@@ -45,12 +45,12 @@
       "reset": "Reset Data",
       "about": "About the app",
       "licenses": "Licenses",
-      "theIkusApp": "IKUS App"
+      "appName": "Welcome at OVGU"
     }
   },
   "about": {
     "title": "About the app",
-    "main": "The IKUS App is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
+    "main": "The Welcome at OVGU app is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
     "idea": "Idea",
     "technicalImplementation": "Technical Implementation"
   },
