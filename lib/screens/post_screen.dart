@@ -15,19 +15,6 @@ class PostScreen extends StatelessWidget {
 
   const PostScreen(this.post);
 
-  Widget getImageWithName(Image image) {
-    return Column(
-      children: [
-        ClipRRect(
-            borderRadius: OvguPixels.borderRadiusImage,
-            child: image
-        ),
-        SizedBox(height: 10),
-        Text(image.semanticLabel, style: TextStyle(fontSize: 16))
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +58,13 @@ class PostScreen extends StatelessWidget {
           ),
           SizedBox(height: 30),
           if(post.images.length == 1)
-            getImageWithName(post.images.first),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
+              child: ClipRRect(
+                  borderRadius: OvguPixels.borderRadiusImage,
+                  child: post.images.first
+              ),
+            ),
           if(post.images.length > 1)
             CarouselSlider(
               options: CarouselOptions(
@@ -84,7 +77,10 @@ class PostScreen extends StatelessWidget {
                   builder: (BuildContext context) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: getImageWithName(image),
+                      child: ClipRRect(
+                          borderRadius: OvguPixels.borderRadiusImage,
+                          child: image
+                      ),
                     );
                   },
                 );

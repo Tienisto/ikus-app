@@ -47,7 +47,7 @@ class PostService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    Response response = await ApiService.getOrCached('public/news', LocaleSettings.currentLocale);
+    Response response = await ApiService.getOrCached('news', LocaleSettings.currentLocale);
     Map<String, dynamic> map = jsonDecode(response.body);
     List<dynamic> channelsRaw = map['channels'];
     List<Channel> channels = channelsRaw.map((c) => Channel.fromMap(c)).toList();

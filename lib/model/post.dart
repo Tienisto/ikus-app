@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/model/channel.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:intl/intl.dart';
 
 class Post {
@@ -28,7 +29,7 @@ class Post {
       title: map['title'],
       preview: map['preview'],
       content: map['content'],
-      images: []
+      images: map['files'].map((file) => Image.network(ApiService.getFileUrl(file['fileName']))).toList().cast<Image>()
     );
   }
 
