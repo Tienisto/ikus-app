@@ -6,5 +6,17 @@ class PostGroup {
   final Channel channel;
   final List<Post> posts;
 
-  PostGroup(this.channel, this.posts);
+  const PostGroup({this.channel, this.posts});
+
+  static PostGroup fromMap(Map<String, dynamic> map) {
+    return PostGroup(
+        channel: Channel.fromMap(map['channel']),
+        posts: map['posts'].map((post) => Post.fromMap(post)).toList().cast<Post>()
+    );
+  }
+
+  @override
+  String toString() {
+    return '$channel [$posts]';
+  }
 }

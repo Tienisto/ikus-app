@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/model/post_group.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
-import 'package:ikus_app/utility/globals.dart';
 
 class FAQService implements SyncableService {
 
@@ -33,9 +36,9 @@ class FAQService implements SyncableService {
     ];
 
     service._groups = [
-      PostGroup(_allgemeines, _posts),
-      PostGroup(_prufung, _posts),
-      PostGroup(_finanzierung, _posts)
+      PostGroup(channel: _allgemeines, posts: _posts),
+      PostGroup(channel: _prufung, posts: _posts),
+      PostGroup(channel: _finanzierung, posts: _posts)
     ];
 
     service._lastUpdate = DateTime(2020, 8, 24, 13, 12);
@@ -47,7 +50,10 @@ class FAQService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    await sleep(500);
+    Response response = await ApiService.getCacheOrFetch('faq', LocaleSettings.currentLocale);
+    List<dynamic> groups = jsonDecode(response.body);
+    _groups = groups.map((g) => PostGroup.fromMap(g)).toList().cast<PostGroup>();
+    _lastUpdate = DateTime.now();
   }
 
   @override

@@ -8,7 +8,7 @@ class ApiService {
     return '$URL/file/$fileName';
   }
 
-  static Future<Response> getOrCached(String route, String locale) {
+  static Future<Response> getCacheOrFetch(String route, String locale) {
     return get('$URL/$route?locale=${locale.toUpperCase()}');
   }
 }
