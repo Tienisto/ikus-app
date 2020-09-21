@@ -1,16 +1,17 @@
-# ikus_app
+# Welcome at OVGU
 
-IKUS OvGU App
+An official app by Magdeburg University 
 
-## Getting Started
+## Deploy
 
-This project is a starting point for a Flutter application.
+### Android
 
-A few resources to get you started if this is your first Flutter project:
+run `flutter build appbundle`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### iOS
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+run `flutter build ios`
+
+in Xcode select target `Generic iOS Device`
+
+in Xcode run `Product` > `Archive`
