@@ -159,7 +159,6 @@ class _CalendarPageState extends State<CalendarPage> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
-                            customBorder: OvguPixels.shape,
                             onTap: () {
                               pushScreen(context, () => EventScreen(event));
                             },
