@@ -142,7 +142,7 @@ class _CalendarPageState extends State<CalendarPage> {
           SizedBox(height: 20),
           ..._calendarController.visibleEvents.entries.map((entry) {
             List<Event> events = entry.value;
-            events.sort((a, b) => a.start.compareTo(b.start));
+            events.sort((a, b) => a.startTime.compareTo(b.startTime));
             return Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 5),
               child: Row(

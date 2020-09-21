@@ -81,8 +81,8 @@ class EventScreen extends StatelessWidget {
                       calendar.Add2Calendar.addEvent2Cal(calendar.Event(
                           title: event.name,
                           location: event.place,
-                          startDate: event.start,
-                          endDate: event.hasEndTime ? event.end : event.hasTime ? event.start.add(Duration(hours: 10)) : event.start,
+                          startDate: event.startTime,
+                          endDate: event.hasEndTime ? event.endTime : event.hasTime ? event.startTime.add(Duration(hours: 10)) : event.startTime,
                           allDay: !event.hasTime
                       ));
                     },
