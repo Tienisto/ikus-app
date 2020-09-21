@@ -36,7 +36,7 @@ extension FeatureMembers on Feature {
     Feature.LINKS: t.main.features.content.links,
     Feature.HANDBOOK: t.main.features.content.handbook,
     Feature.FAQ: t.main.features.content.faq,
-    Feature.CONTACT: t.main.features.content.contact
+    Feature.CONTACT: t.main.features.content.contacts
   }[this];
 
   Widget get widget => {

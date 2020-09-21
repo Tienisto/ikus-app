@@ -15,7 +15,7 @@ class ContactScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
-        title: Text(t.contact.title)
+        title: Text(t.contacts.title)
       ),
       body: MainListView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
