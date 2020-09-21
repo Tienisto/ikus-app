@@ -25,7 +25,7 @@ class Popups {
         return Align(
           alignment: Alignment.bottomCenter,
           child: Transform.translate(
-            offset: Offset(0, curvedValue * height),
+            offset: Offset(0, curvedValue * height + 5),
             child: SizedBox(
               width: width,
               height: height,
