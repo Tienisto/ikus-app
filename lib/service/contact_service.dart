@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/contact.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -15,8 +16,8 @@ class ContactService implements SyncableService {
     ContactService service = ContactService();
 
     service._contacts = [
-      Contact("Akademisches Auslandsamt", null, null, "G18", null),
-      Contact("IKUS", "ikus@ovgu.de", "+49 (0)391 - 67 515 75", "InterKultiTreff, Walther-Rathenau-Straße 19, 39106 Magdeburg", "Mo. 15-17, Do. 17-19"),
+      Contact(name: "Akademisches Auslandsamt", image: null, email: null, phoneNumber: null, place: "G18", openingHours: null),
+      Contact(name: "IKUS", image: Image.network('https://www.studentenwerk-magdeburg.de/wp-content/uploads/2020/06/IKUS_Logo-600x600.jpg'), email: "ikus@ovgu.de", phoneNumber: "+49 (0)391 - 67 515 75", place: "InterKultiTreff\nWalther-Rathenau-Straße 19\n39106 Magdeburg", openingHours: "Mo. 15-17, Do. 17-19"),
     ];
 
     service._lastUpdate = DateTime(2020, 8, 24, 13, 12);
