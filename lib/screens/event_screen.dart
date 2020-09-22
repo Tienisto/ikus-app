@@ -93,30 +93,35 @@ class EventScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          OvguCard(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.event.where, style: keyStyle),
-                  SizedBox(height: 10),
-                  IconText(
-                    size: valueSize,
-                    icon: Icons.place,
-                    text: event.place,
-                  ),
-                  if (event.coords != null)
-                    SizedBox(height: 15),
-                  if (event.coords != null)
-                    MapWithMarker(
-                      name: event.place,
-                      coords: event.coords,
-                    )
-                ],
+          if (event.place != null || event.coords != null)
+            OvguCard(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.event.where, style: keyStyle),
+                    if (event.place != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: IconText(
+                          size: valueSize,
+                          icon: Icons.place,
+                          text: event.place,
+                        ),
+                      ),
+                    if (event.coords != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: MapWithMarker(
+                          name: event.place,
+                          coords: event.coords,
+                        ),
+                      )
+                  ],
+                ),
               ),
             ),
-          ),
           SizedBox(height: 50),
         ],
       ),

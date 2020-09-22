@@ -34,9 +34,9 @@ class EventService implements SyncableService {
       Event(name: "Immatrikulationsfeier", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 7, 19), endTime: DateTime(2020, 9, 7, 22), place: "Festung Mark", coords: _coords),
       Event(name: "Wohnheim-Spieleabend", info: _info, channel: _wohnheim, startTime: DateTime(2020, 10, 8, 20), endTime: null, place: "Campus Theater", coords: _coords),
       Event(name: "Grillen", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 8, 16), endTime: DateTime(2020, 10, 8, 20), place: "vor Gebäude 16", coords: _coords),
-      Event(name: "Immatrikulationsfeier", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 10, 20), endTime: null, place: "vor Gebäude 16", coords: _coords),
-      Event(name: "Immatrikulationsfeier", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 10), endTime: null, place: "vor Gebäude 16", coords: _coords),
-      Event(name: "Grillen", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 11), endTime: null, place: "vor Gebäude 16", coords: _coords)
+      Event(name: "Immatrikulationsfeier", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 10, 20), endTime: null, place: null, coords: _coords),
+      Event(name: "Immatrikulationsfeier", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 10), endTime: null, place: null, coords: null),
+      Event(name: "Grillen", info: _info, channel: _allgemein, startTime: DateTime(2020, 10, 11), endTime: null, place: "vor Gebäude 16", coords: null)
     ];
 
     service._lastUpdate = DateTime(2020, 8, 24, 13, 12);
