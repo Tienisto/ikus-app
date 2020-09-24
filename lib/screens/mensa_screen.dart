@@ -19,6 +19,7 @@ class MensaScreen extends StatefulWidget {
 class _MensaScreenState extends State<MensaScreen> {
 
   static DateFormat _lastUpdateFormatter = DateFormat("dd.MM.yyyy, HH:mm");
+  static DateFormat _lastUpdateFormatterTimeOnly = DateFormat("HH:mm");
   static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
@@ -54,7 +55,7 @@ class _MensaScreenState extends State<MensaScreen> {
     });
   }
 
-  String getDateString(DateTime timestamp) {
+  String formatDate(DateTime timestamp) {
     DateTime today = DateTime.now();
     DateTime tomorrow = DateTime.now().add(Duration(days: 1));
     String dateString = _dateFormatter.format(timestamp);
@@ -64,6 +65,15 @@ class _MensaScreenState extends State<MensaScreen> {
       return t.mensa.tomorrow(date: dateString);
     } else {
       return dateString;
+    }
+  }
+
+  String formatLastUpdate(DateTime timestamp) {
+    DateTime today = DateTime.now();
+    if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
+      return t.mensa.today(date: _lastUpdateFormatterTimeOnly.format(timestamp));
+    } else {
+      return _lastUpdateFormatter.format(timestamp);
     }
   }
 
@@ -95,7 +105,7 @@ class _MensaScreenState extends State<MensaScreen> {
                 padding: OvguPixels.mainScreenPadding,
                 child: IconText(
                   icon: Icons.access_time,
-                  text: t.mensa.lastUpdate(timestamp: _lastUpdateFormatter.format(MensaService.instance.getLastUpdate())),
+                  text: t.mensa.lastUpdate(timestamp: formatLastUpdate(MensaService.instance.getLastUpdate())),
                   color: OvguColor.secondaryDarken2,
                   size: 14,
                 ),
@@ -141,7 +151,7 @@ class _MensaScreenState extends State<MensaScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20, bottom: 10),
-                    child: Text(getDateString(menu.date), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: Text(formatDate(menu.date), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                   ...menu.food.map((food) => FoodCard(food: food))
                 ],
