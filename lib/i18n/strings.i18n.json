@@ -83,9 +83,9 @@
   "mensa": {
     "title": "Mensa",
     "locations": {
-      "uniCampusDown": "UniCampus Down",
-      "uniCampusUp": "UniCampus Up",
-      "zschokke": "Café Zschokkestraße",
+      "uniCampusDown": "UniCampus\nGround Floor",
+      "uniCampusUp": "UniCampus\nUpper Floor",
+      "zschokke": "Café\nZschokkestraße",
       "herrenkrug": "Herrenkrug"
     },
     "lastUpdate": "Last Update: $timestamp",

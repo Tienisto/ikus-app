@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/animations/translate_animation.dart';
+import 'package:ikus_app/animations/translate_fade_animation.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/food_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
@@ -24,6 +26,8 @@ class _MensaScreenState extends State<MensaScreen> {
   DateFormat _dateWithWeekdayFormatter = DateFormat("EEEE, dd.MM.yyyy", LocaleSettings.currentLocale);
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<TranslateFadeAnimationState> _headerAnimationKey = new GlobalKey<TranslateFadeAnimationState>();
+  final GlobalKey<TranslateAnimationState> _bodyAnimationKey = new GlobalKey<TranslateAnimationState>();
   List<MensaInfo> menu;
   int index = 0;
 
@@ -47,12 +51,16 @@ class _MensaScreenState extends State<MensaScreen> {
       index--;
       if (index == -1)
         index = menu.length - 1;
+      _headerAnimationKey.currentState.startAnimation();
+      _bodyAnimationKey.currentState.startAnimation();
     });
   }
 
   void nextLocation() {
     setState(() {
       index = (index + 1) % menu.length;
+      _headerAnimationKey.currentState.startAnimation();
+      _bodyAnimationKey.currentState.startAnimation();
     });
   }
 
@@ -111,57 +119,73 @@ class _MensaScreenState extends State<MensaScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                children: [
-                  OvguButton(
-                    type: OvguButtonType.ICON,
-                    flat: true,
-                    padding: EdgeInsets.zero,
-                    callback: prevLocation,
-                    child: Icon(Icons.chevron_left),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(curr.name.name, style: TextStyle(color: OvguColor.primary, fontSize: 30)),
-                        ],
+              child: SizedBox(
+                height: 80,
+                child: Row(
+                  children: [
+                    OvguButton(
+                      type: OvguButtonType.ICON,
+                      flat: true,
+                      padding: EdgeInsets.zero,
+                      callback: prevLocation,
+                      child: Icon(Icons.chevron_left),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: TranslateFadeAnimation(
+                          key: _headerAnimationKey,
+                          duration: Duration(milliseconds: 500),
+                          start: Offset(30,0),
+                          end: Offset(0,0),
+                          curve: Curves.easeOutCubic,
+                          child: Text(curr.name.name, style: TextStyle(color: OvguColor.primary, fontSize: 30))
+                        ),
                       ),
                     ),
-                  ),
-                  OvguButton(
-                    type: OvguButtonType.ICON,
-                    flat: true,
-                    callback: nextLocation,
-                    child: Icon(Icons.chevron_right),
-                  ),
+                    OvguButton(
+                      type: OvguButtonType.ICON,
+                      flat: true,
+                      callback: nextLocation,
+                      child: Icon(Icons.chevron_right),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 30),
+            TranslateAnimation(
+              key: _bodyAnimationKey,
+              duration: Duration(milliseconds: 500),
+              start: Offset(0,10),
+              end: Offset(0,0),
+              curve: Curves.easeOut,
+              child: Column(
+                children: [
+                  ...curr.menus.map((menu) => Padding(
+                    padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, bottom: 10),
+                          child: Text(formatDate(menu.date), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        ),
+                        ...menu.food.map((food) => FoodCard(food: food))
+                      ],
+                    ),
+                  )),
+                  if (curr.menus.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50),
+                      child: Text(t.mensa.noData, style: TextStyle(fontSize: 20)),
+                    ),
                 ],
               ),
             ),
-            SizedBox(height: 50),
-            ...curr.menus.map((menu) => Padding(
-              padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, bottom: 10),
-                    child: Text(formatDate(menu.date), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  ),
-                  ...menu.food.map((food) => FoodCard(food: food))
-                ],
-              ),
-            )),
-            if (curr.menus.isEmpty)
-              Padding(
-                padding: const EdgeInsets.only(left: 50),
-                child: Text(t.mensa.noData, style: TextStyle(fontSize: 20)),
-              ),
             SizedBox(height: 50)
           ],
         ),
