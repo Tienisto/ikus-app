@@ -54,7 +54,7 @@ class _ChannelPopupState extends State<ChannelPopup> {
             ),
             OvguButton(
               flat: true,
-              useIconWidth: true,
+              type: OvguButtonType.ICON_WIDE,
               padding: EdgeInsets.symmetric(vertical: 10),
               callback: () {
                 Navigator.pop(context);

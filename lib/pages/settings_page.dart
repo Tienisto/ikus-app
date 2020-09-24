@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
               )
           ),
           OvguButton(
-            useIconWidth: true,
+            type: OvguButtonType.ICON_WIDE,
             flat: true,
             callback: () async {
               setState(() {
@@ -164,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
           getSettingsItem(
               left: t.main.settings.reset,
               right: OvguButton(
-                useIconWidth: true,
+                type: OvguButtonType.ICON_WIDE,
                 callback: () {
 
                 },
@@ -175,7 +175,7 @@ class _SettingsPageState extends State<SettingsPage> {
           getSettingsItem(
               left: t.main.settings.licenses,
               right: OvguButton(
-                useIconWidth: true,
+                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => LicensePage(applicationName: t.main.settings.appName, applicationVersion: _version));
                 },
@@ -186,7 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
           getSettingsItem(
               left: t.main.settings.about,
               right: OvguButton(
-                useIconWidth: true,
+                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => AboutScreen());
                 },

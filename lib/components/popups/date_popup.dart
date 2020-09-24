@@ -29,7 +29,7 @@ class DatePopup extends StatelessWidget {
             ),
             OvguButton(
               flat: true,
-              useIconWidth: true,
+              type: OvguButtonType.ICON_WIDE,
               padding: EdgeInsets.symmetric(vertical: 10),
               callback: () {
                 Navigator.pop(context);

@@ -88,6 +88,10 @@
       "zschokke": "Café Zschokkestraße",
       "herrenkrug": "Herrenkrug"
     },
+    "lastUpdate": "Last Update: $timestamp",
+    "today": "Today, $date",
+    "tomorrow": "Tomorrow, $date",
+    "noData": "No data available...",
     "tags": {
       "vegan": "Vegan",
       "vegetarian": "Vegetarian",
@@ -95,7 +99,9 @@
       "fish": "Fish",
       "chicken": "Chicken",
       "beef": "Beef",
-      "pig": "Pig"
+      "pig": "Pig",
+      "soup": "Soup",
+      "alcohol": "Alcohol"
     }
   },
   "post": {

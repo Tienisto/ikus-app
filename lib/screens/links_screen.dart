@@ -49,7 +49,7 @@ class LinksScreen extends StatelessWidget {
                           ),
                         ),
                         OvguButton(
-                          useIconWidth: true,
+                          type: OvguButtonType.ICON_WIDE,
                           callback: () async {
                             await launch(link.url);
                           },

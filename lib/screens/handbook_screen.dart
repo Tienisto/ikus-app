@@ -47,7 +47,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
             child: Row(
               children: [
                 OvguButton(
-                  useIconWidth: true,
+                  type: OvguButtonType.ICON_WIDE,
                   callback: () {
                     List<PdfBookmark> bookmarks = HandbookService.instance.getBookmarks();
                     double height = MediaQuery.of(context).size.height;
@@ -71,7 +71,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
                 ),
                 SizedBox(width: 20),
                 OvguButton(
-                  useIconWidth: true,
+                  type: OvguButtonType.ICON_WIDE,
                   callback: () async {
                     await launch(HandbookService.URL);
                   },

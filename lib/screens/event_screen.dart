@@ -76,7 +76,7 @@ class EventScreen extends StatelessWidget {
                     ),
                   ),
                   OvguButton(
-                    useIconWidth: true,
+                    type: OvguButtonType.ICON_WIDE,
                     callback: () {
                       calendar.Add2Calendar.addEvent2Cal(calendar.Event(
                           title: event.name,

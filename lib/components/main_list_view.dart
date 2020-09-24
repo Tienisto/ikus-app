@@ -7,13 +7,14 @@ class MainListView extends StatelessWidget {
   final List<Widget> children;
   final EdgeInsets padding;
   final CrossAxisAlignment crossAxisAlignment;
+  final ScrollPhysics scrollPhysics;
 
-  const MainListView({@required this.children, this.padding, this.crossAxisAlignment = CrossAxisAlignment.start});
+  const MainListView({@required this.children, this.padding, this.crossAxisAlignment = CrossAxisAlignment.start, this.scrollPhysics});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      physics: Adaptive.getScrollPhysics(),
+      physics: scrollPhysics ?? Adaptive.getScrollPhysics(),
       padding: padding,
       children: [
         Center(

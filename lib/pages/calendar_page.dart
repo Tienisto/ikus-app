@@ -59,7 +59,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 ),
                 OvguButton(
                   flat: true,
-                  useIconWidth: true,
+                  type: OvguButtonType.ICON_WIDE,
                   callback: () {
                     List<Channel> channels = EventService.instance.getChannels();
                     List<Channel> selected = EventService.instance.getSubscribed();

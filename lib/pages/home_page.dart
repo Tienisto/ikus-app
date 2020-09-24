@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 OvguButton(
                   flat: true,
-                  useIconWidth: true,
+                  type: OvguButtonType.ICON_WIDE,
                   callback: () {
                     List<Channel> channels = PostService.instance.getChannels();
                     List<Channel> selected = PostService.instance.getSubscribed();

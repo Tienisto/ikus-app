@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
+enum OvguButtonType {
+  NORMAL,
+  ICON_WIDE,
+  ICON
+}
+
 class OvguButton extends StatelessWidget {
 
   final Widget child;
   final Callback callback;
   final EdgeInsets padding;
+  final EdgeInsets paddingOverwrite;
   final bool flat;
-  final bool useIconWidth;
+  final double width;
 
-  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false, this.useIconWidth = false});
+  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false, OvguButtonType type = OvguButtonType.NORMAL})
+      : width = type == OvguButtonType.NORMAL ? null : type == OvguButtonType.ICON_WIDE ? 60 : 40, paddingOverwrite = type == OvguButtonType.ICON ? EdgeInsets.zero : null;
 
   Widget _getButton() {
     if (flat)
       return FlatButton(
         shape: OvguPixels.shape,
-        padding: padding,
+        padding: paddingOverwrite ?? padding,
         onPressed: callback,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
         child: child,
@@ -26,7 +34,7 @@ class OvguButton extends StatelessWidget {
         color: OvguColor.primary,
         shape: OvguPixels.shape,
         elevation: OvguPixels.elevation,
-        padding: padding,
+        padding: paddingOverwrite ?? padding,
         onPressed: callback,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
         child: child,
@@ -35,9 +43,9 @@ class OvguButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (useIconWidth)
+    if (width != null)
       return SizedBox(
-        width: 60,
+        width: width,
         child: _getButton(),
       );
     else

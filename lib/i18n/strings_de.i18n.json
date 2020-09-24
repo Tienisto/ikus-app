@@ -88,6 +88,10 @@
       "zschokke": "Kellercafé Zschokkestraße",
       "herrenkrug": "Herrenkrug"
     },
+    "lastUpdate": "Stand: $timestamp",
+    "today": "Heute, $date",
+    "tomorrow": "Morgen, $date",
+    "noData": "Keine Daten verfügbar...",
     "tags": {
       "vegan": "Vegan",
       "vegetarian": "Vegetarisch",
@@ -95,7 +99,9 @@
       "fish": "Fisch",
       "chicken": "Huhn",
       "beef": "Rind",
-      "pig": "Schwein"
+      "pig": "Schwein",
+      "soup": "Suppe",
+      "alcohol": "Alkohol"
     }
   },
   "post": {

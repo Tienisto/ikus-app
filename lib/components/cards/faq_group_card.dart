@@ -43,7 +43,7 @@ class _FAQGroupCardState extends State<FAQGroupCard> {
                   Text(widget.postGroup.channel.name, style: TextStyle(fontSize: 16)),
                   OvguButton(
                     flat: true,
-                    useIconWidth: true,
+                    type: OvguButtonType.ICON_WIDE,
                     child: Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.black),
                   )
                 ],
