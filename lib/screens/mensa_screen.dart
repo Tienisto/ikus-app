@@ -4,7 +4,7 @@ import 'package:ikus_app/components/cards/food_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/menu.dart';
+import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -23,13 +23,13 @@ class _MensaScreenState extends State<MensaScreen> {
   static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
-  List<MapEntry<MensaLocation, List<Menu>>> menu;
+  List<MensaInfo> menu;
   int index = 0;
 
   @override
   void initState() {
     super.initState();
-    menu = MensaService.instance.getMenu().entries.toList();
+    menu = MensaService.instance.getMenu();
     index = 0;
 
     Duration durationNotUpdated = DateTime.now().difference(MensaService.instance.getLastUpdate());
@@ -80,7 +80,7 @@ class _MensaScreenState extends State<MensaScreen> {
   @override
   Widget build(BuildContext context) {
 
-    MapEntry<MensaLocation, List<Menu>> curr = menu[index];
+    MensaInfo curr = menu[index];
 
     return Scaffold(
       appBar: AppBar(
@@ -93,7 +93,7 @@ class _MensaScreenState extends State<MensaScreen> {
         onRefresh: () async {
           await MensaService.instance.sync();
           setState(() {
-            menu = MensaService.instance.getMenu().entries.toList();
+            menu = MensaService.instance.getMenu();
             index = index % menu.length;
           });
         },
@@ -129,7 +129,7 @@ class _MensaScreenState extends State<MensaScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(curr.key.name, style: TextStyle(color: OvguColor.primary, fontSize: 30)),
+                          Text(curr.name.name, style: TextStyle(color: OvguColor.primary, fontSize: 30)),
                         ],
                       ),
                     ),
@@ -144,7 +144,7 @@ class _MensaScreenState extends State<MensaScreen> {
               ),
             ),
             SizedBox(height: 50),
-            ...curr.value.map((menu) => Padding(
+            ...curr.menus.map((menu) => Padding(
               padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +157,7 @@ class _MensaScreenState extends State<MensaScreen> {
                 ],
               ),
             )),
-            if (curr.value.isEmpty)
+            if (curr.menus.isEmpty)
               Padding(
                 padding: const EdgeInsets.only(left: 50),
                 child: Text(t.mensa.noData, style: TextStyle(fontSize: 20)),
