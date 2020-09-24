@@ -21,6 +21,7 @@ class _MensaScreenState extends State<MensaScreen> {
   static DateFormat _lastUpdateFormatter = DateFormat("dd.MM.yyyy, HH:mm");
   static DateFormat _lastUpdateFormatterTimeOnly = DateFormat("HH:mm");
   static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
+  DateFormat _dateWithWeekdayFormatter = DateFormat("EEEE, dd.MM.yyyy", LocaleSettings.currentLocale);
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   List<MensaInfo> menu;
@@ -58,13 +59,12 @@ class _MensaScreenState extends State<MensaScreen> {
   String formatDate(DateTime timestamp) {
     DateTime today = DateTime.now();
     DateTime tomorrow = DateTime.now().add(Duration(days: 1));
-    String dateString = _dateFormatter.format(timestamp);
     if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
-      return t.mensa.today(date: dateString);
+      return t.mensa.today(date: _dateFormatter.format(timestamp));
     } else if (tomorrow.day == timestamp.day && tomorrow.month == timestamp.month && tomorrow.year == timestamp.year) {
-      return t.mensa.tomorrow(date: dateString);
+      return t.mensa.tomorrow(date: _dateFormatter.format(timestamp));
     } else {
-      return dateString;
+      return _dateWithWeekdayFormatter.format(timestamp);
     }
   }
 
