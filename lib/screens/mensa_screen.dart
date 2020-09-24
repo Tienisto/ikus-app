@@ -32,7 +32,7 @@ class _MensaScreenState extends State<MensaScreen> {
     index = 0;
 
     Duration durationNotUpdated = DateTime.now().difference(MensaService.instance.getLastUpdate());
-    if (durationNotUpdated > Duration(minutes: 5)) {
+    if (durationNotUpdated > Duration(minutes: 15)) {
       // update
       nextFrame(() {
         _refreshIndicatorKey.currentState.show();
