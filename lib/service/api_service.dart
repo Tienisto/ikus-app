@@ -8,7 +8,17 @@ class ApiService {
     return '$URL/file/$fileName';
   }
 
-  static Future<Response> getCacheOrFetch(String route, String locale) {
-    return get('$URL/$route?locale=${locale.toUpperCase()}');
+  static String getHandbookUrl(String locale, [bool absolute = false]) {
+    if(absolute)
+      return '$URL/file/handbook/${locale.toLowerCase()}.pdf';
+    else
+      return 'file/handbook/${locale.toLowerCase()}.pdf';
+  }
+
+  static Future<Response> getCacheOrFetch(String route, [String locale]) {
+    if (locale == null)
+      return get('$URL/$route');
+    else
+      return get('$URL/$route?locale=${locale.toUpperCase()}');
   }
 }

@@ -1,7 +1,19 @@
 class PdfBookmark {
 
-  final String name;
   final int page;
+  final String name;
 
-  PdfBookmark(this.name, this.page);
+  PdfBookmark({this.page, this.name});
+
+  static PdfBookmark fromMap(Map<String, dynamic> map) {
+    return PdfBookmark(
+        page: map['page'],
+        name: map['name']
+    );
+  }
+
+  @override
+  String toString() {
+    return '$name ($page)';
+  }
 }

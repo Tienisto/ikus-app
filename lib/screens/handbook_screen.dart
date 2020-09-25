@@ -1,10 +1,12 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/popups/handbook_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/pdf_bookmark.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/handbook_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
@@ -19,14 +21,16 @@ class HandbookScreen extends StatefulWidget {
 
 class _HandbookScreenState extends State<HandbookScreen> {
 
-  final pdfController = PdfController(
-    document: HandbookService.instance.getPDF().then((value) {
-      if (value != null)
-        return PdfDocument.openData(value);
-      else
-        return PdfDocument.openAsset('assets/pdf/handbook.pdf');
-    }),
-  );
+  PdfController pdfController;
+
+  @override
+  void initState() {
+    super.initState();
+    Uint8List pdf = HandbookService.instance.getPDF();
+    pdfController = PdfController(
+        document: pdf.isEmpty ? PdfDocument.openAsset('assets/pdf/handbook.pdf') : PdfDocument.openData(pdf)
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +77,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
                 OvguButton(
                   type: OvguButtonType.ICON_WIDE,
                   callback: () async {
-                    await launch(HandbookService.URL);
+                    await launch(ApiService.getHandbookUrl(LocaleSettings.currentLocale, true));
                   },
                   child: Icon(Icons.cloud_download, color: Colors.white),
                 ),
