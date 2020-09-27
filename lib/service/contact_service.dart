@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/contact.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
-import 'package:ikus_app/utility/globals.dart';
 
 class ContactService implements SyncableService {
 
@@ -29,7 +32,10 @@ class ContactService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    await sleep(500);
+    Response response = await ApiService.getCacheOrFetch('contacts', LocaleSettings.currentLocale);
+    List<dynamic> list = jsonDecode(response.body);
+    _contacts = list.map((contact) => Contact.fromMap(contact)).toList();
+    _lastUpdate = DateTime.now();
   }
 
   @override

@@ -27,7 +27,7 @@ class LinksScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: OvguPixels.mainScreenPadding,
-                  child: Text(group.name, style: TextStyle(color: OvguColor.primary, fontSize: 20, fontWeight: FontWeight.bold)),
+                  child: Text(group.channel.name, style: TextStyle(color: OvguColor.primary, fontSize: 20, fontWeight: FontWeight.bold)),
                 ),
                 SizedBox(height: 5),
                 Column(

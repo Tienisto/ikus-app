@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/link.dart';
 import 'package:ikus_app/model/link_group.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
-import 'package:ikus_app/utility/globals.dart';
 
 class LinkService implements SyncableService {
 
@@ -16,22 +20,31 @@ class LinkService implements SyncableService {
     LinkService service = LinkService();
 
     service._links = [
-      LinkGroup("Studieren", [
-        Link("https://www.ovgu.de", "Die Uni-Homepage"),
-        Link("https://lsf.ovgu.de", "Studentenportal"),
-        Link("https://myovgu.ovgu.de", "MyOvgu Portal"),
-        Link("https://webmailer.ovgu.de", "E-Mail Postfach"),
-        Link("https://elearning.ovgu.de", "Das Moodle-Portal"),
-        Link("https://www.studentenwerk-magdeburg.de", "Studentenwerk"),
-        Link("http://www.servicecenter.ovgu.de/", "Campus Service Center")
-      ]),
-      LinkGroup("Leben", [
-        Link("https://bahn.de", "Deutsche Bahn"),
-        Link("https://www.unifilm.de/studentenkinos/MD_HiD", "Hörsaal im Dunkeln (HiD)")
-      ]),
-      LinkGroup("Arbeit", [
-        Link("https://ovgu.jobteaser.com", "JobTeaser")
-      ])
+      LinkGroup(
+        channel: Channel(name: "Studieren"),
+        links: [
+          Link(url: "https://www.ovgu.de", info: "Die Uni-Homepage"),
+          Link(url: "https://lsf.ovgu.de", info: "Studentenportal"),
+          Link(url: "https://myovgu.ovgu.de", info: "MyOvgu Portal"),
+          Link(url: "https://webmailer.ovgu.de", info: "E-Mail Postfach"),
+          Link(url: "https://elearning.ovgu.de", info: "Das Moodle-Portal"),
+          Link(url: "https://www.studentenwerk-magdeburg.de", info: "Studentenwerk"),
+          Link(url: "http://www.servicecenter.ovgu.de/", info: "Campus Service Center")
+        ]
+      ),
+      LinkGroup(
+        channel: Channel(name: "Leben"),
+        links: [
+          Link(url: "https://bahn.de", info: "Deutsche Bahn"),
+          Link(url: "https://www.unifilm.de/studentenkinos/MD_HiD", info: "Hörsaal im Dunkeln (HiD)")
+        ]
+      ),
+      LinkGroup(
+        channel: Channel(name: "Arbeit"),
+        links: [
+          Link(url: "https://ovgu.jobteaser.com", info: "JobTeaser")
+        ]
+      )
     ];
 
     service._lastUpdate = DateTime(2020, 8, 24, 13, 12);
@@ -43,7 +56,10 @@ class LinkService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    await sleep(500);
+    Response response = await ApiService.getCacheOrFetch('links', LocaleSettings.currentLocale);
+    List<dynamic> list = jsonDecode(response.body);
+    _links = list.map((group) => LinkGroup.fromMap(group)).toList();
+    _lastUpdate = DateTime.now();
   }
 
   @override
