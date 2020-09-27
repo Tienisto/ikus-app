@@ -6,7 +6,6 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/popups/handbook_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/pdf_bookmark.dart';
-import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/handbook_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
@@ -77,7 +76,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
                 OvguButton(
                   type: OvguButtonType.ICON_WIDE,
                   callback: () async {
-                    await launch(ApiService.getHandbookUrl(LocaleSettings.currentLocale, true));
+                    await launch(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale, true));
                   },
                   child: Icon(Icons.cloud_download, color: Colors.white),
                 ),

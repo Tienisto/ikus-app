@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/service/api_service.dart';
@@ -48,8 +48,16 @@ class EventService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    Response response = await ApiService.getCacheOrFetch('calendar', LocaleSettings.currentLocale);
-    Map<String, dynamic> map = jsonDecode(response.body);
+    ApiData data = await ApiService.getCacheOrFetchString(
+      route: 'calendar',
+      locale: LocaleSettings.currentLocale,
+      fallback: {
+        'channels': [],
+        'events': []
+      }
+    );
+
+    Map<String, dynamic> map = jsonDecode(data.data);
     List<dynamic> channelsRaw = map['channels'];
     List<Channel> channels = channelsRaw.map((c) => Channel.fromMap(c)).toList();
 
@@ -58,7 +66,9 @@ class EventService implements SyncableService {
 
     _channelHandler = ChannelHandler(channels, [...channels]);
     _events = events;
-    _lastUpdate = DateTime.now();
+
+    if (!data.cached)
+      _lastUpdate = DateTime.now();
   }
 
   @override

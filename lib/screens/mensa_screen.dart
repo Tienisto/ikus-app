@@ -46,6 +46,10 @@ class _MensaScreenState extends State<MensaScreen> {
   }
 
   void prevLocation() {
+
+    if (menu.isEmpty)
+      return;
+
     setState(() {
       index--;
       if (index == -1)
@@ -56,6 +60,10 @@ class _MensaScreenState extends State<MensaScreen> {
   }
 
   void nextLocation() {
+
+    if (menu.isEmpty)
+      return;
+
     setState(() {
       index = (index + 1) % menu.length;
       _headerAnimationKey.currentState.startAnimation();
@@ -87,7 +95,7 @@ class _MensaScreenState extends State<MensaScreen> {
   @override
   Widget build(BuildContext context) {
 
-    MensaInfo curr = menu[index];
+    MensaInfo curr = menu.isNotEmpty ? menu[index] : MensaInfo(name: Mensa.UNI_CAMPUS_DOWN, menus: []);
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +109,8 @@ class _MensaScreenState extends State<MensaScreen> {
           await MensaService.instance.sync();
           setState(() {
             menu = MensaService.instance.getMenu();
-            index = index % menu.length;
+            if (menu.isNotEmpty)
+              index = index % menu.length;
           });
         },
         child: MainListView(

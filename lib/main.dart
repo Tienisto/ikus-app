@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
@@ -24,14 +26,18 @@ class IkusAppState extends State<IkusApp> {
   @override
   void initState() {
     super.initState();
-
-    LocaleSettings.useDeviceLocale().whenComplete(() {
+    Globals.ikusAppState = this;
+    init().whenComplete(() {
       setState((){
         _initialized = true;
       });
     });
+  }
 
-    Globals.ikusAppState = this;
+  Future<void> init() async {
+    await LocaleSettings.useDeviceLocale();
+    await Hive.initFlutter();
+    print('initialized');
   }
 
   void setLocale(String locale) {

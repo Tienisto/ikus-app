@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/service/api_service.dart';
@@ -47,8 +47,16 @@ class PostService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    Response response = await ApiService.getCacheOrFetch('news', LocaleSettings.currentLocale);
-    Map<String, dynamic> map = jsonDecode(response.body);
+    ApiData data = await ApiService.getCacheOrFetchString(
+      route: 'news',
+      locale: LocaleSettings.currentLocale,
+      fallback: {
+        'channels': [],
+        'posts': []
+      }
+    );
+
+    Map<String, dynamic> map = jsonDecode(data.data);
     List<dynamic> channelsRaw = map['channels'];
     List<Channel> channels = channelsRaw.map((c) => Channel.fromMap(c)).toList();
 
@@ -57,7 +65,9 @@ class PostService implements SyncableService {
 
     _channelHandler = ChannelHandler(channels, [...channels]);
     _posts = posts;
-    _lastUpdate = DateTime.now();
+
+    if (!data.cached)
+      _lastUpdate = DateTime.now();
   }
 
   @override

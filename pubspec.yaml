@@ -23,7 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  fast_i18n: ^1.6.0 #
+  fast_i18n: ^1.6.1 # translations
+  hive: ^1.4.4 # persistent storage
+  hive_flutter: ^0.3.1 # helper for hive
   intl: ^0.16.1 # used by table_calendar and for formatting dates
   flutter_html: ^1.0.2 # show post content encoded in html
   flutter_map: ^0.10.1 # show event location in-app

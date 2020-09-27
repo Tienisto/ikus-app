@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/model/food.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/model/menu.dart';
@@ -68,10 +68,19 @@ class MensaService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    Response response = await ApiService.getCacheOrFetch('mensa', LocaleSettings.currentLocale);
-    List<dynamic> list = jsonDecode(response.body);
-    _menu = list.map((mensa) => MensaInfo.fromMap(mensa)).toList();
-    _lastUpdate = DateTime.now();
+    ApiData data = await ApiService.getCacheOrFetchString(
+      route: 'mensa',
+      locale: LocaleSettings.currentLocale,
+      fallback: []
+    );
+
+    List<dynamic> list = jsonDecode(data.data);
+    _menu = list.map((mensa) => MensaInfo.fromMap(mensa))
+        .where((mensa) => mensa.name != null)
+        .toList();
+
+    if (!data.cached)
+      _lastUpdate = DateTime.now();
   }
 
   @override

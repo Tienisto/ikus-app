@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/model/post_group.dart';
@@ -50,10 +50,17 @@ class FAQService implements SyncableService {
 
   @override
   Future<void> sync() async {
-    Response response = await ApiService.getCacheOrFetch('faq', LocaleSettings.currentLocale);
-    List<dynamic> groups = jsonDecode(response.body);
+    ApiData data = await ApiService.getCacheOrFetchString(
+      route: 'faq',
+      locale: LocaleSettings.currentLocale,
+      fallback: []
+    );
+
+    List<dynamic> groups = jsonDecode(data.data);
     _groups = groups.map((g) => PostGroup.fromMap(g)).toList().cast<PostGroup>();
-    _lastUpdate = DateTime.now();
+
+    if (!data.cached)
+      _lastUpdate = DateTime.now();
   }
 
   @override
