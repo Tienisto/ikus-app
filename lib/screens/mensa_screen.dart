@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ikus_app/animations/translate_animation.dart';
-import 'package:ikus_app/animations/translate_fade_animation.dart';
+import 'package:ikus_app/animations/smart_animation.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/food_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
@@ -26,8 +25,8 @@ class _MensaScreenState extends State<MensaScreen> {
   DateFormat _dateWithWeekdayFormatter = DateFormat("EEEE, dd.MM.yyyy", LocaleSettings.currentLocale);
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
-  final GlobalKey<TranslateFadeAnimationState> _headerAnimationKey = new GlobalKey<TranslateFadeAnimationState>();
-  final GlobalKey<TranslateAnimationState> _bodyAnimationKey = new GlobalKey<TranslateAnimationState>();
+  final GlobalKey<SmartAnimationState> _headerAnimationKey = new GlobalKey<SmartAnimationState>();
+  final GlobalKey<SmartAnimationState> _bodyAnimationKey = new GlobalKey<SmartAnimationState>();
   List<MensaInfo> menu;
   int index = 0;
 
@@ -136,11 +135,13 @@ class _MensaScreenState extends State<MensaScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: TranslateFadeAnimation(
+                        child: SmartAnimation(
                           key: _headerAnimationKey,
                           duration: Duration(milliseconds: 500),
-                          start: Offset(30,0),
-                          end: Offset(0,0),
+                          startPosition: Offset(30,0),
+                          endPosition: Offset(0,0),
+                          startOpacity: 0,
+                          endOpacity: 1,
                           curve: Curves.easeOutCubic,
                           child: Text(curr.name.name, style: TextStyle(color: OvguColor.primary, fontSize: 30))
                         ),
@@ -157,11 +158,12 @@ class _MensaScreenState extends State<MensaScreen> {
               ),
             ),
             SizedBox(height: 30),
-            TranslateAnimation(
+            SmartAnimation(
               key: _bodyAnimationKey,
+              startImmediately: false,
               duration: Duration(milliseconds: 500),
-              start: Offset(0,10),
-              end: Offset(0,0),
+              startPosition: Offset(0,10),
+              endPosition: Offset(0,0),
               curve: Curves.easeOut,
               child: Column(
                 children: [
