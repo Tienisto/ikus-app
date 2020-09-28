@@ -93,7 +93,7 @@ class SettingsService {
   }
 
   /// reinitialize with default values
-  Future<void> reset() async {
+  Future<void> clear() async {
     await _box.clear();
     init();
   }

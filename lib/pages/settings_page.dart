@@ -3,10 +3,13 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/popups/reset_popup.dart';
 import 'package:ikus_app/components/rotating.dart';
+import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
+import 'package:ikus_app/screens/dev_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -30,6 +33,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Map<String, bool> syncing = Map();
 
+  int devCounter = 0;
+
   @override
   void initState() {
     super.initState();
@@ -38,17 +43,6 @@ class _SettingsPageState extends State<SettingsPage> {
         _version = info.version+' ('+info.buildNumber+')';
       });
     });
-  }
-
-  Widget getSettingsItem({@required String left, @required Widget right}) {
-    return Row(
-      children: [
-        Expanded(
-            child: Text(left, style: TextStyle(fontSize: 16))
-        ),
-        right
-      ],
-    );
   }
 
   Widget getSyncItem(String name, DateTime lastUpdate, FutureCallback callback) {
@@ -99,37 +93,19 @@ class _SettingsPageState extends State<SettingsPage> {
             text: t.main.settings.title,
           ),
           SizedBox(height: 20),
-          getSettingsItem(
+          SettingsItem(
               left: t.main.settings.language,
-              right: Row(
-                children: [
-                  RaisedButton(
-                    color: LocaleSettings.currentLocale == 'en' ? OvguColor.primary : OvguColor.secondary,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.horizontal(left: Radius.circular(15))
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        Globals.ikusAppState.setLocale('en');
-                        SettingsService.instance.setLocale('en');
-                      });
-                    },
-                    child: Text('EN', style: TextStyle(color: LocaleSettings.currentLocale == 'en' ? Colors.white : Colors.black)),
-                  ),
-                  RaisedButton(
-                    color: LocaleSettings.currentLocale == 'de' ? OvguColor.primary : OvguColor.secondary,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.horizontal(right: Radius.circular(15))
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        Globals.ikusAppState.setLocale('de');
-                        SettingsService.instance.setLocale('de');
-                      });
-                    },
-                    child: Text('DE', style: TextStyle(color: LocaleSettings.currentLocale == 'de' ? Colors.white : Colors.black)),
-                  )
-                ],
+              right: OvguSwitch(
+                state: LocaleSettings.currentLocale == 'en' ? SwitchState.LEFT : SwitchState.RIGHT,
+                left: 'EN',
+                right: 'DE',
+                callback: (state) {
+                  setState(() {
+                    String locale = state == SwitchState.LEFT ? 'en' : 'de';
+                    Globals.ikusAppState.setLocale(locale);
+                    SettingsService.instance.setLocale(locale);
+                  });
+                },
               )
           ),
           SizedBox(height: 20),
@@ -153,7 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           SizedBox(height: 20),
-          getSettingsItem(
+          SettingsItem(
               left: t.main.settings.reset,
               right: OvguButton(
                 type: OvguButtonType.ICON_WIDE,
@@ -163,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 240,
                       body: ResetPopup(
                         callback: () async {
-                          await SettingsService.instance.reset();
+                          await SettingsService.instance.clear();
                           await ApiService.clearCache();
                           for (SyncableService service in SyncableService.services) {
                             await service.sync(useCacheOnly: true);
@@ -177,7 +153,7 @@ class _SettingsPageState extends State<SettingsPage> {
               )
           ),
           SizedBox(height: 20),
-          getSettingsItem(
+          SettingsItem(
               left: t.main.settings.licenses,
               right: OvguButton(
                 type: OvguButtonType.ICON_WIDE,
@@ -188,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
               )
           ),
           SizedBox(height: 20),
-          getSettingsItem(
+          SettingsItem(
               left: t.main.settings.about,
               right: OvguButton(
                 type: OvguButtonType.ICON_WIDE,
@@ -198,6 +174,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Icon(Icons.info, color: Colors.white),
               )
           ),
+          if (devCounter >= 7 || SettingsService.instance.getDevServer())
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: SettingsItem(
+                  left: t.main.settings.dev,
+                  right: OvguButton(
+                    type: OvguButtonType.ICON_WIDE,
+                    callback: () {
+                      pushScreen(context, () => DevScreen());
+                    },
+                    child: Icon(Icons.developer_mode, color: Colors.white),
+                  )
+              ),
+            ),
           SizedBox(height: 50),
           Opacity(
             opacity: 0.3,
@@ -206,7 +196,14 @@ class _SettingsPageState extends State<SettingsPage> {
           SizedBox(height: 10),
           Text(t.main.settings.appName, style: TextStyle(color: LOGO_COLOR, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 2)),
           SizedBox(height: 10),
-          Text('Version $_version', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
+          InkWell(
+            onTap: () {
+              setState(() {
+                devCounter++;
+              });
+            },
+            child: Text('Version $_version', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
+          ),
           SizedBox(height: 5),
           Text('© 2020 OVGU', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
           SizedBox(height: 100),

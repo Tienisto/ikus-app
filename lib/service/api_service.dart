@@ -4,10 +4,11 @@ import 'dart:typed_data';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/service/settings_service.dart';
 
 class ApiService {
 
-  static const String URL = 'https://ikus.tienisto.com/api/public';
+  static String get URL => SettingsService.instance.getDevServer() ? 'https://ikus.tienisto.com/api/public' : 'https://welcome-app.farafin.de/api/public';
   static final DateTime FALLBACK_TIME = DateTime(2020, 8, 1);
 
   static String getFileUrl(String fileName) {

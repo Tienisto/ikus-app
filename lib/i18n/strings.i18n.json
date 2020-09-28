@@ -43,8 +43,9 @@
         "contact": "Contacts"
       },
       "reset": "Reset Data",
-      "about": "About the app",
       "licenses": "Licenses",
+      "about": "About the app",
+      "dev": "Developer Settings",
       "appName": "Welcome at OVGU"
     }
   },
@@ -106,6 +107,9 @@
   },
   "post": {
     "title": "Post"
+  },
+  "dev": {
+    "title": "Developer Settings",
   },
   "components": {
     "mapWithMarker": {
