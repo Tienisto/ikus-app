@@ -4,7 +4,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/screens/main_screen.dart';
+import 'package:ikus_app/screens/welcome_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -27,6 +29,7 @@ class IkusAppState extends State<IkusApp> {
 
   final NavigatorObserver _navObserver = NavigatorObserverWithOrientation();
   bool _initialized = false;
+  Widget _home;
 
   @override
   void initState() {
@@ -36,6 +39,7 @@ class IkusAppState extends State<IkusApp> {
     // initialize from storage
     init().whenComplete(() {
       setState((){
+        _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen();
         _initialized = true;
       });
     });
@@ -65,7 +69,7 @@ class IkusAppState extends State<IkusApp> {
         accentColor: OvguColor.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainScreen(),
+      home: _home,
       navigatorObservers: [ _navObserver ],
     );
   }

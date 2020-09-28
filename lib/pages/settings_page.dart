@@ -10,6 +10,7 @@ import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
 import 'package:ikus_app/screens/dev_screen.dart';
+import 'package:ikus_app/screens/welcome_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -144,7 +145,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           for (SyncableService service in SyncableService.services) {
                             await service.sync(useCacheOnly: true);
                           }
-                          setState(() {});
+                          nextFrame(() {
+                            pushScreen(context, () => WelcomeScreen());
+                          });
                         },
                       )
                   );

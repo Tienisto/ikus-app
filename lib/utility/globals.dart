@@ -16,6 +16,13 @@ void pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation 
     Navigator.push(context, CupertinoPageRoute(builder: (context) => builder()));
 }
 
+void setScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) {
+  if (orientation != null)
+    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)), (_) => true);
+  else
+    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder()), (_) => true);
+}
+
 class Globals {
   static IkusAppState ikusAppState;
 }

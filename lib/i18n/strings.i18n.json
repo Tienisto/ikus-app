@@ -1,7 +1,4 @@
 {
-  "welcome": {
-    "title": "Welcome to the IKUS app!"
-  },
   "main": {
     "bottomBar": [
       "Home",
@@ -48,6 +45,14 @@
       "dev": "Developer Settings",
       "appName": "Welcome at OVGU"
     }
+  },
+  "welcome": {
+    "title": "Welcome at OVGU",
+    "intro": "You just enroll for Magdeburg University? With this app you get an overview of all important information about the life in the university.",
+    "selectLanguage": "Select language:",
+    "english": "English",
+    "german": "German",
+    "start": "Start App"
   },
   "about": {
     "title": "About the app",
@@ -109,7 +114,7 @@
     "title": "Post"
   },
   "dev": {
-    "title": "Developer Settings",
+    "title": "Developer Settings"
   },
   "components": {
     "mapWithMarker": {

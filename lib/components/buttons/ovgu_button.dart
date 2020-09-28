@@ -16,8 +16,9 @@ class OvguButton extends StatelessWidget {
   final EdgeInsets paddingOverwrite;
   final bool flat;
   final double width;
+  final Color color;
 
-  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false, OvguButtonType type = OvguButtonType.NORMAL})
+  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false, this.color = OvguColor.primary, OvguButtonType type = OvguButtonType.NORMAL})
       : width = type == OvguButtonType.NORMAL ? null : type == OvguButtonType.ICON_WIDE ? 60 : 40, paddingOverwrite = type == OvguButtonType.ICON ? EdgeInsets.zero : null;
 
   Widget _getButton() {
@@ -31,7 +32,7 @@ class OvguButton extends StatelessWidget {
       );
     else
       return RaisedButton(
-        color: OvguColor.primary,
+        color: color,
         shape: OvguPixels.shape,
         elevation: OvguPixels.elevation,
         padding: paddingOverwrite ?? padding,

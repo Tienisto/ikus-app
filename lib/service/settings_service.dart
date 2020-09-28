@@ -8,16 +8,18 @@ class SettingsService {
   static final SettingsService _instance = SettingsService();
   static SettingsService get instance => _instance;
 
-  String _locale;
+  bool _welcome;
+  String _locale; // nullable
   List<Feature> _favorites;
-  List<int> _newsChannels;
-  List<int> _calendarChannels;
+  List<int> _newsChannels; // nullable
+  List<int> _calendarChannels; // nullable
   Mensa _mensa;
   bool _devServer;
 
+  /// load all settings data from local storage
   void init() {
-    // it uses cache only anyways
     Box box = _box;
+    _welcome = box.get('welcome', defaultValue: true);
     _locale = box.get('locale');
     _favorites = box
         .get('favorite_features', defaultValue: [Feature.MAP, Feature.MENSA, Feature.LINKS].map((feature) => describeEnum(feature)))
@@ -31,11 +33,20 @@ class SettingsService {
     _calendarChannels = box
         .get('calendar_channels')
         ?.cast<int>();
-    _devServer = box.get('dev_server', defaultValue: false);
     _mensa = (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN;
+    _devServer = box.get('dev_server', defaultValue: false);
   }
 
   Box get _box  => Hive.box('settings');
+
+  void setWelcome(bool welcome) {
+    _box.put('welcome', welcome);
+    _welcome = welcome;
+  }
+
+  bool getWelcome() {
+    return _welcome;
+  }
 
   void setLocale(String locale) {
     _box.put('locale', locale);

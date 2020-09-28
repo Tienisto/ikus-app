@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ikus_app/components/bottom_navigator.dart';
+import 'package:ikus_app/components/status_bar_color.dart';
 import 'package:ikus_app/pages/calendar_page.dart';
 import 'package:ikus_app/pages/features_page.dart';
 import 'package:ikus_app/pages/home_page.dart';
@@ -41,8 +42,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+    return StatusBarColor(
+      brightness: Brightness.light,
       child: Scaffold(
         body: Builder(builder: (BuildContext context) {
           return PageView(
