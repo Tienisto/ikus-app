@@ -67,10 +67,11 @@ class MensaService implements SyncableService {
   String getName() => t.main.settings.syncItems.mensa;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'mensa',
       locale: LocaleSettings.currentLocale,
+      useCache: useCache,
       fallback: []
     );
 
@@ -78,9 +79,7 @@ class MensaService implements SyncableService {
     _menu = list.map((mensa) => MensaInfo.fromMap(mensa))
         .where((mensa) => mensa.name != null)
         .toList();
-
-    if (!data.cached)
-      _lastUpdate = DateTime.now();
+    _lastUpdate = data.timestamp;
   }
 
   @override

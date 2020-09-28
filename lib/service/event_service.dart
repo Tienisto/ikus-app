@@ -47,10 +47,11 @@ class EventService implements SyncableService {
   String getName() => t.main.settings.syncItems.calendar;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'calendar',
       locale: LocaleSettings.currentLocale,
+      useCache: useCache,
       fallback: {
         'channels': [],
         'events': []
@@ -66,9 +67,7 @@ class EventService implements SyncableService {
 
     _channelHandler = ChannelHandler(channels, [...channels]);
     _events = events;
-
-    if (!data.cached)
-      _lastUpdate = DateTime.now();
+    _lastUpdate = data.timestamp;
   }
 
   @override

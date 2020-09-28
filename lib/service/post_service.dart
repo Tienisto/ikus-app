@@ -46,10 +46,11 @@ class PostService implements SyncableService {
   String getName() => t.main.settings.syncItems.news;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'news',
       locale: LocaleSettings.currentLocale,
+      useCache: useCache,
       fallback: {
         'channels': [],
         'posts': []
@@ -65,9 +66,7 @@ class PostService implements SyncableService {
 
     _channelHandler = ChannelHandler(channels, [...channels]);
     _posts = posts;
-
-    if (!data.cached)
-      _lastUpdate = DateTime.now();
+    _lastUpdate = data.timestamp;
   }
 
   @override

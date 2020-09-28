@@ -6,13 +6,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
-import 'package:ikus_app/service/contact_service.dart';
-import 'package:ikus_app/service/event_service.dart';
-import 'package:ikus_app/service/faq_service.dart';
-import 'package:ikus_app/service/handbook_service.dart';
-import 'package:ikus_app/service/link_service.dart';
-import 'package:ikus_app/service/mensa_service.dart';
-import 'package:ikus_app/service/post_service.dart';
+import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -143,17 +137,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 10),
                   Text(t.main.settings.syncInfo),
                   SizedBox(height: 5),
-                  ...[
-                    PostService.instance,
-                    EventService.instance,
-                    MensaService.instance,
-                    LinkService.instance,
-                    HandbookService.instance,
-                    FAQService.instance,
-                    ContactService.instance
-                  ].map((service) {
+                  ...SyncableService.services.map((service) {
                     return getSyncItem(service.getName(), service.getLastUpdate(), () async {
-                      await service.sync();
+                      await service.sync(useCache: false);
                     });
                   })
                 ],

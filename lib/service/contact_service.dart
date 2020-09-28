@@ -31,18 +31,18 @@ class ContactService implements SyncableService {
   String getName() => t.main.settings.syncItems.contact;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
       locale: LocaleSettings.currentLocale,
+      useCache: useCache,
       fallback: []
     );
 
     List<dynamic> list = jsonDecode(data.data);
-    _contacts = list.map((contact) => Contact.fromMap(contact)).toList();
 
-    if (!data.cached)
-      _lastUpdate = DateTime.now();
+    _contacts = list.map((contact) => Contact.fromMap(contact)).toList();
+    _lastUpdate = data.timestamp;
   }
 
   @override

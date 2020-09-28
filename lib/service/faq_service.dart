@@ -49,18 +49,17 @@ class FAQService implements SyncableService {
   String getName() => t.main.settings.syncItems.faq;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'faq',
       locale: LocaleSettings.currentLocale,
+      useCache: useCache,
       fallback: []
     );
 
     List<dynamic> groups = jsonDecode(data.data);
     _groups = groups.map((g) => PostGroup.fromMap(g)).toList().cast<PostGroup>();
-
-    if (!data.cached)
-      _lastUpdate = DateTime.now();
+    _lastUpdate = data.timestamp;
   }
 
   @override

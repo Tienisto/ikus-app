@@ -35,16 +35,18 @@ class HandbookService implements SyncableService {
   String getName() => t.main.settings.syncItems.handbook;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
     ApiData pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,
+      useCache: useCache,
       fallback: Uint8List.fromList([])
     );
 
     ApiData bookmarksData = await ApiService.getCacheOrFetchString(
         route: 'handbook-bookmarks',
         locale: LocaleSettings.currentLocale,
+        useCache: useCache,
         fallback: []
     );
 
@@ -52,9 +54,7 @@ class HandbookService implements SyncableService {
 
     _bookmarks = list.map((bookmark) => PdfBookmark.fromMap(bookmark)).toList();
     _bytes = pdfData.data;
-
-    if (!pdfData.cached)
-      _lastUpdate = DateTime.now();
+    _lastUpdate = pdfData.timestamp;
   }
 
   @override
@@ -71,6 +71,9 @@ class HandbookService implements SyncableService {
   }
 
   String getHandbookUrl(String locale, bool absolute) {
-      return ApiService.getFileUrl('handbook/${locale.toLowerCase()}.pdf', absolute);
+    if (absolute)
+      return ApiService.getFileUrl('handbook/${locale.toLowerCase()}.pdf');
+    else
+      return 'handbook/${locale.toLowerCase()}.pdf';
   }
 }

@@ -55,18 +55,17 @@ class LinkService implements SyncableService {
   String getName() => t.main.settings.syncItems.links;
 
   @override
-  Future<void> sync() async {
+  Future<void> sync({bool useCache}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'links',
       locale: LocaleSettings.currentLocale,
+      useCache: useCache,
       fallback: []
     );
 
     List<dynamic> list = jsonDecode(data.data);
     _links = list.map((group) => LinkGroup.fromMap(group)).toList();
-
-    if (!data.cached)
-      _lastUpdate = DateTime.now();
+    _lastUpdate = data.timestamp;
   }
 
   @override

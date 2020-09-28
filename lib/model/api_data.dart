@@ -1,7 +1,7 @@
 class ApiData<T> {
 
-  final bool cached;
+  final DateTime timestamp;
   final T data;
 
-  ApiData({this.cached, this.data});
+  ApiData({this.timestamp, this.data});
 }
