@@ -18,11 +18,11 @@ class FAQService implements SyncableService {
   String getName() => t.main.settings.syncItems.faq;
 
   @override
-  Future<void> sync({bool useCache}) async {
+  Future<void> sync({bool useCacheOnly}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'faq',
       locale: LocaleSettings.currentLocale,
-      useCache: useCache,
+      useCache: useCacheOnly,
       fallback: []
     );
 

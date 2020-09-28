@@ -9,7 +9,7 @@ import 'package:ikus_app/service/post_service.dart';
 abstract class SyncableService {
 
   String getName();
-  Future<void> sync({bool useCache});
+  Future<void> sync({bool useCacheOnly});
   DateTime getLastUpdate();
 
   // list of all services extending SyncableService

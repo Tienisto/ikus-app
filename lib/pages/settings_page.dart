@@ -3,12 +3,15 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/reset_popup.dart';
 import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -139,7 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 5),
                   ...SyncableService.services.map((service) {
                     return getSyncItem(service.getName(), service.getLastUpdate(), () async {
-                      await service.sync(useCache: false);
+                      await service.sync(useCacheOnly: false);
                     });
                   })
                 ],
@@ -151,8 +154,20 @@ class _SettingsPageState extends State<SettingsPage> {
               left: t.main.settings.reset,
               right: OvguButton(
                 type: OvguButtonType.ICON_WIDE,
-                callback: () {
-
+                callback: () async {
+                  Popups.generic(
+                      context: context,
+                      height: 240,
+                      body: ResetPopup(
+                        callback: () async {
+                          await ApiService.clearCache();
+                          for (SyncableService service in SyncableService.services) {
+                            await service.sync(useCacheOnly: true);
+                          }
+                          setState(() {});
+                        },
+                      )
+                  );
                 },
                 child: Icon(Icons.restore, color: Colors.white),
               )

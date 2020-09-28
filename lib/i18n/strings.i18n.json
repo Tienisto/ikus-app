@@ -124,6 +124,12 @@
     "handbookPopup": {
       "title": "Structure",
       "page": "P. $page"
+    },
+    "resetPopup": {
+      "title": "Reset Data",
+      "content": "The app will be reset to the factory settings. Continue?",
+      "reset": "Reset",
+      "cancel": "Cancel"
     }
   }
 }

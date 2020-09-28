@@ -47,7 +47,7 @@ class IkusAppState extends State<IkusApp> {
     await Hive.openBox<Uint8List>('api_binary');
     List<SyncableService> services = SyncableService.services;
     for(SyncableService service in services) {
-      await service.sync(useCache: true);
+      await service.sync(useCacheOnly: true);
     }
     print('initialized');
   }

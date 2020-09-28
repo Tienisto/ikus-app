@@ -106,7 +106,7 @@ class _MensaScreenState extends State<MensaScreen> {
         key: _refreshIndicatorKey,
         color: OvguColor.primary,
         onRefresh: () async {
-          await MensaService.instance.sync(useCache: false);
+          await MensaService.instance.sync(useCacheOnly: false);
           setState(() {
             menu = MensaService.instance.getMenu();
             if (menu.isNotEmpty)

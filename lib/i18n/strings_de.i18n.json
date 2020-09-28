@@ -124,6 +124,12 @@
     "handbookPopup": {
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"
+    },
+    "resetPopup": {
+      "title": "Daten zurücksetzen",
+      "content": "Die App wird auf den Werkszustand gebracht. Fortsetzen?",
+      "reset": "Zurücksetzen",
+      "cancel": "Abbrechen"
     }
   }
 }

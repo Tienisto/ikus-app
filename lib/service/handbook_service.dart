@@ -19,18 +19,18 @@ class HandbookService implements SyncableService {
   String getName() => t.main.settings.syncItems.handbook;
 
   @override
-  Future<void> sync({bool useCache}) async {
+  Future<void> sync({bool useCacheOnly}) async {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
     ApiData pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,
-      useCache: useCache,
+      useCache: useCacheOnly,
       fallback: Uint8List.fromList([])
     );
 
     ApiData bookmarksData = await ApiService.getCacheOrFetchString(
         route: 'handbook-bookmarks',
         locale: LocaleSettings.currentLocale,
-        useCache: useCache,
+        useCache: useCacheOnly,
         fallback: []
     );
 

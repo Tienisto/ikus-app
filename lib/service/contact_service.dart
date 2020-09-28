@@ -18,11 +18,11 @@ class ContactService implements SyncableService {
   String getName() => t.main.settings.syncItems.contact;
 
   @override
-  Future<void> sync({bool useCache}) async {
+  Future<void> sync({bool useCacheOnly}) async {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
       locale: LocaleSettings.currentLocale,
-      useCache: useCache,
+      useCache: useCacheOnly,
       fallback: []
     );
 

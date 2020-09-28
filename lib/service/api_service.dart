@@ -75,4 +75,13 @@ class ApiService {
       }
     }
   }
+
+  static Future<void> clearCache() async {
+    Box jsonBox = Hive.box<String>('api_json');
+    Box binaryBox = Hive.box<Uint8List>('api_binary');
+    Box timestampBox = Hive.box<DateTime>('last_sync');
+    await jsonBox.clear();
+    await binaryBox.clear();
+    await timestampBox.clear();
+  }
 }
