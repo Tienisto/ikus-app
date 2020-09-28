@@ -13,7 +13,7 @@ class ChannelHandler<T> {
   }
 
   /// returns a new list which contains only items whose channel is subscribed
-  List<T> filter(List<T> items, IdSelector<T> selector) {
+  List<T> onlySubscribed(List<T> items, IdSelector<T> selector) {
     return items.where((item) => _subscribed.any((channel) => selector(item) == channel.id)).toList();
   }
 
@@ -25,11 +25,11 @@ class ChannelHandler<T> {
     return _subscribed;
   }
 
-  Future<void> unsubscribe(Channel channel) async {
+  void unsubscribe(Channel channel) async {
     _subscribed = _subscribed.where((subscribed) => subscribed.id != channel.id).toList();
   }
 
-  Future<void> subscribe(Channel channel) async {
+  void subscribe(Channel channel) async {
     if (_subscribed.any((subscribed) => subscribed.id == channel.id))
       return;
 

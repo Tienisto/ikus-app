@@ -5,13 +5,14 @@ import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/channel_handler.dart';
 
-class PostService implements SyncableService {
+class NewsService implements SyncableService {
 
-  static final PostService _instance = PostService();
-  static PostService get instance => _instance;
+  static final NewsService _instance = NewsService();
+  static NewsService get instance => _instance;
 
   DateTime _lastUpdate;
   ChannelHandler<Post> _channelHandler;
@@ -39,7 +40,10 @@ class PostService implements SyncableService {
     List<dynamic> postsRaw = map['posts'];
     List<Post> posts = postsRaw.map((p) => Post.fromMap(p)).toList();
 
-    _channelHandler = ChannelHandler(channels, [...channels]);
+    List<int> subscribedIds = SettingsService.instance.getNewsChannels();
+    List<Channel> subscribedChannels = subscribedIds != null ? channels.where((channel) => subscribedIds.any((id) => channel.id == id)).toList() : [...channels];
+
+    _channelHandler = ChannelHandler(channels, subscribedChannels);
     _posts = posts;
     _lastUpdate = data.timestamp;
   }
@@ -50,7 +54,7 @@ class PostService implements SyncableService {
   }
 
   List<Post> getPosts() {
-    return _channelHandler.filter(_posts, (item) => item.channel.id);
+    return _channelHandler.onlySubscribed(_posts, (item) => item.channel.id);
   }
 
   List<Channel> getChannels() {
@@ -61,11 +65,18 @@ class PostService implements SyncableService {
     return _channelHandler.getSubscribed();
   }
 
-  Future<void> subscribe(Channel channel) async {
-    await _channelHandler.subscribe(channel);
+  void subscribe(Channel channel) {
+    _channelHandler.subscribe(channel);
+    _updateChannelSettings();
   }
 
-  Future<void> unsubscribe(Channel channel) async {
-    await _channelHandler.unsubscribe(channel);
+  void unsubscribe(Channel channel) {
+    _channelHandler.unsubscribe(channel);
+    _updateChannelSettings();
+  }
+
+  void _updateChannelSettings() {
+    List<int> subscribed = _channelHandler.getSubscribed().map((channel) => channel.id).toList();
+    SettingsService.instance.setNewsChannels(subscribed);
   }
 }

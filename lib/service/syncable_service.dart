@@ -1,10 +1,10 @@
 import 'package:ikus_app/service/contact_service.dart';
-import 'package:ikus_app/service/event_service.dart';
+import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/service/faq_service.dart';
 import 'package:ikus_app/service/handbook_service.dart';
 import 'package:ikus_app/service/link_service.dart';
 import 'package:ikus_app/service/mensa_service.dart';
-import 'package:ikus_app/service/post_service.dart';
+import 'package:ikus_app/service/news_service.dart';
 
 abstract class SyncableService {
 
@@ -14,8 +14,8 @@ abstract class SyncableService {
 
   // list of all services extending SyncableService
   static List<SyncableService> get services => [
-    PostService.instance,
-    EventService.instance,
+    NewsService.instance,
+    CalendarService.instance,
     MensaService.instance,
     LinkService.instance,
     HandbookService.instance,

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/contact_screen.dart';
@@ -47,4 +48,10 @@ extension FeatureMembers on Feature {
     Feature.FAQ: FAQScreen(),
     Feature.CONTACT: ContactScreen()
   }[this];
+}
+
+extension FeatureParser on String {
+  Feature toFeature() {
+    return Feature.values.firstWhere((element) => describeEnum(element) == this, orElse: () => null);
+  }
 }

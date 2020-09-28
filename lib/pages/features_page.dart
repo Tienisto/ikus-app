@@ -5,7 +5,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
-import 'package:ikus_app/service/favorite_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -35,13 +35,13 @@ class _FeaturesPageState extends State<FeaturesPage> {
             padding: const EdgeInsets.only(left: 10, bottom: 5),
             child: FeatureButton(
               feature: feature,
-              favorite: FavoriteService.isFavorite(feature),
+              favorite: SettingsService.instance.isFavorite(feature),
               selectCallback: () {
                 pushScreen(context, () => feature.widget);
               },
               favoriteCallback: () {
                 setState(() {
-                  FavoriteService.toggleFavorite(feature);
+                  SettingsService.instance.toggleFavorite(feature);
                 });
               },
             ),

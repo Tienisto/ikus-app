@@ -16,9 +16,9 @@ import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/screens/post_screen.dart';
-import 'package:ikus_app/service/event_service.dart';
-import 'package:ikus_app/service/favorite_service.dart';
-import 'package:ikus_app/service/post_service.dart';
+import 'package:ikus_app/service/calendar_service.dart';
+import 'package:ikus_app/service/news_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
@@ -38,13 +38,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _events = EventService.instance.getNextEvents();
+    _events = CalendarService.instance.getNextEvents();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    List<Feature> favorites = FavoriteService.getFavorites();
+    List<Feature> favorites = SettingsService.instance.getFavorites();
     double width = min(MediaQuery.of(context).size.width, MainListView.MAX_WIDTH);
     double favoriteMargin = favorites.length <= 3 ? 20 : 10;
     double favoriteFontSize = favorites.length <= 3 ? 14 : 12;
@@ -146,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                   flat: true,
                   type: OvguButtonType.ICON_WIDE,
                   callback: () {
-                    List<Channel> channels = PostService.instance.getChannels();
-                    List<Channel> selected = PostService.instance.getSubscribed();
+                    List<Channel> channels = NewsService.instance.getChannels();
+                    List<Channel> selected = NewsService.instance.getSubscribed();
                     Popups.generic(
                         context: context,
                         height: ChannelPopup.calculateHeight(context),
@@ -156,9 +156,9 @@ class _HomePageState extends State<HomePage> {
                           selected: selected,
                           callback: (channel, selected) async {
                             if (selected)
-                              await PostService.instance.subscribe(channel);
+                              NewsService.instance.subscribe(channel);
                             else
-                              await PostService.instance.unsubscribe(channel);
+                              NewsService.instance.unsubscribe(channel);
                             setState(() {});
                           },
                         )
@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20),
-          ...PostService.instance.getPosts().map((post) => Padding(
+          ...NewsService.instance.getPosts().map((post) => Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: PostCard(post: post, callback: () {
               pushScreen(context, () => PostScreen(post));

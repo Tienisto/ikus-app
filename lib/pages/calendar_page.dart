@@ -10,7 +10,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/event_screen.dart';
-import 'package:ikus_app/service/event_service.dart';
+import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -30,7 +30,7 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
     _calendarController = CalendarController();
-    _events = EventService.instance.getEventsGroupByDate();
+    _events = CalendarService.instance.getEventsGroupByDate();
   }
 
   @override
@@ -61,8 +61,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   flat: true,
                   type: OvguButtonType.ICON_WIDE,
                   callback: () {
-                    List<Channel> channels = EventService.instance.getChannels();
-                    List<Channel> selected = EventService.instance.getSubscribed();
+                    List<Channel> channels = CalendarService.instance.getChannels();
+                    List<Channel> selected = CalendarService.instance.getSubscribed();
                     Popups.generic(
                         context: context,
                         height: ChannelPopup.calculateHeight(context),
@@ -71,11 +71,11 @@ class _CalendarPageState extends State<CalendarPage> {
                           selected: selected,
                           callback: (channel, selected) async {
                             if (selected)
-                              await EventService.instance.subscribe(channel);
+                              CalendarService.instance.subscribe(channel);
                             else
-                              await EventService.instance.unsubscribe(channel);
+                              CalendarService.instance.unsubscribe(channel);
                             setState(() {
-                              _events = EventService.instance.getEventsGroupByDate();
+                              _events = CalendarService.instance.getEventsGroupByDate();
 
                               // update again if user changed subscribed channels
                               // _events change -> updated visible events -> nextFrame -> setState

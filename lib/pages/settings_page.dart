@@ -8,6 +8,7 @@ import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
@@ -110,6 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () {
                       setState(() {
                         Globals.ikusAppState.setLocale('en');
+                        SettingsService.instance.setLocale('en');
                       });
                     },
                     child: Text('EN', style: TextStyle(color: LocaleSettings.currentLocale == 'en' ? Colors.white : Colors.black)),
@@ -122,6 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () {
                       setState(() {
                         Globals.ikusAppState.setLocale('de');
+                        SettingsService.instance.setLocale('de');
                       });
                     },
                     child: Text('DE', style: TextStyle(color: LocaleSettings.currentLocale == 'de' ? Colors.white : Colors.black)),
@@ -160,6 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 240,
                       body: ResetPopup(
                         callback: () async {
+                          await SettingsService.instance.reset();
                           await ApiService.clearCache();
                           for (SyncableService service in SyncableService.services) {
                             await service.sync(useCacheOnly: true);

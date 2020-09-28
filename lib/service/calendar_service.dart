@@ -5,13 +5,14 @@ import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/channel_handler.dart';
 
-class EventService implements SyncableService {
+class CalendarService implements SyncableService {
 
-  static final EventService _instance = EventService();
-  static EventService get instance => _instance;
+  static final CalendarService _instance = CalendarService();
+  static CalendarService get instance => _instance;
 
   DateTime _lastUpdate;
   ChannelHandler<Event> _channelHandler;
@@ -39,7 +40,10 @@ class EventService implements SyncableService {
     List<dynamic> eventsRaw = map['events'];
     List<Event> events = eventsRaw.map((e) => Event.fromMap(e)).toList();
 
-    _channelHandler = ChannelHandler(channels, [...channels]);
+    List<int> subscribedIds = SettingsService.instance.getCalendarChannels();
+    List<Channel> subscribedChannels = subscribedIds != null ? channels.where((channel) => subscribedIds.any((id) => channel.id == id)).toList() : [...channels];
+
+    _channelHandler = ChannelHandler(channels, subscribedChannels);
     _events = events;
     _lastUpdate = data.timestamp;
   }
@@ -50,7 +54,7 @@ class EventService implements SyncableService {
   }
 
   List<Event> getEvents() {
-    return _channelHandler.filter(_events, (item) => item.channel.id);
+    return _channelHandler.onlySubscribed(_events, (item) => item.channel.id);
   }
 
   Map<DateTime, List<Event>> getEventsGroupByDate() {
@@ -91,11 +95,18 @@ class EventService implements SyncableService {
     return _channelHandler.getSubscribed();
   }
 
-  Future<void> subscribe(Channel channel) async {
-    await _channelHandler.subscribe(channel);
+  void subscribe(Channel channel) {
+    _channelHandler.subscribe(channel);
+    _updateChannelSettings();
   }
 
-  Future<void> unsubscribe(Channel channel) async {
-    await _channelHandler.unsubscribe(channel);
+  void unsubscribe(Channel channel) {
+    _channelHandler.unsubscribe(channel);
+    _updateChannelSettings();
+  }
+
+  void _updateChannelSettings() {
+    List<int> subscribed = _channelHandler.getSubscribed().map((channel) => channel.id).toList();
+    SettingsService.instance.setCalendarChannels(subscribed);
   }
 }
