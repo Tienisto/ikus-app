@@ -17,7 +17,7 @@ class MensaInfo {
 
   static MensaInfo fromMap(Map<String, dynamic> map) {
     return MensaInfo(
-        name: (map['name'] as String).toMensaLocation(),
+        name: (map['name'] as String).toMensa(),
         menus: map['menus']
             .map((menu) => Menu.fromMap(menu))
             .toList()
@@ -41,7 +41,7 @@ extension MensaLocationMembers on Mensa {
 }
 
 extension MensaLocationParser on String {
-  Mensa toMensaLocation() {
+  Mensa toMensa() {
     return Mensa.values.firstWhere((element) => describeEnum(element) == this, orElse: () => null);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:ikus_app/model/feature.dart';
+import 'package:ikus_app/model/mensa_info.dart';
 
 class SettingsService {
 
@@ -11,25 +12,27 @@ class SettingsService {
   List<Feature> _favorites;
   List<int> _newsChannels;
   List<int> _calendarChannels;
+  Mensa _mensa;
   bool _devServer;
 
   void init() {
     // it uses cache only anyways
-    Box cacheBox = _box;
-    _locale = cacheBox.get('locale');
-    _favorites = cacheBox
+    Box box = _box;
+    _locale = box.get('locale');
+    _favorites = box
         .get('favorite_features', defaultValue: [Feature.MAP, Feature.MENSA, Feature.LINKS].map((feature) => describeEnum(feature)))
         .map((key) => (key as String).toFeature())
         .where((feature) => feature != null)
         .toList()
         .cast<Feature>();
-    _newsChannels = cacheBox
+    _newsChannels = box
         .get('news_channels')
         ?.cast<int>();
-    _calendarChannels = cacheBox
+    _calendarChannels = box
         .get('calendar_channels')
         ?.cast<int>();
-    _devServer = cacheBox.get('dev_server', defaultValue: false);
+    _devServer = box.get('dev_server', defaultValue: false);
+    _mensa = (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN;
   }
 
   Box get _box  => Hive.box('settings');
@@ -81,6 +84,15 @@ class SettingsService {
 
   List<int> getCalendarChannels() {
     return _calendarChannels;
+  }
+
+  void setMensa(Mensa mensa) {
+    _box.put('mensa', describeEnum(mensa));
+    _mensa = mensa;
+  }
+
+  Mensa getMensa() {
+    return _mensa;
   }
 
   void setDevServer(bool dev) {

@@ -7,6 +7,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/service/mensa_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
@@ -28,13 +29,19 @@ class _MensaScreenState extends State<MensaScreen> {
   final GlobalKey<SmartAnimationState> _headerAnimationKey = new GlobalKey<SmartAnimationState>();
   final GlobalKey<SmartAnimationState> _bodyAnimationKey = new GlobalKey<SmartAnimationState>();
   List<MensaInfo> menu;
-  int index = 0;
+  int index;
 
   @override
   void initState() {
     super.initState();
     menu = MensaService.instance.getMenu();
-    index = 0;
+
+    Mensa lastMensa = SettingsService.instance.getMensa();
+    index = menu.indexWhere((m) => m.name == lastMensa);
+    if (index == -1)
+      index = 0;
+    else
+      print('[storage] use last mensa: $lastMensa');
 
     Duration durationNotUpdated = DateTime.now().difference(MensaService.instance.getLastUpdate());
     if (durationNotUpdated > Duration(minutes: 15)) {
@@ -54,8 +61,7 @@ class _MensaScreenState extends State<MensaScreen> {
       index--;
       if (index == -1)
         index = menu.length - 1;
-      _headerAnimationKey.currentState.startAnimation();
-      _bodyAnimationKey.currentState.startAnimation();
+      postMensaChange();
     });
   }
 
@@ -66,9 +72,14 @@ class _MensaScreenState extends State<MensaScreen> {
 
     setState(() {
       index = (index + 1) % menu.length;
-      _headerAnimationKey.currentState.startAnimation();
-      _bodyAnimationKey.currentState.startAnimation();
+      postMensaChange();
     });
+  }
+
+  void postMensaChange() {
+    SettingsService.instance.setMensa(menu[index].name);
+    _headerAnimationKey.currentState.startAnimation();
+    _bodyAnimationKey.currentState.startAnimation();
   }
 
   String formatDate(DateTime timestamp) {
