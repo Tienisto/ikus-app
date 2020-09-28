@@ -58,7 +58,7 @@ class ApiService {
 
     Box cacheBox = Hive.box<Uint8List>('api_binary');
     Box timestampBox = Hive.box<DateTime>('last_sync');
-    String boxKey = 'api/$route';
+    String boxKey = 'api/file/$route';
 
     if (response != null && response.statusCode == 200) {
       DateTime timestamp = DateTime.now();
