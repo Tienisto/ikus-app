@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/animations/smart_animation.dart';
+import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/status_bar_color.dart';
@@ -16,27 +17,10 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
-
-  AnimationController _animationController;
-  Animation<double> _animationProgress;
+class _WelcomeScreenState extends State<WelcomeScreen> {
 
   bool _starting = false;
   double _progress = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 180),
-    )..addListener(() {
-      setState(() {
-        _progress = _animationProgress.value;
-      });
-    });
-  }
 
   Future<void> startApp() async {
     await sleep(1500);
@@ -45,12 +29,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       await services[i].sync(useCacheOnly: false);
       await sleep(200);
       setState(() {
-        _animationProgress = Tween<double>(
-            begin: i / services.length,
-            end: (i+1) / services.length
-        ).animate(_animationController);
-
-        _animationController.forward(from: 0);
         _progress = (i+1) / services.length;
       });
     }
@@ -75,13 +53,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SmartAnimation(
-                          duration: Duration(milliseconds: 3000),
+                          duration: Duration(milliseconds: 1000),
                           delay: Duration(milliseconds: 500),
-                          startPosition: Offset(0, -300),
-                          curve: Curves.elasticOut,
-                          child: Image.asset('assets/img/logo-512-alpha.png', width: 200)
+                          startPosition: Offset(0, -500),
+                          startOpacity: 0,
+                          curve: Curves.easeOutCubic,
+                          child: Image.asset('assets/img/logo-512-alpha.png', width: 150)
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         SmartAnimation(
                           duration: Duration(milliseconds: 500),
                           delay: Duration(milliseconds: 2000),
@@ -164,11 +143,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                             SizedBox(height: 20),
                             Text(t.welcome.loading, style: TextStyle(fontSize: 20)),
                             SizedBox(height: 20),
-                            LinearProgressIndicator(
-                              minHeight: 10,
-                              value: _progress,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                              backgroundColor: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: AnimatedProgressBar(
+                                progress: _progress,
+                                reactDuration: Duration(milliseconds: 180),
+                                backgroundColor: OvguColor.secondary,
+                              ),
                             ),
                             SizedBox(height: 20),
                           ],
