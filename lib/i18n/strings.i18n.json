@@ -118,6 +118,9 @@
     "title": "Developer Settings"
   },
   "components": {
+    "eventCard": {
+      "noPlace": "No location specified"
+    },
     "mapWithMarker": {
       "openMapApp": "Navigation"
     }
