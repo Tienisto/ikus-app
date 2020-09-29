@@ -7,7 +7,7 @@ import 'package:ikus_app/utility/callbacks.dart';
 Future<void> sleep(int millis) async => await Future.delayed(Duration(milliseconds: millis));
 void nextFrame(Callback callback) => WidgetsBinding.instance.addPostFrameCallback((_) => callback());
 
-// all routes should have the same animation (CupertinoPageRoute)
+/// push another screen on top of the current screen
 typedef Widget WidgetBuilder();
 void pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) {
   if (orientation != null)
@@ -16,11 +16,12 @@ void pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation 
     Navigator.push(context, CupertinoPageRoute(builder: (context) => builder()));
 }
 
+/// clears screen stack and set the screen
 void setScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) {
   if (orientation != null)
-    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)), (_) => true);
+    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)), (_) => false);
   else
-    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder()), (_) => true);
+    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder()), (_) => false);
 }
 
 class Globals {

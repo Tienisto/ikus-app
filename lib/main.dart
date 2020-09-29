@@ -44,7 +44,8 @@ class IkusAppState extends State<IkusApp> {
         _initialized = true;
       });
     }).whenComplete(() async {
-      await postInit();
+      if (!SettingsService.instance.getWelcome())
+        await postInit(); // post init (but not on the first start)
     });
   }
 

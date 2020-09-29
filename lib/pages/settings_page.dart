@@ -148,7 +148,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             await service.sync(useCacheOnly: true);
                           }
                           nextFrame(() {
-                            pushScreen(context, () => WelcomeScreen());
+                            setScreen(context, () => WelcomeScreen());
                           });
                         },
                       )
