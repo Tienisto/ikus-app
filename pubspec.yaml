@@ -29,7 +29,7 @@ dependencies:
   hive_flutter: ^0.3.1 # helper for hive
   intl: ^0.16.1 # used by table_calendar and for formatting dates
   fast_i18n: ^1.6.1 # translations
-  http: ^0.12.2 # download pdf
+  http: ^0.12.2 # make http requests
   jaguar_jwt: ^2.1.6 # jwt
   package_info: ^0.4.3 # show version and build of the app
   uuid: ^2.2.2 # create device id
