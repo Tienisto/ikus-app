@@ -14,6 +14,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/feature.dart';
+import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/screens/post_screen.dart';
 import 'package:ikus_app/service/calendar_service.dart';
@@ -31,14 +32,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   int _currentEventIndex = 0;
   List<Event> _events;
+  List<Post> _posts;
 
   @override
   void initState() {
     super.initState();
 
     _events = CalendarService.instance.getNextEvents();
+    _posts = NewsService.instance.getPosts();
   }
 
   @override
@@ -51,133 +55,145 @@ class _HomePageState extends State<HomePage> {
     double favoriteWidth = (width - favoriteMargin * (favorites.length - 1) - OvguPixels.mainScreenPadding.horizontal) / favorites.length;
 
     return SafeArea(
-      child: MainListView(
-        children: [
-          if (favorites.isNotEmpty)
-            SizedBox(height: 30),
-          if (favorites.isNotEmpty)
-            Padding(
-              padding: OvguPixels.mainScreenPadding,
-              child: SizedBox(
-                height: 70,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: favorites.map((Feature feature) {
-                    return FavoriteButton(
-                        icon: feature.icon,
-                        text: feature.name,
-                        width: favoriteWidth,
-                        fontSize: favoriteFontSize,
-                        callback: () {
-                          pushScreen(context, () => feature.widget);
-                        }
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          SizedBox(height: 30),
-          if (_events.isNotEmpty)
-            ...[
+      child: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        color: OvguColor.primary,
+        onRefresh: () async {
+          await NewsService.instance.sync(useCacheOnly: false);
+          await CalendarService.instance.sync(useCacheOnly: false);
+          setState(() {
+            _events = CalendarService.instance.getNextEvents();
+            _posts = NewsService.instance.getPosts();
+          });
+        },
+        child: MainListView(
+          children: [
+            if (favorites.isNotEmpty)
+              SizedBox(height: 30),
+            if (favorites.isNotEmpty)
               Padding(
                 padding: OvguPixels.mainScreenPadding,
-                child: IconText(
-                  size: OvguPixels.headerSize,
-                  distance: OvguPixels.headerDistance,
-                  icon: Icons.today,
-                  text: t.main.home.nextEvents,
-                ),
-              ),
-              SizedBox(height: 20),
-              CarouselSlider(
-                options: CarouselOptions(
-                    height: 100,
-                    viewportFraction: 1,
-                    autoPlay: true,
-                    onPageChanged: (index, _) {
-                      setState(() {
-                        _currentEventIndex = index;
-                      });
-                    }
-                ),
-                items: _events.map((event) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: EventCard(event: event, callback: () {
-                          pushScreen(context, () => EventScreen(event));
-                        }),
+                child: SizedBox(
+                  height: 70,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: favorites.map((Feature feature) {
+                      return FavoriteButton(
+                          icon: feature.icon,
+                          text: feature.name,
+                          width: favoriteWidth,
+                          fontSize: favoriteFontSize,
+                          callback: () {
+                            pushScreen(context, () => feature.widget);
+                          }
                       );
-                    },
-                  );
-                }).toList(),
+                    }).toList(),
+                  ),
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _events.mapIndexed((event, index) {
-                  return Container(
-                    width: 8.0,
-                    height: 8.0,
-                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _currentEventIndex == index
-                            ? Color.fromRGBO(0, 0, 0, 0.9)
-                            : Color.fromRGBO(0, 0, 0, 0.4)),
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 10),
-            ],
-          Padding(
-            padding: OvguPixels.mainScreenPadding,
-            child: Row(
-              children: [
-                Expanded(
+            SizedBox(height: 30),
+            if (_events.isNotEmpty)
+              ...[
+                Padding(
+                  padding: OvguPixels.mainScreenPadding,
                   child: IconText(
                     size: OvguPixels.headerSize,
                     distance: OvguPixels.headerDistance,
-                    icon: Icons.announcement,
-                    text: t.main.home.news,
+                    icon: Icons.today,
+                    text: t.main.home.nextEvents,
                   ),
                 ),
-                OvguButton(
-                  flat: true,
-                  type: OvguButtonType.ICON_WIDE,
-                  callback: () {
-                    List<Channel> channels = NewsService.instance.getChannels();
-                    List<Channel> selected = NewsService.instance.getSubscribed();
-                    Popups.generic(
-                        context: context,
-                        height: ChannelPopup.calculateHeight(context),
-                        body: ChannelPopup(
-                          available: channels,
-                          selected: selected,
-                          callback: (channel, selected) async {
-                            if (selected)
-                              NewsService.instance.subscribe(channel);
-                            else
-                              NewsService.instance.unsubscribe(channel);
-                            setState(() {});
-                          },
-                        )
+                SizedBox(height: 20),
+                CarouselSlider(
+                  options: CarouselOptions(
+                      height: 100,
+                      viewportFraction: 1,
+                      autoPlay: true,
+                      onPageChanged: (index, _) {
+                        setState(() {
+                          _currentEventIndex = index;
+                        });
+                      }
+                  ),
+                  items: _events.map((event) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: EventCard(event: event, callback: () {
+                            pushScreen(context, () => EventScreen(event));
+                          }),
+                        );
+                      },
                     );
-                  },
-                  child: Icon(Icons.filter_list),
-                )
+                  }).toList(),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _events.mapIndexed((event, index) {
+                    return Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentEventIndex == index
+                              ? Color.fromRGBO(0, 0, 0, 0.9)
+                              : Color.fromRGBO(0, 0, 0, 0.4)),
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 10),
               ],
+            Padding(
+              padding: OvguPixels.mainScreenPadding,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: IconText(
+                      size: OvguPixels.headerSize,
+                      distance: OvguPixels.headerDistance,
+                      icon: Icons.announcement,
+                      text: t.main.home.news,
+                    ),
+                  ),
+                  OvguButton(
+                    flat: true,
+                    type: OvguButtonType.ICON_WIDE,
+                    callback: () {
+                      List<Channel> channels = NewsService.instance.getChannels();
+                      List<Channel> selected = NewsService.instance.getSubscribed();
+                      Popups.generic(
+                          context: context,
+                          height: ChannelPopup.calculateHeight(context),
+                          body: ChannelPopup(
+                            available: channels,
+                            selected: selected,
+                            callback: (channel, selected) async {
+                              if (selected)
+                                NewsService.instance.subscribe(channel);
+                              else
+                                NewsService.instance.unsubscribe(channel);
+                              setState(() {});
+                            },
+                          )
+                      );
+                    },
+                    child: Icon(Icons.filter_list),
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-          ...NewsService.instance.getPosts().map((post) => Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-            child: PostCard(post: post, callback: () {
-              pushScreen(context, () => PostScreen(post));
-            }),
-          )),
-          SizedBox(height: 50),
-        ],
+            SizedBox(height: 20),
+            ..._posts.map((post) => Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+              child: PostCard(post: post, callback: () {
+                pushScreen(context, () => PostScreen(post));
+              }),
+            )),
+            SizedBox(height: 50),
+          ],
+        ),
       ),
     );
   }
