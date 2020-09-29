@@ -117,6 +117,9 @@
   "dev": {
     "title": "Entwickler-Einstellungen"
   },
+  "changeLanguage": {
+    "title": "Deutsche Daten laden..."
+  },
   "components": {
     "eventCard": {
       "noPlace": "Kein Ort angegeben"

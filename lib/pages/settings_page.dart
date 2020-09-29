@@ -9,6 +9,7 @@ import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
+import 'package:ikus_app/screens/change_language_screen.dart';
 import 'package:ikus_app/screens/dev_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
@@ -101,11 +102,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 left: 'EN',
                 right: 'DE',
                 callback: (state) {
-                  setState(() {
-                    String locale = state == SwitchState.LEFT ? 'en' : 'de';
-                    Globals.ikusAppState.setLocale(locale);
-                    SettingsService.instance.setLocale(locale);
-                  });
+                  String locale = state == SwitchState.LEFT ? 'en' : 'de';
+                  if (locale == LocaleSettings.currentLocale)
+                    return;
+                  Globals.ikusAppState.setLocale(locale);
+                  SettingsService.instance.setLocale(locale);
+                  setScreen(context, () => ChangeLanguageScreen());
                 },
               )
           ),

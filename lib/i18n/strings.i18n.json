@@ -117,6 +117,9 @@
   "dev": {
     "title": "Developer Settings"
   },
+  "changeLanguage": {
+    "title": "Loading English Data..."
+  },
   "components": {
     "eventCard": {
       "noPlace": "No location specified"
