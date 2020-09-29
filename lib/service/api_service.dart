@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/service/jwt_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 
 class ApiService {
@@ -84,5 +86,22 @@ class ApiService {
     await jsonBox.clear();
     await binaryBox.clear();
     await timestampBox.clear();
+  }
+
+  static Future<void> appStart(BuildContext context) async {
+    TargetPlatform platform = Theme.of(context).platform;
+    String deviceId = Hive.box('device_id').get('device_id');
+
+    Map<String, dynamic> body = {
+      'token': JwtService.generateToken(),
+      'deviceId': deviceId,
+      'platform': platform == TargetPlatform.iOS ? 'IOS' : 'ANDROID',
+    };
+
+    await post(
+      '$URL/start',
+      headers: {'content-type': 'application/json'},
+      body: json.encode(body)
+    );
   }
 }

@@ -23,26 +23,32 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  fast_i18n: ^1.6.1 # translations
+
+  # core
   hive: ^1.4.4 # persistent storage
   hive_flutter: ^0.3.1 # helper for hive
   intl: ^0.16.1 # used by table_calendar and for formatting dates
+  fast_i18n: ^1.6.1 # translations
+  http: ^0.12.2 # download pdf
+  jaguar_jwt: ^2.1.6 # jwt
+  package_info: ^0.4.3 # show version and build of the app
+  uuid: ^2.2.2 # create device id
+
+  # native utilities
+  add_2_calendar: ^1.4.0 # add calendar reminders
+  map_launcher: ^0.12.0 # launch external map app
+  url_launcher: ^5.5.0 # open links
+
+  # components
   flutter_html: ^1.0.2 # show post content encoded in html
   flutter_map: ^0.10.1 # show event location in-app
-  map_launcher: ^0.12.0 # launch external map app
-  add_2_calendar: ^1.4.0 # add calendar reminders
-  url_launcher: ^5.5.0 # open links
+  carousel_slider: ^2.2.1 # slider (e.g. home page)
+  table_calendar: ^2.2.3 # calendar
   native_pdf_view: ^3.8.0 # render handbook as pdf
-  http: ^0.12.2 # download pdf
-  package_info: ^0.4.3 # show version and build of the app
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-
-  # components
-  carousel_slider: ^2.2.1
-  table_calendar: ^2.2.3
 
 dev_dependencies:
   build_runner: any
