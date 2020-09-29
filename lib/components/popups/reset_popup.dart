@@ -16,13 +16,9 @@ class ResetPopup extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconText(
-            icon: Icons.restore,
-            text: t.popups.resetPopup.title,
-            size: 24,
-            color: OvguColor.primary
+          Center(
+            child: Text(t.popups.resetPopup.title, style: TextStyle(color: OvguColor.primary, fontSize: 24, fontWeight: FontWeight.bold)),
           ),
           Expanded(
             child: Column(

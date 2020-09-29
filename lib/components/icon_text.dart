@@ -8,13 +8,15 @@ class IconText extends StatelessWidget {
   final String text;
   final Color color;
   final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisAlignment mainAxisAlignment;
 
-  const IconText({@required this.size, @required this.icon, @required this.text, this.distance = 5, this.color, this.crossAxisAlignment = CrossAxisAlignment.center});
+  const IconText({@required this.size, @required this.icon, @required this.text, this.distance = 5, this.color, this.crossAxisAlignment = CrossAxisAlignment.center, this.mainAxisAlignment = MainAxisAlignment.start});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: crossAxisAlignment,
+      mainAxisAlignment: mainAxisAlignment,
       children: [
         Padding(
           padding: EdgeInsets.only(top: crossAxisAlignment == CrossAxisAlignment.start ? 2 : 0),
