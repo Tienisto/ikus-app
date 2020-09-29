@@ -11,6 +11,7 @@ abstract class SyncableService {
   String getName();
   Future<void> sync({bool useCacheOnly});
   DateTime getLastUpdate();
+  Duration getMaxAge();
 
   // list of all services extending SyncableService
   static List<SyncableService> get services => [

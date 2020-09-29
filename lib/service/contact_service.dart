@@ -37,6 +37,9 @@ class ContactService implements SyncableService {
     return _lastUpdate;
   }
 
+  @override
+  Duration getMaxAge() => Duration(days: 1);
+
   List<Contact> getContacts() {
     return _contacts;
   }

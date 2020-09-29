@@ -53,6 +53,9 @@ class NewsService implements SyncableService {
     return _lastUpdate;
   }
 
+  @override
+  Duration getMaxAge() => Duration(hours: 1);
+
   List<Post> getPosts() {
     return _channelHandler.onlySubscribed(_posts, (item) => item.channel.id);
   }

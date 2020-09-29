@@ -9,7 +9,7 @@ Future<void> init() async {
   await _initHive();
   await _initSettings();
   await _initApiCache();
-  print('initialized');
+  print('init finished');
 }
 
 /// initializes hive boxes

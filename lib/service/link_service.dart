@@ -36,6 +36,9 @@ class LinkService implements SyncableService {
     return _lastUpdate;
   }
 
+  @override
+  Duration getMaxAge() => Duration(days: 1);
+
   List<LinkGroup> getLinks() {
     return _links;
   }

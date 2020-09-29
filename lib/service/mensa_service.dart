@@ -38,6 +38,9 @@ class MensaService implements SyncableService {
     return _lastUpdate;
   }
 
+  @override
+  Duration getMaxAge() => Duration(hours: 1);
+
   List<MensaInfo> getMenu() {
     return _menu;
   }

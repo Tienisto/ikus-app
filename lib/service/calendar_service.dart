@@ -53,6 +53,9 @@ class CalendarService implements SyncableService {
     return _lastUpdate;
   }
 
+  @override
+  Duration getMaxAge() => Duration(hours: 1);
+
   List<Event> getEvents() {
     return _channelHandler.onlySubscribed(_events, (item) => item.channel.id);
   }
