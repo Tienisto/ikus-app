@@ -132,7 +132,7 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
     } else if (_animationFade != null) {
       // animate opacity only
       return AnimatedBuilder(
-          animation: _animationTranslate,
+          animation: _animationFade,
           builder: (BuildContext context, Widget child) {
             return Opacity(
                 opacity: _animationFade.value,

@@ -52,7 +52,8 @@
     "selectLanguage": "Sprache auswählen:",
     "english": "Englisch",
     "german": "Deutsch",
-    "start": "App Starten"
+    "start": "App Starten",
+    "loading": "Lade Daten..."
   },
   "about": {
     "title": "Über die App",

@@ -52,7 +52,8 @@
     "selectLanguage": "Select language:",
     "english": "English",
     "german": "German",
-    "start": "Start App"
+    "start": "Start App",
+    "loading": "Loading Data..."
   },
   "about": {
     "title": "About the app",
