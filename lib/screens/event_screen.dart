@@ -108,6 +108,8 @@ class EventScreen extends StatelessWidget {
                           size: valueSize,
                           icon: Icons.place,
                           text: event.place,
+                          multiLine: true,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                         ),
                       ),
                     if (event.coords != null)

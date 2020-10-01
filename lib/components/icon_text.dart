@@ -9,9 +9,9 @@ class IconText extends StatelessWidget {
   final Color color;
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisAlignment mainAxisAlignment;
-  final TextOverflow textOverflow;
+  final bool multiLine;
 
-  const IconText({@required this.size, @required this.icon, @required this.text, this.distance = 5, this.color, this.crossAxisAlignment = CrossAxisAlignment.center, this.mainAxisAlignment = MainAxisAlignment.start, this.textOverflow});
+  const IconText({@required this.size, @required this.icon, @required this.text, this.distance = 5, this.color, this.crossAxisAlignment = CrossAxisAlignment.center, this.mainAxisAlignment = MainAxisAlignment.start, this.multiLine = false});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class IconText extends StatelessWidget {
         ),
         SizedBox(width: distance),
         Expanded(
-            child: Text(text, style: TextStyle(color: color, fontSize: size), overflow: textOverflow)
+            child: Text(text, style: TextStyle(color: color, fontSize: size), overflow: multiLine ? null : TextOverflow.fade, softWrap: multiLine ? null : false)
         )
       ],
     );
