@@ -26,7 +26,7 @@ class EventCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(event.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(event.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis),
               IconText(
                 size: 16,
                 icon: Icons.access_time,
@@ -36,6 +36,7 @@ class EventCard extends StatelessWidget {
                 size: 16,
                 icon: Icons.place,
                 text: event.place ?? t.components.eventCard.noPlace,
+                textOverflow: TextOverflow.ellipsis,
               )
             ],
           ),
