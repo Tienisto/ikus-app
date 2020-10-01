@@ -40,7 +40,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _updateData();
+  }
 
+  void _updateData() {
     _events = CalendarService.instance.getNextEvents();
     _posts = NewsService.instance.getPosts();
   }
@@ -174,7 +177,9 @@ class _HomePageState extends State<HomePage> {
                                 NewsService.instance.subscribe(channel);
                               else
                                 NewsService.instance.unsubscribe(channel);
-                              setState(() {});
+                              setState(() {
+                                _updateData();
+                              });
                             },
                           )
                       );
