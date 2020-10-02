@@ -45,7 +45,15 @@ class _FeaturesPageState extends State<FeaturesPage> {
                 });
               },
             ),
-          ))
+          )),
+          SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Center(
+                child: Text(t.main.features.info, style: TextStyle(color: OvguColor.secondaryDarken2, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
+            ),
+          ),
+          SizedBox(height: 50),
         ],
       ),
     );

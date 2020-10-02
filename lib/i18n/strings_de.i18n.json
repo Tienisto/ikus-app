@@ -45,7 +45,8 @@
       "events": "Events"
     },
     "features": {
-      "title": "Funktionen"
+      "title": "Funktionen",
+      "info": "Du verwendest eine Funktion sehr häufig?\nMit dem Herz gelangen Sie auf dem Startbildschirm."
     },
     "settings": {
       "title": "Einstellungen",

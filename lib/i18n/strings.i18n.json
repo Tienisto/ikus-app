@@ -45,7 +45,8 @@
       "events": "Events"
     },
     "features": {
-      "title": "Features"
+      "title": "Features",
+      "info": "You often use a feature?\nYou can tap on the heart to add it to the start screen."
     },
     "settings": {
       "title": "Settings",
