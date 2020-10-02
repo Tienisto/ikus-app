@@ -37,7 +37,7 @@
       "Settings"
     ],
     "home": {
-      "nextEvents": "Your Next Events",
+      "nextEvents": "Next Events",
       "news": "News"
     },
     "calendar": {
@@ -136,7 +136,7 @@
   },
   "myEvents": {
     "title": "My Events",
-    "info": "You can select events which are important to you. These events appear here and under \"Your next events\" in the home screen."
+    "info": "You can select events which are important to you. These events appear here and under \"Next Events\" in the home screen."
   },
   "post": {
     "title": "Post"
@@ -164,10 +164,11 @@
       "normal": "Following events are on this day:",
       "empty": "There are no events on this day."
     },
-    "eventSelectedPopup": {
+    "eventAddedPopup": {
       "title": "Event added",
       "content": "\"$event\" has been added to your personal list.",
       "undo": "Undo",
+      "list": "Show List",
       "ok": "Okay"
     },
     "handbookPopup": {

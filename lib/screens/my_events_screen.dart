@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/event_list.dart';
+import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
@@ -39,14 +40,17 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
       body: MainListView(
         padding: OvguPixels.mainScreenPadding,
         children: [
-          SizedBox(height: 20),
-          OvguCard(
-            child: Padding(
-              padding: EdgeInsets.all(10),
-                child: Text(t.myEvents.info, style: TextStyle(fontSize: 16))
-            )
-          ),
-          SizedBox(height: 20),
+          if (_events.entries.isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: OvguCard(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                    child: Text(t.myEvents.info, style: TextStyle(fontSize: 16))
+                )
+              ),
+            ),
+          SizedBox(height: 30),
           EventList(
             events: _events,
             highlighted: [],
@@ -57,7 +61,12 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
               });
             },
           ),
-          SizedBox(height: 50)
+          if (_events.entries.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: InfoText(t.myEvents.info),
+            ),
+          SizedBox(height: 50),
         ],
       ),
     );

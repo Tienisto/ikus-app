@@ -6,10 +6,12 @@ import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/map_with_marker.dart';
-import 'package:ikus_app/components/popups/event_selected_popup.dart';
+import 'package:ikus_app/components/popups/event_added_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
+import 'package:ikus_app/screens/my_events_screen.dart';
 import 'package:ikus_app/service/calendar_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -65,13 +67,17 @@ class _EventScreenState extends State<EventScreen> {
                         Popups.generic(
                             context: context,
                             height: 220,
-                            body: EventSelectedPopup(
+                            body: EventAddedPopup(
                               event: widget.event,
                               onOk: () {},
                               onUndo: () {
                                 setState(() {
                                   CalendarService.instance.toggleMyEvent(widget.event);
                                 });
+                              },
+                              onShowList: () async {
+                                await pushScreen(context, () => MyEventsScreen());
+                                setState(() {}); // in case user has removed it from the list
                               },
                             )
                         );

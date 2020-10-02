@@ -5,13 +5,14 @@ import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class EventSelectedPopup extends StatelessWidget {
+class EventAddedPopup extends StatelessWidget {
 
   final Event event;
   final Callback onOk;
   final Callback onUndo;
+  final Callback onShowList;
 
-  const EventSelectedPopup({@required this.event, @required this.onOk, @required this.onUndo});
+  const EventAddedPopup({@required this.event, @required this.onOk, @required this.onUndo, @required this.onShowList});
 
   @override
   Widget build(BuildContext context) {
@@ -20,30 +21,38 @@ class EventSelectedPopup extends StatelessWidget {
       child: Column(
         children: [
           Center(
-            child: Text(t.popups.eventSelectedPopup.title, style: TextStyle(color: OvguColor.primary, fontSize: 24, fontWeight: FontWeight.bold)),
+            child: Text(t.popups.eventAddedPopup.title, style: TextStyle(color: OvguColor.primary, fontSize: 24, fontWeight: FontWeight.bold)),
           ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Center(child: Text(t.popups.eventSelectedPopup.content(event: event.name), style: TextStyle(fontSize: 16), textAlign: TextAlign.center)),
+                Center(child: Text(t.popups.eventAddedPopup.content(event: event.name), style: TextStyle(fontSize: 16), textAlign: TextAlign.center)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     OvguButton(
                       flat: true,
                       callback: () {
-                        onUndo();
                         Navigator.pop(context);
+                        onUndo();
                       },
-                      child: Text(t.popups.eventSelectedPopup.undo),
+                      child: Text(t.popups.eventAddedPopup.undo),
+                    ),
+                    OvguButton(
+                      flat: true,
+                      callback: () {
+                        Navigator.pop(context);
+                        onShowList();
+                      },
+                      child: Text(t.popups.eventAddedPopup.list),
                     ),
                     OvguButton(
                       callback: () {
-                        onOk();
                         Navigator.pop(context);
+                        onOk();
                       },
-                      child: Text(t.popups.eventSelectedPopup.ok, style: TextStyle(color: Colors.white)),
+                      child: Text(t.popups.eventAddedPopup.ok, style: TextStyle(color: Colors.white)),
                     )
                   ],
                 )

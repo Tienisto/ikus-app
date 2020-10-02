@@ -37,7 +37,7 @@
       "Einst."
     ],
     "home": {
-      "nextEvents": "Deine nächsten Events",
+      "nextEvents": "Nächsten Events",
       "news": "Neuigkeiten"
     },
     "calendar": {
@@ -136,7 +136,7 @@
   },
   "myEvents": {
     "title": "Meine Events",
-    "info": "Du kannst Events mit einem Herzchen versehen. Diese Events erscheinen hier und unter \"Deine nächsten Events\" auf der Startseite."
+    "info": "Du kannst Events mit einem Herzchen versehen. Diese Events erscheinen hier und unter \"Nächsten Events\" auf der Startseite."
   },
   "post": {
     "title": "Beitrag"
@@ -164,10 +164,11 @@
       "normal": "Folgende Events gibt es an diesem Tag:",
       "empty": "Es gibt keine Events an diesem Tag."
     },
-    "eventSelectedPopup": {
+    "eventAddedPopup": {
       "title": "Event markiert",
       "content": "\"$event\" wurde zu deine persönliche Liste hinzugefügt.",
       "undo": "Rückgängig",
+      "list": "Zur Liste",
       "ok": "Okay"
     },
     "handbookPopup": {

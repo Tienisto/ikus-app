@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/feature_button.dart';
 import 'package:ikus_app/components/icon_text.dart';
+import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
@@ -49,9 +50,7 @@ class _FeaturesPageState extends State<FeaturesPage> {
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Center(
-                child: Text(t.main.features.info, style: TextStyle(color: OvguColor.secondaryDarken2, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
-            ),
+            child: InfoText(t.main.features.info)
           ),
           SizedBox(height: 50),
         ],
