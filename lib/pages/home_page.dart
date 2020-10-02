@@ -122,8 +122,11 @@ class _HomePageState extends State<HomePage> {
                       builder: (BuildContext context) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: EventCard(event: event, callback: () {
-                            pushScreen(context, () => EventScreen(event));
+                          child: EventCard(event: event, callback: () async {
+                            await pushScreen(context, () => EventScreen(event));
+                            setState(() {
+                              _updateData();
+                            });
                           }),
                         );
                       },
