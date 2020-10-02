@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -45,7 +46,7 @@ class PostCard extends StatelessWidget {
                   if (post.images.isNotEmpty)
                     ClipRRect(
                         borderRadius: OvguPixels.borderRadiusImage,
-                        child: post.images.first
+                        child: Image.network(ApiService.getFileUrl(post.images.first))
                     ),
                   if (post.images.isNotEmpty)
                     SizedBox(height: 15),

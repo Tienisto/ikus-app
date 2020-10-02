@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
@@ -6,8 +5,13 @@ import 'package:ikus_app/components/badge.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
+import 'package:ikus_app/screens/image_screen.dart';
+import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/utility/adaptive.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class PostScreen extends StatelessWidget {
 
@@ -17,6 +21,7 @@ class PostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double displayWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
@@ -58,36 +63,52 @@ class PostScreen extends StatelessWidget {
           ),
           SizedBox(height: 30),
           if(post.images.length == 1)
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
-              child: ClipRRect(
-                  borderRadius: OvguPixels.borderRadiusImage,
-                  child: post.images.first
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
+                child: InkWell(
+                  onTap: () {
+                    pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(post.images.first)), tag: 'postImage'));
+                  },
+                  child: ClipRRect(
+                      borderRadius: OvguPixels.borderRadiusImage,
+                      child: Hero(
+                        tag: 'postImage',
+                        child: Image.network(ApiService.getFileUrl(post.images.first))
+                      )
+                  ),
+                ),
               ),
             ),
           if(post.images.length > 1)
-            CarouselSlider(
-              options: CarouselOptions(
-                  height: 350,
-                  viewportFraction: 0.8,
-                  autoPlay: true,
-              ),
-              items: post.images.map((image) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Align(
-                        alignment: Alignment.topCenter,
+            SizedBox(
+              height: 400,
+              child: ListView(
+                physics: Adaptive.getScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                children: post.images.map((image) {
+                  String tag = Uuid().v4();
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: InkWell(
+                        onTap: () {
+                          pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(image)), tag: tag));
+                        },
                         child: ClipRRect(
                             borderRadius: OvguPixels.borderRadiusImage,
-                            child: image
+                            child: Hero(
+                                tag: tag,
+                                child: Image.network(ApiService.getFileUrl(image), width: displayWidth * 0.7, fit: BoxFit.fitWidth)
+                            )
                         ),
                       ),
-                    );
-                  },
-                );
-              }).toList(),
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
           SizedBox(height: 50)
         ],
