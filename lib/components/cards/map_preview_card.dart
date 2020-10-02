@@ -12,15 +12,17 @@ class MapPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: callback,
-      borderRadius: OvguPixels.borderRadius,
-      child: OvguCard(
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: ClipRRect(
-              borderRadius: OvguPixels.borderRadius,
-              child: image
+    return Material(
+      child: InkWell(
+        onTap: callback,
+        borderRadius: OvguPixels.borderRadius,
+        child: OvguCard(
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: ClipRRect(
+                borderRadius: OvguPixels.borderRadius,
+                child: image
+            ),
           ),
         ),
       ),

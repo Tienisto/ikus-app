@@ -34,7 +34,7 @@ class MapScreen extends StatelessWidget {
           MapPreviewCard(
             image: campusMain,
             callback: () {
-              pushScreen(context, () => MapViewScreen(image: campusMain, controls: MapControlsPosition.LEFT), ScreenOrientation.LANDSCAPE);
+              pushScreen(context, () => MapViewScreen(image: campusMain, controls: MapControlsPosition.LEFT, tag: ''), ScreenOrientation.LANDSCAPE);
             },
           ),
           SizedBox(height: 30),
@@ -44,11 +44,14 @@ class MapScreen extends StatelessWidget {
               icon: Icons.local_hospital
           ),
           SizedBox(height: 10),
-          MapPreviewCard(
-            image: campusMed,
-            callback: () {
-              pushScreen(context, () => MapViewScreen(image: campusMed, controls: MapControlsPosition.TOP));
-            },
+          Hero(
+            tag: "campusMed",
+            child: MapPreviewCard(
+              image: campusMed,
+              callback: () {
+                pushScreen(context, () => MapViewScreen(image: campusMed, controls: MapControlsPosition.TOP, tag: "campusMed"));
+              },
+            ),
           ),
           SizedBox(height: 50),
         ],

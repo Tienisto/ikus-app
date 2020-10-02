@@ -11,8 +11,9 @@ class MapViewScreen extends StatefulWidget {
 
   final Image image;
   final MapControlsPosition controls;
+  final String tag;
 
-  const MapViewScreen({@required this.image, @required this.controls});
+  const MapViewScreen({@required this.image, @required this.controls, @required this.tag});
 
   @override
   _MapViewScreenState createState() => _MapViewScreenState();
@@ -64,10 +65,13 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
   Widget _getMapView() {
     return Expanded(
-      child: InteractiveViewer (
-        minScale: 1,
-        maxScale: 5,
-        child: widget.image,
+      child: Hero(
+        tag: widget.tag,
+        child: InteractiveViewer (
+          minScale: 1,
+          maxScale: 5,
+          child: widget.image,
+        ),
       ),
     );
   }
