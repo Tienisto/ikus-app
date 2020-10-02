@@ -10,6 +10,7 @@ import 'package:ikus_app/components/popups/date_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
+import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
@@ -151,6 +152,12 @@ class _CalendarPageState extends State<CalendarPage> {
             child: EventList(
               events: _calendarController.visibleEvents.map((key, value) => MapEntry(key, value.cast<Event>())),
               highlighted: _myEvents,
+              callback: (event) async {
+                await pushScreen(context, () => EventScreen(event));
+                setState(() {
+                  _updateData();
+                });
+              },
             ),
           ),
           SizedBox(height: 50)

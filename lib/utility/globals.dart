@@ -9,19 +9,19 @@ void nextFrame(Callback callback) => WidgetsBinding.instance.addPostFrameCallbac
 
 /// push another screen on top of the current screen
 typedef Widget WidgetBuilder();
-void pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) {
+Future<void> pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) async {
   if (orientation != null)
-    Navigator.push(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)));
+    await Navigator.push(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)));
   else
-    Navigator.push(context, CupertinoPageRoute(builder: (context) => builder()));
+    await Navigator.push(context, CupertinoPageRoute(builder: (context) => builder()));
 }
 
 /// clears screen stack and set the screen
-void setScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) {
+Future<void> setScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) async {
   if (orientation != null)
-    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)), (_) => false);
+    await Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)), (_) => false);
   else
-    Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder()), (_) => false);
+    await Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder()), (_) => false);
 }
 
 class Globals {

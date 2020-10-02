@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/model/event.dart';
-import 'package:ikus_app/screens/event_screen.dart';
-import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class EventList extends StatelessWidget {
 
   final Map<DateTime, List<Event>> events;
   final List<Event> highlighted;
+  final EventCallback callback;
 
-  const EventList({@required this.events, @required this.highlighted});
+  const EventList({@required this.events, @required this.highlighted, @required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class EventList extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: InkWell(
                         onTap: () {
-                          pushScreen(context, () => EventScreen(event));
+                          callback(event);
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
