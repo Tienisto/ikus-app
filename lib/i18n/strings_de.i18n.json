@@ -1,4 +1,34 @@
 {
+  "features": {
+    "map": {
+      "short": "Campus",
+      "long": "Campusplan"
+    },
+    "myEvents": {
+      "short": "Events",
+      "long": "Meine Events"
+    },
+    "mensa": {
+      "short": "Mensa",
+      "long": "Mensa"
+    },
+    "links": {
+      "short": "Links",
+      "long": "Links"
+    },
+    "handbook": {
+      "short": "Handbuch",
+      "long": "Handbuch"
+    },
+    "faq": {
+      "short": "FAQ",
+      "long": "FAQ"
+    },
+    "contacts": {
+      "short": "Kontakte",
+      "long": "Kontakte"
+    }
+  },
   "main": {
     "bottomBar": [
       "Home",
@@ -7,7 +37,7 @@
       "Einst."
     ],
     "home": {
-      "nextEvents": "Nächsten Events",
+      "nextEvents": "Deine nächsten Events",
       "news": "Neuigkeiten"
     },
     "calendar": {
@@ -15,15 +45,7 @@
       "events": "Events"
     },
     "features": {
-      "title": "Funktionen",
-      "content": {
-        "faq": "FAQ",
-        "links": "Links",
-        "map": "Karte",
-        "mensa": "Mensa",
-        "handbook": "Handbuch",
-        "contacts": "Kontakte"
-      }
+      "title": "Funktionen"
     },
     "settings": {
       "title": "Einstellungen",
@@ -82,7 +104,7 @@
     "title": "Hilfreiche Links"
   },
   "map": {
-    "title": "Karte der Universität",
+    "title": "Campusplan",
     "zoomInfo": "Du kannst die Karte zoomen!",
     "main": "Hauptcampus",
     "med": "Medizin-Campus"
@@ -111,6 +133,10 @@
       "alcohol": "Alkohol"
     }
   },
+  "myEvents": {
+    "title": "Meine Events",
+    "info": "Du kannst Events mit einem Herzchen versehen. Diese Events erscheinen hier und unter \"Deine nächsten Events\" auf der Startseite."
+  },
   "post": {
     "title": "Beitrag"
   },
@@ -129,13 +155,19 @@
     }
   },
   "popups": {
+    "channelPopup": {
+      "title": "Kanäle",
+      "all": "Alle"
+    },
     "datePopup": {
       "normal": "Folgende Events gibt es an diesem Tag:",
       "empty": "Es gibt keine Events an diesem Tag."
     },
-    "channelPopup": {
-      "title": "Kanäle",
-      "all": "Alle"
+    "eventSelectedPopup": {
+      "title": "Event markiert",
+      "content": "\"$event\" wurde zu deine persönliche Liste hinzugefügt.",
+      "undo": "Rückgängig",
+      "ok": "Okay"
     },
     "handbookPopup": {
       "title": "Inhaltsverzeichnis",

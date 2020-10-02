@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updateData() {
-    _events = CalendarService.instance.getNextEvents();
+    _events = CalendarService.instance.getMyNextEvents();
     _posts = NewsService.instance.getPosts();
   }
 
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                     children: favorites.map((Feature feature) {
                       return FavoriteButton(
                           icon: feature.icon,
-                          text: feature.name,
+                          text: feature.shortName,
                           width: favoriteWidth,
                           fontSize: favoriteFontSize,
                           callback: () {

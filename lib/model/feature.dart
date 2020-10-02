@@ -7,23 +7,26 @@ import 'package:ikus_app/screens/handbook_screen.dart';
 import 'package:ikus_app/screens/links_screen.dart';
 import 'package:ikus_app/screens/map_screen.dart';
 import 'package:ikus_app/screens/mensa_screen.dart';
+import 'package:ikus_app/screens/my_events_screen.dart';
 
 enum Feature {
-  MAP, MENSA, LINKS, HANDBOOK, FAQ, CONTACT
+  MAP, MY_EVENTS, MENSA, LINKS, HANDBOOK, FAQ, CONTACT
 }
 
 extension FeatureMembers on Feature {
   int get index => const {
     Feature.MAP: 0,
-    Feature.MENSA: 1,
-    Feature.LINKS: 2,
-    Feature.HANDBOOK: 3,
-    Feature.FAQ: 4,
-    Feature.CONTACT: 5
+    Feature.MY_EVENTS: 1,
+    Feature.MENSA: 2,
+    Feature.LINKS: 3,
+    Feature.HANDBOOK: 4,
+    Feature.FAQ: 5,
+    Feature.CONTACT: 6
   }[this];
 
   IconData get icon => const {
     Feature.MAP: Icons.map,
+    Feature.MY_EVENTS: Icons.today,
     Feature.MENSA: Icons.restaurant,
     Feature.LINKS: Icons.language,
     Feature.HANDBOOK: Icons.book,
@@ -31,17 +34,29 @@ extension FeatureMembers on Feature {
     Feature.CONTACT: Icons.person
   }[this];
 
-  String get name => {
-    Feature.MAP: t.main.features.content.map,
-    Feature.MENSA: t.main.features.content.mensa,
-    Feature.LINKS: t.main.features.content.links,
-    Feature.HANDBOOK: t.main.features.content.handbook,
-    Feature.FAQ: t.main.features.content.faq,
-    Feature.CONTACT: t.main.features.content.contacts
+  String get shortName => {
+    Feature.MAP: t.features.map.short,
+    Feature.MY_EVENTS: t.features.myEvents.short,
+    Feature.MENSA: t.features.mensa.short,
+    Feature.LINKS: t.features.links.short,
+    Feature.HANDBOOK: t.features.handbook.short,
+    Feature.FAQ: t.features.faq.short,
+    Feature.CONTACT: t.features.contacts.short
+  }[this];
+
+  String get longName => {
+    Feature.MAP: t.features.map.long,
+    Feature.MY_EVENTS: t.features.myEvents.long,
+    Feature.MENSA: t.features.mensa.long,
+    Feature.LINKS: t.features.links.long,
+    Feature.HANDBOOK: t.features.handbook.long,
+    Feature.FAQ: t.features.faq.long,
+    Feature.CONTACT: t.features.contacts.long
   }[this];
 
   Widget get widget => {
     Feature.MAP: MapScreen(),
+    Feature.MY_EVENTS: MyEventsScreen(),
     Feature.MENSA: MensaScreen(),
     Feature.LINKS: LinksScreen(),
     Feature.HANDBOOK: HandbookScreen(),

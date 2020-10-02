@@ -25,7 +25,7 @@ class FeatureButton extends StatelessWidget {
               children: [
                 Icon(feature.icon, size: 20),
                 SizedBox(width: 20),
-                Text(feature.name, style: TextStyle(fontSize: 16))
+                Text(feature.longName, style: TextStyle(fontSize: 16))
               ],
             )
           ),

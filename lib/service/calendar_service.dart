@@ -17,6 +17,7 @@ class CalendarService implements SyncableService {
   DateTime _lastUpdate;
   ChannelHandler<Event> _channelHandler;
   List<Event> _events;
+  List<Event> _myEvents;
 
   @override
   String getName() => t.main.settings.syncItems.calendar;
@@ -43,8 +44,17 @@ class CalendarService implements SyncableService {
     List<int> subscribedIds = SettingsService.instance.getCalendarChannels();
     List<Channel> subscribedChannels = subscribedIds != null ? channels.where((channel) => subscribedIds.any((id) => channel.id == id)).toList() : [...channels];
 
+    // my next events
+    DateTime now = DateTime.now();
+    List<int> myEventIds = SettingsService.instance.getMyEvents();
+    List<Event> myEvents = myEventIds
+        .map((id) => events.firstWhere((event) => event.id == id, orElse: () => null))
+        .where((event) => event != null && event.startTime.isAfter(now))
+        .toList();
+
     _channelHandler = ChannelHandler(channels, subscribedChannels);
     _events = events;
+    _myEvents = myEvents;
     _lastUpdate = data.timestamp;
   }
 
@@ -61,33 +71,7 @@ class CalendarService implements SyncableService {
   }
 
   Map<DateTime, List<Event>> getEventsGroupByDate() {
-    List<Event> events = getEvents();
-    Map<DateTime, List<Event>> map = Map();
-    events.forEach((event) {
-      DateTime date = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
-      List<Event> currEvents = map[date];
-      if (currEvents != null) {
-        currEvents.add(event);
-      } else {
-        map[date] = [event];
-      }
-    });
-
-    return map;
-  }
-
-  List<Event> getNextEvents() {
-    DateTime now = DateTime.now();
-    List<Event> events = getEvents();
-    List<Event> nextEvents = [];
-    for (int i = 0; i < events.length; i++) {
-      if (events[i].startTime.isAfter(now)) {
-        nextEvents.add(events[i]);
-        if(nextEvents.length == 3)
-          break;
-      }
-    }
-    return nextEvents;
+    return getEvents().groupByDate();
   }
 
   List<Channel> getChannels() {
@@ -111,5 +95,48 @@ class CalendarService implements SyncableService {
   void _updateChannelSettings() {
     List<int> subscribed = _channelHandler.getSubscribed().map((channel) => channel.id).toList();
     SettingsService.instance.setCalendarChannels(subscribed);
+  }
+
+  List<Event> getMyEvents() {
+    return _myEvents;
+  }
+
+  Map<DateTime, List<Event>> getMyEventsGrouped() {
+    return _myEvents.groupByDate();
+  }
+
+  List<Event> getMyNextEvents() {
+    int end = _myEvents.length >= 3 ? 3 : _myEvents.length;
+    return _myEvents.sublist(0, end);
+  }
+
+  bool isMyEvent(Event event) {
+    return _myEvents.any((e) => e.id == event.id);
+  }
+
+  void toggleMyEvent(Event event) {
+    if (isMyEvent(event))
+      removeEvent(event);
+    else
+      addEvent(event);
+  }
+
+  void addEvent(Event event) {
+
+    if (event.startTime.isBefore(DateTime.now()) || _myEvents.any((e) => e.id == event.id))
+      return;
+
+    _myEvents = [..._myEvents, event]..sort((a, b) => a.startTime.compareTo(b.startTime));
+    _updateMyEventsSettings();
+  }
+
+  void removeEvent(Event event) {
+    _myEvents = _myEvents.where((e) => e.id != event.id).toList();
+    _updateMyEventsSettings();
+  }
+
+  void _updateMyEventsSettings() {
+    List<int> myEvents = _myEvents.map((e) => e.id).toList();
+    SettingsService.instance.setMyEvents(myEvents);
   }
 }

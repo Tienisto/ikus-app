@@ -1,4 +1,34 @@
 {
+  "features": {
+    "map": {
+      "short": "Campus",
+      "long": "Campus Map"
+    },
+    "myEvents": {
+      "short": "Events",
+      "long": "My Events"
+    },
+    "mensa": {
+      "short": "Mensa",
+      "long": "Mensa"
+    },
+    "links": {
+      "short": "Links",
+      "long": "Links"
+    },
+    "handbook": {
+      "short": "Handbook",
+      "long": "Handbook"
+    },
+    "faq": {
+      "short": "FAQ",
+      "long": "FAQ"
+    },
+    "contacts": {
+      "short": "Contacts",
+      "long": "Contacts"
+    }
+  },
   "main": {
     "bottomBar": [
       "Home",
@@ -7,7 +37,7 @@
       "Settings"
     ],
     "home": {
-      "nextEvents": "Next Events",
+      "nextEvents": "Your Next Events",
       "news": "News"
     },
     "calendar": {
@@ -15,15 +45,7 @@
       "events": "Events"
     },
     "features": {
-      "title": "Features",
-      "content": {
-        "faq": "FAQ",
-        "links": "Links",
-        "map": "Map",
-        "mensa": "Mensa",
-        "handbook": "Handbook",
-        "contacts": "Contacts"
-      }
+      "title": "Features"
     },
     "settings": {
       "title": "Settings",
@@ -82,7 +104,7 @@
     "title": "Useful Links"
   },
   "map": {
-    "title": "Map of the University",
+    "title": "Campus Map",
     "zoomInfo": "You can zoom the into the map!",
     "main": "Main Campus",
     "med": "Medicine Campus"
@@ -111,6 +133,10 @@
       "alcohol": "Alcohol"
     }
   },
+  "myEvents": {
+    "title": "My Events",
+    "info": "You can select events which are important to you. These events appear here and under \"Your next events\" in the home screen."
+  },
   "post": {
     "title": "Post"
   },
@@ -129,13 +155,19 @@
     }
   },
   "popups": {
+    "channelPopup": {
+      "title": "Channels",
+      "all": "All"
+    },
     "datePopup": {
       "normal": "Following events are on this day:",
       "empty": "There are no events on this day."
     },
-    "channelPopup": {
-      "title": "Channels",
-      "all": "All"
+    "eventSelectedPopup": {
+      "title": "Event selected",
+      "content": "\"$event\" has been added to your personal list.",
+      "undo": "Undo",
+      "ok": "Okay"
     },
     "handbookPopup": {
       "title": "Structure",

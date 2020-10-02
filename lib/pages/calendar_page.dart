@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
+import 'package:ikus_app/components/event_list.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/channel_popup.dart';
@@ -9,7 +10,6 @@ import 'package:ikus_app/components/popups/date_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
-import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
@@ -25,12 +25,18 @@ class _CalendarPageState extends State<CalendarPage> {
 
   CalendarController _calendarController;
   Map<DateTime, List<Event>> _events;
+  List<Event> _myEvents;
 
   @override
   void initState() {
     super.initState();
     _calendarController = CalendarController();
+    _updateData();
+  }
+
+  void _updateData() {
     _events = CalendarService.instance.getEventsGroupByDate();
+    _myEvents = CalendarService.instance.getMyEvents();
   }
 
   @override
@@ -75,7 +81,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             else
                               CalendarService.instance.unsubscribe(channel);
                             setState(() {
-                              _events = CalendarService.instance.getEventsGroupByDate();
+                              _updateData();
 
                               // update again if user changed subscribed channels
                               // _events change -> updated visible events -> nextFrame -> setState
@@ -140,47 +146,13 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ),
           SizedBox(height: 20),
-          ..._calendarController.visibleEvents.entries.map((entry) {
-            List<Event> events = entry.value;
-            events.sort((a, b) => a.startTime.compareTo(b.startTime));
-            return Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 110,
-                    child: Text(events.first.formattedStartDate, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: events.map((event) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: InkWell(
-                            onTap: () {
-                              pushScreen(context, () => EventScreen(event));
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(event.name, style: TextStyle(fontSize: 16)),
-                                if (event.hasTime)
-                                  Text(event.formattedTime, style: TextStyle(color: OvguColor.secondaryDarken2)),
-                                if (!event.hasTime)
-                                  SizedBox(height: 10) // placeholder
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: EventList(
+              events: _calendarController.visibleEvents.map((key, value) => MapEntry(key, value.cast<Event>())),
+              highlighted: _myEvents,
+            ),
+          ),
           SizedBox(height: 50)
         ],
       ),

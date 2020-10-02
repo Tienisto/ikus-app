@@ -13,6 +13,7 @@ class SettingsService {
   List<Feature> _favorites;
   List<int> _newsChannels; // nullable
   List<int> _calendarChannels; // nullable
+  List<int> _myEvents;
   Mensa _mensa;
   bool _devServer;
 
@@ -33,6 +34,9 @@ class SettingsService {
     _calendarChannels = box
         .get('calendar_channels')
         ?.cast<int>();
+    _myEvents = box
+        .get('my_events', defaultValue: [])
+        .cast<int>();
     _mensa = (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN;
     _devServer = box.get('dev_server', defaultValue: false);
   }
@@ -95,6 +99,15 @@ class SettingsService {
 
   List<int> getCalendarChannels() {
     return _calendarChannels;
+  }
+
+  void setMyEvents(List<int> events) {
+    _box.put('my_events', events);
+    _myEvents = events;
+  }
+
+  List<int> getMyEvents() {
+    return _myEvents;
   }
 
   void setMensa(Mensa mensa) {

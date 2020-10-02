@@ -72,3 +72,21 @@ class Event {
     return '$name ($startTime)';
   }
 }
+
+extension EventGroup on List<Event> {
+
+  Map<DateTime, List<Event>> groupByDate() {
+    Map<DateTime, List<Event>> map = Map();
+    this.forEach((event) {
+      DateTime date = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
+      List<Event> currEvents = map[date];
+      if (currEvents != null) {
+        currEvents.add(event);
+      } else {
+        map[date] = [event];
+      }
+    });
+
+    return map;
+  }
+}
