@@ -71,14 +71,23 @@ class ContactCard extends StatelessWidget {
                 ),
               ),
             if (contact.phoneNumber != null)
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
-                child: IconText(
-                  size: ATTRIBUTE_SIZE,
-                  distance: ICON_TEXT_DISTANCE,
-                  icon: Icons.phone,
-                  text: contact.phoneNumber,
-                  multiLine: true,
+              InkWell(
+                onTap: () async {
+                  String url = 'tel:${contact.phoneNumber.replaceAll(' ', '').replaceAll('-', '').replaceAll('/', '')}';
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    print('could not launch $url');
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
+                  child: IconText(
+                    size: ATTRIBUTE_SIZE,
+                    distance: ICON_TEXT_DISTANCE,
+                    icon: Icons.phone,
+                    text: contact.phoneNumber,
+                    multiLine: true,
+                  ),
                 ),
               ),
             if (contact.openingHours != null)
