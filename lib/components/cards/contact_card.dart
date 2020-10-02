@@ -66,6 +66,7 @@ class ContactCard extends StatelessWidget {
                     distance: ICON_TEXT_DISTANCE,
                     icon: Icons.email,
                     text: contact.email,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     multiLine: true,
                   ),
                 ),
@@ -86,6 +87,7 @@ class ContactCard extends StatelessWidget {
                     distance: ICON_TEXT_DISTANCE,
                     icon: Icons.phone,
                     text: contact.phoneNumber,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     multiLine: true,
                   ),
                 ),
@@ -98,6 +100,7 @@ class ContactCard extends StatelessWidget {
                   distance: ICON_TEXT_DISTANCE,
                   icon: Icons.access_time,
                   text: contact.openingHours,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   multiLine: true,
                 ),
               )
