@@ -74,7 +74,7 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
 
       if(widget.curve != null) {
         _animationFade = tweenFade.animate(CurvedAnimation(
-            curve: widget.curve ?? Curves.linear,
+            curve: widget.curve,
             parent: _animationController
         ));
       } else {

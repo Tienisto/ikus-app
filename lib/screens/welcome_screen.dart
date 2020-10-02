@@ -19,11 +19,17 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
 
+  final GlobalKey<SmartAnimationState> _progressBarKey = new GlobalKey<SmartAnimationState>();
   bool _starting = false;
   double _progress = 0;
 
   Future<void> startApp() async {
-    await sleep(1500);
+    setState(() {
+      _starting = true;
+    });
+    await sleep(1000);
+    _progressBarKey.currentState.startAnimation();
+    await sleep(500);
     List<SyncableService> services = SyncableService.services;
     for (int i = 0; i < services.length; i++) {
       await services[i].sync(useCacheOnly: false);
@@ -32,7 +38,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         _progress = (i+1) / services.length;
       });
     }
-    await sleep(2000);
+    await sleep(1000);
     SettingsService.instance.setWelcome(false);
     setScreen(context, () => MainScreen());
   }
@@ -133,10 +139,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 color: Colors.green,
                                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                                 callback: () {
-                                  setState(() {
-                                    _starting = true;
-                                    startApp();
-                                  });
+                                  startApp();
                                 },
                                 child: Text(t.welcome.start, style: TextStyle(fontSize: 30, color: Colors.white)),
                               ),
@@ -150,10 +153,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               SizedBox(height: 20),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: AnimatedProgressBar(
-                                  progress: _progress,
-                                  reactDuration: Duration(milliseconds: 180),
-                                  backgroundColor: OvguColor.secondary,
+                                child: SmartAnimation(
+                                  key: _progressBarKey,
+                                  startImmediately: false,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.easeInOutCubic,
+                                  startOpacity: 0,
+                                  child: AnimatedProgressBar(
+                                    progress: _progress,
+                                    reactDuration: Duration(milliseconds: 180),
+                                    backgroundColor: OvguColor.secondary,
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 20),
