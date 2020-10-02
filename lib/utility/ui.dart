@@ -11,6 +11,7 @@ class OvguColor {
 
 class OvguPixels {
 
+  static const double maxWidth = 550;
   static const EdgeInsets mainScreenPadding = EdgeInsets.symmetric(horizontal: 20);
   static const double headerSize = 20, headerDistance = 10;
 

@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     List<Feature> favorites = SettingsService.instance.getFavorites();
-    double width = min(MediaQuery.of(context).size.width, MainListView.MAX_WIDTH);
+    double width = min(MediaQuery.of(context).size.width, OvguPixels.maxWidth);
     double favoriteMargin = favorites.length <= 3 ? 20 : 10;
     double favoriteFontSize = favorites.length <= 3 ? 14 : 12;
     double favoriteWidth = (width - favoriteMargin * (favorites.length - 1) - OvguPixels.mainScreenPadding.horizontal) / favorites.length;

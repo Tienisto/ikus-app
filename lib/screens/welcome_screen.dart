@@ -72,9 +72,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           duration: Duration(milliseconds: 500),
                           delay: Duration(milliseconds: 3000),
                           startOpacity: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Center(child: Text(t.welcome.intro, style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic), textAlign: TextAlign.center)),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(minWidth: 0, maxWidth: OvguPixels.maxWidth),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Center(child: Text(t.welcome.intro, style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic), textAlign: TextAlign.center)),
+                            ),
                           ),
                         ),
                       ],
@@ -86,73 +89,76 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     startPosition: Offset(0, 500),
                     startOpacity: 0,
                     curve: Curves.easeOutCubic,
-                    child: OvguCard(
-                      color: Colors.white,
-                      margin: EdgeInsets.only(left: 25, bottom: 25, right: 25),
-                      child: AnimatedCrossFade(
-                        crossFadeState: _starting ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                        duration: Duration(milliseconds: 500),
-                        sizeCurve: Curves.easeOutCubic,
-                        firstChild: Column(
-                          children: [
-                            SizedBox(height: 20),
-                            Text(t.welcome.selectLanguage, style: TextStyle(fontSize: 20)),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                OvguButton(
-                                  color: LocaleSettings.currentLocale == 'en' ? OvguColor.primary : Colors.grey[300],
-                                  callback: () {
-                                    setState(() {
-                                      LocaleSettings.setLocale('en');
-                                      SettingsService.instance.setLocale('en');
-                                    });
-                                  },
-                                  child: Text(t.welcome.english, style: TextStyle(color: LocaleSettings.currentLocale == 'en' ? Colors.white : Colors.black)),
-                                ),
-                                OvguButton(
-                                  color: LocaleSettings.currentLocale == 'de' ? OvguColor.primary : Colors.grey[300],
-                                  callback: () {
-                                    setState(() {
-                                      LocaleSettings.setLocale('de');
-                                      SettingsService.instance.setLocale('de');
-                                    });
-                                  },
-                                  child: Text(t.welcome.german, style: TextStyle(color: LocaleSettings.currentLocale == 'de' ? Colors.white : Colors.black)),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 50),
-                            OvguButton(
-                              color: Colors.green,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                              callback: () {
-                                setState(() {
-                                  _starting = true;
-                                  startApp();
-                                });
-                              },
-                              child: Text(t.welcome.start, style: TextStyle(fontSize: 30, color: Colors.white)),
-                            ),
-                            SizedBox(height: 20),
-                          ],
-                        ),
-                        secondChild: Column(
-                          children: [
-                            SizedBox(height: 20),
-                            Text(t.welcome.loading, style: TextStyle(fontSize: 20)),
-                            SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: AnimatedProgressBar(
-                                progress: _progress,
-                                reactDuration: Duration(milliseconds: 180),
-                                backgroundColor: OvguColor.secondary,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: 0, maxWidth: OvguPixels.maxWidth),
+                      child: OvguCard(
+                        color: Colors.white,
+                        margin: EdgeInsets.only(left: 25, bottom: 25, right: 25),
+                        child: AnimatedCrossFade(
+                          crossFadeState: _starting ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                          duration: Duration(milliseconds: 500),
+                          sizeCurve: Curves.easeOutCubic,
+                          firstChild: Column(
+                            children: [
+                              SizedBox(height: 20),
+                              Text(t.welcome.selectLanguage, style: TextStyle(fontSize: 20)),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  OvguButton(
+                                    color: LocaleSettings.currentLocale == 'en' ? OvguColor.primary : Colors.grey[300],
+                                    callback: () {
+                                      setState(() {
+                                        LocaleSettings.setLocale('en');
+                                        SettingsService.instance.setLocale('en');
+                                      });
+                                    },
+                                    child: Text(t.welcome.english, style: TextStyle(color: LocaleSettings.currentLocale == 'en' ? Colors.white : Colors.black)),
+                                  ),
+                                  OvguButton(
+                                    color: LocaleSettings.currentLocale == 'de' ? OvguColor.primary : Colors.grey[300],
+                                    callback: () {
+                                      setState(() {
+                                        LocaleSettings.setLocale('de');
+                                        SettingsService.instance.setLocale('de');
+                                      });
+                                    },
+                                    child: Text(t.welcome.german, style: TextStyle(color: LocaleSettings.currentLocale == 'de' ? Colors.white : Colors.black)),
+                                  )
+                                ],
                               ),
-                            ),
-                            SizedBox(height: 20),
-                          ],
+                              SizedBox(height: 50),
+                              OvguButton(
+                                color: Colors.green,
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                callback: () {
+                                  setState(() {
+                                    _starting = true;
+                                    startApp();
+                                  });
+                                },
+                                child: Text(t.welcome.start, style: TextStyle(fontSize: 30, color: Colors.white)),
+                              ),
+                              SizedBox(height: 20),
+                            ],
+                          ),
+                          secondChild: Column(
+                            children: [
+                              SizedBox(height: 20),
+                              Text(t.welcome.loading, style: TextStyle(fontSize: 20)),
+                              SizedBox(height: 20),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: AnimatedProgressBar(
+                                  progress: _progress,
+                                  reactDuration: Duration(milliseconds: 180),
+                                  backgroundColor: OvguColor.secondary,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                            ],
+                          ),
                         ),
                       ),
                     ),

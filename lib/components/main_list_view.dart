@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/utility/adaptive.dart';
+import 'package:ikus_app/utility/ui.dart';
 
 class MainListView extends StatelessWidget {
 
-  static const double MAX_WIDTH = 550;
   final List<Widget> children;
   final EdgeInsets padding;
   final CrossAxisAlignment crossAxisAlignment;
@@ -19,7 +19,7 @@ class MainListView extends StatelessWidget {
       children: [
         Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 0, maxWidth: MAX_WIDTH),
+            constraints: BoxConstraints(minWidth: 0, maxWidth: OvguPixels.maxWidth),
             child: Column(
               crossAxisAlignment: crossAxisAlignment,
               children: children,
