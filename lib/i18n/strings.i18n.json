@@ -164,7 +164,7 @@
       "empty": "There are no events on this day."
     },
     "eventSelectedPopup": {
-      "title": "Event selected",
+      "title": "Event added",
       "content": "\"$event\" has been added to your personal list.",
       "undo": "Undo",
       "ok": "Okay"
