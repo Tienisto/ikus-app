@@ -65,8 +65,7 @@ class _HomePageState extends State<HomePage> {
           await NewsService.instance.sync(useCacheOnly: false);
           await CalendarService.instance.sync(useCacheOnly: false);
           setState(() {
-            _events = CalendarService.instance.getNextEvents();
-            _posts = NewsService.instance.getPosts();
+            _updateData();
           });
         },
         child: MainListView(
