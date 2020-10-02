@@ -46,11 +46,12 @@ class ContactCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
                 child: IconText(
-                    size: ATTRIBUTE_SIZE,
-                    distance: ICON_TEXT_DISTANCE,
-                    icon: Icons.place,
-                    text: contact.place,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  size: ATTRIBUTE_SIZE,
+                  distance: ICON_TEXT_DISTANCE,
+                  icon: Icons.place,
+                  text: contact.place,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  multiLine: true,
                 ),
               ),
             if (contact.email != null)
@@ -61,10 +62,11 @@ class ContactCard extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
                   child: IconText(
-                      size: ATTRIBUTE_SIZE,
-                      distance: ICON_TEXT_DISTANCE,
-                      icon: Icons.email,
-                      text: contact.email
+                    size: ATTRIBUTE_SIZE,
+                    distance: ICON_TEXT_DISTANCE,
+                    icon: Icons.email,
+                    text: contact.email,
+                    multiLine: true,
                   ),
                 ),
               ),
@@ -72,20 +74,22 @@ class ContactCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
                 child: IconText(
-                    size: ATTRIBUTE_SIZE,
-                    distance: ICON_TEXT_DISTANCE,
-                    icon: Icons.phone,
-                    text: contact.phoneNumber
+                  size: ATTRIBUTE_SIZE,
+                  distance: ICON_TEXT_DISTANCE,
+                  icon: Icons.phone,
+                  text: contact.phoneNumber,
+                  multiLine: true,
                 ),
               ),
             if (contact.openingHours != null)
               Padding(
                 padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
                 child: IconText(
-                    size: ATTRIBUTE_SIZE,
-                    distance: ICON_TEXT_DISTANCE,
-                    icon: Icons.access_time,
-                    text: contact.openingHours
+                  size: ATTRIBUTE_SIZE,
+                  distance: ICON_TEXT_DISTANCE,
+                  icon: Icons.access_time,
+                  text: contact.openingHours,
+                  multiLine: true,
                 ),
               )
           ],
