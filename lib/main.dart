@@ -64,7 +64,7 @@ class IkusAppState extends State<IkusApp> {
       return Container(color: OvguColor.primary);
 
     return MaterialApp(
-      title: 'IKUS',
+      title: 'OVGU',
       debugShowCheckedModeBanner: false,
       builder: Adaptive.getBehaviour(),
       theme: ThemeData(
