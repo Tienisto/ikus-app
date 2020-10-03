@@ -15,13 +15,14 @@ class BottomNavigator extends StatelessWidget {
 
   final int selectedIndex;
   final IntCallback callback;
+  final bool disabled;
 
-  const BottomNavigator(this.selectedIndex, this.callback);
+  const BottomNavigator({@required this.selectedIndex, @required this.callback, @required this.disabled});
 
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(canvasColor: OvguColor.primary),
+      data: Theme.of(context).copyWith(canvasColor: disabled ? Colors.grey[700] : OvguColor.primary),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.white,
@@ -33,7 +34,7 @@ class BottomNavigator extends StatelessWidget {
           );
         }).toList(),
         currentIndex: selectedIndex,
-        onTap: callback,
+        onTap: disabled ? null : callback,
       ),
     );
   }

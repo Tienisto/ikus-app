@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/animations/fade_page_route.dart';
 import 'package:ikus_app/animations/smart_animation.dart';
 import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
+import 'package:ikus_app/components/tutorial_overlay.dart';
 import 'package:ikus_app/components/status_bar_color.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
@@ -19,6 +21,9 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
 
+  final GlobalKey<SmartAnimationState> _titleKey = new GlobalKey<SmartAnimationState>();
+  final GlobalKey<SmartAnimationState> _introKey = new GlobalKey<SmartAnimationState>();
+  final GlobalKey<SmartAnimationState> _cardKey = new GlobalKey<SmartAnimationState>();
   final GlobalKey<SmartAnimationState> _progressBarKey = new GlobalKey<SmartAnimationState>();
   bool _starting = false;
   double _progress = 0;
@@ -39,8 +44,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       });
     }
     await sleep(1000);
+    _titleKey.currentState.startReverseAnimation();
+    _introKey.currentState.startReverseAnimation();
+    _cardKey.currentState.startReverseAnimation();
+    await sleep(1000);
     SettingsService.instance.setWelcome(false);
-    setScreen(context, () => MainScreen());
+    await Navigator.pushAndRemoveUntil(context, FadePageRoute(duration: Duration(milliseconds: 1500), builder: (_) => MainScreen(tutorial: true)), (_) => false);
   }
 
   @override
@@ -64,10 +73,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           startPosition: Offset(0, -500),
                           startOpacity: 0,
                           curve: Curves.easeOutCubic,
-                          child: Image.asset('assets/img/logo-512-alpha.png', width: 150)
+                          child: Hero(
+                            tag: TutorialOverlay.HERO_TAG,
+                            child: Image.asset('assets/img/logo-512-alpha.png', width: 150)
+                          )
                         ),
                         SizedBox(height: 10),
                         SmartAnimation(
+                          key: _titleKey,
                           duration: Duration(milliseconds: 500),
                           delay: Duration(milliseconds: 2000),
                           startOpacity: 0,
@@ -75,6 +88,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                         SizedBox(height: 20),
                         SmartAnimation(
+                          key: _introKey,
                           duration: Duration(milliseconds: 500),
                           delay: Duration(milliseconds: 3000),
                           startOpacity: 0,
@@ -90,6 +104,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   SmartAnimation(
+                    key: _cardKey,
                     duration: Duration(milliseconds: 500),
                     delay: Duration(milliseconds: 6000),
                     startPosition: Offset(0, 500),

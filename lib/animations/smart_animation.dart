@@ -94,6 +94,10 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
     _animationController.forward(from: 0);
   }
 
+  void startReverseAnimation() {
+    _animationController.reverse(from: 1);
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
