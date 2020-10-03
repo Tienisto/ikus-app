@@ -85,8 +85,11 @@ class _HomePageState extends State<HomePage> {
                           text: feature.shortName,
                           width: favoriteWidth,
                           fontSize: favoriteFontSize,
-                          callback: () {
-                            pushScreen(context, () => feature.widget);
+                          callback: () async {
+                            await pushScreen(context, () => feature.widget);
+                            setState(() {
+                              _updateData();
+                            });
                           }
                       );
                     }).toList(),
