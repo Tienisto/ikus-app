@@ -9,12 +9,12 @@ class MarkerSymbol extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: OpenPainter(),
+      painter: _MarkerPainter(),
     );
   }
 }
 
-class OpenPainter extends CustomPainter {
+class _MarkerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
 

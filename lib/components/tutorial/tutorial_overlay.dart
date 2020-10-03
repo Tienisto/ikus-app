@@ -8,6 +8,7 @@ class TutorialOverlay extends StatelessWidget {
 
   static const String HERO_TAG = 'ovgu-logo';
   static const double WIDTH = 250;
+  static const double APPROX_HEIGHT = 250;
   static const double TOTAL_WIDTH = WIDTH + 50;
   final String text;
   final String progress;
