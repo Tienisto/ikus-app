@@ -72,11 +72,11 @@ class _MainScreenState extends State<MainScreen> {
         break;
       case 1:
         animateToPage(1);
-        tutorialPosition = Offset((size.width - TutorialOverlay.TOTAL_WIDTH) / 2, 370);
+        tutorialPosition = Offset((size.width - TutorialOverlay.TOTAL_WIDTH) / 2, 300);
         break;
       case 2:
         animateToPage(2);
-        tutorialPosition = Offset((size.width - TutorialOverlay.TOTAL_WIDTH) / 2 - 30, 350);
+        tutorialPosition = Offset((size.width - TutorialOverlay.TOTAL_WIDTH) / 2 - 30, 270);
         break;
       case 3:
         animateToPage(0);
