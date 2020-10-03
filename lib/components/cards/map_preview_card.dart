@@ -7,8 +7,9 @@ class MapPreviewCard extends StatelessWidget {
 
   final Image image;
   final Callback callback;
+  final String tag;
 
-  const MapPreviewCard({@required this.image, @required this.callback});
+  const MapPreviewCard({@required this.image, @required this.tag, @required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,12 @@ class MapPreviewCard extends StatelessWidget {
         child: OvguCard(
           child: Padding(
             padding: const EdgeInsets.all(5),
-            child: ClipRRect(
-                borderRadius: OvguPixels.borderRadius,
-                child: image
+            child: Hero(
+              tag: tag,
+              child: ClipRRect(
+                  borderRadius: OvguPixels.borderRadius,
+                  child: image
+              ),
             ),
           ),
         ),

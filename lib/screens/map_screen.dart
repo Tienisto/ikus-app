@@ -4,8 +4,7 @@ import 'package:ikus_app/components/cards/map_preview_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/screens/map_view_screen.dart';
-import 'package:ikus_app/service/orientation_service.dart';
+import 'package:ikus_app/screens/image_screen.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -32,9 +31,10 @@ class MapScreen extends StatelessWidget {
           ),
           SizedBox(height: 10),
           MapPreviewCard(
+            tag: 'campusMain',
             image: campusMain,
             callback: () {
-              pushScreen(context, () => MapViewScreen(image: campusMain, controls: MapControlsPosition.LEFT, tag: ''), ScreenOrientation.LANDSCAPE);
+              pushScreen(context, () => ImageScreen(image: campusMain, tag: 'campusMain', title: t.map.main));
             },
           ),
           SizedBox(height: 30),
@@ -44,14 +44,12 @@ class MapScreen extends StatelessWidget {
               icon: Icons.local_hospital
           ),
           SizedBox(height: 10),
-          Hero(
-            tag: "campusMed",
-            child: MapPreviewCard(
-              image: campusMed,
-              callback: () {
-                pushScreen(context, () => MapViewScreen(image: campusMed, controls: MapControlsPosition.TOP, tag: "campusMed"));
-              },
-            ),
+          MapPreviewCard(
+            tag: 'campusMed',
+            image: campusMed,
+            callback: () {
+              pushScreen(context, () => ImageScreen(image: campusMed, tag: 'campusMed', title: t.map.med));
+            },
           ),
           SizedBox(height: 50),
         ],

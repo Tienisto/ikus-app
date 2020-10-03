@@ -116,7 +116,6 @@
   },
   "map": {
     "title": "Campus Map",
-    "zoomInfo": "You can zoom the into the map!",
     "main": "Main Campus",
     "med": "Medicine Campus"
   },
