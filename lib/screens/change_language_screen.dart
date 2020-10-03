@@ -49,13 +49,16 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(t.changeLanguage.title, style: TextStyle(color: Colors.white, fontSize: 20)),
-                  Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: AnimatedProgressBar(
-                      progress: _progress,
-                      reactDuration: Duration(milliseconds: 180),
-                      backgroundColor: Colors.white,
-                    )
+                  ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: 0, maxWidth: OvguPixels.maxWidth),
+                    child: Padding(
+                      padding: const EdgeInsets.all(25),
+                      child: AnimatedProgressBar(
+                        progress: _progress,
+                        reactDuration: Duration(milliseconds: 180),
+                        backgroundColor: Colors.white,
+                      )
+                    ),
                   )
                 ]
               )
