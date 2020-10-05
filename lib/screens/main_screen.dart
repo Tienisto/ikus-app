@@ -91,11 +91,11 @@ class _MainScreenState extends State<MainScreen> {
       case 2:
         // feature page
         animateToPage(2);
-        tutorialPosition = Offset(actualStart + (actualWidth - TutorialOverlay.TOTAL_WIDTH) / 2 - 30, min(size.height - TutorialOverlay.APPROX_HEIGHT - 50, 400));
+        tutorialPosition = Offset(actualStart, min(size.height - TutorialOverlay.APPROX_HEIGHT - 50, 390));
         break;
       case 3:
         // feature page (highlight hearts)
-        tutorialPosition = Offset(actualStart, 200);
+        tutorialPosition = Offset(actualStart, 390);
         tutorialFeatureHeartHighlight = true;
         break;
       case 4:
