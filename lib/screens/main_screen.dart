@@ -95,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
         break;
       case 3:
         // feature page (highlight hearts)
-        tutorialPosition = Offset(actualStart, 390);
+        tutorialPosition = Offset(actualStart, min(size.height - TutorialOverlay.APPROX_HEIGHT - 50, 390));
         tutorialFeatureHeartHighlight = true;
         break;
       case 4:
