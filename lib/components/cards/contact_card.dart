@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/model/contact.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,7 +33,7 @@ class ContactCard extends StatelessWidget {
                         borderRadius: OvguPixels.borderRadiusImage,
                         child: SizedBox(
                             width: 50,
-                            child: contact.image
+                            child: Image.network(ApiService.getFileUrl(contact.image))
                         )
                     ),
                   ),
