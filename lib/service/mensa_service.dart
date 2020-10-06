@@ -22,7 +22,7 @@ class MensaService implements SyncableService {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'mensa',
       locale: LocaleSettings.currentLocale,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: []
     );
 

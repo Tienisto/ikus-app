@@ -22,7 +22,7 @@ class ContactService implements SyncableService {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
       locale: LocaleSettings.currentLocale,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: []
     );
 

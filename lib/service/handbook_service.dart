@@ -23,14 +23,14 @@ class HandbookService implements SyncableService {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
     ApiData pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: Uint8List.fromList([])
     );
 
     ApiData bookmarksData = await ApiService.getCacheOrFetchString(
         route: 'handbook-bookmarks',
         locale: LocaleSettings.currentLocale,
-        useCache: useCacheOnly,
+        useCacheOnly: useCacheOnly,
         fallback: []
     );
 
@@ -38,7 +38,9 @@ class HandbookService implements SyncableService {
 
     _bookmarks = list.map((bookmark) => PdfBookmark.fromMap(bookmark)).toList();
     _bytes = pdfData.data;
-    _lastUpdate = pdfData.timestamp;
+
+    // take the newer one
+    _lastUpdate = pdfData.timestamp.isAfter(bookmarksData.timestamp) ? pdfData.timestamp : bookmarksData.timestamp;
   }
 
   @override

@@ -26,7 +26,7 @@ class NewsService implements SyncableService {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'news',
       locale: LocaleSettings.currentLocale,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: {
         'channels': [],
         'posts': []

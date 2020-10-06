@@ -27,7 +27,7 @@ class CalendarService implements SyncableService {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'calendar',
       locale: LocaleSettings.currentLocale,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: {
         'channels': [],
         'events': []

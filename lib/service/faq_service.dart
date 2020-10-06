@@ -22,7 +22,7 @@ class FAQService implements SyncableService {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'faq',
       locale: LocaleSettings.currentLocale,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: []
     );
 

@@ -22,7 +22,7 @@ class LinkService implements SyncableService {
     ApiData data = await ApiService.getCacheOrFetchString(
       route: 'links',
       locale: LocaleSettings.currentLocale,
-      useCache: useCacheOnly,
+      useCacheOnly: useCacheOnly,
       fallback: []
     );
 

@@ -7,22 +7,27 @@ import 'package:http/http.dart';
 import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/service/jwt_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
+import 'package:intl/intl.dart';
 
+/// manages data from the server
+/// e.g. raw json, pdfs, images
 class ApiService {
 
   static String get URL => SettingsService.instance.getDevServer() ? 'https://ikus.tienisto.com/api/public' : 'https://welcome-app.farafin.de/api/public';
   static final DateTime FALLBACK_TIME = DateTime(2020, 8, 1);
+  static final DateFormat _lastModifiedFormatter = DateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", 'en');
 
   static String getFileUrl(String fileName) {
     return '$URL/file/$fileName';
   }
 
-  static Future<ApiData<String>> getCacheOrFetchString({String route, String locale, bool useCache, fallback}) async {
+  static Future<ApiData<String>> getCacheOrFetchString({String route, String locale, bool useCacheOnly, fallback}) async {
     Response response;
 
-    if (!useCache) {
+    if (!useCacheOnly) {
       try {
         response = await get('$URL/$route?locale=${locale.toUpperCase()}');
+        print('[${response.statusCode}] $route');
       } catch (_) {
         print('failed to fetch $route');
       }
@@ -48,20 +53,24 @@ class ApiService {
     }
   }
 
-  static Future<ApiData<Uint8List>> getCacheOrFetchBinary({String route, bool useCache, fallback}) async {
+  static Future<ApiData<Uint8List>> getCacheOrFetchBinary({String route, bool useCacheOnly, fallback}) async {
     Response response;
-
-    if (!useCache) {
-      try {
-        response = await get('$URL/file/$route');
-      } catch (_) {
-        print('failed to fetch $route');
-      }
-    }
 
     Box cacheBox = Hive.box<Uint8List>('api_binary');
     Box timestampBox = Hive.box<DateTime>('last_sync');
     String boxKey = 'api_binary/$route';
+    DateTime timestamp = timestampBox.get(boxKey) ?? FALLBACK_TIME;
+
+    if (!useCacheOnly) {
+      try {
+        response = await get('$URL/file/$route', headers: {
+          'If-Modified-Since': _lastModifiedFormatter.format(timestamp.toUtc())
+        });
+        print('[${response.statusCode}] $route');
+      } catch (_) {
+        print('failed to fetch $route');
+      }
+    }
 
     if (response != null && response.statusCode == 200) {
       DateTime timestamp = DateTime.now();
@@ -71,7 +80,6 @@ class ApiService {
     } else {
       Uint8List cachedData = cacheBox.get(boxKey);
       if (cachedData != null) {
-        DateTime timestamp = timestampBox.get(boxKey) ?? FALLBACK_TIME;
         return ApiData(data: cachedData, timestamp: timestamp); // cached data
       } else {
         return ApiData(data: fallback, timestamp: FALLBACK_TIME); // fallback data
