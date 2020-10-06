@@ -46,9 +46,6 @@ Future<void> _initSettings() async {
   if (locale != null) {
     print('[storage] use locale: $locale');
     LocaleSettings.setLocale(locale);
-  } else {
-    await LocaleSettings.useDeviceLocale();
-    print('[storage] use default device locale: ${LocaleSettings.currentLocale}');
   }
 }
 
