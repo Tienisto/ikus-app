@@ -110,7 +110,8 @@
     "noResults": "No Results."
   },
   "handbook": {
-    "title": "Handbook"
+    "title": "Handbook",
+    "wip": "Handbook is in progress."
   },
   "links": {
     "title": "Useful Links"

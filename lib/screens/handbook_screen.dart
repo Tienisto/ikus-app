@@ -26,9 +26,8 @@ class _HandbookScreenState extends State<HandbookScreen> {
   void initState() {
     super.initState();
     Uint8List pdf = HandbookService.instance.getPDF();
-    pdfController = PdfController(
-        document: pdf.isEmpty ? PdfDocument.openAsset('assets/pdf/handbook.pdf') : PdfDocument.openData(pdf)
-    );
+    if (pdf.isNotEmpty)
+      pdfController = PdfController(document: PdfDocument.openData(pdf));
   }
 
   @override
@@ -40,49 +39,57 @@ class _HandbookScreenState extends State<HandbookScreen> {
       ),
       body: Stack(
         children: [
-          PdfView(
-            controller: pdfController,
-            scrollDirection: Axis.vertical,
-          ),
-          Positioned(
-            right: 20,
-            bottom: 20,
-            child: Row(
-              children: [
-                OvguButton(
-                  type: OvguButtonType.ICON_WIDE,
-                  callback: () {
-                    List<PdfBookmark> bookmarks = HandbookService.instance.getBookmarks();
-                    double height = MediaQuery.of(context).size.height;
-                    Popups.generic(
-                        context: context,
-                        height: min(height - 300, 500),
-                        body: HandbookPopup(
-                          bookmarks: bookmarks,
-                          callback: (page) async {
-                            Navigator.pop(context);
-                            await sleep(300);
-                            pdfController.animateToPage(page,
-                              duration: Duration(milliseconds: 1000),
-                              curve: Curves.easeInOutCubic
-                            );
-                          },
-                        )
-                    );
-                  },
-                  child: Icon(Icons.list, color: Colors.white),
-                ),
-                SizedBox(width: 20),
-                OvguButton(
-                  type: OvguButtonType.ICON_WIDE,
-                  callback: () async {
-                    await launch(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale, true));
-                  },
-                  child: Icon(Icons.cloud_download, color: Colors.white),
-                ),
-              ],
+          if (pdfController == null)
+            Center(
+              child: Container(
+                child: Text(t.handbook.wip, style: TextStyle(color: OvguColor.secondaryDarken2, fontSize: 20)),
+              ),
             ),
-          )
+          if (pdfController != null)
+            PdfView(
+              controller: pdfController,
+              scrollDirection: Axis.vertical,
+            ),
+          if (pdfController != null)
+            Positioned(
+              right: 20,
+              bottom: 20,
+              child: Row(
+                children: [
+                  OvguButton(
+                    type: OvguButtonType.ICON_WIDE,
+                    callback: () {
+                      List<PdfBookmark> bookmarks = HandbookService.instance.getBookmarks();
+                      double height = MediaQuery.of(context).size.height;
+                      Popups.generic(
+                          context: context,
+                          height: min(height - 300, 500),
+                          body: HandbookPopup(
+                            bookmarks: bookmarks,
+                            callback: (page) async {
+                              Navigator.pop(context);
+                              await sleep(300);
+                              pdfController.animateToPage(page,
+                                duration: Duration(milliseconds: 1000),
+                                curve: Curves.easeInOutCubic
+                              );
+                            },
+                          )
+                      );
+                    },
+                    child: Icon(Icons.list, color: Colors.white),
+                  ),
+                  SizedBox(width: 20),
+                  OvguButton(
+                    type: OvguButtonType.ICON_WIDE,
+                    callback: () async {
+                      await launch(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale, true));
+                    },
+                    child: Icon(Icons.cloud_download, color: Colors.white),
+                  ),
+                ],
+              ),
+            )
         ],
       ),
     );

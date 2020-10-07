@@ -110,7 +110,8 @@
     "noResults": "Keine Ergebnisse."
   },
   "handbook": {
-    "title": "Handbuch"
+    "title": "Handbuch",
+    "wip": "Handbuch ist in Arbeit."
   },
   "links": {
     "title": "Hilfreiche Links"
