@@ -14,16 +14,15 @@ class FAQResultItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return OvguButton(
       callback: callback,
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Container(), // stretch width
+          SizedBox(height: 10),
           Text(post.channel.name + ':', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          SizedBox(width: 10),
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Text(post.title, style: TextStyle(color: Colors.white)),
-              )
-          ),
+          SizedBox(height: 5),
+          Text(post.title, style: TextStyle(color: Colors.white)),
+          SizedBox(height: 10),
         ],
       ),
     );

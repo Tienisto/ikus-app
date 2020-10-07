@@ -79,6 +79,7 @@ class _FAQScreenState extends State<FAQScreen> {
           ),
 
           if (query.isEmpty)
+            // normal state
             ...faq.map((group) => Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: FAQGroupCard(
@@ -89,6 +90,7 @@ class _FAQScreenState extends State<FAQScreen> {
               ),
             )),
           if (query.isNotEmpty)
+            // search state
             ...[
               Padding(
                 padding: const EdgeInsets.only(left: 30, bottom: 10),
@@ -96,7 +98,7 @@ class _FAQScreenState extends State<FAQScreen> {
               ),
               ...results.map((post) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: FAQResultItem(
                     post: post,
                     callback: () {

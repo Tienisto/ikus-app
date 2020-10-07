@@ -38,9 +38,10 @@ class _FAQGroupCardState extends State<FAQGroupCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.postGroup.channel.name, style: TextStyle(fontSize: 16)),
+                  Expanded(
+                    child: Text(widget.postGroup.channel.name, style: TextStyle(fontSize: 16))
+                  ),
                   OvguButton(
                     flat: true,
                     type: OvguButtonType.ICON_WIDE,
