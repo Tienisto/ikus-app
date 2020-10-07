@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 
 final DateFormat _lastModifiedFormatter = DateFormat("dd.MM.yyyy HH:mm:ss");
 
+/// runs before the first frame
 Future<void> init() async {
   await _initHive();
   await _initDeviceId();
@@ -19,6 +20,7 @@ Future<void> init() async {
   print('init finished');
 }
 
+/// runs after the first frame
 Future<void> postInit(BuildContext context) async {
   await _appStart(context);
   await _updateOldData();
