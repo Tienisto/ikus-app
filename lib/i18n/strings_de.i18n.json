@@ -29,6 +29,15 @@
       "long": "Kontakte"
     }
   },
+  "welcome": {
+    "title": "Welcome at OVGU",
+    "intro": "Herzlich willkommen in unserer App! Hier erhältst du alle wichtigen Informationen über das Leben an der Uni Magdeburg gebündelt und übersichtlich an einem Ort.",
+    "selectLanguage": "Sprache auswählen:",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "start": "App Starten",
+    "loading": "Lade Daten..."
+  },
   "tutorial": {
     "steps": [
       "Das ist der Startbildschirm.\nHier findest du die neusten Nachrichten.",
@@ -79,15 +88,6 @@
       "dev": "Entwickler-Einstellungen",
       "appName": "Welcome at OVGU"
     }
-  },
-  "welcome": {
-    "title": "Welcome at OVGU",
-    "intro": "Herzlich willkommen in unserer App! Hier erhältst du alle wichtige Informationen über das Leben an der Uni Magdeburg gebündelt und übersichtlich an einem Ort.",
-    "selectLanguage": "Sprache auswählen:",
-    "english": "Englisch",
-    "german": "Deutsch",
-    "start": "App Starten",
-    "loading": "Lade Daten..."
   },
   "about": {
     "title": "Über die App",

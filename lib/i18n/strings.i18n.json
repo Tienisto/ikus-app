@@ -29,6 +29,15 @@
       "long": "Contacts"
     }
   },
+  "welcome": {
+    "title": "Welcome at OVGU",
+    "intro": "You just enroll for Magdeburg University? With this app you get an overview of all important information about the life in the university.",
+    "selectLanguage": "Select language:",
+    "english": "English",
+    "german": "German",
+    "start": "Start App",
+    "loading": "Loading Data..."
+  },
   "tutorial": {
     "steps": [
       "This is the start screen.\nHere you can find the latest news.",
@@ -79,15 +88,6 @@
       "dev": "Developer Settings",
       "appName": "Welcome at OVGU"
     }
-  },
-  "welcome": {
-    "title": "Welcome at OVGU",
-    "intro": "You just enroll for Magdeburg University? With this app you get an overview of all important information about the life in the university.",
-    "selectLanguage": "Select language:",
-    "english": "English",
-    "german": "German",
-    "start": "Start App",
-    "loading": "Loading Data..."
   },
   "about": {
     "title": "About the app",
