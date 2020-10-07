@@ -121,7 +121,7 @@ class _EventScreenState extends State<EventScreen> {
                           IconText(
                             size: EventScreen.valueSize,
                             icon: Icons.access_time,
-                            text: widget.event.formattedTime,
+                            text: t.timeFormat(time: widget.event.formattedTime),
                           ),
                       ],
                     ),

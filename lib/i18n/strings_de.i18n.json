@@ -191,5 +191,6 @@
       "reset": "Zurücksetzen",
       "cancel": "Abbrechen"
     }
-  }
+  },
+  "timeFormat": "$time Uhr"
 }

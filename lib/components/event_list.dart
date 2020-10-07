@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -40,7 +41,7 @@ class EventList extends StatelessWidget {
                           children: [
                             Text(event.name, style: TextStyle(fontSize: 16, fontWeight: currHighlighted ? FontWeight.bold : FontWeight.normal)),
                             if (event.hasTime)
-                              Text(event.formattedTime, style: TextStyle(color: OvguColor.secondaryDarken2)),
+                              Text(t.timeFormat(time: event.formattedTime), style: TextStyle(color: OvguColor.secondaryDarken2)),
                             if (!event.hasTime)
                               SizedBox(height: 10) // placeholder
                           ],

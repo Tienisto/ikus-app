@@ -8,7 +8,8 @@ class Event {
   static final DateFormat _format = DateFormat('dd.MM.yyyy, HH:mm', LocaleSettings.currentLocale);
   static final DateFormat formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale);
   static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEE, dd.MM.yyyy', LocaleSettings.currentLocale);
-  static final DateFormat _formatOnlyTime= DateFormat('kk:mm', LocaleSettings.currentLocale);
+  static final DateFormat _formatOnlyTimeDe = DateFormat('HH:mm', LocaleSettings.currentLocale);
+  static final DateFormat _formatOnlyTimeEn = DateFormat('h:mm a', LocaleSettings.currentLocale);
 
   final int id;
   final String name;
@@ -41,9 +42,16 @@ class Event {
   /// same as formattedTimestamp but only time
   String get formattedTime {
     if (hasEndTime)
-      return _formatOnlyTime.format(startTime) + ' - ' + _formatOnlyTime.format(endTime);
+      return _formatTime(startTime) + ' - ' + _formatTime(endTime);
     else
-      return _formatOnlyTime.format(startTime);
+      return _formatTime(startTime);
+  }
+
+  String _formatTime(DateTime time) {
+    if (LocaleSettings.currentLocale == 'en')
+      return _formatOnlyTimeEn.format(time);
+    else
+      return _formatOnlyTimeDe.format(time);
   }
 
   bool get hasTime {

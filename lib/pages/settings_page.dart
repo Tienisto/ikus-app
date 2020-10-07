@@ -29,7 +29,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy, HH:mm");
+  static DateFormat _dateFormatterDe = DateFormat("dd.MM.yyyy, HH:mm");
+  static DateFormat _dateFormatterEn = DateFormat("dd.MM.yyyy, h:mm a");
   static const Color LOGO_COLOR = Color(0xFFAFAFAF);
   String _version = '';
 
@@ -57,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(_dateFormatter.format(lastUpdate))
+                  Text(LocaleSettings.currentLocale == 'en' ? _dateFormatterEn.format(lastUpdate) : _dateFormatterDe.format(lastUpdate))
                 ],
               )
           ),

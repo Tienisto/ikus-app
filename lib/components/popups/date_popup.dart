@@ -78,7 +78,7 @@ class DatePopup extends StatelessWidget {
                             IconText(
                               size: 14,
                               icon: Icons.access_time,
-                              text: event.formattedTime,
+                              text: t.timeFormat(time: event.formattedTime),
                               color: Colors.white,
                             )
                         ],
