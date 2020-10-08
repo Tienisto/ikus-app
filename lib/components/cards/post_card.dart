@@ -22,18 +22,25 @@ class PostCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: OvguColor.primary,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), bottomRight: Radius.circular(OvguPixels.borderRadiusPlain))
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: OvguColor.primary,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), bottomRight: Radius.circular(OvguPixels.borderRadiusPlain))
+                      ),
+                      child: FittedBox(
+                        // FittedBox scales the text down if it is too large
+                        child: Text(post.channel.name, style: TextStyle(color: Colors.white))
+                      )
+                    ),
                   ),
-                  child: Text(post.channel.name, style: TextStyle(color: Colors.white))
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5, right: 10),
+                  padding: const EdgeInsets.only(left: 20, top: 5, right: 10),
                   child: Text(post.formattedDate, style: TextStyle(color: OvguColor.secondaryDarken2)),
                 )
               ],
