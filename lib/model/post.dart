@@ -12,8 +12,9 @@ class Post {
   final Channel channel;
   final DateTime date;
   final List<String> images;
+  final bool pinned;
 
-  const Post({this.id, this.title, this.preview, this.content, this.channel, this.date, this.images});
+  const Post({this.id, this.title, this.preview, this.content, this.channel, this.date, this.images, this.pinned});
 
   String get formattedDate {
     return _dateFormatter.format(date);
@@ -27,7 +28,8 @@ class Post {
       title: map['title'],
       preview: map['preview'],
       content: map['content'],
-      images: map['files'].map((file) => file['fileName']).toList().cast<String>()
+      images: map['files'].map((file) => file['fileName']).toList().cast<String>(),
+      pinned: map['pinned'] ?? false
     );
   }
 

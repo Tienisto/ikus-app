@@ -27,6 +27,7 @@ class PostCard extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
+                      margin: EdgeInsets.only(right: 20),
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       height: 25,
                       decoration: BoxDecoration(
@@ -40,8 +41,13 @@ class PostCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (post.pinned)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Icon(Icons.push_pin, size: 16, color: OvguColor.secondaryDarken2),
+                  ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 5, right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   child: Text(post.formattedDate, style: TextStyle(color: OvguColor.secondaryDarken2)),
                 )
               ],
