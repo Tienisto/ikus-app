@@ -30,11 +30,8 @@ class PostScreen extends StatelessWidget {
       body: MainListView(
         children: [
           SizedBox(height: 30),
-          SizedBox(
-            height: 25,
-            child: ListView(
-              physics: Adaptive.getScrollPhysics(),
-              scrollDirection: Axis.horizontal,
+          FittedBox(
+            child: Row(
               children: [
                 SizedBox(width: 20),
                 Center(child: Badge(text: post.channel.name)),
