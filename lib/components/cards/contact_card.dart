@@ -104,6 +104,36 @@ class ContactCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   multiLine: true,
                 ),
+              ),
+            if (contact.links.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Icon(Icons.language, size: ATTRIBUTE_SIZE),
+                    ),
+                    SizedBox(width: ICON_TEXT_DISTANCE),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: contact.links.map((link) {
+                          return InkWell(
+                            onTap: () async {
+                              await launch(link);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Text(link.replaceFirst('https://', '').replaceFirst('http://', ''), style: TextStyle(fontSize: ATTRIBUTE_SIZE), overflow: TextOverflow.fade, softWrap: false),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  ],
+                )
               )
           ],
         ),

@@ -6,17 +6,19 @@ class Contact {
   final String phoneNumber;
   final String place;
   final String openingHours;
+  final List<String> links;
 
-  Contact({this.name, this.image, this.email, this.phoneNumber, this.place, this.openingHours});
+  Contact({this.name, this.image, this.email, this.phoneNumber, this.place, this.openingHours, this.links});
 
   static Contact fromMap(Map<String, dynamic> map) {
     return Contact(
-        name: map['name'],
-        image: map['file'],
-        email: map['email'],
-        phoneNumber: map['phoneNumber'],
-        place: map['place'],
-        openingHours: map['openingHours']
+      name: map['name'],
+      image: map['file'],
+      email: map['email'],
+      phoneNumber: map['phoneNumber'],
+      place: map['place'],
+      openingHours: map['openingHours'],
+      links: map['links']?.cast<String>() ?? []
     );
   }
 
