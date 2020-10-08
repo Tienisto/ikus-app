@@ -28,6 +28,7 @@ class PostCard extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      height: 25,
                       decoration: BoxDecoration(
                         color: OvguColor.primary,
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), bottomRight: Radius.circular(OvguPixels.borderRadiusPlain))
