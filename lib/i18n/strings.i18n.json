@@ -30,7 +30,7 @@
     }
   },
   "welcome": {
-    "title": "Welcome at OVGU",
+    "title": "Welcome to OVGU",
     "intro": "You just enroll for Magdeburg University? With this app you get an overview of all important information about the life in the university.",
     "selectLanguage": "Select language:",
     "english": "English",
@@ -86,12 +86,12 @@
       "licenses": "Licenses",
       "about": "About the app",
       "dev": "Developer Settings",
-      "appName": "Welcome at OVGU"
+      "appName": "Welcome to OVGU"
     }
   },
   "about": {
     "title": "About the app",
-    "main": "The Welcome at OVGU app is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
+    "main": "The Welcome to OVGU app is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
     "idea": "Idea",
     "technicalImplementation": "Technical Implementation"
   },

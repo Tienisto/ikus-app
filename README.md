@@ -1,4 +1,4 @@
-# Welcome at OVGU
+# Welcome to OVGU
 
 An official app by Magdeburg University 
 
