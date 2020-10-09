@@ -182,6 +182,11 @@
       "list": "Zur Liste",
       "ok": "Okay"
     },
+    "eventPastPopup": {
+      "title": "Event ist schon vorbei",
+      "info": "Du kannst nur Events hinzufügen, die in der Zukunft liegen.",
+      "ok": "OK"
+    },
     "handbookPopup": {
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"

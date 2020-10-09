@@ -182,6 +182,11 @@
       "list": "Show List",
       "ok": "Okay"
     },
+    "eventPastPopup": {
+      "title": "Event is already over",
+      "info": "You can only add events which are in the future.",
+      "ok": "OK"
+    },
     "handbookPopup": {
       "title": "Structure",
       "page": "P. $page"

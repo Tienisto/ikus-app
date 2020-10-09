@@ -7,6 +7,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/map_with_marker.dart';
 import 'package:ikus_app/components/popups/event_added_popup.dart';
+import 'package:ikus_app/components/popups/event_past_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/my_events_screen.dart';
@@ -52,39 +53,45 @@ class _EventScreenState extends State<EventScreen> {
             child: Row(
               children: [
                 Badge(text: widget.event.channel.name),
-                Visibility(
-                  visible: widget.event.startTime.isAfter(DateTime.now()),
-                  replacement: SizedBox(height: 35),
-                  child: OvguButton(
-                    type: OvguButtonType.ICON_WIDE,
-                    flat: true,
-                    callback: () {
-                      setState(() {
-                        CalendarService.instance.toggleMyEvent(widget.event);
-                      });
+                OvguButton(
+                  type: OvguButtonType.ICON_WIDE,
+                  flat: true,
+                  callback: () {
 
-                      if (CalendarService.instance.isMyEvent(widget.event)) {
-                        Popups.generic(
-                            context: context,
-                            height: 220,
-                            body: EventAddedPopup(
-                              event: widget.event,
-                              onOk: () {},
-                              onUndo: () {
-                                setState(() {
-                                  CalendarService.instance.toggleMyEvent(widget.event);
-                                });
-                              },
-                              onShowList: () async {
-                                await pushScreen(context, () => MyEventsScreen());
-                                setState(() {}); // in case user has removed it from the list
-                              },
-                            )
-                        );
-                      }
-                    },
-                    child: Icon(CalendarService.instance.isMyEvent(widget.event) ? Icons.favorite : Icons.favorite_border),
-                  ),
+                    if (widget.event.startTime.isBefore(DateTime.now())) {
+                      Popups.generic(
+                          context: context,
+                          height: 220,
+                          body: EventPastPopup()
+                      );
+                      return;
+                    }
+
+                    setState(() {
+                      CalendarService.instance.toggleMyEvent(widget.event);
+                    });
+
+                    if (CalendarService.instance.isMyEvent(widget.event)) {
+                      Popups.generic(
+                          context: context,
+                          height: 220,
+                          body: EventAddedPopup(
+                            event: widget.event,
+                            onOk: () {},
+                            onUndo: () {
+                              setState(() {
+                                CalendarService.instance.toggleMyEvent(widget.event);
+                              });
+                            },
+                            onShowList: () async {
+                              await pushScreen(context, () => MyEventsScreen());
+                              setState(() {}); // in case user has removed it from the list
+                            },
+                          )
+                      );
+                    }
+                  },
+                  child: Icon(CalendarService.instance.isMyEvent(widget.event) ? Icons.favorite : Icons.favorite_border),
                 )
               ],
             ),
