@@ -95,10 +95,10 @@ Future<void> _updateOldData() async {
     Duration age = now.difference(service.getLastUpdate());
     String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
     if (age >= service.getMaxAge()) {
-      print(' -> ${service.getName().padRight(12)}: $lastUpdateString ($age >= ${service.getMaxAge()}) -> fetch');
+      print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age >= ${service.getMaxAge()}) -> fetch');
       await service.sync(useCacheOnly: false);
     } else {
-      print(' -> ${service.getName().padRight(12)}: $lastUpdateString ($age < ${service.getMaxAge()}) -> up-to-date');
+      print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age < ${service.getMaxAge()}) -> up-to-date');
     }
   }
   DateTime after = DateTime.now();

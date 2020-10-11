@@ -17,9 +17,9 @@ import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/screens/post_screen.dart';
+import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/service/news_service.dart';
-import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   int _currentEventIndex = 0;
+  List<Feature> _favorites;
   List<Event> _events;
   List<Post> _posts;
 
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updateData() {
+    _favorites = AppConfigService.instance.getFavoriteFeatures();
     _events = CalendarService.instance.getMyNextEvents();
     _posts = NewsService.instance.getPosts();
   }
@@ -51,11 +53,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    List<Feature> favorites = SettingsService.instance.getFavorites();
     double width = min(MediaQuery.of(context).size.width, OvguPixels.maxWidth);
-    double favoriteMargin = favorites.length <= 3 ? 20 : 10;
-    double favoriteFontSize = favorites.length <= 3 ? 14 : 12;
-    double favoriteWidth = (width - favoriteMargin * (favorites.length - 1) - OvguPixels.mainScreenPadding.horizontal) / favorites.length;
+    double favoriteMargin = _favorites.length <= 3 ? 20 : 10;
+    double favoriteFontSize = _favorites.length <= 3 ? 14 : 12;
+    double favoriteWidth = (width - favoriteMargin * (_favorites.length - 1) - OvguPixels.mainScreenPadding.horizontal) / _favorites.length;
 
     return SafeArea(
       child: RefreshIndicator(
@@ -70,23 +71,23 @@ class _HomePageState extends State<HomePage> {
         },
         child: MainListView(
           children: [
-            if (favorites.isNotEmpty)
+            if (_favorites.isNotEmpty)
               SizedBox(height: 30),
-            if (favorites.isNotEmpty)
+            if (_favorites.isNotEmpty)
               Padding(
                 padding: OvguPixels.mainScreenPadding,
                 child: SizedBox(
                   height: 70,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: favorites.map((Feature feature) {
+                    children: _favorites.map((Feature feature) {
                       return FavoriteButton(
                           icon: feature.icon,
                           text: feature.shortName,
                           width: favoriteWidth,
                           fontSize: favoriteFontSize,
                           callback: () async {
-                            await pushScreen(context, () => feature.widget);
+                            await feature.onOpen(context);
                             setState(() {
                               _updateData();
                             });

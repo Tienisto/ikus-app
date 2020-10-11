@@ -80,7 +80,8 @@
         "links": "Links",
         "handbook": "Handbuch",
         "faq": "FAQ",
-        "contact": "Kontakte"
+        "contact": "Kontakte",
+        "appConfig": "App-Konfiguration"
       },
       "reset": "Daten zurücksetzen",
       "licenses": "Lizenzen",

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 
 class SettingsService {
@@ -10,7 +9,7 @@ class SettingsService {
 
   bool _welcome;
   String _locale; // nullable
-  List<Feature> _favorites;
+  List<int> _favorites;
   List<int> _newsChannels; // nullable
   List<int> _calendarChannels; // nullable
   List<int> _myEvents;
@@ -23,11 +22,8 @@ class SettingsService {
     _welcome = box.get('welcome', defaultValue: true);
     _locale = box.get('locale');
     _favorites = box
-        .get('favorite_features', defaultValue: [Feature.MAP, Feature.MENSA, Feature.LINKS].map((feature) => describeEnum(feature)))
-        .map((key) => (key as String).toFeature())
-        .where((feature) => feature != null)
-        .toList()
-        .cast<Feature>();
+        .get('favorite_feature_list', defaultValue: [])
+        ?.cast<int>();
     _newsChannels = box
         .get('news_channels')
         ?.cast<int>();
@@ -61,25 +57,12 @@ class SettingsService {
     return _locale;
   }
 
-  void setFavorites(List<Feature> favorites) {
-    _box.put('favorite_features', favorites.map((feature) => describeEnum(feature)).toList());
+  void setFavorites(List<int> favorites) {
+    _box.put('favorite_feature_list', favorites);
     _favorites = favorites;
   }
 
-  void toggleFavorite(Feature feature) {
-    List<Feature> next;
-    if (isFavorite(feature))
-      next = _favorites.where((f) => f != feature).toList(); // remove
-    else
-      next = [ ..._favorites, feature ].toSet().toList()..sort((a, b) => a.index - b.index); // add
-    setFavorites(next);
-  }
-
-  bool isFavorite(Feature feature) {
-    return _favorites.indexOf(feature) != -1;
-  }
-
-  List<Feature> getFavorites() {
+  List<int> getFavorites() {
     return _favorites;
   }
 
@@ -129,8 +112,11 @@ class SettingsService {
   }
 
   /// reinitialize with default values
+  /// keeps dev server attribute alive
   Future<void> clear() async {
+    bool devServer = _devServer;
     await _box.clear();
     init();
+    setDevServer(devServer);
   }
 }

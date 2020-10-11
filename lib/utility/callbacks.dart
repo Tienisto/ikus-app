@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
@@ -11,4 +12,5 @@ typedef void PostCallback(Post post);
 typedef void SwitchCallback(SwitchState state);
 typedef void EventCallback(Event event);
 typedef Future<void> FutureCallback();
+typedef Future<void> FutureWithContextCallback(BuildContext context);
 typedef Future<void> ChannelBooleanCallback(Channel channel, bool boolean);

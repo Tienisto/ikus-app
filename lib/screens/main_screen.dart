@@ -8,11 +8,11 @@ import 'package:ikus_app/components/tutorial/tutorial_background.dart';
 import 'package:ikus_app/components/tutorial/tutorial_feature_highlight.dart';
 import 'package:ikus_app/components/tutorial/tutorial_overlay.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/pages/calendar_page.dart';
 import 'package:ikus_app/pages/features_page.dart';
 import 'package:ikus_app/pages/home_page.dart';
 import 'package:ikus_app/pages/settings_page.dart';
+import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MainScreen extends StatefulWidget {
@@ -164,7 +164,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: TutorialFeatureHighlight(
                             visible: tutorialFeatureHeartHighlight,
                             width: 60,
-                            height: Feature.values.length * 54.0
+                            height: AppConfigService.instance.getFeatures().length * 54.0
                           ),
                         ),
                       ),

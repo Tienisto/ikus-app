@@ -6,8 +6,7 @@ import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
-import 'package:ikus_app/service/settings_service.dart';
-import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class FeaturesPage extends StatefulWidget {
@@ -16,6 +15,15 @@ class FeaturesPage extends StatefulWidget {
 }
 
 class _FeaturesPageState extends State<FeaturesPage> {
+
+  List<Feature> features;
+
+  @override
+  void initState() {
+    super.initState();
+    features = AppConfigService.instance.getFeatures();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,17 +40,18 @@ class _FeaturesPageState extends State<FeaturesPage> {
             ),
           ),
           SizedBox(height: 30),
-          ...Feature.values.map((feature) => Padding(
+          ...features.map((feature) => Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 5),
             child: FeatureButton(
               feature: feature,
-              favorite: SettingsService.instance.isFavorite(feature),
-              selectCallback: () {
-                pushScreen(context, () => feature.widget);
+              favorite: AppConfigService.instance.isFavorite(feature),
+              selectCallback: () async {
+                await feature.onOpen(context);
               },
               favoriteCallback: () {
                 setState(() {
-                  SettingsService.instance.toggleFavorite(feature);
+                  AppConfigService.instance.toggleFavorite(feature);
+                  features = AppConfigService.instance.getFeatures();
                 });
               },
             ),

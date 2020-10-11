@@ -1,3 +1,4 @@
+import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/contact_service.dart';
 import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/service/faq_service.dart';
@@ -21,6 +22,7 @@ abstract class SyncableService {
     LinkService.instance,
     HandbookService.instance,
     FAQService.instance,
-    ContactService.instance
+    ContactService.instance,
+    AppConfigService.instance
   ];
 }
