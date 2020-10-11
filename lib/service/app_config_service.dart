@@ -39,8 +39,9 @@ class AppConfigService implements SyncableService {
 
     List<int> favoriteIds = SettingsService.instance.getFavorites();
     _favoriteFeatures = _features.where((feature) => favoriteIds.any((id) => feature.id == id)).toList();
-    if (_favoriteFeatures.isEmpty) {
-      useRecommendedFavorites(); // TODO: delete this when most devices has been migrated
+    if (_lastUpdate == ApiService.FALLBACK_TIME) {
+      print(' -> first app config fetch ($_lastUpdate) -> use recommended favorites');
+      useRecommendedFavorites();
     }
 
     _lastUpdate = data.timestamp;
