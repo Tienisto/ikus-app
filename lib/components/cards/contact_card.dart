@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/model/contact.dart';
+import 'package:ikus_app/screens/image_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,12 +31,20 @@ class ContactCard extends StatelessWidget {
                 if (contact.image != null)
                   Padding(
                     padding: const EdgeInsets.only(right: 15),
-                    child: ClipRRect(
-                        borderRadius: OvguPixels.borderRadiusImage,
-                        child: SizedBox(
-                            width: 50,
-                            child: Image.network(ApiService.getFileUrl(contact.image))
-                        )
+                    child: InkWell(
+                      onTap: () {
+                        pushScreen(context, () => ImageScreen(tag: contact.image, image: Image.network(ApiService.getFileUrl(contact.image))));
+                      },
+                      child: ClipRRect(
+                          borderRadius: OvguPixels.borderRadiusImage,
+                          child: SizedBox(
+                              width: 50,
+                              child: Hero(
+                                tag: contact.image,
+                                child: Image.network(ApiService.getFileUrl(contact.image))
+                              )
+                          )
+                      ),
                     ),
                   ),
                 Expanded(
