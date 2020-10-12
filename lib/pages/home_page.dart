@@ -72,10 +72,8 @@ class _HomePageState extends State<HomePage> {
         child: MainListView(
           children: [
             if (_favorites.isNotEmpty)
-              SizedBox(height: 30),
-            if (_favorites.isNotEmpty)
               Padding(
-                padding: OvguPixels.mainScreenPadding,
+                padding: OvguPixels.mainScreenPadding.copyWith(top: 20),
                 child: SizedBox(
                   height: 70,
                   child: Row(
