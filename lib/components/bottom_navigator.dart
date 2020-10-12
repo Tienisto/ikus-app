@@ -30,7 +30,7 @@ class BottomNavigator extends StatelessWidget {
         items: _icons.mapIndexed((icons, index) {
           return BottomNavigationBarItem(
             icon: Icon(icons),
-            title: Text(t.main.bottomBar[index]),
+            label: t.main.bottomBar[index],
           );
         }).toList(),
         currentIndex: selectedIndex,
