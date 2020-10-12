@@ -34,7 +34,10 @@ class AppConfigService implements SyncableService {
     Map<String, dynamic> map = jsonDecode(data.data);
     List<dynamic> featureList = map["features"];
 
-    _features = featureList.mapIndexed((feature, index) => Feature.fromMap(index, feature)).toList();
+    _features = featureList
+        .mapIndexed((feature, index) => Feature.fromMap(index, feature))
+        .where((feature) => feature != null)
+        .toList();
     _recommendedFavoriteFeatures = _features.where((feature) => feature.recommendedFavorite).toList();
 
     List<int> favoriteIds = SettingsService.instance.getFavorites();
