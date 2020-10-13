@@ -140,7 +140,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 callback: () async {
                   Popups.generic(
                       context: context,
-                      height: 240,
+                      height: 220,
                       body: ResetPopup(
                         callback: () async {
                           await SettingsService.instance.clear();
