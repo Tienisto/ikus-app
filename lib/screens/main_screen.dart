@@ -176,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 10),
                       child: TutorialFeatureHighlight(
                         visible: tutorialFavoritesHighlight,
                         width: min(size.width, OvguPixels.maxWidth) - 15,
