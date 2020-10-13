@@ -15,6 +15,7 @@ class AppConfigService implements SyncableService {
   static AppConfigService get instance => _instance;
 
   DateTime _lastUpdate;
+  bool _compatibleWithApi;
   List<Feature> _features;
   List<Feature> _favoriteFeatures;
   List<Feature> _recommendedFavoriteFeatures;
@@ -32,6 +33,16 @@ class AppConfigService implements SyncableService {
     );
 
     Map<String, dynamic> map = jsonDecode(data.data);
+    int apiLevel = map["version"];
+
+    if (API_VERSION < apiLevel) {
+      _compatibleWithApi = false;
+      print(' -> App is not compatible with API ($API_VERSION < $apiLevel)');
+    } else {
+      _compatibleWithApi = true;
+      print(' -> API level OK ($API_VERSION >= $apiLevel)');
+    }
+
     List<dynamic> featureList = map["features"];
 
     _features = featureList
@@ -57,6 +68,10 @@ class AppConfigService implements SyncableService {
 
   @override
   Duration getMaxAge() => Duration(days: 1);
+
+  bool isCompatibleWithApi() {
+    return _compatibleWithApi;
+  }
 
   List<Feature> getFeatures() {
     return _features;

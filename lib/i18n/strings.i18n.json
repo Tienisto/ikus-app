@@ -192,6 +192,11 @@
       "title": "Structure",
       "page": "P. $page"
     },
+    "needUpdatePopup": {
+      "title": "Update needed",
+      "info": "Offline stored data will be used as long as you don't update the app to the latest version.",
+      "ok": "OK"
+    },
     "resetPopup": {
       "title": "Reset Data",
       "content": "The app will be reset to the factory settings. Continue?",

@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
+import 'package:ikus_app/init.dart';
 import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/jwt_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +26,7 @@ class ApiService {
   static Future<ApiData<String>> getCacheOrFetchString({String route, String locale, bool useCacheOnly, fallback}) async {
     Response response;
 
-    if (!useCacheOnly) {
+    if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && !useCacheOnly) {
       try {
         response = await get('$URL/$route?locale=${locale.toUpperCase()}');
         print('[${response.statusCode}] $route');
@@ -61,7 +63,7 @@ class ApiService {
     String boxKey = 'api_binary/$route';
     DateTime timestamp = timestampBox.get(boxKey) ?? FALLBACK_TIME;
 
-    if (!useCacheOnly) {
+    if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && !useCacheOnly) {
       try {
         response = await get('$URL/file/$route', headers: {
           'If-Modified-Since': _lastModifiedFormatter.format(timestamp.toUtc())

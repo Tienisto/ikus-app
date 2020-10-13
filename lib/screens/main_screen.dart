@@ -3,16 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ikus_app/components/bottom_navigator.dart';
+import 'package:ikus_app/components/popups/need_update_popup.dart';
 import 'package:ikus_app/components/status_bar_color.dart';
 import 'package:ikus_app/components/tutorial/tutorial_background.dart';
 import 'package:ikus_app/components/tutorial/tutorial_feature_highlight.dart';
 import 'package:ikus_app/components/tutorial/tutorial_overlay.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/init.dart';
 import 'package:ikus_app/pages/calendar_page.dart';
 import 'package:ikus_app/pages/features_page.dart';
 import 'package:ikus_app/pages/home_page.dart';
 import 'package:ikus_app/pages/settings_page.dart';
 import 'package:ikus_app/service/app_config_service.dart';
+import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MainScreen extends StatefulWidget {
@@ -54,6 +58,21 @@ class _MainScreenState extends State<MainScreen> {
     _page = 0;
     tutorialMode = widget.tutorial;
     currTutorialStep = 0;
+    showNeedUpdateIfNeeded();
+  }
+
+  Future<void> showNeedUpdateIfNeeded() async {
+    do {
+      await sleep(1000);
+    } while (!Init.postInitFinished);
+
+    if (!AppConfigService.instance.isCompatibleWithApi()) {
+      Popups.generic(
+        context: context,
+        height: 230,
+        body: NeedUpdatePopup(),
+      );
+    }
   }
 
   void animateToPage(int index) {

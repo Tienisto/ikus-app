@@ -25,4 +25,15 @@ abstract class SyncableService {
     ContactService.instance,
     AppConfigService.instance
   ];
+
+  // same as above but without AppConfigService
+  static List<SyncableService> get servicesWithoutAppConfig => [
+    NewsService.instance,
+    CalendarService.instance,
+    MensaService.instance,
+    LinkService.instance,
+    HandbookService.instance,
+    FAQService.instance,
+    ContactService.instance
+  ];
 }

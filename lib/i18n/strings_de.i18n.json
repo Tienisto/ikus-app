@@ -192,6 +192,11 @@
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"
     },
+    "needUpdatePopup": {
+      "title": "Update notwendig",
+      "info": "Es werden die Offline-Daten verwendet, solange du die App nicht auf die neuste Version aktualisierst.",
+      "ok": "OK"
+    },
     "resetPopup": {
       "title": "Daten zurücksetzen",
       "content": "Die App wird auf den Werkszustand gebracht. Fortsetzen?",

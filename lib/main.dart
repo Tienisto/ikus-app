@@ -37,13 +37,13 @@ class IkusAppState extends State<IkusApp> {
     Globals.ikusAppState = this;
 
     // initialize from storage
-    init().whenComplete(() {
+    Init.init().whenComplete(() {
       setState((){
         _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen();
         _initialized = true;
       });
     }).whenComplete(() async {
-      await postInit(context);
+      await Init.postInit(context);
     });
   }
 
