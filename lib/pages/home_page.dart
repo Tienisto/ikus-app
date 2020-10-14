@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   int _currentEventIndex = 0;
   List<Feature> _favorites;
-  List<Event> _events;
+  List<Event> _nextEvents;
   List<Post> _posts;
 
   @override
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   void _updateData() {
     _favorites = AppConfigService.instance.getFavoriteFeatures();
-    _events = CalendarService.instance.getMyNextEvents();
+    _nextEvents = CalendarService.instance.getMyNextEvents();
     _posts = NewsService.instance.getPosts();
   }
 
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             SizedBox(height: 30),
-            if (_events.isNotEmpty)
+            if (_nextEvents.isNotEmpty)
               ...[
                 Padding(
                   padding: OvguPixels.mainScreenPadding,
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                     size: OvguPixels.headerSize,
                     distance: OvguPixels.headerDistance,
                     icon: Icons.today,
-                    text: t.main.home.nextEvents,
+                    text: _nextEvents.length == 1 ? t.main.home.nextEventsSingular : t.main.home.nextEventsPlural,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                         });
                       }
                   ),
-                  items: _events.map((event) {
+                  items: _nextEvents.map((event) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Padding(
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: _events.mapIndexed((event, index) {
+                  children: _nextEvents.mapIndexed((event, index) {
                     return Container(
                       width: 8.0,
                       height: 8.0,

@@ -57,7 +57,8 @@
       "Settings"
     ],
     "home": {
-      "nextEvents": "Next Events",
+      "nextEventsSingular": "Next Event",
+      "nextEventsPlural": "Next Events",
       "news": "News"
     },
     "calendar": {

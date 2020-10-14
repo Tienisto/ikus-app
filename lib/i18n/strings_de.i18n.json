@@ -57,7 +57,8 @@
       "Einst."
     ],
     "home": {
-      "nextEvents": "Nächsten Events",
+      "nextEventsSingular": "Nächstes Event",
+      "nextEventsPlural": "Nächste Events",
       "news": "Neuigkeiten"
     },
     "calendar": {
