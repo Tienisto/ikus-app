@@ -48,6 +48,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
     return SafeArea(
       child: MainListView(
         children: [
@@ -150,7 +151,12 @@ class _CalendarPageState extends State<CalendarPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: EventList(
-              events: _calendarController.visibleEvents.map((key, value) => MapEntry(key, value.cast<Event>())),
+              events: _calendarController.visibleEvents
+                  .map((key, value) => MapEntry(key, [...value].cast<Event>()))
+                  ..removeWhere((key, value) {
+                    value.removeWhere((event) => !CalendarService.instance.isInFuture(event, now));
+                    return value.isEmpty;
+                  }),
               highlighted: _myEvents,
               callback: (event) async {
                 await pushScreen(context, () => EventScreen(event));

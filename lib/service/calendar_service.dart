@@ -49,7 +49,7 @@ class CalendarService implements SyncableService {
     List<int> myEventIds = SettingsService.instance.getMyEvents();
     List<Event> myEvents = myEventIds
         .map((id) => events.firstWhere((event) => event.id == id, orElse: () => null))
-        .where((event) => event != null && event.startTime.isAfter(now))
+        .where((event) => event != null && isInFuture(event, now))
         .toList();
 
     _channelHandler = ChannelHandler(channels, subscribedChannels);
@@ -138,5 +138,13 @@ class CalendarService implements SyncableService {
   void _updateMyEventsSettings() {
     List<int> myEvents = _myEvents.map((e) => e.id).toList();
     SettingsService.instance.setMyEvents(myEvents);
+  }
+
+  bool isInFuture(Event event, [DateTime now]) {
+    if (now == null) {
+      now = DateTime.now();
+    }
+
+    return event.startTime.isAfter(now) || (event.endTime != null && event.endTime.isAfter(now));
   }
 }
