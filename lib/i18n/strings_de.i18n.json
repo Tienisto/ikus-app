@@ -93,9 +93,23 @@
   },
   "about": {
     "title": "Über die App",
-    "main": "Die Welcome to OVGU - App ist eine Initiative des akademischen Auslandamts der Otto-von-Guericke Universität Magdeburg mit dem Ziel, die Digitalisierung an der Universität voranzutreiben und den Studienalltag - insbesondere für internationale Studierende zu erleichtern.",
-    "idea": "Idee",
-    "technicalImplementation": "Technische Umsetzung",
+    "main": "Die Welcome to OVGU - App ist eine Initiative des akademischen Auslandamts der Otto-von-Guericke Universität Magdeburg mit dem Ziel, die Digitalisierung an der Universität voranzutreiben und den Studienalltag - insbesondere für internationale Studierende - zu erleichtern.",
+    "idea": {
+      "title": "Idee",
+      "people": [
+        "M.A. Anne-Katrin Behnert",
+        "M.Sc. Anne Schulze",
+        "Christin Scheil",
+        "Dipl.-Lehrer Eva Böhning",
+        "Das Team vom akademischen Auslandsamt"
+      ]
+    },
+    "technicalImplementation": {
+      "title": "Technische Umsetzung",
+      "people": [
+        "Tien Do Nam<br>August 2020 - heute<br>(ehemaliger) Student an der FIN<br><a href=\"https://tiendonam.de\">tiendonam.de</a>"
+      ]
+    },
     "contribute": "Die App ist open source.<br>Du kannst <a href=\"https://github.com/Tienisto/ikus-app\">hier</a> den Quellcode anschauen.<br><a href=\"https://github.com/Tienisto/ikus-app/issues\">Issues</a> oder <a href=\"https://github.com/Tienisto/ikus-app/pulls\">Pull Requests</a> sind willkommen."
   },
   "contacts": {

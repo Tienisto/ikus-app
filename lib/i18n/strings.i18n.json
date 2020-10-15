@@ -94,9 +94,23 @@
   "about": {
     "title": "About the app",
     "main": "The Welcome to OVGU app is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
-    "idea": "Idea",
-    "technicalImplementation": "Technical Implementation",
-    "contribute": "This app is open source.<br>You can see the code <a href=\"https://github.com/Tienisto/ikus-app\">here</a>.<br>Feel free to create an <a href=\"https://github.com/Tienisto/ikus-app/issues\">issue</a> or a <a href=\"https://github.com/Tienisto/ikus-app/pulls\">pull request</a>."
+    "idea": {
+      "title": "Idea",
+      "people": [
+        "M.A. Anne-Katrin Behnert",
+        "M.Sc. Anne Schulze",
+        "Christin Scheil",
+        "Mrs. Eva Böhning",
+        "International Office team"
+      ]
+    },
+    "technicalImplementation": {
+      "title": "Technical Implementation",
+      "people": [
+        "Tien Do Nam<br>August 2020 - today<br>(former) Student at FIN<br><a href=\"https://tiendonam.de\">tiendonam.de</a>"
+      ]
+    },
+    "contribute": "This app is open source.<br>You can checkout the code <a href=\"https://github.com/Tienisto/ikus-app\">here</a>.<br>Feel free to create an <a href=\"https://github.com/Tienisto/ikus-app/issues\">issue</a> or a <a href=\"https://github.com/Tienisto/ikus-app/pulls\">pull request</a>."
   },
   "contacts": {
     "title": "Contacts"

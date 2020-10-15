@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
 import 'package:ikus_app/components/badge.dart';
+import 'package:ikus_app/components/html_view.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
@@ -10,7 +9,6 @@ import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
 class PostScreen extends StatelessWidget {
@@ -50,17 +48,9 @@ class PostScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30),
-          Padding(
+          HtmlView(
             padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Html(
-              data: post.content,
-              style: {
-                "body": Style(fontSize: FontSize.large), // make text bigger
-              },
-              onLinkTap: (url) async {
-                await launch(url);
-              },
-            ),
+            html: post.content
           ),
           SizedBox(height: 30),
           if(post.images.length == 1)
