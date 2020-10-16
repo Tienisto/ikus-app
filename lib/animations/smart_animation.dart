@@ -36,6 +36,7 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
 
   Animation<Offset> _animationTranslate;
   Animation<double> _animationFade;
+  int _animationStartTimestamp;
 
   @override
   void initState() {
@@ -89,9 +90,11 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
 
   void startAnimation({Duration delay}) {
     if (delay != null) {
+      int myTimestamp = DateTime.now().millisecondsSinceEpoch;
       _animationController.reset();
+      _animationStartTimestamp = myTimestamp;
       Future.delayed(widget.delay, () {
-        if(!mounted) return;
+        if(!mounted || _animationStartTimestamp != myTimestamp) return;
         _animationController.forward(from: 0);
       });
     } else {

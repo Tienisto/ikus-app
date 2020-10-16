@@ -190,7 +190,7 @@ class _MensaScreenState extends State<MensaScreen> {
               endOpacity: 1,
               curve: Curves.easeOutCubic,
               child: Padding(
-                padding: EdgeInsets.only(left: 45),
+                padding: EdgeInsets.only(left: 40),
                 child: Row(
                   children: [
                     if (curr.openingHours != null)
@@ -219,7 +219,7 @@ class _MensaScreenState extends State<MensaScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             SmartAnimation(
               key: _bodyAnimationKey,
               startImmediately: false,
