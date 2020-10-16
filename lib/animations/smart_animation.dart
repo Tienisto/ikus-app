@@ -83,15 +83,20 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
     }
 
     if (widget.startImmediately) {
-      Future.delayed(widget.delay, () {
-        if(!mounted) return;
-        startAnimation();
-      });
+      startAnimation(delay: widget.delay);
     }
   }
 
-  void startAnimation() {
-    _animationController.forward(from: 0);
+  void startAnimation({Duration delay}) {
+    if (delay != null) {
+      _animationController.reset();
+      Future.delayed(widget.delay, () {
+        if(!mounted) return;
+        _animationController.forward(from: 0);
+      });
+    } else {
+      _animationController.forward(from: 0);
+    }
   }
 
   void startReverseAnimation() {

@@ -208,6 +208,9 @@
       "title": "Structure",
       "page": "P. $page"
     },
+    "mensaOpeningHoursPopup": {
+      "title": "Opening Hours"
+    },
     "needUpdatePopup": {
       "title": "Update needed",
       "info": "Offline stored data will be used as long as you don't update the app to the latest version.",

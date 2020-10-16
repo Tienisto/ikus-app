@@ -1,14 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/animations/smart_animation.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/food_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/mensa_opening_hours_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
 
@@ -27,6 +30,7 @@ class _MensaScreenState extends State<MensaScreen> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   final GlobalKey<SmartAnimationState> _headerAnimationKey = new GlobalKey<SmartAnimationState>();
+  final GlobalKey<SmartAnimationState> _infoIconsAnimationKey = new GlobalKey<SmartAnimationState>();
   final GlobalKey<SmartAnimationState> _bodyAnimationKey = new GlobalKey<SmartAnimationState>();
   List<MensaInfo> menu;
   int index;
@@ -79,6 +83,7 @@ class _MensaScreenState extends State<MensaScreen> {
   void postMensaChange() {
     SettingsService.instance.setMensa(menu[index].name);
     _headerAnimationKey.currentState.startAnimation();
+    _infoIconsAnimationKey.currentState.startAnimation(delay: Duration(milliseconds: 500));
     _bodyAnimationKey.currentState.startAnimation();
   }
 
@@ -106,7 +111,7 @@ class _MensaScreenState extends State<MensaScreen> {
   @override
   Widget build(BuildContext context) {
 
-    MensaInfo curr = menu.isNotEmpty ? menu[index] : MensaInfo(name: Mensa.UNI_CAMPUS_DOWN, menus: []);
+    MensaInfo curr = menu.isNotEmpty ? menu[index] : MensaInfo(name: Mensa.UNI_CAMPUS_DOWN, openingHours: null, coords: null, menus: []);
 
     return Scaffold(
       appBar: AppBar(
@@ -173,6 +178,43 @@ class _MensaScreenState extends State<MensaScreen> {
                       callback: nextLocation,
                       child: Icon(Icons.chevron_right),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            SmartAnimation(
+              key: _infoIconsAnimationKey,
+              duration: Duration(milliseconds: 1000),
+              delay: Duration(milliseconds: 500),
+              startOpacity: 0,
+              endOpacity: 1,
+              curve: Curves.easeOutCubic,
+              child: Padding(
+                padding: EdgeInsets.only(left: 45),
+                child: Row(
+                  children: [
+                    if (curr.openingHours != null)
+                      OvguButton(
+                        flat: true,
+                        type: OvguButtonType.ICON,
+                        callback: () {
+                          Popups.generic(
+                            context: context,
+                            height: 150,
+                            body: MensaOpeningHoursPopup(mensa: curr.name.name.replaceAll('\n', ' '), openingHours: curr.openingHours)
+                          );
+                        },
+                        child: Icon(Icons.access_time),
+                      ),
+                    if (curr.coords != null)
+                      OvguButton(
+                        flat: true,
+                        type: OvguButtonType.ICON,
+                        callback: () async {
+                          await openMap(curr.coords, curr.name.name);
+                        },
+                        child: Icon(Icons.location_pin),
+                      ),
                   ],
                 ),
               ),

@@ -3,9 +3,9 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/marker_symbol.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import "package:latlong/latlong.dart";
-import 'package:map_launcher/map_launcher.dart' as map_launcher;
 
 /// displays a map showing the marker
 /// also has a navigation button
@@ -59,9 +59,7 @@ class MapWithMarker extends StatelessWidget {
             bottom: 8,
             child: OvguButton(
               callback: () async {
-                List<map_launcher.AvailableMap> availableMaps = await map_launcher.MapLauncher.installedMaps;
-                map_launcher.AvailableMap app = availableMaps.firstWhere((a) => a.mapType == map_launcher.MapType.google, orElse: () => availableMaps.first);
-                await app.showMarker(coords: map_launcher.Coords(coords.latitude, coords.longitude), title: name);
+                await openMap(coords, name);
               },
               child: Text(t.components.mapWithMarker.openMapApp, style: TextStyle(color: Colors.white)),
             ),

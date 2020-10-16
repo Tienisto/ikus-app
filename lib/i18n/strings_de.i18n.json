@@ -208,6 +208,9 @@
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"
     },
+    "mensaOpeningHoursPopup": {
+      "title": "Öffnungszeiten"
+    },
     "needUpdatePopup": {
       "title": "Update notwendig",
       "info": "Es werden die Offline-Daten verwendet, solange du die App nicht auf die neuste Version aktualisierst.",

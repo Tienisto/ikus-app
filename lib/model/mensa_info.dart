@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/menu.dart';
+import "package:latlong/latlong.dart";
 
 enum Mensa {
   UNI_CAMPUS_DOWN,
@@ -11,13 +12,17 @@ enum Mensa {
 
 class MensaInfo {
   final Mensa name;
+  final String openingHours;
+  final LatLng coords;
   final List<Menu> menus;
 
-  MensaInfo({this.name, this.menus});
+  MensaInfo({@required this.name, @required this.openingHours, @required this.coords, @required this.menus});
 
   static MensaInfo fromMap(Map<String, dynamic> map) {
     return MensaInfo(
         name: (map['name'] as String).toMensa(),
+        openingHours: map['openingHours'],
+        coords: map['coords'] != null ? LatLng(map['coords']['x'], map['coords']['y']) : null,
         menus: map['menus']
             .map((menu) => Menu.fromMap(menu))
             .toList()

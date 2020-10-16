@@ -1,13 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/checkbox_text.dart';
+import 'package:ikus_app/components/popups/generic_info_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/callbacks.dart';
-import 'package:ikus_app/utility/ui.dart';
 
 class ChannelPopup extends StatefulWidget {
 
@@ -43,45 +42,24 @@ class _ChannelPopupState extends State<ChannelPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10),
-              child: Text(t.popups.channelPopup.title, style: TextStyle(color: OvguColor.primary, fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
-            OvguButton(
-              flat: true,
-              type: OvguButtonType.ICON_WIDE,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              callback: () {
-                Navigator.pop(context);
+    return GenericInfoPopup(
+        title: t.popups.channelPopup.title,
+        child: ListView(
+          padding: EdgeInsets.only(top: 10, bottom: 20),
+          physics: Adaptive.getScrollPhysics(),
+          children: widget.available.map((channel) {
+            return CheckBoxText(
+              text: channel.name,
+              value: selectedMap[channel.id] ?? DEFAULT_STATE,
+              callback: (selected) async {
+                await widget.callback(channel, selected);
+                setState(() {
+                  selectedMap[channel.id] = selected;
+                });
               },
-              child: Icon(Icons.close),
-            )
-          ],
-        ),
-        Expanded(
-          child: ListView(
-            padding: EdgeInsets.only(top: 10, bottom: 20),
-            physics: Adaptive.getScrollPhysics(),
-            children: widget.available.map((channel) {
-              return CheckBoxText(
-                text: channel.name,
-                value: selectedMap[channel.id] ?? DEFAULT_STATE,
-                callback: (selected) async {
-                  await widget.callback(channel, selected);
-                  setState(() {
-                    selectedMap[channel.id] = selected;
-                  });
-                },
-              );
-            }).toList(),
-          ),
+            );
+          }).toList(),
         )
-      ],
     );
   }
 }
