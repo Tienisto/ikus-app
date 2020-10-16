@@ -28,13 +28,13 @@ class Feature {
 
   Feature({@required this.id, @required this.index, @required this.icon, @required this.shortName, @required this.longName, @required this.recommendedFavorite, @required this.onOpen});
 
-  static final Feature MAP = Feature(id: 0, index: 0, icon: Icons.map, shortName: t.features.map.short, longName: t.features.map.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MapScreen()));
-  static final Feature MY_EVENTS = Feature(id: 0, index: 0, icon: Icons.today, shortName: t.features.myEvents.short, longName: t.features.myEvents.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MyEventsScreen()));
-  static final Feature MENSA = Feature(id: 0, index: 0, icon: Icons.restaurant, shortName: t.features.mensa.short, longName: t.features.mensa.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MensaScreen()));
-  static final Feature LINKS = Feature(id: 0, index: 0, icon: Icons.language, shortName: t.features.links.short, longName: t.features.links.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => LinksScreen()));
-  static final Feature HANDBOOK = Feature(id: 0, index: 0, icon: Icons.book, shortName: t.features.handbook.short, longName: t.features.handbook.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => HandbookScreen()));
-  static final Feature FAQ = Feature(id: 0, index: 0, icon: Icons.help, shortName: t.features.faq.short, longName: t.features.faq.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
-  static final Feature CONTACTS = Feature(id: 0, index: 0, icon: Icons.person, shortName: t.features.contacts.short, longName: t.features.contacts.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
+  static Feature get MAP => Feature(id: 0, index: 0, icon: Icons.map, shortName: t.features.map.short, longName: t.features.map.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MapScreen()));
+  static Feature get MY_EVENTS => Feature(id: 0, index: 0, icon: Icons.today, shortName: t.features.myEvents.short, longName: t.features.myEvents.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MyEventsScreen()));
+  static Feature get MENSA => Feature(id: 0, index: 0, icon: Icons.restaurant, shortName: t.features.mensa.short, longName: t.features.mensa.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MensaScreen()));
+  static Feature get LINKS => Feature(id: 0, index: 0, icon: Icons.language, shortName: t.features.links.short, longName: t.features.links.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => LinksScreen()));
+  static Feature get HANDBOOK => Feature(id: 0, index: 0, icon: Icons.book, shortName: t.features.handbook.short, longName: t.features.handbook.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => HandbookScreen()));
+  static Feature get FAQ => Feature(id: 0, index: 0, icon: Icons.help, shortName: t.features.faq.short, longName: t.features.faq.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
+  static Feature get CONTACTS => Feature(id: 0, index: 0, icon: Icons.person, shortName: t.features.contacts.short, longName: t.features.contacts.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
 
 
   /// returns the feature with the specified index from the json map
