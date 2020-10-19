@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
+import 'package:ikus_app/constants.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/model/api_data.dart';
 import 'package:ikus_app/service/app_config_service.dart';
@@ -15,7 +16,7 @@ import 'package:intl/intl.dart';
 /// e.g. raw json, pdfs, images
 class ApiService {
 
-  static String get URL => SettingsService.instance.getDevServer() ? 'https://ikus.tienisto.com/api/public' : 'https://welcome-app.farafin.de/api/public';
+  static String get URL => SettingsService.instance.getDevServer() ? Constants.apiUrlDebug : Constants.apiUrlLive;
   static final DateTime FALLBACK_TIME = DateTime(2020, 8, 1);
   static final DateFormat _lastModifiedFormatter = DateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", 'en');
 
