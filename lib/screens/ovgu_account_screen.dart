@@ -5,9 +5,15 @@ import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/settings_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class OvguAccountScreen extends StatefulWidget {
+
+  final SimpleWidgetBuilder afterLoginScreen;
+
+  const OvguAccountScreen({this.afterLoginScreen});
+
   @override
   _OvguAccountScreenState createState() => _OvguAccountScreenState();
 }
@@ -26,6 +32,9 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
 
     await SettingsService.instance.setOvguAccount(name: _name, password: _password);
     Navigator.pop(context);
+    if (widget.afterLoginScreen != null) {
+      pushScreen(context, widget.afterLoginScreen);
+    }
   }
 
   void deleteCredentials() async {

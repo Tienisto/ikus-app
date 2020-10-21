@@ -10,8 +10,8 @@ Future<void> sleep(int millis) async => await Future.delayed(Duration(millisecon
 void nextFrame(Callback callback) => WidgetsBinding.instance.addPostFrameCallback((_) => callback());
 
 /// push another screen on top of the current screen
-typedef Widget WidgetBuilder();
-Future<void> pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) async {
+typedef Widget SimpleWidgetBuilder();
+Future<void> pushScreen(BuildContext context, SimpleWidgetBuilder builder, [ScreenOrientation orientation]) async {
   if (orientation != null)
     await Navigator.push(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)));
   else
@@ -19,7 +19,7 @@ Future<void> pushScreen(BuildContext context, WidgetBuilder builder, [ScreenOrie
 }
 
 /// clears screen stack and set the screen
-Future<void> setScreen(BuildContext context, WidgetBuilder builder, [ScreenOrientation orientation]) async {
+Future<void> setScreen(BuildContext context, SimpleWidgetBuilder builder, [ScreenOrientation orientation]) async {
   if (orientation != null)
     await Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => builder(), settings: RouteSettings(arguments: orientation)), (_) => false);
   else

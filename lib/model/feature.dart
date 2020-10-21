@@ -39,7 +39,7 @@ class Feature {
   static Feature get FAQ => Feature(id: 0, index: 0, icon: Icons.help, shortName: t.features.faq.short, longName: t.features.faq.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
   static Feature get CONTACTS => Feature(id: 0, index: 0, icon: Icons.person, shortName: t.features.contacts.short, longName: t.features.contacts.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
 
-  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, shortName: t.features.emails.short, longName: t.features.emails.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => SettingsService.instance.hasOvguAccount() ? MailScreen() : OvguAccountScreen()));
+  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, shortName: t.features.emails.short, longName: t.features.emails.long, recommendedFavorite: false, onOpen: (context) => _pushScreenWithOvguAccount(context, () => MailScreen()));
 
   /// returns the feature with the specified index from the json map
   /// returns null if parsing failed
@@ -112,5 +112,14 @@ class Feature {
   @override
   String toString() {
     return shortName;
+  }
+
+  /// opens the [OvguAccountScreen] instead if user has not setup an OVGU account
+  /// after login, the actual screen will be open
+  static Future<void> _pushScreenWithOvguAccount(BuildContext context, SimpleWidgetBuilder builder) {
+    if (SettingsService.instance.hasOvguAccount())
+      return pushScreen(context, builder);
+    else
+      return pushScreen(context, () => OvguAccountScreen(afterLoginScreen: builder));
   }
 }
