@@ -60,6 +60,21 @@ class MailMessageScreen extends StatelessWidget {
                 type: OvguButtonType.ICON_WIDE,
                 callback: onReply,
                 child: Icon(Icons.reply),
+              ),
+              SizedBox(
+                width: 70,
+                child: OvguButton(
+                  flat: true,
+                  padding: EdgeInsets.only(left: 10),
+                  callback: onReply,
+                  child: Row(
+                    children: [
+                      Icon(Icons.attach_file),
+                      SizedBox(width: 5),
+                      Text(1.toString(), style: TextStyle(fontSize: 16))
+                    ],
+                  )
+                ),
               )
             ],
           ),
