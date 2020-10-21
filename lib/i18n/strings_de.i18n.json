@@ -174,7 +174,7 @@
   },
   "ovguAccount": {
     "title": "OVGU-Account",
-    "info": "Mithilfe der Logindaten kann die App deine E-Mails verwalten. Später ggf. können auch deine Noten und dein Stundenplan angezeigt werden.",
+    "info": "Du kannst auf deine E-Mails zugreifen, sobald du dich mit deinem OVGU-Account anmeldest. Stundenplan und Noten werden bald ggf. ebenfalls hinzugefügt.",
     "loginCredentials": "Login-Daten",
     "name": "Name",
     "password": "Passwort",

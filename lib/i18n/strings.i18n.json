@@ -174,7 +174,7 @@
   },
   "ovguAccount": {
     "title": "OVGU Account",
-    "info": "You can manage your emails if you setup your OVGU account. Grades and timetable may be implemented soon.",
+    "info": "You can access your mails as soon as you setup the OVGU account. Grades and timetable may be added soon.",
     "loginCredentials": "Login Credentials",
     "name": "Name",
     "password": "Password",

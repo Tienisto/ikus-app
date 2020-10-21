@@ -65,11 +65,15 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
         children: [
           SizedBox(height: 50),
           Image.asset('assets/img/logo-512-alpha.png', width: 150),
+          SizedBox(height: 10),
+          Center(
+            child: Text(t.ovguAccount.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
+          ),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Center(
-                child: Text(t.ovguAccount.info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)
+              child: Text(t.ovguAccount.info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)
             ),
           ),
           SizedBox(height: 50),
@@ -144,6 +148,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
                 ),
               ),
             ),
+          SizedBox(height: 50),
         ],
       ),
     );
