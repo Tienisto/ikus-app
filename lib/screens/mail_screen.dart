@@ -8,6 +8,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
 import 'package:ikus_app/screens/mail_message_screen.dart';
+import 'package:ikus_app/screens/ovgu_account_screen.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/mail_facade.dart';
@@ -67,7 +68,14 @@ class _MailScreenState extends State<MailScreen> {
                     text: t.mails.actions.account,
                     width: btnWidth,
                     fontSize: btnFontSize,
-                    callback: () async {}
+                    callback: () async {
+                      String prevAccount = SettingsService.instance.getOvguAccount()?.name;
+                      await pushScreen(context, () => OvguAccountScreen());
+                      if (!SettingsService.instance.hasOvguAccount())
+                        Navigator.pop(context);
+                      else if (prevAccount != SettingsService.instance.getOvguAccount()?.name)
+                        await sync();
+                    }
                 ),
                 QuadraticButton(
                     icon: Icons.sync,
