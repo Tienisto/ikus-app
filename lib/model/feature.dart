@@ -7,10 +7,13 @@ import 'package:ikus_app/screens/contact_screen.dart';
 import 'package:ikus_app/screens/faq_screen.dart';
 import 'package:ikus_app/screens/handbook_screen.dart';
 import 'package:ikus_app/screens/links_screen.dart';
+import 'package:ikus_app/screens/mail_screen.dart';
 import 'package:ikus_app/screens/map_screen.dart';
 import 'package:ikus_app/screens/mensa_screen.dart';
 import 'package:ikus_app/screens/my_events_screen.dart';
+import 'package:ikus_app/screens/ovgu_account_screen.dart';
 import 'package:ikus_app/screens/post_screen.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/icon_map.dart';
@@ -36,6 +39,7 @@ class Feature {
   static Feature get FAQ => Feature(id: 0, index: 0, icon: Icons.help, shortName: t.features.faq.short, longName: t.features.faq.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
   static Feature get CONTACTS => Feature(id: 0, index: 0, icon: Icons.person, shortName: t.features.contacts.short, longName: t.features.contacts.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
 
+  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, shortName: t.features.emails.short, longName: t.features.emails.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => SettingsService.instance.hasOvguAccount() ? MailScreen() : OvguAccountScreen()));
 
   /// returns the feature with the specified index from the json map
   /// returns null if parsing failed
@@ -67,10 +71,13 @@ class Feature {
         case 'CONTACTS':
           feature = CONTACTS;
           break;
+        case 'EMAILS':
+          feature = EMAILS;
+          break;
         default: return null;
       }
 
-      return Feature(id: map['id'], index: index, icon: feature.icon, shortName: feature.shortName, longName: feature.longName, recommendedFavorite: map['favorite'], onOpen: feature.onOpen);
+      return feature.withServerData(id: map['id'], index: index, favorite: map['favorite']);
 
     } else {
       // custom feature
@@ -95,6 +102,11 @@ class Feature {
         onOpen: onOpen
       );
     }
+  }
+
+  /// returns a new instance with information which cannot be hardcoded (must be fetched from the server)
+  Feature withServerData({@required int id, @required int index, @required bool favorite}) {
+    return Feature(id: id, index: index, icon: icon, shortName: shortName, longName: longName, recommendedFavorite: favorite, onOpen: onOpen);
   }
 
   @override

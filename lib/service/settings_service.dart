@@ -1,11 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:ikus_app/model/mensa_info.dart';
+import 'package:ikus_app/model/ovgu_account.dart';
 
 class SettingsService {
 
   static final SettingsService _instance = SettingsService();
   static SettingsService get instance => _instance;
+  static FlutterSecureStorage get _secureStorage => FlutterSecureStorage();
 
   bool _welcome;
   String _locale; // nullable
@@ -15,9 +18,10 @@ class SettingsService {
   List<int> _myEvents;
   Mensa _mensa;
   bool _devServer;
+  OvguAccount _ovguAccount; // nullable
 
   /// load all settings data from local storage
-  void init() {
+  Future<void> init() async {
     Box box = _box;
     _welcome = box.get('welcome', defaultValue: true);
     _locale = box.get('locale');
@@ -35,6 +39,12 @@ class SettingsService {
         .cast<int>();
     _mensa = (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN;
     _devServer = box.get('dev_server', defaultValue: false);
+
+    // secure storage
+    final storage = _secureStorage;
+    String ovguName = await storage.read(key: 'ovgu_name');
+    String ovguPassword = await storage.read(key: 'ovgu_password');
+    _ovguAccount = ovguName != null && ovguPassword != null ? OvguAccount(name: ovguName, password: ovguPassword) : null;
   }
 
   Box get _box  => Hive.box('settings');
@@ -111,12 +121,35 @@ class SettingsService {
     return _devServer;
   }
 
+  Future<void> setOvguAccount({@required String name, @required String password}) async {
+    final storage = _secureStorage;
+    await storage.write(key: 'ovgu_name', value: name);
+    await storage.write(key: 'ovgu_password', value: password);
+    _ovguAccount = OvguAccount(name: name, password: password);
+  }
+
+  Future<void> deleteOvguAccount() async {
+    final storage = _secureStorage;
+    await storage.delete(key: 'ovgu_name');
+    await storage.delete(key: 'ovgu_password');
+    _ovguAccount = null;
+  }
+
+  bool hasOvguAccount() {
+    return _ovguAccount != null;
+  }
+
+  OvguAccount getOvguAccount() {
+    return _ovguAccount;
+  }
+
   /// reinitialize with default values
   /// keeps dev server attribute alive
   Future<void> clear() async {
     bool devServer = _devServer;
     await _box.clear();
-    init();
+    await _secureStorage.deleteAll();
+    await init();
     setDevServer(devServer);
   }
 }

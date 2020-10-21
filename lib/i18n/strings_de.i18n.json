@@ -27,6 +27,10 @@
     "contacts": {
       "short": "Kontakte",
       "long": "Kontakte"
+    },
+    "emails": {
+      "short": "E-Mails",
+      "long": "E-Mails"
     }
   },
   "welcome": {
@@ -72,18 +76,8 @@
     "settings": {
       "title": "Einstellungen",
       "language": "Sprache",
+      "account": "OVGU-Account",
       "sync": "Synchronisation",
-      "syncInfo": "Diese App lädt regelmäßig Daten vom Server herunter, damit du auf dem neusten Stand bleibst. Du kannst die App mit den lokal gespeicherten Daten offline verwenden.",
-      "syncItems": {
-        "news": "Neuigkeiten",
-        "calendar": "Kalender",
-        "mensa": "Mensa",
-        "links": "Links",
-        "handbook": "Handbuch",
-        "faq": "FAQ",
-        "contact": "Kontakte",
-        "appConfig": "App-Konfiguration"
-      },
       "reset": "Daten zurücksetzen",
       "licenses": "Lizenzen",
       "about": "Über die App",
@@ -133,6 +127,18 @@
   "links": {
     "title": "Hilfreiche Links"
   },
+  "mails": {
+    "title": "E-Mails",
+    "actions": {
+      "account": "Account",
+      "sync": "Laden",
+      "send": "Senden"
+    },
+    "mails": "E-Mails"
+  },
+  "mailMessage": {
+    "title": "E-Mail"
+  },
   "map": {
     "title": "Campusplan",
     "main": "Hauptcampus",
@@ -166,8 +172,33 @@
     "title": "Meine Events",
     "info": "Du kannst Events mit einem Herzchen versehen. Diese Events erscheinen hier und unter \"Nächsten Events\" auf der Startseite."
   },
+  "ovguAccount": {
+    "title": "OVGU-Account",
+    "info": "Mithilfe der Logindaten kann die App deine E-Mails verwalten. Später ggf. können auch deine Noten und dein Stundenplan angezeigt werden.",
+    "loginCredentials": "Login-Daten",
+    "name": "Name",
+    "password": "Passwort",
+    "login": "Login",
+    "loggedInAs": "Eingeloggt als",
+    "logout": "Abmelden",
+    "privacy": "Deine Login-Daten werden verschlüsselt nur auf deinem Gerät gespeichert."
+  },
   "post": {
     "title": "Beitrag"
+  },
+  "sync": {
+    "title": "Synchronisation",
+    "info": "Diese App lädt regelmäßig Daten vom Server herunter, damit du auf dem neusten Stand bleibst. Du kannst die App mit den lokal gespeicherten Daten offline verwenden.",
+    "items": {
+      "news": "Neuigkeiten",
+      "calendar": "Kalender",
+      "mensa": "Mensa",
+      "links": "Links",
+      "handbook": "Handbuch",
+      "faq": "FAQ",
+      "contact": "Kontakte",
+      "appConfig": "App-Konfiguration"
+    }
   },
   "dev": {
     "title": "Entwickler-Einstellungen"

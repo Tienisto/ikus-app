@@ -20,7 +20,7 @@ class CalendarService implements SyncableService {
   List<Event> _myEvents;
 
   @override
-  String getName() => t.main.settings.syncItems.calendar;
+  String getName() => t.sync.items.calendar;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {

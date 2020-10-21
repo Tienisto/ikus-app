@@ -15,7 +15,7 @@ class MensaService implements SyncableService {
   List<MensaInfo> _menu;
 
   @override
-  String getName() => t.main.settings.syncItems.mensa;
+  String getName() => t.sync.items.mensa;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {

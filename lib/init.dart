@@ -70,7 +70,7 @@ class Init {
     print('[3 / 4] init settings');
 
     // init settings
-    SettingsService.instance.init();
+    await SettingsService.instance.init();
 
     // set locale
     String locale = SettingsService.instance.getLocale();

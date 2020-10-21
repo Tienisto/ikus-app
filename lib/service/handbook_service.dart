@@ -16,7 +16,7 @@ class HandbookService implements SyncableService {
   Uint8List _bytes;
 
   @override
-  String getName() => t.main.settings.syncItems.handbook;
+  String getName() => t.sync.items.handbook;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {

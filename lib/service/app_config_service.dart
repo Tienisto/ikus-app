@@ -21,7 +21,7 @@ class AppConfigService implements SyncableService {
   List<Feature> _recommendedFavoriteFeatures;
 
   @override
-  String getName() => t.main.settings.syncItems.appConfig;
+  String getName() => t.sync.items.appConfig;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {
@@ -49,6 +49,13 @@ class AppConfigService implements SyncableService {
         .mapIndexed((feature, index) => Feature.fromMap(index, feature))
         .where((feature) => feature != null)
         .toList();
+
+    // TODO: do not hard code
+    _features = [
+      ..._features,
+      Feature.EMAILS.withServerData(id: 9990, index: _features.length, favorite: false)
+    ];
+
     _recommendedFavoriteFeatures = _features.where((feature) => feature.recommendedFavorite).toList();
 
     List<int> favoriteIds = SettingsService.instance.getFavorites();

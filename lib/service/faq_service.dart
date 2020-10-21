@@ -15,7 +15,7 @@ class FAQService implements SyncableService {
   List<PostGroup> _groups;
 
   @override
-  String getName() => t.main.settings.syncItems.faq;
+  String getName() => t.sync.items.faq;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {

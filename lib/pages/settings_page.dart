@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
-import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/popups/reset_popup.dart';
-import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
 import 'package:ikus_app/screens/change_language_screen.dart';
 import 'package:ikus_app/screens/dev_screen.dart';
+import 'package:ikus_app/screens/ovgu_account_screen.dart';
+import 'package:ikus_app/screens/sync_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
-import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
-import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -29,13 +27,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  static DateFormat _dateFormatterDe = DateFormat("dd.MM.yyyy, HH:mm");
-  static DateFormat _dateFormatterEn = DateFormat("dd.MM.yyyy, h:mm a");
   static const Color LOGO_COLOR = Color(0xFFAFAFAF);
   String _version = '';
-
-  Map<String, bool> syncing = Map();
-
   int devCounter = 0;
 
   @override
@@ -46,39 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
         _version = info.version+' ('+info.buildNumber+')';
       });
     });
-  }
-
-  Widget getSyncItem(String name, DateTime lastUpdate, FutureCallback callback) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(LocaleSettings.currentLocale == 'en' ? _dateFormatterEn.format(lastUpdate) : _dateFormatterDe.format(lastUpdate))
-                ],
-              )
-          ),
-          OvguButton(
-            type: OvguButtonType.ICON_WIDE,
-            flat: true,
-            callback: () async {
-              setState(() {
-                syncing[name] = true;
-              });
-              await callback();
-              setState(() {
-                syncing[name] = false;
-              });
-            },
-            child: syncing[name] == true ? Rotating(child: Icon(Icons.sync)) : Icon(Icons.sync),
-          )
-        ],
-      ),
-    );
   }
 
   @override
@@ -113,24 +73,26 @@ class _SettingsPageState extends State<SettingsPage> {
               )
           ),
           SizedBox(height: 20),
-          OvguCard(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.main.settings.sync, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 10),
-                  Text(t.main.settings.syncInfo),
-                  SizedBox(height: 5),
-                  ...SyncableService.services.map((service) {
-                    return getSyncItem(service.getName(), service.getLastUpdate(), () async {
-                      await service.sync(useCacheOnly: false);
-                    });
-                  })
-                ],
-              ),
-            ),
+          SettingsItem(
+              left: t.main.settings.account,
+              right: OvguButton(
+                type: OvguButtonType.ICON_WIDE,
+                callback: () {
+                  pushScreen(context, () => OvguAccountScreen());
+                },
+                child: Icon(Icons.person, color: Colors.white),
+              )
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
+              left: t.main.settings.sync,
+              right: OvguButton(
+                type: OvguButtonType.ICON_WIDE,
+                callback: () {
+                  pushScreen(context, () => SyncScreen());
+                },
+                child: Icon(Icons.sync, color: Colors.white),
+              )
           ),
           SizedBox(height: 20),
           SettingsItem(

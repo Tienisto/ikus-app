@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/buttons/favorite_button.dart';
+import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/event_card.dart';
 import 'package:ikus_app/components/cards/post_card.dart';
@@ -74,25 +74,22 @@ class _HomePageState extends State<HomePage> {
             if (_favorites.isNotEmpty)
               Padding(
                 padding: OvguPixels.mainScreenPadding.copyWith(top: 20),
-                child: SizedBox(
-                  height: 70,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: _favorites.map((Feature feature) {
-                      return FavoriteButton(
-                          icon: feature.icon,
-                          text: feature.shortName,
-                          width: favoriteWidth,
-                          fontSize: favoriteFontSize,
-                          callback: () async {
-                            await feature.onOpen(context);
-                            setState(() {
-                              _updateData();
-                            });
-                          }
-                      );
-                    }).toList(),
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: _favorites.map((Feature feature) {
+                    return QuadraticButton(
+                        icon: feature.icon,
+                        text: feature.shortName,
+                        width: favoriteWidth,
+                        fontSize: favoriteFontSize,
+                        callback: () async {
+                          await feature.onOpen(context);
+                          setState(() {
+                            _updateData();
+                          });
+                        }
+                    );
+                  }).toList(),
                 ),
               ),
             SizedBox(height: 30),
