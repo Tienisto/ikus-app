@@ -83,6 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return SafeArea(
       child: MainListView(
         padding: OvguPixels.mainScreenPadding,
@@ -106,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   String locale = state == SwitchState.LEFT ? 'en' : 'de';
                   if (locale == LocaleSettings.currentLocale)
                     return;
-                  Globals.ikusAppState.setLocale(locale);
+                  LocaleSettings.setLocale(locale);
                   SettingsService.instance.setLocale(locale);
                   setScreen(context, () => ChangeLanguageScreen());
                 },

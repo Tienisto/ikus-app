@@ -31,7 +31,3 @@ Future<void> openMap(LatLng coords, String name) async {
   map_launcher.AvailableMap app = availableMaps.firstWhere((a) => a.mapType == map_launcher.MapType.google, orElse: () => availableMaps.first);
   await app.showMarker(coords: map_launcher.Coords(coords.latitude, coords.longitude), title: name);
 }
-
-class Globals {
-  static IkusAppState ikusAppState;
-}

@@ -8,7 +8,6 @@ import 'package:ikus_app/screens/welcome_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
-import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -17,7 +16,7 @@ void main() async {
   await LocaleSettings.useDeviceLocale();
   await Hive.initFlutter();
   await initializeDateFormatting();
-  runApp(IkusApp());
+  runApp(TranslationProvider(child: IkusApp()));
 }
 
 class IkusApp extends StatefulWidget {
@@ -34,7 +33,6 @@ class IkusAppState extends State<IkusApp> {
   @override
   void initState() {
     super.initState();
-    Globals.ikusAppState = this;
 
     // initialize from storage
     Init.init().whenComplete(() {
@@ -44,12 +42,6 @@ class IkusAppState extends State<IkusApp> {
       });
     }).whenComplete(() async {
       await Init.postInit(context);
-    });
-  }
-
-  void setLocale(String locale) {
-    setState(() {
-      LocaleSettings.setLocale(locale);
     });
   }
 
