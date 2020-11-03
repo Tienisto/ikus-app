@@ -32,18 +32,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     setState(() {
       _starting = true;
     });
-    await sleep(1000);
+    await sleep(500);
     _progressBarKey.currentState.startAnimation();
     await sleep(500);
     List<SyncableService> services = SyncableService.services;
     for (int i = 0; i < services.length; i++) {
       await services[i].sync(useCacheOnly: false);
-      await sleep(200);
+      await sleep(100);
       setState(() {
         _progress = (i+1) / services.length;
       });
     }
-    await sleep(1000);
+    await sleep(500);
     _titleKey.currentState.startReverseAnimation();
     _introKey.currentState.startReverseAnimation();
     _cardKey.currentState.startReverseAnimation();
@@ -106,7 +106,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SmartAnimation(
                     key: _cardKey,
                     duration: Duration(milliseconds: 500),
-                    delay: Duration(milliseconds: 6000),
+                    delay: Duration(milliseconds: 4000),
                     startPosition: Offset(0, 500),
                     startOpacity: 0,
                     curve: Curves.easeOutCubic,
@@ -176,7 +176,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   startOpacity: 0,
                                   child: AnimatedProgressBar(
                                     progress: _progress,
-                                    reactDuration: Duration(milliseconds: 180),
+                                    reactDuration: Duration(milliseconds: 100),
                                     backgroundColor: OvguColor.secondary,
                                   ),
                                 ),
