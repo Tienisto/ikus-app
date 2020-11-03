@@ -298,11 +298,9 @@ packages:
   fast_i18n:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "0f07a3b4a9fce2c022452363d91d6aee9ef3797a"
-      url: "git://github.com/Tienisto/flutter-fast-i18n.git"
-    source: git
+      name: fast_i18n
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.8.1"
   file:
     dependency: transitive
