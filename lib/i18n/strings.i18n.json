@@ -159,7 +159,8 @@
       "beef": "Beef",
       "pig": "Pig",
       "soup": "Soup",
-      "alcohol": "Alcohol"
+      "alcohol": "Alcohol",
+      "sides": "Sides"
     }
   },
   "myEvents": {
