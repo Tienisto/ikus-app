@@ -44,10 +44,12 @@
       "Auf der 2. Seite gibt es den Kalender, damit du kein Event verpasst!",
       "Auf der 3. Seite ist eine Liste von allen Funktionen dieser App.",
       "Wenn du eine Funktion häufig benutzt, dann tippe rechts auf das Herz.",
-      "Die Funktionen mit dem Herzchen erscheinen hier.\n\nCampusplan, Mensa und Links sind standardmäßig ausgewählt. Du kannst es jederzeit ändern!",
+      "Die Funktionen mit dem Herzchen erscheinen hier.",
       "Das wars.\nViel Spaß mit der App! :)"
     ],
-    "next": "Weiter"
+    "skip": "Schließen",
+    "next": "Weiter",
+    "done": "Fertig"
   },
   "main": {
     "bottomBar": [

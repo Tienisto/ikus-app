@@ -44,10 +44,12 @@
       "On the 2nd page there is the calendar so that you don't miss any event!",
       "On the 3rd page is a list of all features.",
       "You often use a feature?\nYou can tap on the heart to add it to the start screen.",
-      "These features appear here on the top.\n\nCampus Map, Mensa und Links are selected by default. You can change it anytime!",
+      "These features appear here on the top.",
       "That's it! :)"
     ],
-    "next": "Next"
+    "skip": "Skip",
+    "next": "Next",
+    "done": "Done"
   },
   "main": {
     "bottomBar": [

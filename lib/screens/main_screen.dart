@@ -87,6 +87,13 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void skipTutorial() {
+    setState(() {
+      currTutorialStep = tutorialStepCount;
+      applyTutorialStep(context, currTutorialStep);
+    });
+  }
+
   Future<void> applyTutorialStep(BuildContext context, int step) async {
     Size size = MediaQuery.of(context).size;
     double actualWidth = min(size.width, OvguPixels.maxWidth);
@@ -213,6 +220,8 @@ class _MainScreenState extends State<MainScreen> {
                   child: TutorialOverlay(
                     text: tutorialText,
                     progress: tutorialProgress,
+                    isLast: currTutorialStep >= tutorialStepCount - 1,
+                    onSkip: skipTutorial,
                     onNext: nextTutorial,
                   )
                 )

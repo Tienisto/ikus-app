@@ -7,14 +7,16 @@ import 'package:ikus_app/utility/callbacks.dart';
 class TutorialOverlay extends StatelessWidget {
 
   static const String HERO_TAG = 'ovgu-logo';
-  static const double WIDTH = 250;
+  static const double WIDTH = 270;
   static const double APPROX_HEIGHT = 250;
   static const double TOTAL_WIDTH = WIDTH + 50;
   final String text;
   final String progress;
+  final Callback onSkip;
   final Callback onNext;
+  final bool isLast;
 
-  const TutorialOverlay({@required this.text, @required this.progress, @required this.onNext});
+  const TutorialOverlay({@required this.text, @required this.progress, @required this.onSkip, @required this.onNext, @required this.isLast});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +35,21 @@ class TutorialOverlay extends StatelessWidget {
                     Text(text),
                     SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(progress),
+                        Expanded(
+                            child: Text(progress)
+                        ),
+                        if (!isLast)
+                          OvguButton(
+                            flat: true,
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            callback: onSkip,
+                            child: Text(t.tutorial.skip),
+                          ),
+                        SizedBox(width: 10),
                         OvguButton(
                           callback: onNext,
-                          child: Text(t.tutorial.next, style: TextStyle(color: Colors.white)),
+                          child: Text(isLast ? t.tutorial.done : t.tutorial.next, style: TextStyle(color: Colors.white)),
                         )
                       ],
                     )

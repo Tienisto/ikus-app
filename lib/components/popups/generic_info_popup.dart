@@ -22,8 +22,7 @@ class GenericInfoPopup extends StatelessWidget {
             ),
             OvguButton(
               flat: true,
-              type: OvguButtonType.ICON_WIDE,
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               callback: () {
                 Navigator.pop(context);
               },

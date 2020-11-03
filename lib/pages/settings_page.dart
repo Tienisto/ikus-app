@@ -63,7 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
               )
           ),
           OvguButton(
-            type: OvguButtonType.ICON_WIDE,
             flat: true,
             callback: () async {
               setState(() {
@@ -137,7 +136,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.reset,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () async {
                   Popups.generic(
                       context: context,
@@ -163,7 +161,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.licenses,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => LicensePage(applicationName: t.main.settings.appName, applicationVersion: _version));
                 },
@@ -174,7 +171,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.about,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => AboutScreen());
                 },
@@ -187,7 +183,6 @@ class _SettingsPageState extends State<SettingsPage> {
               child: SettingsItem(
                   left: t.main.settings.dev,
                   right: OvguButton(
-                    type: OvguButtonType.ICON_WIDE,
                     callback: () {
                       pushScreen(context, () => DevScreen());
                     },
