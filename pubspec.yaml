@@ -28,7 +28,7 @@ dependencies:
   hive: ^1.4.4 # persistent storage
   hive_flutter: ^0.3.1 # helper for hive
   intl: ^0.16.1 # used by table_calendar and for formatting dates
-  fast_i18n: ^1.8.2 # translations
+  fast_i18n: ^2.0.0 # translations
   http: ^0.12.2 # make http requests
   jaguar_jwt: ^2.1.6 # jwt
   package_info: ^0.4.3 # show version and build of the app
