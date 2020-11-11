@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/main.dart';
 import 'package:ikus_app/service/orientation_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import "package:latlong/latlong.dart";
