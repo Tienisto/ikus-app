@@ -51,13 +51,11 @@ class MailMessageScreen extends StatelessWidget {
               SizedBox(width: 10),
               OvguButton(
                 flat: true,
-                type: OvguButtonType.ICON_WIDE,
                 callback: onDelete,
                 child: Icon(Icons.delete),
               ),
               OvguButton(
                 flat: true,
-                type: OvguButtonType.ICON_WIDE,
                 callback: onReply,
                 child: Icon(Icons.reply),
               ),

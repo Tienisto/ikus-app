@@ -35,7 +35,6 @@ class _SyncScreenState extends State<SyncScreen> {
               )
           ),
           OvguButton(
-            type: OvguButtonType.ICON_WIDE,
             flat: true,
             callback: () async {
               setState(() {

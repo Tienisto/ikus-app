@@ -151,9 +151,8 @@ class _MensaScreenState extends State<MensaScreen> {
                 child: Row(
                   children: [
                     OvguButton(
-                      type: OvguButtonType.ICON,
                       flat: true,
-                      padding: EdgeInsets.zero,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       callback: prevLocation,
                       child: Icon(Icons.chevron_left),
                     ),
@@ -173,7 +172,6 @@ class _MensaScreenState extends State<MensaScreen> {
                       ),
                     ),
                     OvguButton(
-                      type: OvguButtonType.ICON,
                       flat: true,
                       callback: nextLocation,
                       child: Icon(Icons.chevron_right),
@@ -196,7 +194,6 @@ class _MensaScreenState extends State<MensaScreen> {
                     if (curr.openingHours != null)
                       OvguButton(
                         flat: true,
-                        type: OvguButtonType.ICON,
                         callback: () {
                           Popups.generic(
                             context: context,
@@ -209,7 +206,6 @@ class _MensaScreenState extends State<MensaScreen> {
                     if (curr.coords != null)
                       OvguButton(
                         flat: true,
-                        type: OvguButtonType.ICON,
                         callback: () async {
                           await openMap(curr.coords, curr.name.name);
                         },

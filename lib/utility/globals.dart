@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/main.dart';
 import 'package:ikus_app/service/orientation_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import "package:latlong/latlong.dart";
@@ -30,8 +29,4 @@ Future<void> openMap(LatLng coords, String name) async {
   List<map_launcher.AvailableMap> availableMaps = await map_launcher.MapLauncher.installedMaps;
   map_launcher.AvailableMap app = availableMaps.firstWhere((a) => a.mapType == map_launcher.MapType.google, orElse: () => availableMaps.first);
   await app.showMarker(coords: map_launcher.Coords(coords.latitude, coords.longitude), title: name);
-}
-
-class Globals {
-  static IkusAppState ikusAppState;
 }

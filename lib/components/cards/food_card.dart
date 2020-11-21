@@ -38,14 +38,15 @@ class FoodCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: OvguColor.primary,
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(OvguPixels.borderRadiusPlain), bottomLeft: Radius.circular(OvguPixels.borderRadiusPlain))
-                    ),
-                    child: Text(currencyFormat.format(food.price) + ' €', style: TextStyle(color: Colors.white))
-                )
+                if (food.price != null)
+                  Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: OvguColor.primary,
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(OvguPixels.borderRadiusPlain), bottomLeft: Radius.circular(OvguPixels.borderRadiusPlain))
+                      ),
+                      child: Text(currencyFormat.format(food.price) + ' €', style: TextStyle(color: Colors.white))
+                  )
               ],
             ),
             Padding(

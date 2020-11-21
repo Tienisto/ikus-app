@@ -44,7 +44,6 @@ class _DevScreenState extends State<DevScreen> {
           SettingsItem(
               left: 'Show Tutorial',
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   setScreen(context, () => MainScreen(tutorial: true));
                 },

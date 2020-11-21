@@ -37,6 +37,7 @@ class EventAddedPopup extends StatelessWidget {
             child: Text(t.popups.eventAddedPopup.list),
           ),
           OvguButton(
+            padding: EdgeInsets.symmetric(horizontal: 30),
             callback: () {
               Navigator.pop(context);
               onOk();

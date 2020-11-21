@@ -12,6 +12,7 @@ class EventPastPopup extends StatelessWidget {
         info: t.popups.eventPastPopup.info,
         buttons: [
           OvguButton(
+            padding: EdgeInsets.symmetric(horizontal: 30),
             callback: () {
               Navigator.pop(context);
             },

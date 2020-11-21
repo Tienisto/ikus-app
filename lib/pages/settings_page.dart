@@ -43,6 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return SafeArea(
       child: MainListView(
         padding: OvguPixels.mainScreenPadding,
@@ -66,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   String locale = state == SwitchState.LEFT ? 'en' : 'de';
                   if (locale == LocaleSettings.currentLocale)
                     return;
-                  Globals.ikusAppState.setLocale(locale);
+                  LocaleSettings.setLocale(locale);
                   SettingsService.instance.setLocale(locale);
                   setScreen(context, () => ChangeLanguageScreen());
                 },
@@ -76,7 +77,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.account,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => OvguAccountScreen());
                 },
@@ -87,7 +87,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.sync,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => SyncScreen());
                 },
@@ -98,7 +97,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.reset,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () async {
                   Popups.generic(
                       context: context,
@@ -124,7 +122,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.licenses,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => LicensePage(applicationName: t.main.settings.appName, applicationVersion: _version));
                 },
@@ -135,7 +132,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.about,
               right: OvguButton(
-                type: OvguButtonType.ICON_WIDE,
                 callback: () {
                   pushScreen(context, () => AboutScreen());
                 },
@@ -148,7 +144,6 @@ class _SettingsPageState extends State<SettingsPage> {
               child: SettingsItem(
                   left: t.main.settings.dev,
                   right: OvguButton(
-                    type: OvguButtonType.ICON_WIDE,
                     callback: () {
                       pushScreen(context, () => DevScreen());
                     },

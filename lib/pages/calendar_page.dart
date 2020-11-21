@@ -67,7 +67,6 @@ class _CalendarPageState extends State<CalendarPage> {
                 ),
                 OvguButton(
                   flat: true,
-                  type: OvguButtonType.ICON_WIDE,
                   callback: () {
                     List<Channel> channels = CalendarService.instance.getChannels();
                     List<Channel> selected = CalendarService.instance.getSubscribed();
@@ -124,7 +123,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   });
                 },
                 onVisibleDaysChanged: (first, last, format) { setState(() {}); },
-                onDaySelected: (DateTime date, List<dynamic> events) {
+                onDaySelected: (DateTime date, List<dynamic> events, _) {
                   Popups.generic(
                     context: context,
                     height: events.length >= 3 ? 275 : 250,

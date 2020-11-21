@@ -27,12 +27,12 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     List<SyncableService> services = SyncableService.services;
     for (int i = 0; i < services.length; i++) {
       await services[i].sync(useCacheOnly: false);
-      await sleep(200);
+      await sleep(100);
       setState(() {
         _progress = (i+1) / services.length;
       });
     }
-    await sleep(200);
+    await sleep(100);
     setScreen(context, () => MainScreen());
   }
 
@@ -55,7 +55,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                       padding: const EdgeInsets.all(25),
                       child: AnimatedProgressBar(
                         progress: _progress,
-                        reactDuration: Duration(milliseconds: 180),
+                        reactDuration: Duration(milliseconds: 100),
                         backgroundColor: Colors.white,
                       )
                     ),

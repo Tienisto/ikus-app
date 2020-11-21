@@ -163,7 +163,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   OvguButton(
                     flat: true,
-                    type: OvguButtonType.ICON_WIDE,
                     callback: () {
                       List<Channel> channels = NewsService.instance.getChannels();
                       List<Channel> selected = NewsService.instance.getSubscribed();

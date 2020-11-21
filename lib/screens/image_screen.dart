@@ -46,7 +46,6 @@ class ImageScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10, left: 10),
                 child: OvguButton(
                   color: Colors.white,
-                  type: OvguButtonType.ICON_WIDE,
                   callback: () {
                     Navigator.of(context).pop();
                   },

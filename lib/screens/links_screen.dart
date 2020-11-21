@@ -49,7 +49,6 @@ class LinksScreen extends StatelessWidget {
                           ),
                         ),
                         OvguButton(
-                          type: OvguButtonType.ICON_WIDE,
                           callback: () async {
                             await launch(link.url);
                           },

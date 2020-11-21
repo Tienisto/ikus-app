@@ -44,7 +44,6 @@ class _FAQGroupCardState extends State<FAQGroupCard> {
                   ),
                   OvguButton(
                     flat: true,
-                    type: OvguButtonType.ICON_WIDE,
                     child: Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.black),
                   )
                 ],

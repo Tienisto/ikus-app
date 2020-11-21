@@ -54,7 +54,6 @@ class _EventScreenState extends State<EventScreen> {
               children: [
                 Badge(text: widget.event.channel.name),
                 OvguButton(
-                  type: OvguButtonType.ICON_WIDE,
                   flat: true,
                   callback: () {
 
@@ -134,7 +133,6 @@ class _EventScreenState extends State<EventScreen> {
                     ),
                   ),
                   OvguButton(
-                    type: OvguButtonType.ICON_WIDE,
                     callback: () {
                       calendar.Add2Calendar.addEvent2Cal(calendar.Event(
                           title: widget.event.name,

@@ -11,7 +11,8 @@ enum FoodTag {
   BEEF,
   PIG,
   SOUP,
-  ALCOHOL
+  ALCOHOL,
+  SIDES
 }
 
 class Food {
@@ -22,14 +23,15 @@ class Food {
   Food({this.name, this.price, this.tags});
 
   static Food fromMap(Map<String, dynamic> map) {
+    List<FoodTag> tags = map['tags']
+        .map((tag) => FoodTag.values.firstWhere((element) => describeEnum(element) == tag, orElse: () => null))
+        .where((tag) => tag != null)
+        .toList()
+        .cast<FoodTag>();
     return Food(
         name: map['name'],
-        price: map['price'],
-        tags: map['tags']
-            .map((tag) => FoodTag.values.firstWhere((element) => describeEnum(element) == tag, orElse: () => null))
-            .where((tag) => tag != null)
-            .toList()
-            .cast<FoodTag>()
+        price: tags.any((tag) => tag == FoodTag.SIDES) ? null : map['price'], // TODO: simplify when server responds with price = null
+        tags: tags
     );
   }
 
@@ -49,7 +51,8 @@ extension FoodMembers on FoodTag {
     FoodTag.BEEF: t.mensa.tags.beef,
     FoodTag.PIG: t.mensa.tags.pig,
     FoodTag.SOUP: t.mensa.tags.soup,
-    FoodTag.ALCOHOL: t.mensa.tags.alcohol
+    FoodTag.ALCOHOL: t.mensa.tags.alcohol,
+    FoodTag.SIDES: t.mensa.tags.sides
   }[this];
 
   Color get color => {
@@ -61,6 +64,7 @@ extension FoodMembers on FoodTag {
     FoodTag.BEEF: Colors.pink,
     FoodTag.PIG: Colors.pink,
     FoodTag.SOUP: Colors.lime,
-    FoodTag.ALCOHOL: Colors.grey
+    FoodTag.ALCOHOL: Colors.grey,
+    FoodTag.SIDES: Colors.blueGrey
   }[this];
 }

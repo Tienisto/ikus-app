@@ -21,6 +21,7 @@ class BottomNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: disabled ? Colors.grey[700] : OvguColor.primary),
       child: BottomNavigationBar(
