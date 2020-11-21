@@ -27,6 +27,10 @@
     "contacts": {
       "short": "Contacts",
       "long": "Contacts"
+    },
+    "emails": {
+      "short": "Emails",
+      "long": "Emails"
     }
   },
   "welcome": {
@@ -74,18 +78,8 @@
     "settings": {
       "title": "Settings",
       "language": "Language",
+      "account": "OVGU Account",
       "sync": "Synchronization",
-      "syncInfo": "This app regularly downloads data from the server to keep you up to date. You can use the app offline using the locally stored data.",
-      "syncItems": {
-        "news": "News",
-        "calendar": "Calendar",
-        "mensa": "Mensa",
-        "links": "Links",
-        "handbook": "Handbook",
-        "faq": "FAQ",
-        "contact": "Contacts",
-        "appConfig": "App Configuration"
-      },
       "reset": "Reset Data",
       "licenses": "Licenses",
       "about": "About the app",
@@ -135,6 +129,18 @@
   "links": {
     "title": "Useful Links"
   },
+  "mails": {
+    "title": "Emails",
+    "actions": {
+      "account": "Account",
+      "sync": "Sync",
+      "send": "Send"
+    },
+    "mails": "Mails"
+  },
+  "mailMessage": {
+    "title": "Email"
+  },
   "map": {
     "title": "Campus Map",
     "main": "Main Campus",
@@ -169,8 +175,33 @@
     "title": "My Events",
     "info": "You can select events which are important to you. These events appear here and under \"Next Events\" on the start screen."
   },
+  "ovguAccount": {
+    "title": "OVGU Account",
+    "info": "You can access your mails as soon as you setup the OVGU account. Grades and timetable may be added soon.",
+    "loginCredentials": "Login Credentials",
+    "name": "Name",
+    "password": "Password",
+    "login": "Login",
+    "loggedInAs": "Logged in as",
+    "logout": "Logout",
+    "privacy": "Your login credentials will be only stored encrypted on your device."
+  },
   "post": {
     "title": "Post"
+  },
+  "sync": {
+    "title": "Synchronization",
+    "info": "This app regularly downloads data from the server to keep you up to date. You can use the app offline using the locally stored data.",
+    "items": {
+      "news": "News",
+      "calendar": "Calendar",
+      "mensa": "Mensa",
+      "links": "Links",
+      "handbook": "Handbook",
+      "faq": "FAQ",
+      "contact": "Contacts",
+      "appConfig": "App Configuration"
+    }
   },
   "dev": {
     "title": "Developer Settings"

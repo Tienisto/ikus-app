@@ -15,7 +15,7 @@ class ContactService implements SyncableService {
   List<Contact> _contacts;
 
   @override
-  String getName() => t.main.settings.syncItems.contact;
+  String getName() => t.sync.items.contact;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {

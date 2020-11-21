@@ -19,7 +19,7 @@ class NewsService implements SyncableService {
   List<Post> _posts;
 
   @override
-  String getName() => t.main.settings.syncItems.news;
+  String getName() => t.sync.items.news;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {

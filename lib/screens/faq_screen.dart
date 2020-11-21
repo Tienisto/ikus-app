@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/faq_group_card.dart';
 import 'package:ikus_app/components/cards/faq_result_item.dart';
+import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
@@ -56,16 +57,9 @@ class _FAQScreenState extends State<FAQScreen> {
                 SizedBox(height: 40),
                 Padding(
                   padding: OvguPixels.mainScreenPadding,
-                  child: TextField(
-                    style: TextStyle(fontSize: 20),
-                    decoration: InputDecoration(
-                      hintText: t.faq.search,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      fillColor: Colors.white,
-                      filled: true
-                    ),
-                    onChanged: (value) {
+                  child: OvguTextField(
+                    hint: t.faq.search,
+                    onChange: (value) {
                       setState(() {
                         query = value;
                         updateResults();

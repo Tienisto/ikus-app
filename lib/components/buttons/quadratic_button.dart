@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 
-class FavoriteButton extends StatelessWidget {
+class QuadraticButton extends StatelessWidget {
 
   final Callback callback;
   final IconData icon;
@@ -10,12 +10,13 @@ class FavoriteButton extends StatelessWidget {
   final double width;
   final double fontSize;
 
-  const FavoriteButton({@required this.callback, @required this.icon, @required this.text, @required this.width, @required this.fontSize});
+  const QuadraticButton({@required this.callback, @required this.icon, @required this.text, @required this.width, @required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
+      height: 70,
       child: OvguButton(
         callback: callback,
         padding: EdgeInsets.zero,

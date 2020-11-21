@@ -15,7 +15,7 @@ class LinkService implements SyncableService {
   List<LinkGroup> _links;
 
   @override
-  String getName() => t.main.settings.syncItems.links;
+  String getName() => t.sync.items.links;
 
   @override
   Future<void> sync({bool useCacheOnly}) async {
