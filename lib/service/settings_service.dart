@@ -1,137 +1,109 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
+import 'package:ikus_app/model/settings_data.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 
 class SettingsService {
 
   static final SettingsService _instance = SettingsService();
   static SettingsService get instance => _instance;
-  static FlutterSecureStorage get _secureStorage => FlutterSecureStorage();
 
-  bool _welcome;
-  String _locale; // nullable
-  List<int> _favorites;
-  List<int> _newsChannels; // nullable
-  List<int> _calendarChannels; // nullable
-  List<int> _myEvents;
-  Mensa _mensa;
-  bool _devServer;
+  SettingsData _settings;
   OvguAccount _ovguAccount; // nullable
 
   /// load all settings data from local storage
-  Future<void> init() async {
-    Box box = _box;
-    _welcome = box.get('welcome', defaultValue: true);
-    _locale = box.get('locale');
-    _favorites = box
-        .get('favorite_feature_list', defaultValue: [])
-        ?.cast<int>();
-    _newsChannels = box
-        .get('news_channels')
-        ?.cast<int>();
-    _calendarChannels = box
-        .get('calendar_channels')
-        ?.cast<int>();
-    _myEvents = box
-        .get('my_events', defaultValue: [])
-        .cast<int>();
-    _mensa = (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN;
-    _devServer = box.get('dev_server', defaultValue: false);
-
-    // secure storage
-    final storage = _secureStorage;
-    String ovguName = await storage.read(key: 'ovgu_name');
-    String ovguPassword = await storage.read(key: 'ovgu_password');
-    _ovguAccount = ovguName != null && ovguPassword != null ? OvguAccount(name: ovguName, password: ovguPassword) : null;
+  Future<void> loadFromStorage() async {
+    _settings = PersistentService.instance.getSettings(); // read from hive storage
+    _ovguAccount = await PersistentService.instance.getOvguAccount(); // read from secure storage
   }
 
-  Box get _box  => Hive.box('settings');
+  /// saves the new settings config into hive
+  /// does not include ovgu account
+  void _persistSettings() {
+    PersistentService.instance.setSettings(_settings);
+  }
 
   void setWelcome(bool welcome) {
-    _box.put('welcome', welcome);
-    _welcome = welcome;
+    _settings.welcome = welcome;
+    _persistSettings();
   }
 
   bool getWelcome() {
-    return _welcome;
+    return _settings.welcome;
   }
 
   void setLocale(String locale) {
-    _box.put('locale', locale);
-    _locale = locale;
+    _settings.locale = locale;
+    _persistSettings();
   }
 
   String getLocale() {
-    return _locale;
+    return _settings.locale;
   }
 
   void setFavorites(List<int> favorites) {
-    _box.put('favorite_feature_list', favorites);
-    _favorites = favorites;
+    _settings.favorites = favorites;
+    _persistSettings();
   }
 
   List<int> getFavorites() {
-    return _favorites;
+    return _settings.favorites;
   }
 
   void setNewsChannels(List<int> channels) {
-    _box.put('news_channels', channels);
-    _newsChannels = channels;
+    _settings.newsChannels = channels;
+    _persistSettings();
   }
 
   List<int> getNewsChannels() {
-    return _newsChannels;
+    return _settings.newsChannels;
   }
 
   void setCalendarChannels(List<int> channels) {
-    _box.put('calendar_channels', channels);
-    _calendarChannels = channels;
+    _settings.calendarChannels = channels;
+    _persistSettings();
   }
 
   List<int> getCalendarChannels() {
-    return _calendarChannels;
+    return _settings.calendarChannels;
   }
 
   void setMyEvents(List<int> events) {
-    _box.put('my_events', events);
-    _myEvents = events;
+    _settings.myEvents = events;
+    _persistSettings();
   }
 
   List<int> getMyEvents() {
-    return _myEvents;
+    return _settings.myEvents;
   }
 
   void setMensa(Mensa mensa) {
-    _box.put('mensa', describeEnum(mensa));
-    _mensa = mensa;
+    _settings.mensa = mensa;
+    _persistSettings();
   }
 
   Mensa getMensa() {
-    return _mensa;
+    return _settings.mensa;
   }
 
   void setDevServer(bool dev) {
-    _box.put('dev_server', dev);
-    _devServer = dev;
+    _settings.devServer = dev;
+    _persistSettings();
   }
 
   bool getDevServer() {
-    return _devServer;
+    return _settings.devServer;
   }
 
   Future<void> setOvguAccount({@required String name, @required String password}) async {
-    final storage = _secureStorage;
-    await storage.write(key: 'ovgu_name', value: name);
-    await storage.write(key: 'ovgu_password', value: password);
-    _ovguAccount = OvguAccount(name: name, password: password);
+    OvguAccount account = OvguAccount(name: name, password: password);
+    PersistentService.instance.setOvguAccount(account);
+    _ovguAccount = account;
   }
 
   Future<void> deleteOvguAccount() async {
-    final storage = _secureStorage;
-    await storage.delete(key: 'ovgu_name');
-    await storage.delete(key: 'ovgu_password');
+    PersistentService.instance.deleteOvguAccount();
     _ovguAccount = null;
   }
 
@@ -141,15 +113,5 @@ class SettingsService {
 
   OvguAccount getOvguAccount() {
     return _ovguAccount;
-  }
-
-  /// reinitialize with default values
-  /// keeps dev server attribute alive
-  Future<void> clear() async {
-    bool devServer = _devServer;
-    await _box.clear();
-    await _secureStorage.deleteAll();
-    await init();
-    setDevServer(devServer);
   }
 }

@@ -1,10 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/app_config_service.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:intl/intl.dart';
@@ -44,23 +42,18 @@ class Init {
   /// initializes hive boxes
   static Future<void> _initHive() async {
     print('[1 / 4] init local storage (hive)');
-    await Hive.openBox('device_id');
-    await Hive.openBox('settings');
-    await Hive.openBox<DateTime>('last_sync');
-    await Hive.openBox<String>('api_json');
-    await Hive.openBox<Uint8List>('api_binary');
+    await PersistentService.instance.initHive();
   }
 
   /// initialize the device id if needed
   static Future<void> _initDeviceId() async {
     print('[2 / 4] init device id');
-    Box box = Hive.box('device_id');
-    String deviceId = box.get('device_id');
+    String deviceId = PersistentService.instance.getDeviceId();
     if (deviceId == null) {
       // initialize
       deviceId = Uuid().v4();
       print(' -> set device id: $deviceId');
-      box.put('device_id', deviceId);
+      PersistentService.instance.setDeviceId(deviceId);
     }
   }
 
@@ -70,7 +63,7 @@ class Init {
     print('[3 / 4] init settings');
 
     // init settings
-    await SettingsService.instance.init();
+    await SettingsService.instance.loadFromStorage();
 
     // set locale
     String locale = SettingsService.instance.getLocale();

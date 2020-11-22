@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/screens/main_screen.dart';
@@ -14,7 +12,6 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocale();
-  await Hive.initFlutter();
   await initializeDateFormatting();
   runApp(TranslationProvider(child: IkusApp()));
 }

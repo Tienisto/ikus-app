@@ -1,7 +1,7 @@
 class ApiData<T> {
 
-  final DateTime timestamp;
   final T data;
+  final DateTime timestamp;
 
-  ApiData({this.timestamp, this.data});
+  ApiData({this.data, this.timestamp});
 }

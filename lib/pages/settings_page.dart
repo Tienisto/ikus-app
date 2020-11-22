@@ -12,7 +12,7 @@ import 'package:ikus_app/screens/dev_screen.dart';
 import 'package:ikus_app/screens/ovgu_account_screen.dart';
 import 'package:ikus_app/screens/sync_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
-import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/globals.dart';
@@ -103,8 +103,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 220,
                       body: ResetPopup(
                         callback: () async {
-                          await SettingsService.instance.clear();
-                          await ApiService.clearCache();
+                          bool devServer = SettingsService.instance.getDevServer();
+                          await PersistentService.instance.clearData();
+                          await SettingsService.instance.loadFromStorage();
+                          SettingsService.instance.setDevServer(devServer); // set value before the deletion
                           for (SyncableService service in SyncableService.services) {
                             await service.sync(useCacheOnly: true);
                           }
