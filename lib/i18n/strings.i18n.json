@@ -131,6 +131,7 @@
   },
   "mails": {
     "title": "Emails",
+    "alpha": "Still in alpha. Features will be added soon.",
     "actions": {
       "account": "Account",
       "sync": "Sync",
@@ -177,7 +178,7 @@
   },
   "ovguAccount": {
     "title": "OVGU Account",
-    "info": "You can access your mails as soon as you setup the OVGU account. Grades and timetable may be added soon.",
+    "info": "You can access your mails as soon as you setup the OVGU account.",
     "loginCredentials": "Login Credentials",
     "name": "Name",
     "password": "Password",

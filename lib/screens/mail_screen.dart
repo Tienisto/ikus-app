@@ -59,6 +59,10 @@ class _MailScreenState extends State<MailScreen> {
         children: [
           SizedBox(height: 30),
           Padding(
+            padding: const EdgeInsets.only(left: 20, bottom: 20),
+            child: Text(t.mails.alpha, style: TextStyle(color: OvguColor.secondaryDarken2)),
+          ),
+          Padding(
             padding: OvguPixels.mainScreenPadding,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

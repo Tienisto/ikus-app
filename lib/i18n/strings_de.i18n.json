@@ -131,6 +131,7 @@
   },
   "mails": {
     "title": "E-Mails",
+    "alpha": "Immer noch in alpha. Weitere Features folgen.",
     "actions": {
       "account": "Account",
       "sync": "Laden",
@@ -177,7 +178,7 @@
   },
   "ovguAccount": {
     "title": "OVGU-Account",
-    "info": "Du kannst auf deine E-Mails zugreifen, sobald du dich mit deinem OVGU-Account anmeldest. Stundenplan und Noten werden bald ggf. ebenfalls hinzugefügt.",
+    "info": "Du kannst auf deine E-Mails zugreifen, sobald du dich mit deinem OVGU-Account anmeldest.",
     "loginCredentials": "Login-Daten",
     "name": "Name",
     "password": "Passwort",
