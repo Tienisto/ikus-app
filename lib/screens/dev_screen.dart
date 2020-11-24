@@ -5,6 +5,7 @@ import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
+import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -48,6 +49,16 @@ class _DevScreenState extends State<DevScreen> {
                   setScreen(context, () => MainScreen(tutorial: true));
                 },
                 child: Icon(Icons.restore, color: Colors.white),
+              )
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
+              left: 'Show Notification',
+              right: OvguButton(
+                callback: () {
+                  NotificationService.createInstance().showTest();
+                },
+                child: Icon(Icons.notifications, color: Colors.white),
               )
           )
         ],
