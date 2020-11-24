@@ -22,7 +22,7 @@ class HandbookPopup extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 15, top: 10),
-              child: Text(t.popups.handbookPopup.title, style: TextStyle(color: OvguColor.primary, fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(t.popups.handbook.title, style: TextStyle(color: OvguColor.primary, fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             OvguButton(
               flat: true,
@@ -49,7 +49,7 @@ class HandbookPopup extends StatelessWidget {
                     children: [
                       Expanded(child: Text(bookmark.name, style: TextStyle(fontSize: 16))),
                       SizedBox(width: 10),
-                      Text(t.popups.handbookPopup.page(page: bookmark.page), style: TextStyle(fontSize: 16)),
+                      Text(t.popups.handbook.page(page: bookmark.page), style: TextStyle(fontSize: 16)),
                     ],
                   ),
                 ),

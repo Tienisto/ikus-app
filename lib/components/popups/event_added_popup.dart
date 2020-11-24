@@ -17,8 +17,8 @@ class EventAddedPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericConfirmPopup(
-        title: t.popups.eventAddedPopup.title,
-        info: t.popups.eventAddedPopup.content(event: event.name),
+        title: t.popups.eventAdded.title,
+        info: t.popups.eventAdded.content(event: event.name),
         buttons: [
           OvguButton(
             flat: true,
@@ -26,7 +26,7 @@ class EventAddedPopup extends StatelessWidget {
               Navigator.pop(context);
               onUndo();
             },
-            child: Text(t.popups.eventAddedPopup.undo),
+            child: Text(t.popups.eventAdded.undo),
           ),
           OvguButton(
             flat: true,
@@ -34,7 +34,7 @@ class EventAddedPopup extends StatelessWidget {
               Navigator.pop(context);
               onShowList();
             },
-            child: Text(t.popups.eventAddedPopup.list),
+            child: Text(t.popups.eventAdded.list),
           ),
           OvguButton(
             padding: EdgeInsets.symmetric(horizontal: 30),
@@ -42,7 +42,7 @@ class EventAddedPopup extends StatelessWidget {
               Navigator.pop(context);
               onOk();
             },
-            child: Text(t.popups.eventAddedPopup.ok, style: TextStyle(color: Colors.white)),
+            child: Text(t.popups.eventAdded.ok, style: TextStyle(color: Colors.white)),
           )
         ]
     );

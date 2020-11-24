@@ -13,22 +13,22 @@ class ResetPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericConfirmPopup(
-        title: t.popups.resetPopup.title,
-        info: t.popups.resetPopup.content,
+        title: t.popups.reset.title,
+        info: t.popups.reset.content,
         buttons: [
           OvguButton(
             flat: true,
             callback: () {
               Navigator.pop(context);
             },
-            child: Text(t.popups.resetPopup.cancel),
+            child: Text(t.popups.reset.cancel),
           ),
           OvguButton(
             callback: () async {
               await callback();
               Navigator.pop(context);
             },
-            child: Text(t.popups.resetPopup.reset, style: TextStyle(color: Colors.white)),
+            child: Text(t.popups.reset.reset, style: TextStyle(color: Colors.white)),
           )
         ]
     );

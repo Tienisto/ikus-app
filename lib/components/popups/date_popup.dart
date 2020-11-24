@@ -41,12 +41,12 @@ class DatePopup extends StatelessWidget {
         if (events.isEmpty)
           Padding(
             padding: const EdgeInsets.only(left: 15),
-            child: Text(t.popups.datePopup.empty, style: TextStyle(fontSize: 16)),
+            child: Text(t.popups.date.empty, style: TextStyle(fontSize: 16)),
           ),
         if (events.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: 15),
-            child: Text(t.popups.datePopup.normal, style: TextStyle(fontSize: 16)),
+            child: Text(t.popups.date.normal, style: TextStyle(fontSize: 16)),
           ),
         if (events.isNotEmpty)
         Expanded(

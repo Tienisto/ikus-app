@@ -229,11 +229,11 @@
     }
   },
   "popups": {
-    "channelPopup": {
+    "channel": {
       "title": "Kanäle",
       "all": "Alle"
     },
-    "datePopup": {
+    "date": {
       "normal": "Folgende Events gibt es an diesem Tag:",
       "empty": "Es gibt keine Events an diesem Tag."
     },
@@ -241,31 +241,31 @@
       "title": "Ein Fehler ist aufgetreten.",
       "ok": "OK"
     },
-    "eventAddedPopup": {
+    "eventAdded": {
       "title": "Event markiert",
       "content": "\"$event\" wurde zu deine persönliche Liste hinzugefügt.",
       "undo": "Rückgängig",
       "list": "Zur Liste",
       "ok": "Okay"
     },
-    "eventPastPopup": {
+    "eventPast": {
       "title": "Event ist schon vorbei",
       "info": "Du kannst nur Events hinzufügen, die in der Zukunft liegen.",
       "ok": "OK"
     },
-    "handbookPopup": {
+    "handbook": {
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"
     },
-    "mensaOpeningHoursPopup": {
+    "mensaOpeningHours": {
       "title": "Öffnungszeiten"
     },
-    "needUpdatePopup": {
+    "needUpdate": {
       "title": "Update notwendig",
       "info": "Es werden die Offline-Daten verwendet, solange du die App nicht auf die neuste Version aktualisierst.",
       "ok": "OK"
     },
-    "resetPopup": {
+    "reset": {
       "title": "Daten zurücksetzen",
       "content": "Die App wird auf den Werkszustand gebracht. Fortsetzen?",
       "reset": "Zurücksetzen",

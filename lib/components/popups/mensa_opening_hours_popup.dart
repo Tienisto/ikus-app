@@ -13,7 +13,7 @@ class MensaOpeningHoursPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericInfoPopup(
-        title: t.popups.mensaOpeningHoursPopup.title,
+        title: t.popups.mensaOpeningHours.title,
         child: Padding(
           padding: const EdgeInsets.only(left: 15, top: 15),
           child: Column(

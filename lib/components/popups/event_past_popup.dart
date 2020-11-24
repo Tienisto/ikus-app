@@ -8,15 +8,15 @@ class EventPastPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericConfirmPopup(
-        title: t.popups.eventPastPopup.title,
-        info: t.popups.eventPastPopup.info,
+        title: t.popups.eventPast.title,
+        info: t.popups.eventPast.info,
         buttons: [
           OvguButton(
             padding: EdgeInsets.symmetric(horizontal: 30),
             callback: () {
               Navigator.pop(context);
             },
-            child: Text(t.popups.eventPastPopup.ok, style: TextStyle(color: Colors.white)),
+            child: Text(t.popups.eventPast.ok, style: TextStyle(color: Colors.white)),
           )
         ]
     );

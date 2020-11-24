@@ -63,7 +63,7 @@ class MailFacade {
     try {
       await send(smtpMessage, smtpConfig);
       return true;
-    } on MailerException catch (e) {
+    } on MailerException catch (_) {
       return false;
     }
   }

@@ -229,11 +229,11 @@
     }
   },
   "popups": {
-    "channelPopup": {
+    "channel": {
       "title": "Channels",
       "all": "All"
     },
-    "datePopup": {
+    "date": {
       "normal": "Following events are on this day:",
       "empty": "There are no events on this day."
     },
@@ -241,31 +241,31 @@
       "title": "An error occurred.",
       "ok": "OK"
     },
-    "eventAddedPopup": {
+    "eventAdded": {
       "title": "Event added",
       "content": "\"$event\" has been added to your personal list.",
       "undo": "Undo",
       "list": "Show List",
       "ok": "Okay"
     },
-    "eventPastPopup": {
+    "eventPast": {
       "title": "Event is already over",
       "info": "You can only add events which are in the future.",
       "ok": "OK"
     },
-    "handbookPopup": {
+    "handbook": {
       "title": "Structure",
       "page": "P. $page"
     },
-    "mensaOpeningHoursPopup": {
+    "mensaOpeningHours": {
       "title": "Opening Hours"
     },
-    "needUpdatePopup": {
+    "needUpdate": {
       "title": "Update needed",
       "info": "Offline stored data will be used as long as you don't update the app to the latest version.",
       "ok": "OK"
     },
-    "resetPopup": {
+    "reset": {
       "title": "Reset Data",
       "content": "The app will be reset to the factory settings. Continue?",
       "reset": "Reset",

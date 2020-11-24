@@ -8,14 +8,14 @@ class NeedUpdatePopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericConfirmPopup(
-        title: t.popups.needUpdatePopup.title,
-        info: t.popups.needUpdatePopup.info,
+        title: t.popups.needUpdate.title,
+        info: t.popups.needUpdate.info,
         buttons: [
           OvguButton(
             callback: () {
               Navigator.pop(context);
             },
-            child: Text(t.popups.needUpdatePopup.ok, style: TextStyle(color: Colors.white)),
+            child: Text(t.popups.needUpdate.ok, style: TextStyle(color: Colors.white)),
           )
         ]
     );

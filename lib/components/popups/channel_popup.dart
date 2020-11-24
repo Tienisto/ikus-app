@@ -43,7 +43,7 @@ class _ChannelPopupState extends State<ChannelPopup> {
   @override
   Widget build(BuildContext context) {
     return GenericInfoPopup(
-        title: t.popups.channelPopup.title,
+        title: t.popups.channel.title,
         child: ListView(
           padding: EdgeInsets.only(top: 10, bottom: 20),
           physics: Adaptive.getScrollPhysics(),
