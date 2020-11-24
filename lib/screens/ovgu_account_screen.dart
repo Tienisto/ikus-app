@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
+import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
@@ -72,6 +73,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
         title: Text(t.ovguAccount.title)
       ),
       body: MainListView(
+        padding: OvguPixels.mainScreenPadding,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 50),
@@ -81,84 +83,77 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
             child: Text(t.ovguAccount.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
           ),
           SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Center(
-              child: Text(t.ovguAccount.info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)
-            ),
+          Center(
+            child: Text(t.ovguAccount.info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)
           ),
           SizedBox(height: 50),
           if (_accountName != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: OvguCard(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(), // fill width
-                      SizedBox(height: 20),
-                      Text(t.ovguAccount.loggedInAs, style: TextStyle(fontSize: 20)),
-                      SizedBox(height: 20),
-                      Text(_accountName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 30),
-                      OvguButton(
-                        callback: deleteCredentials,
-                        child: Text(t.ovguAccount.logout, style: TextStyle(color: Colors.white)),
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
+            OvguCard(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(), // fill width
+                    SizedBox(height: 20),
+                    Text(t.ovguAccount.loggedInAs, style: TextStyle(fontSize: 20)),
+                    SizedBox(height: 20),
+                    Text(_accountName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 30),
+                    OvguButton(
+                      callback: deleteCredentials,
+                      child: Text(t.ovguAccount.logout, style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(height: 20),
+                  ],
                 ),
               ),
             ),
           if (_accountName == null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: OvguCard(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(t.ovguAccount.loginCredentials, style: TextStyle(fontSize: 20)),
-                      SizedBox(height: 20),
-                      OvguTextField(
-                          hint: t.ovguAccount.name,
-                          icon: Icons.person,
-                          onChange: (value) {
-                            setState(() {
-                              _name = value;
-                            });
-                          }
-                      ),
-                      SizedBox(height: 15),
-                      OvguTextField(
-                          hint: t.ovguAccount.password,
-                          icon: Icons.vpn_key,
-                          type: TextFieldType.PASSWORD,
-                          onChange: (value) {
-                            setState(() {
-                              _password = value;
-                            });
-                          }
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(child: Container()),
-                          OvguButton(
-                            callback: saveCredentials,
-                            child: Text(t.ovguAccount.login, style: TextStyle(color: Colors.white)),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+            OvguCard(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.ovguAccount.loginCredentials, style: TextStyle(fontSize: 20)),
+                    SizedBox(height: 20),
+                    OvguTextField(
+                        hint: t.ovguAccount.name,
+                        icon: Icons.person,
+                        onChange: (value) {
+                          setState(() {
+                            _name = value;
+                          });
+                        }
+                    ),
+                    SizedBox(height: 15),
+                    OvguTextField(
+                        hint: t.ovguAccount.password,
+                        icon: Icons.vpn_key,
+                        type: TextFieldType.PASSWORD,
+                        onChange: (value) {
+                          setState(() {
+                            _password = value;
+                          });
+                        }
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(child: Container()),
+                        OvguButton(
+                          callback: saveCredentials,
+                          child: Text(t.ovguAccount.login, style: TextStyle(color: Colors.white)),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
+          SizedBox(height: 20),
+          InfoText(t.ovguAccount.privacy),
           SizedBox(height: 50),
         ],
       ),

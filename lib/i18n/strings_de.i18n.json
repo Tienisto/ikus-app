@@ -195,7 +195,7 @@
     "login": "Login",
     "loggedInAs": "Eingeloggt als",
     "logout": "Abmelden",
-    "privacy": "Deine Login-Daten werden verschlüsselt nur auf deinem Gerät gespeichert.",
+    "privacy": "Deine Login-Daten werden verschlüsselt und nur auf deinem Gerät gespeichert.",
     "authenticating": "Authentifizierung"
   },
   "post": {

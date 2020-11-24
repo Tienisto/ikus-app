@@ -195,7 +195,7 @@
     "login": "Login",
     "loggedInAs": "Logged in as",
     "logout": "Logout",
-    "privacy": "Your login credentials will be only stored encrypted on your device.",
+    "privacy": "Your login credentials will be encrypted and only stored on your device.",
     "authenticating": "Authenticating"
   },
   "post": {
