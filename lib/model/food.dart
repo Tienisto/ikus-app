@@ -23,15 +23,14 @@ class Food {
   Food({this.name, this.price, this.tags});
 
   static Food fromMap(Map<String, dynamic> map) {
-    List<FoodTag> tags = map['tags']
-        .map((tag) => FoodTag.values.firstWhere((element) => describeEnum(element) == tag, orElse: () => null))
-        .where((tag) => tag != null)
-        .toList()
-        .cast<FoodTag>();
     return Food(
         name: map['name'],
-        price: tags.any((tag) => tag == FoodTag.SIDES) ? null : map['price'], // TODO: simplify when server responds with price = null
-        tags: tags
+        price: map['price'],
+        tags: map['tags']
+            .map((tag) => FoodTag.values.firstWhere((element) => describeEnum(element) == tag, orElse: () => null))
+            .where((tag) => tag != null)
+            .toList()
+            .cast<FoodTag>()
     );
   }
 
