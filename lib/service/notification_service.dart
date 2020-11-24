@@ -1,5 +1,6 @@
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ikus_app/utility/ui.dart';
 
 /// shows notification
 class NotificationService {
@@ -23,11 +24,12 @@ class NotificationService {
 
     final platformChannelSpecifics = NotificationDetails(
         android: AndroidNotificationDetails(
-            'test',
-            'Test',
-            'Showing Test Notification',
-            importance: Importance.max,
-            priority: Priority.high
+          'test',
+          'Test',
+          'Showing Test Notification',
+          importance: Importance.max,
+          priority: Priority.high,
+          color: OvguColor.primary
         ),
         iOS: IOSNotificationDetails()
     );
