@@ -270,6 +270,10 @@
       "content": "The app will be reset to the factory settings. Continue?",
       "reset": "Reset",
       "cancel": "Cancel"
+    },
+    "wip": {
+      "title": "Work in progress",
+      "ok": "OK"
     }
   },
   "timeFormat": "$time"

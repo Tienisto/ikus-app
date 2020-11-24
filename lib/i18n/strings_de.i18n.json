@@ -270,6 +270,10 @@
       "content": "Die App wird auf den Werkszustand gebracht. Fortsetzen?",
       "reset": "Zurücksetzen",
       "cancel": "Abbrechen"
+    },
+    "wip": {
+      "title": "In Arbeit",
+      "ok": "OK"
     }
   },
   "timeFormat": "$time Uhr"

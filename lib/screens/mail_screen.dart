@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
@@ -119,10 +120,12 @@ class _MailScreenState extends State<MailScreen> {
                     mail: mail,
                     onReply: () {
                       // TODO
+                      WipPopup.open(context);
                     },
                     onDelete: () {
                       // TODO
                       // sync();
+                      WipPopup.open(context);
                     },
                   ));
                 }
