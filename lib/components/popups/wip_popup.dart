@@ -7,7 +7,11 @@ import 'package:ikus_app/utility/popups.dart';
 class WipPopup extends StatelessWidget {
 
   static void open(BuildContext context) {
-    Popups.generic(context: context, height: 150, body: WipPopup());
+    Popups.generic(
+        context: context,
+        height: 150,
+        body: WipPopup()
+    );
   }
 
   @override

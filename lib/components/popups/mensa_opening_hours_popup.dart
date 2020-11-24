@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/popups/generic_info_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/utility/popups.dart';
 
 class MensaOpeningHoursPopup extends StatelessWidget {
 
@@ -9,6 +10,14 @@ class MensaOpeningHoursPopup extends StatelessWidget {
   final String openingHours;
 
   const MensaOpeningHoursPopup({@required this.mensa, @required this.openingHours});
+
+  static void open({@required BuildContext context, @required String mensa, @required String openingHours}) {
+    Popups.generic(
+        context: context,
+        height: 150,
+        body: MensaOpeningHoursPopup(mensa: mensa, openingHours: openingHours)
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

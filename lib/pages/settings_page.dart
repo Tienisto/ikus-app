@@ -16,7 +16,6 @@ import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/globals.dart';
-import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:package_info/package_info.dart';
 
@@ -97,24 +96,21 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.reset,
               right: OvguButton(
-                callback: () async {
-                  Popups.generic(
-                      context: context,
-                      height: 220,
-                      body: ResetPopup(
-                        callback: () async {
-                          bool devServer = SettingsService.instance.getDevServer();
-                          await PersistentService.instance.clearData();
-                          await SettingsService.instance.loadFromStorage();
-                          SettingsService.instance.setDevServer(devServer); // set value before the deletion
-                          for (SyncableService service in SyncableService.services) {
-                            await service.sync(useCacheOnly: true);
-                          }
-                          nextFrame(() {
-                            setScreen(context, () => WelcomeScreen());
-                          });
-                        },
-                      )
+                callback: () {
+                  ResetPopup.open(
+                    context: context,
+                    callback: () async {
+                      bool devServer = SettingsService.instance.getDevServer();
+                      await PersistentService.instance.clearData();
+                      await SettingsService.instance.loadFromStorage();
+                      SettingsService.instance.setDevServer(devServer); // set value before the deletion
+                      for (SyncableService service in SyncableService.services) {
+                        await service.sync(useCacheOnly: true);
+                      }
+                      nextFrame(() {
+                        setScreen(context, () => WelcomeScreen());
+                      });
+                    }
                   );
                 },
                 child: Icon(Icons.restore, color: Colors.white),

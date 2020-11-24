@@ -11,7 +11,6 @@ import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
-import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
 
@@ -195,10 +194,10 @@ class _MensaScreenState extends State<MensaScreen> {
                       OvguButton(
                         flat: true,
                         callback: () {
-                          Popups.generic(
+                          MensaOpeningHoursPopup.open(
                             context: context,
-                            height: 150,
-                            body: MensaOpeningHoursPopup(mensa: curr.name.name.replaceAll('\n', ' '), openingHours: curr.openingHours)
+                            mensa: curr.name.name.replaceAll('\n', ' '),
+                            openingHours: curr.openingHours
                           );
                         },
                         child: Icon(Icons.access_time),

@@ -35,11 +35,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
   Future<void> send() async {
 
     if (_from.isEmpty || _to.isEmpty || _subject.isEmpty || _content.isEmpty) {
-      Popups.generic(
-          context: context,
-          height: 150,
-          body: ErrorPopup()
-      );
+      ErrorPopup.open(context);
       return;
     }
 
@@ -66,11 +62,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
     if (result) {
       Navigator.pop(context);
     } else {
-      Popups.generic(
-          context: context,
-          height: 150,
-          body: ErrorPopup()
-      );
+      ErrorPopup.open(context);
     }
   }
 
