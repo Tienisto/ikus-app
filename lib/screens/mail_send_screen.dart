@@ -49,14 +49,11 @@ class _MailSendScreenState extends State<MailSendScreen> {
         )
     );
 
-
     final message = MailMessageSend(from: _from, to: _to, cc: _cc, subject: _subject, content: _content);
     bool result = await widget.client.sendMessage(message, name: widget.account.name, password: widget.account.password);
 
     // at least 1sec popup time
-    int remainingTime = 1000 - DateTime.now().difference(start).inMilliseconds;
-    if (remainingTime > 0)
-      await sleep(remainingTime);
+    await sleepRemaining(1000, start);
     Navigator.pop(context);
 
     if (result) {

@@ -6,6 +6,12 @@ import "package:latlong/latlong.dart";
 import 'package:map_launcher/map_launcher.dart' as map_launcher;
 
 Future<void> sleep(int millis) async => await Future.delayed(Duration(milliseconds: millis));
+Future<void> sleepRemaining(int millis, DateTime start) async {
+  int remainingTime = millis - DateTime.now().difference(start).inMilliseconds;
+  if (remainingTime > 0)
+    await sleep(remainingTime);
+}
+
 void nextFrame(Callback callback) => WidgetsBinding.instance.addPostFrameCallback((_) => callback());
 
 /// push another screen on top of the current screen

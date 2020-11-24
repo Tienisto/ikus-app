@@ -3,9 +3,12 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/mail_facade.dart';
+import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class OvguAccountScreen extends StatefulWidget {
@@ -23,32 +26,40 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
   String _accountName = SettingsService.instance.getOvguAccount()?.name;
   String _name = '';
   String _password = '';
-  bool _saving = false;
 
   void saveCredentials() async {
-    setState(() {
-      _saving = true;
-    });
 
-    await SettingsService.instance.setOvguAccount(name: _name, password: _password);
+    Popups.generic(
+        context: context,
+        height: 130,
+        dismissible: false,
+        body: Center(
+          child: Text(t.ovguAccount.authenticating, style: TextStyle(color: OvguColor.primary, fontSize: 24, fontWeight: FontWeight.bold)),
+        )
+    );
+
+    DateTime start = DateTime.now();
+    bool success = await MailFacade.testLogin(name: _name, password: _password);
+    await sleepRemaining(1000, start);
     Navigator.pop(context);
-    if (widget.afterLoginScreen != null) {
-      pushScreen(context, widget.afterLoginScreen);
+
+    if (success) {
+      await SettingsService.instance.setOvguAccount(name: _name, password: _password);
+      Navigator.pop(context);
+      if (widget.afterLoginScreen != null) {
+        pushScreen(context, widget.afterLoginScreen);
+      }
+    } else {
+      ErrorPopup.open(context);
     }
   }
 
   void deleteCredentials() async {
-    setState(() {
-      _saving = true;
-    });
-
     await SettingsService.instance.deleteOvguAccount();
-
     setState(() {
       _accountName = null;
       _name = '';
       _password = '';
-      _saving = false;
     });
   }
 
@@ -93,7 +104,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
                       Text(_accountName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                       SizedBox(height: 30),
                       OvguButton(
-                        callback: _saving ? null : deleteCredentials,
+                        callback: deleteCredentials,
                         child: Text(t.ovguAccount.logout, style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(height: 20),
@@ -138,7 +149,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
                         children: [
                           Expanded(child: Container()),
                           OvguButton(
-                            callback: _saving ? null : saveCredentials,
+                            callback: saveCredentials,
                             child: Text(t.ovguAccount.login, style: TextStyle(color: Colors.white)),
                           )
                         ],

@@ -14,6 +14,15 @@ class MailFacade {
 
   MailFacade(this.imapClient);
 
+  static Future<bool> testLogin({@required String name, @required String password}) async {
+    final client = ImapClient();
+    await client.connectToServer('cyrus.ovgu.de', 993);
+    final response = await client.login(name, password);
+    final ok = response.isOkStatus;
+    await client.closeConnection();
+    return ok;
+  }
+
   static Future<MailFacade> connect({@required String name, @required String password}) async {
 
     final client = ImapClient();
