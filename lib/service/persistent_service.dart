@@ -38,9 +38,9 @@ class PersistentService {
   /// wipes all data except device id
   Future<void> clearData() async {
     await Hive.box(_BOX_SETTINGS).clear();
-    await Hive.box(_BOX_LAST_SYNC).clear();
-    await Hive.box(_BOX_API_JSON).clear();
-    await Hive.box(_BOX_API_BINARY).clear();
+    await Hive.box<DateTime>(_BOX_LAST_SYNC).clear();
+    await Hive.box<String>(_BOX_API_JSON).clear();
+    await Hive.box<Uint8List>(_BOX_API_BINARY).clear();
     await _secureStorage.deleteAll();
   }
 
