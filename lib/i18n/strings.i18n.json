@@ -142,6 +142,16 @@
   "mailMessage": {
     "title": "Email"
   },
+  "mailMessageSend": {
+    "title": "Send Email",
+    "from": "From",
+    "to": "To",
+    "cc": "CC",
+    "subject": "Subject",
+    "content": "Content",
+    "send": "Send",
+    "sending": "Sending Email..."
+  },
   "map": {
     "title": "Campus Map",
     "main": "Main Campus",
@@ -226,6 +236,10 @@
     "datePopup": {
       "normal": "Following events are on this day:",
       "empty": "There are no events on this day."
+    },
+    "error": {
+      "title": "An error occurred.",
+      "ok": "OK"
     },
     "eventAddedPopup": {
       "title": "Event added",

@@ -41,7 +41,8 @@ dependencies:
   add_2_calendar: ^1.4.0 # add calendar reminders
   map_launcher: ^0.12.2 # launch external map app
   url_launcher: ^5.7.10 # open links
-  enough_mail: ^0.0.33 # emails
+  enough_mail: ^0.0.33 # receive emails
+  mailer: ^3.2.1 # sending emails
 
   # components
   flutter_html: ^1.0.2 # show post content encoded in html

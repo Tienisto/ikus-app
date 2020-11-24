@@ -142,6 +142,16 @@
   "mailMessage": {
     "title": "E-Mail"
   },
+  "mailMessageSend": {
+    "title": "E-Mail senden",
+    "from": "Von",
+    "to": "An",
+    "cc": "CC",
+    "subject": "Betreff",
+    "content": "Inhalt",
+    "send": "Senden",
+    "sending": "E-Mail wird gesendet..."
+  },
   "map": {
     "title": "Campusplan",
     "main": "Hauptcampus",
@@ -226,6 +236,10 @@
     "datePopup": {
       "normal": "Folgende Events gibt es an diesem Tag:",
       "empty": "Es gibt keine Events an diesem Tag."
+    },
+    "error": {
+      "title": "Ein Fehler ist aufgetreten.",
+      "ok": "OK"
     },
     "eventAddedPopup": {
       "title": "Event markiert",

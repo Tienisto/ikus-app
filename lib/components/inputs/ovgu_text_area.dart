@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:ikus_app/utility/callbacks.dart';
+
+class OvguTextArea extends StatelessWidget {
+
+  final String hint;
+  final int minLines;
+  final int maxLines;
+  final StringCallback onChange;
+
+  const OvguTextArea({@required this.hint, this.minLines = 6, this.maxLines = 6, @required this.onChange});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: TextStyle(fontSize: 20),
+      autocorrect: true,
+      enableSuggestions: false,
+      minLines: minLines,
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        hintText: hint,
+        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+        fillColor: Colors.white,
+        filled: true
+      ),
+      onChanged: onChange,
+    );
+  }
+}

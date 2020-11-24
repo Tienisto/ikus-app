@@ -11,31 +11,35 @@ class Popups {
   static void generic({
     @required BuildContext context,
     @required Widget body,
-    double height = DEFAULT_HEIGHT
+    double height = DEFAULT_HEIGHT,
+    bool dismissible = true,
   }) {
     showGeneralDialog(
       context: context,
       transitionDuration: Duration(milliseconds: 300),
       barrierColor: Colors.black.withOpacity(0.5),
-      barrierDismissible: true,
+      barrierDismissible: dismissible,
       barrierLabel: '',
       transitionBuilder: (context, a1, a2, widget) {
         final double curvedValue = Curves.easeInOutQuad.transform(1 - a1.value);
         final double width = min(MediaQuery.of(context).size.width - 2, 600);
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Transform.translate(
-            offset: Offset(0, curvedValue * height + 5),
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: OvguCard(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), topRight: Radius.circular(OvguPixels.borderRadiusPlain))),
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: body
-                )
+        return WillPopScope(
+          onWillPop: () async => dismissible,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Transform.translate(
+              offset: Offset(0, curvedValue * height + 5),
+              child: SizedBox(
+                width: width,
+                height: height,
+                child: OvguCard(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), topRight: Radius.circular(OvguPixels.borderRadiusPlain))),
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: body
+                  )
+                ),
               ),
             ),
           ),

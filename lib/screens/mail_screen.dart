@@ -8,6 +8,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
 import 'package:ikus_app/screens/mail_message_screen.dart';
+import 'package:ikus_app/screens/mail_send_screen.dart';
 import 'package:ikus_app/screens/ovgu_account_screen.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
@@ -23,6 +24,8 @@ class MailScreen extends StatefulWidget {
 class _MailScreenState extends State<MailScreen> {
 
   List<MailMessage> mails = [];
+  MailFacade client;
+  OvguAccount account;
 
   @override
   void initState() {
@@ -31,11 +34,11 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   Future<void> sync() async {
-    OvguAccount account = SettingsService.instance.getOvguAccount();
-    var client = await MailFacade.connect(name: account.name, password: account.password);
+    account = SettingsService.instance.getOvguAccount();
+    client = await MailFacade.connect(name: account.name, password: account.password);
     if (client == null)
       return;
-    var messages = await client.fetchMessages();
+    final messages = await client.fetchMessages();
     setState(() {
       mails = messages;
     });
@@ -93,7 +96,9 @@ class _MailScreenState extends State<MailScreen> {
                     text: t.mails.actions.send,
                     width: btnWidth,
                     fontSize: btnFontSize,
-                    callback: () { }
+                    callback: () {
+                      pushScreen(context, () => MailSendScreen(client: client, account: account));
+                    }
                 )
               ],
             ),
@@ -113,11 +118,11 @@ class _MailScreenState extends State<MailScreen> {
                   pushScreen(context, () => MailMessageScreen(
                     mail: mail,
                     onReply: () {
-                      Navigator.pop(context);
+                      // TODO
                     },
                     onDelete: () {
-                      Navigator.pop(context);
-                      sync();
+                      // TODO
+                      // sync();
                     },
                   ));
                 }

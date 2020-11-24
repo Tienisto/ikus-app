@@ -7,7 +7,7 @@ class GenericConfirmPopup extends StatelessWidget {
   final String info;
   final List<Widget> buttons;
 
-  const GenericConfirmPopup({@required this.title, @required this.info, @required this.buttons});
+  const GenericConfirmPopup({@required this.title, this.info, @required this.buttons});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,8 @@ class GenericConfirmPopup extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Center(child: Text(info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)),
+                  if (info != null)
+                    Center(child: Text(info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)),
                   if (buttons.length == 1)
                     Center(
                       child: buttons.first,
