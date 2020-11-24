@@ -14,6 +14,7 @@ class BackgroundService {
       "1",
       "fetchMailsTask",
       frequency: Duration(minutes: 15), // at least 15min
+      existingWorkPolicy: ExistingWorkPolicy.replace
     );
   }
 }
