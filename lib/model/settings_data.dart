@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 
 class SettingsData {
@@ -9,16 +10,18 @@ class SettingsData {
   List<int> calendarChannels; // nullable
   List<int> myEvents;
   Mensa mensa;
+  bool devSettings;
   bool devServer;
 
   SettingsData({
-    this.welcome,
-    this.locale,
-    this.favorites,
-    this.newsChannels,
-    this.calendarChannels,
-    this.myEvents,
-    this.mensa,
-    this.devServer
+    @required this.welcome,
+    @required this.locale,
+    @required this.favorites,
+    @required this.newsChannels,
+    @required this.calendarChannels,
+    @required this.myEvents,
+    @required this.mensa,
+    @required this.devSettings,
+    @required this.devServer
   });
 }

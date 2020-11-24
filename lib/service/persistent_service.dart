@@ -102,6 +102,7 @@ class PersistentService {
           .get('my_events', defaultValue: [])
           .cast<int>(),
       mensa: (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN,
+      devSettings: box.get('dev_settings', defaultValue: false),
       devServer: box.get('dev_server', defaultValue: false)
     );
   }
@@ -115,6 +116,7 @@ class PersistentService {
     box.put('calendar_channels', data.calendarChannels);
     box.put('my_events', data.myEvents);
     box.put('mensa', describeEnum(data.mensa));
+    box.put('dev_settings', data.devSettings);
     box.put('dev_server', data.devServer);
   }
 

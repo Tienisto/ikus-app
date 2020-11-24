@@ -60,6 +60,18 @@ class _DevScreenState extends State<DevScreen> {
                 },
                 child: Icon(Icons.notifications, color: Colors.white),
               )
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
+              left: 'Disable Dev Settings',
+              right: OvguButton(
+                callback: () {
+                  SettingsService.instance.setDevSettings(false);
+                  SettingsService.instance.setDevServer(false);
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.visibility_off, color: Colors.white),
+              )
           )
         ],
       ),

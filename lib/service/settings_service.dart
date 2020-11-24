@@ -87,6 +87,15 @@ class SettingsService {
     return _settings.mensa;
   }
 
+  void setDevSettings(bool dev) {
+    _settings.devSettings = dev;
+    _persistSettings();
+  }
+
+  bool getDevSettings() {
+    return _settings.devSettings;
+  }
+
   void setDevServer(bool dev) {
     _settings.devServer = dev;
     _persistSettings();

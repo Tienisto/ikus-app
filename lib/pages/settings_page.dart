@@ -136,14 +136,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Icon(Icons.info, color: Colors.white),
               )
           ),
-          if (devCounter >= 7 || SettingsService.instance.getDevServer())
+          if (SettingsService.instance.getDevSettings())
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: SettingsItem(
                   left: t.main.settings.dev,
                   right: OvguButton(
-                    callback: () {
-                      pushScreen(context, () => DevScreen());
+                    callback: () async {
+                      await pushScreen(context, () => DevScreen());
+                      setState(() {}); // in case user disables dev settings
                     },
                     child: Icon(Icons.developer_mode, color: Colors.white),
                   )
@@ -161,6 +162,9 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () {
               setState(() {
                 devCounter++;
+                if (devCounter >= 7) {
+                  SettingsService.instance.setDevSettings(true);
+                }
               });
             },
             child: Text('Version $_version', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
