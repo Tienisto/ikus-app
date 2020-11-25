@@ -44,6 +44,7 @@ dependencies:
   enough_mail: ^0.0.33 # receive emails
   mailer: ^3.2.1 # sending emails
   background_fetch: ^0.6.0 # run tasks in background
+  workmanager: ^0.2.3 # run tasks in background alternative
   flutter_local_notifications: ^3.0.1+5 # show notifications
 
   # components
