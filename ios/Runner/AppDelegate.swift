@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import workmanager
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -12,6 +13,12 @@ import Flutter
     // notifications
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self
+    }
+    
+    // workmanager
+    UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
+    WorkmanagerPlugin.setPluginRegistrantCallback { registry in
+        GeneratedPluginRegistrant.register(with: registry)
     }
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
