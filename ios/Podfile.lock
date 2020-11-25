@@ -1,13 +1,23 @@
 PODS:
   - add_2_calendar (0.0.1):
     - Flutter
-  - devicelocale (0.0.1):
+  - background_fetch (0.6.0):
+    - Flutter
+  - device_info (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
+  - flutter_secure_storage (3.3.1):
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
   - map_launcher (0.0.1):
+    - Flutter
+  - native_pdf_renderer (1.0.0):
+    - Flutter
+  - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
@@ -16,6 +26,8 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - url_launcher (0.0.1):
+    - Flutter
   - video_player (0.0.1):
     - Flutter
   - wakelock (0.0.1):
@@ -25,12 +37,18 @@ PODS:
 
 DEPENDENCIES:
   - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
-  - devicelocale (from `.symlinks/plugins/devicelocale/ios`)
+  - background_fetch (from `.symlinks/plugins/background_fetch/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
+  - native_pdf_renderer (from `.symlinks/plugins/native_pdf_renderer/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - screen (from `.symlinks/plugins/screen/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -42,18 +60,30 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   add_2_calendar:
     :path: ".symlinks/plugins/add_2_calendar/ios"
-  devicelocale:
-    :path: ".symlinks/plugins/devicelocale/ios"
+  background_fetch:
+    :path: ".symlinks/plugins/background_fetch/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   map_launcher:
     :path: ".symlinks/plugins/map_launcher/ios"
+  native_pdf_renderer:
+    :path: ".symlinks/plugins/native_pdf_renderer/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   screen:
     :path: ".symlinks/plugins/screen/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   wakelock:
@@ -63,17 +93,23 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   add_2_calendar: c201b1c7dc0299280f1b1a8158aa80e15a8f8912
-  devicelocale: feebbe5e7a30adb8c4f83185de1b50ff19b44f00
+  background_fetch: 9221ccc02b41aff8a52b2090d9f791c5ed82eaee
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
+  native_pdf_renderer: fa374da660730abe059e7a178e79895dd202f007
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

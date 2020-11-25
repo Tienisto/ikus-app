@@ -1,6 +1,5 @@
-
+import 'package:background_fetch/background_fetch.dart';
 import 'package:ikus_app/service/notification_service.dart';
-import 'package:workmanager/workmanager.dart';
 
 /// executes code in background
 class BackgroundService {
@@ -9,22 +8,14 @@ class BackgroundService {
   static BackgroundService get instance => _instance;
 
   void init() {
-    Workmanager.initialize(backgroundTaskDispatcher);
-    Workmanager.registerPeriodicTask(
-      "1",
-      "fetchMailsTask",
-      frequency: Duration(minutes: 15), // at least 15min
-      existingWorkPolicy: ExistingWorkPolicy.replace
-    );
+    final config = BackgroundFetchConfig(minimumFetchInterval: 15);
+    BackgroundFetch.configure(config, backgroundTaskDispatcher);
   }
 }
 
-void backgroundTaskDispatcher() {
-  Workmanager.executeTask((task, inputData) {
-
-    NotificationService notificationService = NotificationService.createInstance();
-    //notificationService.showTest();
-
-    return Future.value(true);
-  });
+void backgroundTaskDispatcher(String taskId) {
+  print('Running background task... ($taskId)');
+  NotificationService notificationService = NotificationService.createInstance();
+  notificationService.showTest();
+  BackgroundFetch.finish(taskId);
 }

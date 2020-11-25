@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:ikus_app/pages/features_page.dart';
 import 'package:ikus_app/pages/home_page.dart';
 import 'package:ikus_app/pages/settings_page.dart';
 import 'package:ikus_app/service/app_config_service.dart';
+import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -129,26 +131,27 @@ class _MainScreenState extends State<MainScreen> {
         animateToPage(0);
         tutorialPosition = Offset(actualStart, 110);
         tutorialFeatureHeartHighlight = false;
-        Future.delayed(Duration(milliseconds: 1000))
-            .whenComplete(() {
-              setState(() {
-                tutorialFavoritesHighlight = true;
-              });
+        await sleep(1000);
+        setState(() {
+          tutorialFavoritesHighlight = true;
         });
         break;
       case 5:
-        // end
+        // last
         tutorialPosition = Offset((size.width - TutorialOverlay.TOTAL_WIDTH) / 2 - 30, (size.height - TutorialOverlay.APPROX_HEIGHT) / 2);
         tutorialFavoritesHighlight = false;
         break;
       default:
+        // end
         tutorialPosition = Offset((size.width - TutorialOverlay.TOTAL_WIDTH) / 2 - 30, -300);
-        Future.delayed(Duration(milliseconds: 1000))
-          .whenComplete(() {
-            setState(() {
-              tutorialMode = false;
-            });
-          });
+        await sleep(1000);
+        setState(() {
+          tutorialMode = false;
+        });
+        if (Platform.isIOS) {
+          // request notification permission on iOS
+          await NotificationService.requestIOSPermissions();
+        }
         break;
     }
   }

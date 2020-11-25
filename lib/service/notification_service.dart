@@ -9,15 +9,19 @@ class NotificationService {
   NotificationService._(this._plugin);
 
   static NotificationService createInstance() {
-    final notificationPlugin = new FlutterLocalNotificationsPlugin();
 
     final settings = InitializationSettings(
         android: AndroidInitializationSettings('@drawable/ic_notification'),
         iOS: IOSInitializationSettings()
     );
 
-    notificationPlugin.initialize(settings);
+    final notificationPlugin = FlutterLocalNotificationsPlugin()..initialize(settings);
     return NotificationService._(notificationPlugin);
+  }
+
+  static Future<void> requestIOSPermissions() async {
+    await IOSFlutterLocalNotificationsPlugin()
+        .requestPermissions(sound: true, alert: true, badge: true);
   }
 
   Future<void> showTest() async {
