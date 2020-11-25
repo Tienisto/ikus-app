@@ -50,12 +50,6 @@ class AppConfigService implements SyncableService {
         .where((feature) => feature != null)
         .toList();
 
-    // TODO: do not hard code
-    _features = [
-      ..._features,
-      Feature.EMAILS.withServerData(id: 9990, index: _features.length, favorite: false)
-    ];
-
     _recommendedFavoriteFeatures = _features.where((feature) => feature.recommendedFavorite).toList();
 
     List<int> favoriteIds = SettingsService.instance.getFavorites();
