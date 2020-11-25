@@ -16,6 +16,7 @@ class BackgroundService {
           "1",
           "fetchTask",
           frequency: Duration(minutes: 15), // at least 15min
+          initialDelay: Duration(minutes: 15),
           existingWorkPolicy: ExistingWorkPolicy.replace
       );
     }
