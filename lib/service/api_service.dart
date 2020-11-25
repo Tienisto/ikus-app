@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:ikus_app/constants.dart';
 import 'package:ikus_app/init.dart';
@@ -71,14 +71,13 @@ class ApiService {
     }
   }
 
-  static Future<void> appStart(BuildContext context) async {
-    TargetPlatform platform = Theme.of(context).platform;
+  static Future<void> appStart() async {
     String deviceId = PersistentService.instance.getDeviceId();
 
     Map<String, dynamic> body = {
       'token': JwtService.generateToken(),
       'deviceId': deviceId,
-      'platform': platform == TargetPlatform.iOS ? 'IOS' : 'ANDROID',
+      'platform': Platform.isIOS ? 'IOS' : 'ANDROID',
     };
 
     await post(

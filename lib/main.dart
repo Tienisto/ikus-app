@@ -32,16 +32,16 @@ class IkusAppState extends State<IkusApp> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
 
-    // initialize from storage
-    Init.init().whenComplete(() {
-      setState((){
-        _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen();
-        _initialized = true;
-      });
-    }).whenComplete(() async {
-      await Init.postInit(context);
+  Future<void> init() async {
+    await Init.init();
+    setState((){
+      _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen();
+      _initialized = true;
     });
+    await Init.postInit();
   }
 
   @override

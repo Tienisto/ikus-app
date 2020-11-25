@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/app_config_service.dart';
@@ -23,9 +22,9 @@ class Init {
   }
 
   /// runs after the first frame
-  static Future<void> postInit(BuildContext context) async {
+  static Future<void> postInit() async {
 
-    await _syncAppConfig(context);
+    await _syncAppConfig();
 
     if (!AppConfigService.instance.isCompatibleWithApi()) {
       _postInitFinished = true;
@@ -33,7 +32,7 @@ class Init {
       return;
     }
 
-    await _appStart(context);
+    await _appStart();
     await _updateOldData();
     _postInitFinished = true;
     print('post init finished');
@@ -82,15 +81,15 @@ class Init {
     }
   }
 
-  static Future<void> _syncAppConfig(BuildContext context) async {
+  static Future<void> _syncAppConfig() async {
     print('[1 / 3] sync app config');
     await AppConfigService.instance.sync(useCacheOnly: false);
   }
 
   /// sends app start signal to server
-  static Future<void> _appStart(BuildContext context) async {
+  static Future<void> _appStart() async {
     print('[2 / 3] app start');
-    await ApiService.appStart(context);
+    await ApiService.appStart();
   }
 
   /// update old data based on maxAge
