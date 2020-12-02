@@ -9,7 +9,7 @@ class SettingsData {
   List<int> newsChannels; // nullable
   List<int> calendarChannels; // nullable
   List<int> myEvents;
-  Mensa mensa;
+  Mensa mensa; // last opened mensa
   bool devSettings;
   bool devServer;
 

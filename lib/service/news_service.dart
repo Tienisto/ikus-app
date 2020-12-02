@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/service/api_service.dart';
@@ -23,7 +23,7 @@ class NewsService implements SyncableService {
 
   @override
   Future<void> sync({bool useCacheOnly}) async {
-    ApiData data = await ApiService.getCacheOrFetchString(
+    DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'news',
       locale: LocaleSettings.currentLocale,
       useCacheOnly: useCacheOnly,

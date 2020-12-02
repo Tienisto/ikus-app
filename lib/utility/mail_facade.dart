@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/service/api_service.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 
 class MailFacade {
 
+  static const Duration MAILS_YOUNGER_THAN = Duration(days: 30);
+  static const String MAILBOX_PATH_SEND = "INBOX.Sent";
   final ImapClient imapClient;
 
   MailFacade(this.imapClient);
@@ -27,53 +27,94 @@ class MailFacade {
 
     final client = ImapClient();
     await client.connectToServer('cyrus.ovgu.de', 993);
-    final response = await client.login(name, password);
+    final loginResponse = await client.login(name, password);
 
-    if (!response.isOkStatus)
+    if (loginResponse.isFailedStatus)
       return null;
 
-    final listResponse = await client.selectInbox();
+    final selectInboxResponse = await client.selectInbox();
 
-    if (!listResponse.isOkStatus)
+    if (selectInboxResponse.isFailedStatus)
       return null;
 
     return MailFacade(client);
   }
 
-  Future<List<MailMessage>> fetchMessages() async {
-    var fetchResponse = await imapClient.fetchRecentMessages(messageCount: 10);
+  Future<void> disconnect() async {
+    await imapClient.closeConnection();
+  }
 
-    if (!fetchResponse.isOkStatus)
-      return [];
+  /// Fetches mails younger than [MAILS_YOUNGER_THAN].
+  /// Use existing mails to reduce fetch amount
+  Future<Map<int, MailMessage>> fetchMessages({@required Map<int, MailMessage> existing}) async {
 
-    return fetchResponse.result.messages.map((m) {
+    // TODO: choose between inbox and sent folder
+    // await imapClient.selectMailboxByPath('INBOX.Sent');
+
+    final ids = await imapClient.uidSearchMessages('YOUNGER ${MAILS_YOUNGER_THAN.inSeconds}');
+
+    if (ids.isFailedStatus)
+      return null;
+
+    final fetchSequence = MessageSequence();
+    final resultMap = Map<int, MailMessage>();
+    ids.result.ids.forEach((id) {
+      MailMessage message = existing[id];
+      if (message != null)
+        resultMap[id] = message; // add existing message
+      else
+        fetchSequence.add(id); // add to fetch list (will be fetched in the next step)
+    });
+
+    if (fetchSequence.isEmpty())
+      return resultMap; // all mails has already been fetched (no new mails)
+
+    final fetchResponse = await imapClient.uidFetchMessages(fetchSequence, '(FLAGS BODY[])');
+    if (fetchResponse.isFailedStatus)
+      return null;
+
+    fetchResponse.result.messages.forEach((m) {
+      int uid = m.uid;
       String plain = m.decodeTextPlainPart();
       String html = m.decodeTextHtmlPart();
       String preview = (plain?.substring(0, min(plain.length, 100))?.replaceAll('\r\n', ' ') ?? '') + '...';
-      return MailMessage(
+      resultMap[uid] = MailMessage(
+        uid: uid,
         from: m.fromEmail,
         timestamp: m.decodeDate()?.toLocal() ?? ApiService.FALLBACK_TIME,
         subject: m.decodeSubject(),
         preview: preview,
         content: html ?? plain?.replaceAll('\r\n', '<br>') ?? ''
       );
-    }).toList().reversed.toList();
+    });
+
+    return resultMap;
   }
 
   Future<bool> sendMessage(MailMessageSend message, {@required String name, @required String password}) async {
-    final smtpConfig = SmtpServer('mail.ovgu.de', username: name, password: password);
-    final smtpMessage = Message()
-      ..from = message.from
-      ..recipients = [ message.to ]
-      ..ccRecipients = message.cc
-      ..subject = message.subject
-      ..text = message.content;
 
-    try {
-      await send(smtpMessage, smtpConfig);
-      return true;
-    } on MailerException catch (_) {
+    final client = SmtpClient('ovgu.de', isLogEnabled: true);
+    await client.connectToServer('mail.ovgu.de', 587, isSecure: false);
+    final ehloResponse = await client.ehlo();
+    if (ehloResponse.isFailedStatus) {
       return false;
     }
+
+    final tlsResponse = await client.startTls();
+    if (tlsResponse.isFailedStatus)
+      return false;
+
+    final loginResponse = await client.login(name, password);
+    if (loginResponse.isFailedStatus)
+      return false;
+
+    final sendResponse = await client.sendMessage(message.toMimeMessage());
+    if (sendResponse.isFailedStatus)
+      return false;
+
+    // add email to sent folder
+    await imapClient.appendMessage(message.toMimeMessage(), targetMailboxPath: MAILBOX_PATH_SEND);
+
+    return true;
   }
 }

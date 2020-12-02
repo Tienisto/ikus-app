@@ -4,6 +4,7 @@ import 'package:ikus_app/service/calendar_service.dart';
 import 'package:ikus_app/service/faq_service.dart';
 import 'package:ikus_app/service/handbook_service.dart';
 import 'package:ikus_app/service/link_service.dart';
+import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/news_service.dart';
 
@@ -23,6 +24,7 @@ abstract class SyncableService {
     HandbookService.instance,
     FAQService.instance,
     ContactService.instance,
+    MailService.instance,
     AppConfigService.instance
   ];
 
@@ -34,6 +36,7 @@ abstract class SyncableService {
     LinkService.instance,
     HandbookService.instance,
     FAQService.instance,
-    ContactService.instance
+    ContactService.instance,
+    MailService.instance
   ];
 }

@@ -12,6 +12,7 @@ import 'package:ikus_app/screens/dev_screen.dart';
 import 'package:ikus_app/screens/ovgu_account_screen.dart';
 import 'package:ikus_app/screens/sync_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
+import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -102,6 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     callback: () async {
                       bool devServer = SettingsService.instance.getDevServer();
                       await PersistentService.instance.clearData();
+                      await MailService.instance.disconnect(); // disconnect from mail server
                       await SettingsService.instance.loadFromStorage();
                       SettingsService.instance.setDevServer(devServer); // set value before the deletion
                       for (SyncableService service in SyncableService.services) {

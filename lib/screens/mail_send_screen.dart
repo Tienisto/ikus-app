@@ -8,17 +8,13 @@ import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
+import 'package:ikus_app/service/mail_service.dart';
+import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
-import 'package:ikus_app/utility/mail_facade.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MailSendScreen extends StatefulWidget {
-
-  final MailFacade client;
-  final OvguAccount account;
-
-  const MailSendScreen({@required this.account, @required this.client});
 
   @override
   _MailSendScreenState createState() => _MailSendScreenState();
@@ -26,11 +22,23 @@ class MailSendScreen extends StatefulWidget {
 
 class _MailSendScreenState extends State<MailSendScreen> {
 
+  final _fromController = TextEditingController();
+  OvguAccount _ovguAccount;
   String _from = '';
   String _to = '';
   List<String> _cc = [];
   String _subject = '';
   String _content = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _ovguAccount = SettingsService.instance.getOvguAccount();
+    if (_ovguAccount.mailAddress != null) {
+      _from = _ovguAccount.mailAddress;
+      _fromController.text = _from;
+    }
+  }
 
   Future<void> send() async {
 
@@ -38,6 +46,13 @@ class _MailSendScreenState extends State<MailSendScreen> {
       ErrorPopup.open(context);
       return;
     }
+
+    // save mail address to settings
+    SettingsService.instance.setOvguAccount(
+        name: _ovguAccount.name,
+        password: _ovguAccount.password,
+        mailAddress: _from
+    );
 
     DateTime start = DateTime.now();
     Popups.generic(
@@ -50,7 +65,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
     );
 
     final message = MailMessageSend(from: _from, to: _to, cc: _cc, subject: _subject, content: _content);
-    bool result = await widget.client.sendMessage(message, name: widget.account.name, password: widget.account.password);
+    bool result = await MailService.instance.sendMessage(message);
 
     // at least 1sec popup time
     await sleepRemaining(1000, start);
@@ -96,27 +111,28 @@ class _MailSendScreenState extends State<MailSendScreen> {
                     Text(t.mailMessageSend.from),
                     SizedBox(height: 5),
                     OvguTextField(
-                        hint: t.mailMessageSend.from,
-                        icon: Icons.person,
-                        type: TextFieldType.CLEAR,
-                        onChange: (value) {
-                          setState(() {
-                            _from = value;
-                          });
-                        }
+                      controller: _fromController,
+                      hint: t.mailMessageSend.from,
+                      icon: Icons.person,
+                      type: TextFieldType.CLEAR,
+                      onChange: (value) {
+                        setState(() {
+                          _from = value;
+                        });
+                      }
                     ),
                     SizedBox(height: 15),
                     Text(t.mailMessageSend.to),
                     SizedBox(height: 5),
                     OvguTextField(
-                        hint: t.mailMessageSend.to,
-                        icon: Icons.person,
-                        type: TextFieldType.CLEAR,
-                        onChange: (value) {
-                          setState(() {
-                            _to = value;
-                          });
-                        }
+                      hint: t.mailMessageSend.to,
+                      icon: Icons.person,
+                      type: TextFieldType.CLEAR,
+                      onChange: (value) {
+                        setState(() {
+                          _to = value;
+                        });
+                      }
                     ),
                     SizedBox(height: 15),
                     ...List.generate(_cc.length, (index) {

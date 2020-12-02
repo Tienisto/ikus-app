@@ -13,7 +13,7 @@ class OvguTextArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: TextStyle(fontSize: 20),
+      style: TextStyle(fontSize: 16),
       autocorrect: true,
       enableSuggestions: false,
       minLines: minLines,

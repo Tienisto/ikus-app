@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/pdf_bookmark.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -21,13 +21,13 @@ class HandbookService implements SyncableService {
   @override
   Future<void> sync({bool useCacheOnly}) async {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
-    ApiData pdfData = await ApiService.getCacheOrFetchBinary(
+    DataWithTimestamp pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,
       useCacheOnly: useCacheOnly,
       fallback: Uint8List.fromList([])
     );
 
-    ApiData bookmarksData = await ApiService.getCacheOrFetchString(
+    DataWithTimestamp bookmarksData = await ApiService.getCacheOrFetchString(
         route: 'handbook-bookmarks',
         locale: LocaleSettings.currentLocale,
         useCacheOnly: useCacheOnly,

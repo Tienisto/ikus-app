@@ -105,8 +105,8 @@ class SettingsService {
     return _settings.devServer;
   }
 
-  Future<void> setOvguAccount({@required String name, @required String password}) async {
-    OvguAccount account = OvguAccount(name: name, password: password);
+  Future<void> setOvguAccount({@required String name, @required String password, String mailAddress}) async {
+    OvguAccount account = OvguAccount(name: name, password: password, mailAddress: mailAddress);
     PersistentService.instance.setOvguAccount(account);
     _ovguAccount = account;
   }

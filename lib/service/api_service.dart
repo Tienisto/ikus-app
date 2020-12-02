@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:ikus_app/constants.dart';
 import 'package:ikus_app/init.dart';
-import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/jwt_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
@@ -24,7 +24,7 @@ class ApiService {
     return '$URL/file/$fileName';
   }
 
-  static Future<ApiData<String>> getCacheOrFetchString({String route, String locale, bool useCacheOnly, fallback}) async {
+  static Future<DataWithTimestamp<String>> getCacheOrFetchString({String route, String locale, bool useCacheOnly, fallback}) async {
 
     Response response;
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && !useCacheOnly) {
@@ -38,15 +38,15 @@ class ApiService {
 
     final String key = 'api_json/$route';
     if (response != null && response.statusCode == 200) {
-      ApiData<String> newData = ApiData(data: response.body, timestamp: DateTime.now());
+      DataWithTimestamp<String> newData = DataWithTimestamp(data: response.body, timestamp: DateTime.now());
       PersistentService.instance.setApiJson(key, newData);
       return newData;
     } else {
-      return PersistentService.instance.getApiJson(key) ?? ApiData(data: jsonEncode(fallback), timestamp: FALLBACK_TIME);
+      return PersistentService.instance.getApiJson(key) ?? DataWithTimestamp(data: jsonEncode(fallback), timestamp: FALLBACK_TIME);
     }
   }
 
-  static Future<ApiData<Uint8List>> getCacheOrFetchBinary({String route, bool useCacheOnly, fallback}) async {
+  static Future<DataWithTimestamp<Uint8List>> getCacheOrFetchBinary({String route, bool useCacheOnly, fallback}) async {
     Response response;
     final String key = 'api_binary/$route';
 
@@ -63,11 +63,11 @@ class ApiService {
     }
 
     if (response != null && response.statusCode == 200) {
-      ApiData<Uint8List> newData = ApiData(data: response.bodyBytes, timestamp: DateTime.now());
+      DataWithTimestamp<Uint8List> newData = DataWithTimestamp(data: response.bodyBytes, timestamp: DateTime.now());
       PersistentService.instance.setApiBinary(key, newData);
       return newData;
     } else {
-      return PersistentService.instance.getApiBinary(key) ?? ApiData(data: fallback, timestamp: FALLBACK_TIME);
+      return PersistentService.instance.getApiBinary(key) ?? DataWithTimestamp(data: fallback, timestamp: FALLBACK_TIME);
     }
   }
 

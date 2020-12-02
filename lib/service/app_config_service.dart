@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/api_data.dart';
+import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -25,7 +25,7 @@ class AppConfigService implements SyncableService {
 
   @override
   Future<void> sync({bool useCacheOnly}) async {
-    ApiData data = await ApiService.getCacheOrFetchString(
+    DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'app-config',
       locale: LocaleSettings.currentLocale,
       useCacheOnly: useCacheOnly,

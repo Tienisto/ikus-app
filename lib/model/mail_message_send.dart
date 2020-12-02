@@ -1,3 +1,5 @@
+import 'package:enough_mail/enough_mail.dart';
+import 'package:enough_mail/mime_message.dart';
 import 'package:flutter/material.dart';
 
 class MailMessageSend {
@@ -9,4 +11,14 @@ class MailMessageSend {
   final String content;
 
   MailMessageSend({@required this.from, @required this.to, @required this.cc, @required this.subject, @required this.content});
+
+  MimeMessage toMimeMessage() {
+    final builder = MessageBuilder.prepareMultipartAlternativeMessage();
+    builder.from = [MailAddress(null, from)];
+    builder.to = [MailAddress(null, to)];
+    builder.cc = cc.map((c) => MailAddress(null, c)).toList();
+    builder.subject = subject;
+    builder.addTextPlain(content);
+    return builder.buildMimeMessage();
+  }
 }
