@@ -138,7 +138,8 @@
       "send": "Senden"
     },
     "inbox": "Posteingang",
-    "sent": "Gesendet"
+    "sent": "Gesendet",
+    "sync": "Synchronisieren: $text"
   },
   "mailMessage": {
     "title": "E-Mail"

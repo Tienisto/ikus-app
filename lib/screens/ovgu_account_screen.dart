@@ -6,6 +6,7 @@ import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/mail_facade.dart';
@@ -39,24 +40,25 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
         )
     );
 
-    DateTime start = DateTime.now();
     bool success = await MailFacade.testLogin(name: _name, password: _password);
-    await sleepRemaining(1000, start);
-    Navigator.pop(context);
 
     if (success) {
       await SettingsService.instance.setOvguAccount(name: _name, password: _password);
+      MailService.instance.sync(useCacheOnly: false);
+      Navigator.pop(context);
       Navigator.pop(context);
       if (widget.afterLoginScreen != null) {
         pushScreen(context, widget.afterLoginScreen);
       }
     } else {
+      Navigator.pop(context);
       ErrorPopup.open(context);
     }
   }
 
   void logout() async {
     await SettingsService.instance.deleteOvguAccount();
+    await MailService.instance.deleteCache();
     setState(() {
       _accountName = null;
       _name = '';

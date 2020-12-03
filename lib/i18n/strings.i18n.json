@@ -138,7 +138,8 @@
       "send": "Send"
     },
     "inbox": "Inbox",
-    "sent": "Sent"
+    "sent": "Sent",
+    "sync": "Syncing: $text"
   },
   "mailMessage": {
     "title": "Email"

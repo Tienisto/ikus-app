@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
+import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
@@ -20,22 +23,31 @@ enum MailboxState {
 
 class MailScreen extends StatefulWidget {
 
+  final bool syncing;
+
+  const MailScreen({this.syncing = false});
+
   @override
   _MailScreenState createState() => _MailScreenState();
 }
 
 class _MailScreenState extends State<MailScreen> {
 
-  static const PRE_WIDGET_COUNT = 6;
+  static const PRE_WIDGET_COUNT = 7;
   static const POST_WIDGET_COUNT = 1;
 
   MailboxState mailboxState = MailboxState.INBOX;
   List<MailMessage> mails;
+  String progressString;
+  double progressPercent;
 
   @override
   void initState() {
     super.initState();
     updateMails();
+    if (widget.syncing) {
+      showProgress();
+    }
   }
 
   void updateMails() {
@@ -63,9 +75,37 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   Future<void> sync() async {
-    await MailService.instance.sync();
-    setState(() {
-      updateMails();
+    MailService.instance.sync(useCacheOnly: false);
+    showProgress();
+  }
+
+  void showProgress() {
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
+
+      final progress = MailService.instance.getProgress();
+      if (!mounted || !progress.active) {
+        timer.cancel();
+
+        if (mounted) {
+          setState(() {
+            progressString = null;
+            progressPercent = null;
+            updateMails();
+          });
+        }
+        return;
+      }
+
+      setState(() {
+        final int total = progress.total;
+        if (total != 0) {
+          progressString = "${progress.mailbox} (${progress.curr} / $total)";
+          progressPercent = progress.curr / total.toDouble();
+        } else {
+          progressString = "${progress.mailbox} (0 / ?)";
+          progressPercent = 0;
+        }
+      });
     });
   }
 
@@ -106,7 +146,7 @@ class _MailScreenState extends State<MailScreen> {
                 text: t.mails.actions.sync,
                 width: btnWidth,
                 fontSize: btnFontSize,
-                callback: () async {}
+                callback: sync
             ),
             QuadraticButton(
                 icon: Icons.send,
@@ -143,7 +183,31 @@ class _MailScreenState extends State<MailScreen> {
           ),
         ),
       ),
-      SizedBox(height: 20)
+      SizedBox(height: 20),
+      AnimatedCrossFade(
+        firstChild: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+          child: OvguCard(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                children: [
+                  AnimatedProgressBar(
+                    progress: progressPercent ?? 0,
+                    reactDuration: Duration(milliseconds: 50),
+                    backgroundColor: Colors.white,
+                  ),
+                  SizedBox(height: 10),
+                  Text(t.mails.sync(text: progressString ?? ''))
+                ],
+              ),
+            ),
+          ),
+        ),
+        secondChild: Container(),
+        crossFadeState: progressString != null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        duration: Duration(milliseconds: 200)
+      )
     ];
   }
 

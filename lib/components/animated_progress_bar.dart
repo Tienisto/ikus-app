@@ -48,6 +48,13 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar> with SingleTi
     _animationController.forward(from: 0);
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

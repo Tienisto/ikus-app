@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:imap_client/imap_client.dart';
 
 enum PartType {
@@ -40,7 +41,7 @@ class MailFacade {
   /// Fetches mails younger than [MAILS_YOUNGER_THAN].
   /// Use existing mails to reduce fetch amount
   /// Using imap_client package for now because enough_mail cannot parse BODY[1.2.3] queries
-  static Future<Map<int, MailMessage>> fetchMessages({@required String folder, @required String name, @required String password, @required Map<int, MailMessage> existing}) async {
+  static Future<Map<int, MailMessage>> fetchMessages({@required String folder, @required String name, @required String password, @required Map<int, MailMessage> existing, MailProgressCallback progressCallback}) async {
 
     final imapClient = enough_mail.ImapClient();
     await imapClient.connectToServer('cyrus.ovgu.de', 993);
@@ -102,10 +103,16 @@ class MailFacade {
     ImapFolder box = await fallbackClient.getFolder(folder);
 
     // now fetch the actual content of each mail
+    int curr = 0;
     int errors = 0;
     for (final mail in fetchIdMap.entries) {
 
       final id = mail.key;
+
+      if (progressCallback != null) {
+        curr++;
+        progressCallback(curr, fetchIdMap.length);
+      }
 
       try {
         final partMetadata = mail.value;

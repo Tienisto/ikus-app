@@ -194,4 +194,10 @@ class PersistentService {
 
     await Hive.box(_BOX_MAILS_META).put('last_update', data.timestamp);
   }
+
+  Future<void> deleteMailCache() async {
+    await Hive.box<String>(_BOX_MAILS_INBOX).clear();
+    await Hive.box<String>(_BOX_MAILS_SENT).clear();
+    await Hive.box(_BOX_MAILS_META).clear();
+  }
 }
