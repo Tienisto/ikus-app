@@ -5,12 +5,12 @@ import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
+import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/mail_facade.dart';
-import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class OvguAccountScreen extends StatefulWidget {
@@ -31,14 +31,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
 
   void login() async {
 
-    Popups.generic(
-        context: context,
-        height: 130,
-        dismissible: false,
-        body: Center(
-          child: Text(t.ovguAccount.authenticating, style: TextStyle(color: OvguColor.primary, fontSize: 24, fontWeight: FontWeight.bold)),
-        )
-    );
+    GenericTextPopup.open(context: context, text: t.ovguAccount.authenticating);
 
     bool success = await MailFacade.testLogin(name: _name, password: _password);
 

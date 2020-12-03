@@ -139,7 +139,8 @@
     },
     "inbox": "Posteingang",
     "sent": "Gesendet",
-    "sync": "Synchronisieren: $text"
+    "sync": "Synchronisieren: $text",
+    "deleting": "Löschen..."
   },
   "mailMessage": {
     "title": "E-Mail"
@@ -260,6 +261,12 @@
     "handbook": {
       "title": "Inhaltsverzeichnis",
       "page": "S. $page"
+    },
+    "mailDelete": {
+      "title": "E-Mail löschen",
+      "info": "Bist du dir sicher?",
+      "delete": "Löschen",
+      "cancel": "Abbrechen"
     },
     "mensaOpeningHours": {
       "title": "Öffnungszeiten"

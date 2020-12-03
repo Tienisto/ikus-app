@@ -6,6 +6,8 @@ import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
+import 'package:ikus_app/components/popups/error_popup.dart';
+import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
@@ -251,10 +253,17 @@ class _MailScreenState extends State<MailScreen> {
                             // TODO
                             WipPopup.open(context);
                           },
-                          onDelete: () {
-                            // TODO
-                            // sync();
-                            WipPopup.open(context);
+                          onDelete: () async {
+                            GenericTextPopup.open(context: context, text: t.mails.deleting);
+                            bool result = await MailService.instance.deleteMessage(mailbox, mail.uid);
+                            if (result) {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              sync();
+                            } else {
+                              Navigator.pop(context);
+                              ErrorPopup.open(context);
+                            }
                           },
                         ));
                     }

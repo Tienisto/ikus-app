@@ -183,7 +183,10 @@ class MailFacade {
     if (markResponse.isFailedStatus)
       return false;
 
-    //await imapClient.expunge();
+    final deleteResponse = await imapClient.expunge();
+    if (deleteResponse.isFailedStatus)
+      return false;
+
     await imapClient.closeConnection();
 
     return true;

@@ -3,6 +3,7 @@ import 'package:ikus_app/components/badge.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/html_view.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/mail_delete_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
@@ -53,7 +54,12 @@ class MailMessageScreen extends StatelessWidget {
               SizedBox(width: 10),
               OvguButton(
                 flat: true,
-                callback: onDelete,
+                callback: () {
+                  MailDeletePopup.open(context: context, callback: () async {
+                    Navigator.pop(context);
+                    onDelete();
+                  });
+                },
                 child: Icon(Icons.delete),
               ),
               OvguButton(

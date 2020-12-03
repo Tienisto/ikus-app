@@ -18,7 +18,6 @@ import 'package:ikus_app/pages/settings_page.dart';
 import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/utility/globals.dart';
-import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MainScreen extends StatefulWidget {
@@ -69,11 +68,7 @@ class _MainScreenState extends State<MainScreen> {
     } while (!Init.postInitFinished);
 
     if (!AppConfigService.instance.isCompatibleWithApi()) {
-      Popups.generic(
-        context: context,
-        height: 230,
-        body: NeedUpdatePopup(),
-      );
+      NeedUpdatePopup.open(context);
     }
   }
 

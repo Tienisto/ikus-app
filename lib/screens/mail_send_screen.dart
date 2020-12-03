@@ -5,6 +5,7 @@ import 'package:ikus_app/components/inputs/ovgu_text_area.dart';
 import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
+import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
@@ -12,7 +13,6 @@ import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
-import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MailSendScreen extends StatefulWidget {
@@ -60,14 +60,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
     );
 
     DateTime start = DateTime.now();
-    Popups.generic(
-        context: context,
-        height: 130,
-        dismissible: false,
-        body: Center(
-          child: Text(t.mailMessageSend.sending, style: TextStyle(color: OvguColor.primary, fontSize: 20, fontWeight: FontWeight.bold)),
-        )
-    );
+    GenericTextPopup.open(context: context, text: t.mailMessageSend.sending);
 
     final message = MailMessageSend(from: _from, to: _to, cc: _cc, subject: _subject, content: _content);
     bool result = await MailService.instance.sendMessage(message);
