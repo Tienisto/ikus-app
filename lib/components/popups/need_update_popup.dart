@@ -21,6 +21,7 @@ class NeedUpdatePopup extends StatelessWidget {
         info: t.popups.needUpdate.info,
         buttons: [
           OvguButton(
+            padding: EdgeInsets.symmetric(horizontal: 30),
             callback: () {
               Navigator.pop(context);
             },
