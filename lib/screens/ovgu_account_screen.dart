@@ -28,7 +28,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
   String _name = '';
   String _password = '';
 
-  void saveCredentials() async {
+  void login() async {
 
     Popups.generic(
         context: context,
@@ -55,7 +55,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
     }
   }
 
-  void deleteCredentials() async {
+  void logout() async {
     await SettingsService.instance.deleteOvguAccount();
     setState(() {
       _accountName = null;
@@ -66,7 +66,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    final node = FocusScope.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
@@ -101,7 +101,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
                     Text(_accountName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     SizedBox(height: 30),
                     OvguButton(
-                      callback: deleteCredentials,
+                      callback: logout,
                       child: Text(t.ovguAccount.logout, style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(height: 20),
@@ -113,42 +113,54 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
             OvguCard(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(t.ovguAccount.loginCredentials, style: TextStyle(fontSize: 20)),
-                    SizedBox(height: 20),
-                    OvguTextField(
+                child: AutofillGroup(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(t.ovguAccount.loginCredentials, style: TextStyle(fontSize: 20)),
+                      SizedBox(height: 20),
+                      OvguTextField(
                         hint: t.ovguAccount.name,
+                        autofillHints: ['name', 'username'],
                         icon: Icons.person,
+                        onEditingComplete: () => node.nextFocus(),
                         onChange: (value) {
                           setState(() {
                             _name = value;
                           });
                         }
-                    ),
-                    SizedBox(height: 15),
-                    OvguTextField(
+                      ),
+                      SizedBox(height: 15),
+                      OvguTextField(
                         hint: t.ovguAccount.password,
+                        autofillHints: ['password'],
                         icon: Icons.vpn_key,
                         type: TextFieldType.PASSWORD,
+                        onSubmitted: (value) {
+                          node.unfocus();
+                          setState(() {
+                            _password = value;
+                          });
+                          login();
+                        },
                         onChange: (value) {
                           setState(() {
                             _password = value;
                           });
                         }
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(child: Container()),
-                        OvguButton(
-                          callback: saveCredentials,
-                          child: Text(t.ovguAccount.login, style: TextStyle(color: Colors.white)),
-                        )
-                      ],
-                    )
-                  ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(child: Container()),
+                          OvguButton(
+                            callback: login,
+                            child: Text(t.ovguAccount.login, style: TextStyle(color: Colors.white)),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

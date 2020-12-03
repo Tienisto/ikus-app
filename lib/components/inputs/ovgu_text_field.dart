@@ -11,9 +11,13 @@ class OvguTextField extends StatelessWidget {
   final StringCallback onChange;
   final TextFieldType type;
   final IconData icon;
+  final List<String> autofillHints;
   final TextEditingController controller;
+  final Function onEditingComplete;
+  final Function onSubmitted;
 
-  const OvguTextField({@required this.hint, @required this.onChange, this.type = TextFieldType.CLEAR, this.icon, this.controller});
+  const OvguTextField({@required this.hint, @required this.onChange, this.type = TextFieldType.CLEAR,
+    this.icon, this.controller, this.autofillHints, this.onEditingComplete, this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,9 @@ class OvguTextField extends StatelessWidget {
       obscureText: type == TextFieldType.PASSWORD,
       autocorrect: type == TextFieldType.CLEAR,
       enableSuggestions: type == TextFieldType.CLEAR,
+      autofillHints: autofillHints,
+      onEditingComplete: onEditingComplete,
+      onSubmitted: onSubmitted,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: icon != null ? Icon(icon) : null,
