@@ -10,11 +10,16 @@ import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
 import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MailSendScreen extends StatefulWidget {
+
+  final Callback onSend;
+
+  const MailSendScreen({this.onSend});
 
   @override
   _MailSendScreenState createState() => _MailSendScreenState();
@@ -73,6 +78,9 @@ class _MailSendScreenState extends State<MailSendScreen> {
 
     if (result) {
       Navigator.pop(context);
+      if (widget.onSend != null) {
+        widget.onSend();
+      }
     } else {
       ErrorPopup.open(context);
     }

@@ -120,6 +120,6 @@ class Feature {
     if (SettingsService.instance.hasOvguAccount())
       return pushScreen(context, builder);
     else
-      return pushScreen(context, () => OvguAccountScreen(afterLoginScreen: builder));
+      return pushScreen(context, () => OvguAccountScreen(onLogin: () => pushScreen(context, builder)));
   }
 }

@@ -51,8 +51,8 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar> with SingleTi
 
   @override
   void dispose() {
+    _animationController.dispose(); // must be before super.dispose()
     super.dispose();
-    _animationController.dispose();
   }
 
   @override

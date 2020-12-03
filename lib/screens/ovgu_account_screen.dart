@@ -8,16 +8,16 @@ import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
-import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/mail_facade.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class OvguAccountScreen extends StatefulWidget {
 
-  final SimpleWidgetBuilder afterLoginScreen;
+  final Callback onLogin;
 
-  const OvguAccountScreen({this.afterLoginScreen});
+  const OvguAccountScreen({this.onLogin});
 
   @override
   _OvguAccountScreenState createState() => _OvguAccountScreenState();
@@ -47,8 +47,8 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
       MailService.instance.sync(useCacheOnly: false);
       Navigator.pop(context);
       Navigator.pop(context);
-      if (widget.afterLoginScreen != null) {
-        pushScreen(context, widget.afterLoginScreen);
+      if (widget.onLogin != null) {
+        widget.onLogin();
       }
     } else {
       Navigator.pop(context);

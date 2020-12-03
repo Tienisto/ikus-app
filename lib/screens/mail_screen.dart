@@ -127,11 +127,12 @@ class _MailScreenState extends State<MailScreen> {
                 width: btnWidth,
                 fontSize: btnFontSize,
                 callback: () async {
-                  await pushScreen(context, () => OvguAccountScreen());
-                  if (SettingsService.instance.hasOvguAccount()) {
+                  bool loggedIn = false;
+                  await pushScreen(context, () => OvguAccountScreen(onLogin: () => loggedIn = true));
+                  if (loggedIn) {
                     updateMails();
                     await sync();
-                  } else {
+                  } else if (!SettingsService.instance.hasOvguAccount()) {
                     Navigator.pop(context);
                   }
                 }
@@ -149,9 +150,11 @@ class _MailScreenState extends State<MailScreen> {
                 width: btnWidth,
                 fontSize: btnFontSize,
                 callback: () async {
-                  await pushScreen(context, () => MailSendScreen());
-                  updateMails();
-                  await sync();
+                  bool sent = false;
+                  await pushScreen(context, () => MailSendScreen(onSend: () => sent = true));
+                  if (sent) {
+                    await sync();
+                  }
                 }
             )
           ],
