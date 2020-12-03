@@ -131,13 +131,14 @@
   },
   "mails": {
     "title": "E-Mails",
-    "alpha": "Immer noch in alpha. Weitere Features folgen.",
+    "alpha": "Immer noch in alpha. Es wird noch optimiert.",
     "actions": {
       "account": "Account",
       "sync": "Laden",
       "send": "Senden"
     },
-    "mails": "E-Mails"
+    "inbox": "Posteingang",
+    "sent": "Gesendet"
   },
   "mailMessage": {
     "title": "E-Mail"

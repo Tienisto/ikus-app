@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/model/mail_message.dart';
+import 'package:ikus_app/screens/mail_screen.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MailCard extends StatelessWidget {
 
   final MailMessage mail;
+  final MailboxState mailboxState;
   final Callback callback;
 
-  const MailCard({@required this.mail, @required this.callback});
+  const MailCard({@required this.mail, @required this.mailboxState, @required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class MailCard extends StatelessWidget {
                       ),
                       child: FittedBox(
                         // FittedBox scales the text down if it is too large
-                        child: Text(mail.from, style: TextStyle(color: Colors.white))
+                        child: Text(mailboxState == MailboxState.INBOX ? mail.from : mail.to, style: TextStyle(color: Colors.white))
                       )
                     ),
                   ),

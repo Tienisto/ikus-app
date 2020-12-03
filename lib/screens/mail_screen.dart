@@ -14,6 +14,10 @@ import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
+enum MailboxState {
+  INBOX, SENT
+}
+
 class MailScreen extends StatefulWidget {
 
   @override
@@ -24,18 +28,44 @@ class _MailScreenState extends State<MailScreen> {
 
   static const PRE_WIDGET_COUNT = 6;
   static const POST_WIDGET_COUNT = 1;
+
+  MailboxState mailboxState = MailboxState.INBOX;
   List<MailMessage> mails;
 
   @override
   void initState() {
     super.initState();
-    mails = MailService.instance.getMails();
+    updateMails();
+  }
+
+  void updateMails() {
+    switch (mailboxState) {
+      case MailboxState.INBOX:
+        mails = MailService.instance.getMailsInbox();
+        break;
+      case MailboxState.SENT:
+        mails = MailService.instance.getMailsSent();
+    }
+  }
+
+  void toggleMailState() {
+    setState(() {
+      switch (mailboxState) {
+        case MailboxState.INBOX:
+          mailboxState = MailboxState.SENT;
+          break;
+        case MailboxState.SENT:
+          mailboxState = MailboxState.INBOX;
+          break;
+      }
+      updateMails();
+    });
   }
 
   Future<void> sync() async {
     await MailService.instance.sync();
     setState(() {
-      mails = MailService.instance.getMails();
+      updateMails();
     });
   }
 
@@ -93,7 +123,25 @@ class _MailScreenState extends State<MailScreen> {
       SizedBox(height: 30),
       Padding(
         padding: const EdgeInsets.only(left: 20),
-        child: Text(t.mails.mails, style: TextStyle(fontSize: 20)),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: InkWell(
+            onTap: toggleMailState,
+            customBorder: RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 5),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.download_rounded, color: mailboxState == MailboxState.INBOX ? Colors.black : Colors.grey[300], size: 20),
+                  Icon(Icons.upload_rounded, color: mailboxState == MailboxState.SENT ? Colors.black : Colors.grey[300], size: 20),
+                  SizedBox(width: 10),
+                  Text(mailboxState == MailboxState.INBOX ? t.mails.inbox : t.mails.sent, style: TextStyle(fontSize: 20))
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
       SizedBox(height: 20)
     ];
@@ -119,10 +167,12 @@ class _MailScreenState extends State<MailScreen> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                   child: MailCard(
                     mail: mail,
+                    mailboxState: mailboxState,
                     callback: () async {
                       pushScreen(context, () =>
                         MailMessageScreen(
                           mail: mail,
+                          mailboxState: mailboxState,
                           onReply: () {
                             // TODO
                             WipPopup.open(context);

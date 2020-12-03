@@ -1,5 +1,6 @@
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
+import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/service/api_service.dart';
@@ -13,9 +14,8 @@ class MailService implements SyncableService {
   static final MailService _instance = MailService();
   static MailService get instance => _instance;
 
-  MailFacade _mailFacade;
   DateTime _lastUpdate;
-  Map<int, MailMessage> _mails;
+  MailCollection _mails;
 
   @override
   String getName() => t.sync.items.emails;
@@ -25,49 +25,48 @@ class MailService implements SyncableService {
 
     print(' -> Syncing Mails...');
 
-    if (_mailFacade == null) {
-      // create mail connection
-      final account = SettingsService.instance.getOvguAccount();
-      if (account == null) {
-        _mails = {};
-        _lastUpdate = ApiService.FALLBACK_TIME;
-        return;
-      }
-
-      _mailFacade = await MailFacade.connect(name: account.name, password: account.password);
-
-      if (_mailFacade == null) {
-        _mails = {};
-        _lastUpdate = ApiService.FALLBACK_TIME;
-        return;
-      }
-    }
-
     // load from storage
     final data = PersistentService.instance.getMails();
     if (data != null) {
       _mails = data.data;
       _lastUpdate = data.timestamp;
     } else {
-      _mails = {};
+      _mails = MailCollection.EMPTY;
       _lastUpdate = ApiService.FALLBACK_TIME;
     }
 
     if (!useCacheOnly) {
       // fetch from mail server
       final start = DateTime.now();
-      //_mails = await _mailFacade.fetchMessages(existing: _mails);
-      _mails = await _mailFacade.fetchMessages(existing: {});
+      final account = SettingsService.instance.getOvguAccount();
+      if (account == null)
+        return;
 
-      if (_mails == null) {
-        _mails = {};
+      Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
+        folder: MailFacade.MAILBOX_PATH_INBOX,
+        existing: _mails.inbox,
+        name: account.name,
+        password: account.password
+      );
+
+      Map<int, MailMessage> sent = await MailFacade.fetchMessages(
+          folder: MailFacade.MAILBOX_PATH_SEND,
+          existing: _mails.sent,
+          name: account.name,
+          password: account.password
+      );
+
+      if (inbox == null || sent == null) {
+        _mails = MailCollection.EMPTY;
         return;
       }
+
+      _mails = MailCollection(inbox: inbox, sent: sent);
 
       final now = DateTime.now();
       PersistentService.instance.setMails(DataWithTimestamp(data: _mails, timestamp: now));
       _lastUpdate = DateTime.now();
-      print('Mails fetched successfully (${now.difference(start)})');
+      print(' -> Mails updated (${now.difference(start)})');
     }
   }
 
@@ -77,25 +76,18 @@ class MailService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(minutes: 15);
+  Duration getMaxAge() => Duration(minutes: 30);
 
-  Future<void> disconnect() async {
-    if (_mailFacade != null) {
-      await _mailFacade.disconnect();
-      _mailFacade = null;
-    }
+  List<MailMessage> getMailsInbox() {
+    return _mails.inbox.values.toList().reversed.toList();
   }
 
-  Map<int, MailMessage> getMailsRaw() {
-    return _mails;
-  }
-
-  List<MailMessage> getMails() {
-    return _mails.values.toList().reversed.toList();
+  List<MailMessage> getMailsSent() {
+    return _mails.sent.values.toList().reversed.toList();
   }
 
   Future<bool> sendMessage(MailMessageSend message) {
     final account = SettingsService.instance.getOvguAccount();
-    return _mailFacade.sendMessage(message, name: account.name, password: account.password);
+    return MailFacade.sendMessage(message, name: account.name, password: account.password);
   }
 }

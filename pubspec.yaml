@@ -41,6 +41,7 @@ dependencies:
   add_2_calendar: ^1.4.0 # add calendar reminders
   map_launcher: ^1.0.0 # launch external map app
   url_launcher: ^5.7.10 # open links
+  imap_client: ^0.2.9 # receive emails (TODO: wait for enough_mail bug fixes)
   enough_mail: ^0.0.33 # emails
   workmanager: # run tasks in background (use PR version for now)
     git:

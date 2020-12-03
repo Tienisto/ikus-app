@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
+import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
@@ -23,7 +24,8 @@ class PersistentService {
   static const String _BOX_LAST_SYNC = 'last_sync'; // timestamps for api_json and api_binary
   static const String _BOX_API_JSON = 'api_json'; // json responses from API
   static const String _BOX_API_BINARY = 'api_binary'; // binary responses from API
-  static const String _BOX_MAILS = 'mails'; // contains all mails (without attachments) as JSON
+  static const String _BOX_MAILS_INBOX = 'mails_inbox'; // contains all mails (without attachments) as JSON
+  static const String _BOX_MAILS_SENT = 'mails_sent'; // contains all mails (without attachments) as JSON
   static const String _BOX_MAILS_META = 'mails_meta'; // metadata for mails
 
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
@@ -37,7 +39,8 @@ class PersistentService {
     await Hive.openBox<DateTime>(_BOX_LAST_SYNC);
     await Hive.openBox<String>(_BOX_API_JSON);
     await Hive.openBox<Uint8List>(_BOX_API_BINARY);
-    await Hive.openBox<String>(_BOX_MAILS);
+    await Hive.openBox<String>(_BOX_MAILS_INBOX);
+    await Hive.openBox<String>(_BOX_MAILS_SENT);
     await Hive.openBox(_BOX_MAILS_META);
   }
 
@@ -47,7 +50,8 @@ class PersistentService {
     await Hive.box<DateTime>(_BOX_LAST_SYNC).clear();
     await Hive.box<String>(_BOX_API_JSON).clear();
     await Hive.box<Uint8List>(_BOX_API_BINARY).clear();
-    await Hive.box<String>(_BOX_MAILS).clear();
+    await Hive.box<String>(_BOX_MAILS_INBOX).clear();
+    await Hive.box<String>(_BOX_MAILS_SENT).clear();
     await Hive.box(_BOX_MAILS_META).clear();
     await _secureStorage.deleteAll();
   }
@@ -159,22 +163,35 @@ class PersistentService {
 
   // mails
 
-  DataWithTimestamp<Map<int, MailMessage>> getMails() {
+  DataWithTimestamp<MailCollection> getMails() {
     final timestamp = Hive.box(_BOX_MAILS_META).get('last_update');
     if (timestamp != null) {
-      final mails = Hive.box<String>(_BOX_MAILS).toMap()
-          .map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
-      return DataWithTimestamp(data: Map.from(mails), timestamp: timestamp);
+      final inbox = Hive.box<String>(_BOX_MAILS_INBOX).toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
+      final sent = Hive.box<String>(_BOX_MAILS_SENT).toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
+      return DataWithTimestamp(
+        data: MailCollection(
+          inbox: Map.from(inbox),
+          sent: Map.from(sent)
+        ),
+        timestamp: timestamp
+      );
     } else {
       return null;
     }
   }
 
-  Future<void> setMails(DataWithTimestamp<Map<int, MailMessage>> data) async {
-    final serialized = data.data.map((key, value) => MapEntry(key, json.encode(value.toMap())));
-    final box = Hive.box<String>(_BOX_MAILS);
-    await box.clear();
-    await box.putAll(serialized);
+  Future<void> setMails(DataWithTimestamp<MailCollection> data) async {
+    final mailsInbox = data.data.inbox.map((key, value) => MapEntry(key, json.encode(value.toMap())));
+    final mailsSent = data.data.sent.map((key, value) => MapEntry(key, json.encode(value.toMap())));
+
+    final boxIn = Hive.box<String>(_BOX_MAILS_INBOX);
+    await boxIn.clear();
+    await boxIn.putAll(mailsInbox);
+
+    final boxSent = Hive.box<String>(_BOX_MAILS_SENT);
+    await boxSent.clear();
+    await boxSent.putAll(mailsSent);
+
     await Hive.box(_BOX_MAILS_META).put('last_update', data.timestamp);
   }
 }

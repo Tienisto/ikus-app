@@ -26,7 +26,7 @@ class BackgroundService {
 void backgroundTaskDispatcher(String taskId) {
   print('Running background task... ($taskId)');
   NotificationService notificationService = NotificationService.createInstance();
-  notificationService.showTest();
+  //notificationService.showTest();
 }
 
 void workmanagerWrapper() {

@@ -131,13 +131,14 @@
   },
   "mails": {
     "title": "Emails",
-    "alpha": "Still in alpha. Features will be added soon.",
+    "alpha": "Still in alpha. Optimizations are coming.",
     "actions": {
       "account": "Account",
       "sync": "Sync",
       "send": "Send"
     },
-    "mails": "Mails"
+    "inbox": "Inbox",
+    "sent": "Sent"
   },
   "mailMessage": {
     "title": "Email"

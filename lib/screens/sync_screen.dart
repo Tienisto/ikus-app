@@ -41,6 +41,8 @@ class _SyncScreenState extends State<SyncScreen> {
                 syncing[name] = true;
               });
               await callback();
+              if (!mounted)
+                return;
               setState(() {
                 syncing[name] = false;
               });
