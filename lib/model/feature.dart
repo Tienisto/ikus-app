@@ -39,7 +39,7 @@ class Feature {
   static Feature get FAQ => Feature(id: 0, index: 0, icon: Icons.help, shortName: t.features.faq.short, longName: t.features.faq.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
   static Feature get CONTACTS => Feature(id: 0, index: 0, icon: Icons.person, shortName: t.features.contacts.short, longName: t.features.contacts.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
 
-  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, shortName: t.features.emails.short, longName: t.features.emails.long, recommendedFavorite: false, onOpen: (context) => _pushScreenWithOvguAccount(context, () => MailScreen(syncing: true)));
+  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, shortName: t.features.emails.short, longName: t.features.emails.long, recommendedFavorite: false, onOpen: (context) => _pushScreenWithOvguAccount(context, () => MailScreen()));
 
   /// returns the feature with the specified index from the json map
   /// returns null if parsing failed

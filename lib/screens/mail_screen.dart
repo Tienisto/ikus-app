@@ -23,10 +23,6 @@ enum MailboxState {
 
 class MailScreen extends StatefulWidget {
 
-  final bool syncing;
-
-  const MailScreen({this.syncing = false});
-
   @override
   _MailScreenState createState() => _MailScreenState();
 }
@@ -45,9 +41,7 @@ class _MailScreenState extends State<MailScreen> {
   void initState() {
     super.initState();
     updateMails();
-    if (widget.syncing) {
-      showProgress();
-    }
+    showProgress();
   }
 
   void updateMails() {
@@ -133,12 +127,13 @@ class _MailScreenState extends State<MailScreen> {
                 width: btnWidth,
                 fontSize: btnFontSize,
                 callback: () async {
-                  String prevAccount = SettingsService.instance.getOvguAccount()?.name;
                   await pushScreen(context, () => OvguAccountScreen());
-                  if (!SettingsService.instance.hasOvguAccount())
-                    Navigator.pop(context);
-                  else if (prevAccount != SettingsService.instance.getOvguAccount()?.name)
+                  if (SettingsService.instance.hasOvguAccount()) {
+                    updateMails();
                     await sync();
+                  } else {
+                    Navigator.pop(context);
+                  }
                 }
             ),
             QuadraticButton(
@@ -153,8 +148,10 @@ class _MailScreenState extends State<MailScreen> {
                 text: t.mails.actions.send,
                 width: btnWidth,
                 fontSize: btnFontSize,
-                callback: () {
-                  pushScreen(context, () => MailSendScreen());
+                callback: () async {
+                  await pushScreen(context, () => MailSendScreen());
+                  updateMails();
+                  await sync();
                 }
             )
           ],
