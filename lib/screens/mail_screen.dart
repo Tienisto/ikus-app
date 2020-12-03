@@ -9,6 +9,7 @@ import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
+import 'package:ikus_app/model/ui/mail_progress.dart';
 import 'package:ikus_app/screens/mail_message_screen.dart';
 import 'package:ikus_app/screens/mail_send_screen.dart';
 import 'package:ikus_app/screens/ovgu_account_screen.dart';
@@ -74,6 +75,14 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   void showProgress() {
+
+    final initialProgress = MailService.instance.getProgress();
+
+    if (!initialProgress.active)
+      return;
+
+    updateProgressString(initialProgress);
+
     Timer.periodic(Duration(milliseconds: 100), (timer) {
 
       final progress = MailService.instance.getProgress();
@@ -90,16 +99,20 @@ class _MailScreenState extends State<MailScreen> {
         return;
       }
 
-      setState(() {
-        final int total = progress.total;
-        if (total != 0) {
-          progressString = "${progress.mailbox} (${progress.curr} / $total)";
-          progressPercent = progress.curr / total.toDouble();
-        } else {
-          progressString = "${progress.mailbox} (0 / ?)";
-          progressPercent = 0;
-        }
-      });
+      updateProgressString(progress);
+    });
+  }
+
+  void updateProgressString(MailProgress progress) {
+    setState(() {
+      final int total = progress.total;
+      if (total != 0) {
+        progressString = "${progress.mailbox} (${progress.curr} / $total)";
+        progressPercent = progress.curr / total.toDouble();
+      } else {
+        progressString = "${progress.mailbox} (0 / ?)";
+        progressPercent = 0;
+      }
     });
   }
 
