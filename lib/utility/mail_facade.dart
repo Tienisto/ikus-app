@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
+import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:imap_client/imap_client.dart';
@@ -41,15 +42,13 @@ class MailFacade {
   /// Fetches mails younger than [MAILS_YOUNGER_THAN].
   /// Use existing mails to reduce fetch amount
   /// Using imap_client package for now because enough_mail cannot parse BODY[1.2.3] queries
-  static Future<Map<int, MailMessage>> fetchMessages({@required String folder, @required String name, @required String password, @required Map<int, MailMessage> existing, MailProgressCallback progressCallback}) async {
+  static Future<Map<int, MailMessage>> fetchMessages({@required MailboxType mailbox, @required String name, @required String password, @required Map<int, MailMessage> existing, MailProgressCallback progressCallback}) async {
 
-    final imapClient = enough_mail.ImapClient();
-    await imapClient.connectToServer('cyrus.ovgu.de', 993);
-    final response = await imapClient.login(name, password);
-    if (response.isFailedStatus)
+    final imapClient = await getImapClient(name: name, password: password);
+    if (imapClient == null)
       return null;
 
-    final selectInboxResponse = await imapClient.selectMailboxByPath(folder);
+    final selectInboxResponse = await imapClient.selectMailboxByPath(mailbox.path);
     if (selectInboxResponse.isFailedStatus)
       return null;
 
@@ -100,7 +99,7 @@ class MailFacade {
     ImapClient fallbackClient = ImapClient();
     await fallbackClient.connect('cyrus.ovgu.de', 993, true);
     await fallbackClient.login(name, password);
-    ImapFolder box = await fallbackClient.getFolder(folder);
+    ImapFolder box = await fallbackClient.getFolder(mailbox.path);
 
     // now fetch the actual content of each mail
     int curr = 0;
@@ -155,7 +154,7 @@ class MailFacade {
         fallbackClient = ImapClient();
         await fallbackClient.connect("cyrus.ovgu.de", 993, true);
         await fallbackClient.login(name, password);
-        box = await fallbackClient.getFolder(folder);
+        box = await fallbackClient.getFolder(mailbox.path);
       }
     }
 
@@ -168,6 +167,26 @@ class MailFacade {
     print(' -> Fetched ($errors errors / ${fetchIdMap.length} total)');
 
     return resultMap;
+  }
+
+  static Future<bool> deleteMessage({@required MailboxType mailbox, @required int uid, @required String name, @required String password}) async {
+    final imapClient = await getImapClient(name: name, password: password);
+    if (imapClient == null)
+      return false;
+
+    final selectInboxResponse = await imapClient.selectMailboxByPath(mailbox.path);
+    if (selectInboxResponse.isFailedStatus)
+      return null;
+
+    final uidSequence = enough_mail.MessageSequence()..add(uid);
+    final markResponse = await imapClient.uidMarkDeleted(uidSequence);
+    if (markResponse.isFailedStatus)
+      return false;
+
+    //await imapClient.expunge();
+    await imapClient.closeConnection();
+
+    return true;
   }
 
   static Future<bool> sendMessage(MailMessageSend message, {@required String name, @required String password}) async {
@@ -194,10 +213,8 @@ class MailFacade {
     await client.closeConnection();
 
     // add email to sent folder
-    final imapClient = enough_mail.ImapClient();
-    await imapClient.connectToServer('cyrus.ovgu.de', 993);
-    final response = await imapClient.login(name, password);
-    if (response.isFailedStatus)
+    final imapClient = await getImapClient(name: name, password: password);
+    if (imapClient == null)
       return false;
     await imapClient.appendMessage(message.toMimeMessage(), targetMailboxPath: MAILBOX_PATH_SEND);
     await imapClient.closeConnection();
@@ -232,5 +249,15 @@ class MailFacade {
     if (raw == null)
       return [];
     return raw.map((address) => address[address.length - 2] + '@' + address.last).toList();
+  }
+
+  static Future<enough_mail.ImapClient> getImapClient({@required String name, @required String password}) async {
+    final imapClient = enough_mail.ImapClient();
+    await imapClient.connectToServer('cyrus.ovgu.de', 993);
+    final response = await imapClient.login(name, password);
+    if (response.isFailedStatus)
+      return null;
+
+    return imapClient;
   }
 }

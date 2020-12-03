@@ -5,18 +5,18 @@ import 'package:ikus_app/components/html_view.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
-import 'package:ikus_app/screens/mail_screen.dart';
+import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MailMessageScreen extends StatelessWidget {
 
   final MailMessage mail;
-  final MailboxState mailboxState;
+  final MailboxType mailbox;
   final Callback onReply;
   final Callback onDelete;
 
-  const MailMessageScreen({@required this.mail, @required this.mailboxState, @required this.onReply, @required this.onDelete});
+  const MailMessageScreen({@required this.mail, @required this.mailbox, @required this.onReply, @required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class MailMessageScreen extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(width: 20),
-                Center(child: Badge(text: mailboxState == MailboxState.INBOX ? mail.from : mail.to)),
+                Center(child: Badge(text: mailbox == MailboxType.INBOX ? mail.from : mail.to)),
                 SizedBox(width: 10),
                 Center(child: Badge(text: mail.formattedTimestamp)),
                 SizedBox(width: 20),

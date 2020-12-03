@@ -9,6 +9,7 @@ import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
+import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/model/ui/mail_progress.dart';
 import 'package:ikus_app/screens/mail_message_screen.dart';
 import 'package:ikus_app/screens/mail_send_screen.dart';
@@ -17,10 +18,6 @@ import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
-
-enum MailboxState {
-  INBOX, SENT
-}
 
 class MailScreen extends StatefulWidget {
 
@@ -33,7 +30,7 @@ class _MailScreenState extends State<MailScreen> {
   static const PRE_WIDGET_COUNT = 7;
   static const POST_WIDGET_COUNT = 1;
 
-  MailboxState mailboxState = MailboxState.INBOX;
+  MailboxType mailbox = MailboxType.INBOX;
   List<MailMessage> mails;
   String progressString;
   double progressPercent;
@@ -46,23 +43,23 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   void updateMails() {
-    switch (mailboxState) {
-      case MailboxState.INBOX:
+    switch (mailbox) {
+      case MailboxType.INBOX:
         mails = MailService.instance.getMailsInbox();
         break;
-      case MailboxState.SENT:
+      case MailboxType.SENT:
         mails = MailService.instance.getMailsSent();
     }
   }
 
   void toggleMailState() {
     setState(() {
-      switch (mailboxState) {
-        case MailboxState.INBOX:
-          mailboxState = MailboxState.SENT;
+      switch (mailbox) {
+        case MailboxType.INBOX:
+          mailbox = MailboxType.SENT;
           break;
-        case MailboxState.SENT:
-          mailboxState = MailboxState.INBOX;
+        case MailboxType.SENT:
+          mailbox = MailboxType.INBOX;
           break;
       }
       updateMails();
@@ -107,10 +104,10 @@ class _MailScreenState extends State<MailScreen> {
     setState(() {
       final int total = progress.total;
       if (total != 0) {
-        progressString = "${progress.mailbox} (${progress.curr} / $total)";
+        progressString = "${progress.mailbox.name} (${progress.curr} / $total)";
         progressPercent = progress.curr / total.toDouble();
       } else {
-        progressString = "${progress.mailbox} (0 / ?)";
+        progressString = "${progress.mailbox.name} (0 / ?)";
         progressPercent = 0;
       }
     });
@@ -186,10 +183,10 @@ class _MailScreenState extends State<MailScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.download_rounded, color: mailboxState == MailboxState.INBOX ? Colors.black : Colors.grey[300], size: 20),
-                  Icon(Icons.upload_rounded, color: mailboxState == MailboxState.SENT ? Colors.black : Colors.grey[300], size: 20),
+                  Icon(Icons.download_rounded, color: mailbox == MailboxType.INBOX ? Colors.black : Colors.grey[300], size: 20),
+                  Icon(Icons.upload_rounded, color: mailbox == MailboxType.SENT ? Colors.black : Colors.grey[300], size: 20),
                   SizedBox(width: 10),
-                  Text(mailboxState == MailboxState.INBOX ? t.mails.inbox : t.mails.sent, style: TextStyle(fontSize: 20))
+                  Text(mailbox.name, style: TextStyle(fontSize: 20))
                 ],
               ),
             ),
@@ -244,12 +241,12 @@ class _MailScreenState extends State<MailScreen> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                   child: MailCard(
                     mail: mail,
-                    mailboxState: mailboxState,
+                    mailbox: mailbox,
                     callback: () async {
                       pushScreen(context, () =>
                         MailMessageScreen(
                           mail: mail,
-                          mailboxState: mailboxState,
+                          mailbox: mailbox,
                           onReply: () {
                             // TODO
                             WipPopup.open(context);

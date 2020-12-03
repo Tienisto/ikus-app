@@ -3,6 +3,7 @@ import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
+import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/model/ui/mail_progress.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
@@ -32,7 +33,7 @@ class MailService implements SyncableService {
 
     print(' -> Syncing mails...');
     _progress.active = true;
-    _progress.mailbox = t.mails.inbox;
+    _progress.mailbox = MailboxType.INBOX;
     _progress.curr = 0;
     _progress.total = 0;
 
@@ -56,7 +57,7 @@ class MailService implements SyncableService {
       }
 
       Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
-        folder: MailFacade.MAILBOX_PATH_INBOX,
+        mailbox: MailboxType.INBOX,
         existing: _mails.inbox,
         name: account.name,
         password: account.password,
@@ -66,11 +67,11 @@ class MailService implements SyncableService {
         }
       );
 
-      _progress.mailbox = t.mails.sent;
+      _progress.mailbox = MailboxType.SENT;
       _progress.curr = 0;
       _progress.total = 0;
       Map<int, MailMessage> sent = await MailFacade.fetchMessages(
-        folder: MailFacade.MAILBOX_PATH_SEND,
+        mailbox: MailboxType.SENT,
         existing: _mails.sent,
         name: account.name,
         password: account.password,
@@ -118,6 +119,11 @@ class MailService implements SyncableService {
   Future<bool> sendMessage(MailMessageSend message) {
     final account = SettingsService.instance.getOvguAccount();
     return MailFacade.sendMessage(message, name: account.name, password: account.password);
+  }
+
+  Future<bool> deleteMessage(MailboxType mailbox, int uid) {
+    final account = SettingsService.instance.getOvguAccount();
+    return MailFacade.deleteMessage(mailbox: mailbox, uid: uid, name: account.name, password: account.password);
   }
 
   MailProgress getProgress() {

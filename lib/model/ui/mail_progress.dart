@@ -1,6 +1,8 @@
+import 'package:ikus_app/model/mailbox_type.dart';
+
 class MailProgress {
   bool active;
-  String mailbox;
+  MailboxType mailbox;
   int curr;
   int total;
 
