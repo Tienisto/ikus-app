@@ -37,7 +37,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
 
     if (success) {
       await SettingsService.instance.setOvguAccount(name: _name, password: _password);
-      MailService.instance.sync(useCacheOnly: false);
+      MailService.instance.sync(useNetwork: true);
       Navigator.pop(context);
       Navigator.pop(context);
       if (widget.onLogin != null) {

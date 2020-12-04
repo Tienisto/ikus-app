@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> {
         key: _refreshIndicatorKey,
         color: OvguColor.primary,
         onRefresh: () async {
-          await NewsService.instance.sync(useCacheOnly: false);
-          await CalendarService.instance.sync(useCacheOnly: false);
+          await NewsService.instance.sync(useNetwork: true);
+          await CalendarService.instance.sync(useNetwork: true);
           setState(() {
             _updateData();
           });

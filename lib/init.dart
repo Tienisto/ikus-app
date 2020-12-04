@@ -28,7 +28,7 @@ class Init {
 
     if (!AppConfigService.instance.isCompatibleWithApi()) {
       _postInitFinished = true;
-      print('post init finished (ignore further api calls)');
+      print('post init finished (skip app start and update old data)');
       return;
     }
 
@@ -77,13 +77,13 @@ class Init {
     print('[4 / 4] init api cache');
     List<SyncableService> services = SyncableService.services;
     for(SyncableService service in services) {
-      await service.sync(useCacheOnly: true);
+      await service.sync(useNetwork: false);
     }
   }
 
   static Future<void> _syncAppConfig() async {
     print('[1 / 3] sync app config');
-    await AppConfigService.instance.sync(useCacheOnly: false);
+    await AppConfigService.instance.sync(useNetwork: true);
   }
 
   /// sends app start signal to server
@@ -107,7 +107,7 @@ class Init {
       String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
       if (age >= service.getMaxAge()) {
         print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age >= ${service.getMaxAge()}) -> fetch');
-        await service.sync(useCacheOnly: false);
+        await service.sync(useNetwork: true);
       } else {
         print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age < ${service.getMaxAge()}) -> up-to-date');
       }

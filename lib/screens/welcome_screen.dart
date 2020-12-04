@@ -37,7 +37,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     await sleep(500);
     List<SyncableService> services = SyncableService.services;
     for (int i = 0; i < services.length; i++) {
-      await services[i].sync(useCacheOnly: false);
+      await services[i].sync(useNetwork: true);
       await sleep(100);
       setState(() {
         _progress = (i+1) / services.length;

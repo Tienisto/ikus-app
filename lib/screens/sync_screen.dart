@@ -79,7 +79,7 @@ class _SyncScreenState extends State<SyncScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: SyncableService.services.map((service) {
                       return getSyncItem(service.getName(), service.getLastUpdate(), () async {
-                        await service.sync(useCacheOnly: false);
+                        await service.sync(useNetwork: true);
                       });
                     }).toList()
                 ),

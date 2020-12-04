@@ -22,11 +22,12 @@ class NewsService implements SyncableService {
   String getName() => t.sync.items.news;
 
   @override
-  Future<void> sync({bool useCacheOnly}) async {
+  Future<void> sync({bool useNetwork, String useJSON}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'news',
       locale: LocaleSettings.currentLocale,
-      useCacheOnly: useCacheOnly,
+      useJSON: useJSON,
+      useNetwork: useNetwork,
       fallback: {
         'channels': [],
         'posts': []

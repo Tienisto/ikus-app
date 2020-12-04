@@ -24,7 +24,9 @@ class MailService implements SyncableService {
   String getName() => t.sync.items.emails;
 
   @override
-  Future<void> sync({bool useCacheOnly}) async {
+  Future<void> sync({bool useNetwork, String useJSON}) async {
+
+    assert(useJSON == null, "mail service sync cannot handle json");
 
     if (_progress.active) {
       print(' -> Already syncing mails');
@@ -47,12 +49,13 @@ class MailService implements SyncableService {
       _lastUpdate = ApiService.FALLBACK_TIME;
     }
 
-    if (!useCacheOnly) {
+    if (useNetwork) {
       // fetch from mail server
       final start = DateTime.now();
       final account = SettingsService.instance.getOvguAccount();
       if (account == null) {
         _progress.active = false;
+        print(' -> skip mail (no ovgu account)');
         return;
       }
 
@@ -84,6 +87,7 @@ class MailService implements SyncableService {
       if (inbox == null || sent == null) {
         _mails = MailCollection.EMPTY;
         _progress.active = false;
+        print(' -> Mail update failed');
         return;
       }
 
@@ -132,6 +136,6 @@ class MailService implements SyncableService {
 
   Future<void> deleteCache() async {
     await PersistentService.instance.deleteMailCache();
-    await sync(useCacheOnly: true);
+    await sync(useNetwork: false);
   }
 }

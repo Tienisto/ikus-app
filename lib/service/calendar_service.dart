@@ -23,11 +23,12 @@ class CalendarService implements SyncableService {
   String getName() => t.sync.items.calendar;
 
   @override
-  Future<void> sync({bool useCacheOnly}) async {
+  Future<void> sync({bool useNetwork, String useJSON}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'calendar',
       locale: LocaleSettings.currentLocale,
-      useCacheOnly: useCacheOnly,
+      useJSON: useJSON,
+      useNetwork: useNetwork,
       fallback: {
         'channels': [],
         'events': []

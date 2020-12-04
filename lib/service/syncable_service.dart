@@ -11,7 +11,7 @@ import 'package:ikus_app/service/news_service.dart';
 abstract class SyncableService {
 
   String getName();
-  Future<void> sync({bool useCacheOnly});
+  Future<void> sync({bool useNetwork, String useJSON});
   DateTime getLastUpdate();
   Duration getMaxAge();
 

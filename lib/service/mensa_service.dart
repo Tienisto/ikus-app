@@ -18,11 +18,12 @@ class MensaService implements SyncableService {
   String getName() => t.sync.items.mensa;
 
   @override
-  Future<void> sync({bool useCacheOnly}) async {
+  Future<void> sync({bool useNetwork, String useJSON}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'mensa',
       locale: LocaleSettings.currentLocale,
-      useCacheOnly: useCacheOnly,
+      useNetwork: useNetwork,
+      useJSON: useJSON,
       fallback: []
     );
 

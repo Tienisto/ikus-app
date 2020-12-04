@@ -24,10 +24,24 @@ class ApiService {
     return '$URL/file/$fileName';
   }
 
-  static Future<DataWithTimestamp<String>> getCacheOrFetchString({String route, String locale, bool useCacheOnly, fallback}) async {
+  /// uses network or given data and caches it
+  /// set [useJSON] for batch update (prefetch in an earlier step)
+  /// 1: use json from [useJSON] if [useJSON] is not null
+  /// 2: fetch route if [useNetwork] is true
+  /// 3: use cache
+  /// 4: use [fallback]
+  static Future<DataWithTimestamp<String>> getCacheOrFetchString({String route, String locale, String useJSON, bool useNetwork, fallback}) async {
+
+    final String key = 'api_json/$route';
+
+    if (useJSON != null) {
+      DataWithTimestamp<String> newData = DataWithTimestamp(data: useJSON, timestamp: DateTime.now());
+      PersistentService.instance.setApiJson(key, newData);
+      return newData;
+    }
 
     Response response;
-    if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && !useCacheOnly) {
+    if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
         response = await get('$URL/$route?locale=${locale.toUpperCase()}');
         print('[${response.statusCode}] $route');
@@ -36,7 +50,6 @@ class ApiService {
       }
     }
 
-    final String key = 'api_json/$route';
     if (response != null && response.statusCode == 200) {
       DataWithTimestamp<String> newData = DataWithTimestamp(data: response.body, timestamp: DateTime.now());
       PersistentService.instance.setApiJson(key, newData);
@@ -46,11 +59,15 @@ class ApiService {
     }
   }
 
-  static Future<DataWithTimestamp<Uint8List>> getCacheOrFetchBinary({String route, bool useCacheOnly, fallback}) async {
+  /// uses network or given data and caches it
+  /// 1: fetch route if [useNetwork] is true
+  /// 2: use cache
+  /// 3: use [fallback]
+  static Future<DataWithTimestamp<Uint8List>> getCacheOrFetchBinary({String route, bool useNetwork, fallback}) async {
     Response response;
     final String key = 'api_binary/$route';
 
-    if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && !useCacheOnly) {
+    if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
         DateTime timestamp = PersistentService.instance.getApiTimestamp(key) ?? FALLBACK_TIME;
         response = await get('$URL/file/$route', headers: {

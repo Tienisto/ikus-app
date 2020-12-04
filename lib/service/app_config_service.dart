@@ -24,11 +24,12 @@ class AppConfigService implements SyncableService {
   String getName() => t.sync.items.appConfig;
 
   @override
-  Future<void> sync({bool useCacheOnly}) async {
+  Future<void> sync({bool useNetwork, String useJSON}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'app-config',
       locale: LocaleSettings.currentLocale,
-      useCacheOnly: useCacheOnly,
+      useJSON: useJSON,
+      useNetwork: useNetwork,
       fallback: { 'version': API_VERSION, 'features': [] }
     );
 
