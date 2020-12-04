@@ -38,7 +38,10 @@ class FAQService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(days: 1);
+  Duration maxAge = Duration(days: 1);
+
+  @override
+  String batchKey = 'FAQ';
 
   List<PostGroup> getFAQ() {
     return _groups;

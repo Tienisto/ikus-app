@@ -39,7 +39,10 @@ class ContactService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(days: 1);
+  Duration maxAge = Duration(days: 1);
+
+  @override
+  String batchKey = 'CONTACTS';
 
   List<Contact> getContacts() {
     return _contacts;

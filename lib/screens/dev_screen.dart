@@ -6,6 +6,7 @@ import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/service/notification_service.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -43,7 +44,7 @@ class _DevScreenState extends State<DevScreen> {
           ),
           SizedBox(height: 20),
           SettingsItem(
-              left: 'Show Tutorial',
+              left: 'Show tutorial',
               right: OvguButton(
                 callback: () {
                   setScreen(context, () => MainScreen(tutorial: true));
@@ -53,7 +54,7 @@ class _DevScreenState extends State<DevScreen> {
           ),
           SizedBox(height: 20),
           SettingsItem(
-              left: 'Show Notification',
+              left: 'Show notification',
               right: OvguButton(
                 callback: () {
                   NotificationService.createInstance().showTest();
@@ -63,7 +64,27 @@ class _DevScreenState extends State<DevScreen> {
           ),
           SizedBox(height: 20),
           SettingsItem(
-              left: 'Disable Dev Settings',
+              left: 'Delete API cache',
+              right: OvguButton(
+                callback: () async {
+                  await PersistentService.instance.deleteApiCache();
+                },
+                child: Icon(Icons.delete, color: Colors.white),
+              )
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
+              left: 'Delete mail cache',
+              right: OvguButton(
+                callback: () async {
+                  await PersistentService.instance.deleteMailCache();
+                },
+                child: Icon(Icons.delete, color: Colors.white),
+              )
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
+              left: 'Disable dev settings',
               right: OvguButton(
                 callback: () {
                   SettingsService.instance.setDevSettings(false);

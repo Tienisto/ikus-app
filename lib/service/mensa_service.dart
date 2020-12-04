@@ -40,7 +40,10 @@ class MensaService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(hours: 1);
+  Duration maxAge = Duration(hours: 1);
+
+  @override
+  String batchKey = 'MENSA';
 
   List<MensaInfo> getMenu() {
     return _menu;

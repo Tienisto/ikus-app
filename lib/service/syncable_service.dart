@@ -13,7 +13,8 @@ abstract class SyncableService {
   String getName();
   Future<void> sync({bool useNetwork, String useJSON});
   DateTime getLastUpdate();
-  Duration getMaxAge();
+  Duration maxAge;
+  String batchKey;
 
   // list of all services extending SyncableService
   static List<SyncableService> get services => [

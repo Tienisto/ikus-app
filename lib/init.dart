@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/app_config_service.dart';
@@ -102,17 +104,53 @@ class Init {
       return;
 
     DateTime now = DateTime.now();
+    List<SyncableService> fetchList = List();
+    Map<SyncableService, String> batchResult = Map();
+
+    // prepare outdated services
+    print(' -> (1/3) check outdated');
     for (SyncableService service in SyncableService.servicesWithoutAppConfig) {
       Duration age = now.difference(service.getLastUpdate());
       String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
-      if (age >= service.getMaxAge()) {
-        print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age >= ${service.getMaxAge()}) -> fetch');
-        await service.sync(useNetwork: true);
+      if (age >= service.maxAge) {
+        print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age >= ${service.maxAge}) -> fetch');
+        fetchList.add(service);
       } else {
-        print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age < ${service.getMaxAge()}) -> up-to-date');
+        print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age < ${service.maxAge}) -> up-to-date');
       }
     }
+
+    // batch fetch
+    List<String> routes = fetchList
+        .where((service) => service.batchKey != null)
+        .map((service) => service.batchKey)
+        .toList();
+    if (routes.isNotEmpty) {
+      print(' -> (2/3) fetch batch route');
+      String response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale, routes: routes);
+      if (response != null) {
+        Map<String, dynamic> parsed = json.decode(response);
+        for (final entry in parsed.entries) {
+          SyncableService service = SyncableService.servicesWithoutAppConfig.firstWhere((s) => s.batchKey == entry.key, orElse: () => null);
+          if (service != null) {
+            print(entry.value);
+            batchResult[service] = entry.value; // add batch result
+          }
+        }
+      }
+    } else {
+      print(' -> (2/3) no compatible batch service found');
+    }
+
+    // apply fetch list with batch data
+    print(' -> (3/3) sync');
+    for (SyncableService service in fetchList) {
+      String useJSON = batchResult[service];
+      print(' -> ${service.getName().padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}');
+      await service.sync(useNetwork: true, useJSON: useJSON); // useNetwork must be true, e.g. handbook
+    }
+
     DateTime after = DateTime.now();
-    print(' -> step took ${after.difference(now)}');
+    print(' -> update old data step took ${after.difference(now)}');
   }
 }

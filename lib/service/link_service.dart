@@ -38,7 +38,10 @@ class LinkService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(days: 1);
+  Duration maxAge = Duration(days: 1);
+
+  @override
+  String batchKey = 'LINKS';
 
   List<LinkGroup> getLinks() {
     return _links;

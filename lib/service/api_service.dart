@@ -24,6 +24,28 @@ class ApiService {
     return '$URL/file/$fileName';
   }
 
+  /// fetch batch route (no cache mechanism)
+  /// preparation for [getCacheOrFetchString] with useJSON
+  static Future<String> fetchBatchString({String locale, List<String> routes}) async {
+
+    assert(routes.isNotEmpty, 'routes must not be empty');
+
+    String routesQuery = routes.join(',');
+    String url = '$URL/combined?locale=${locale.toUpperCase()}&routes=$routesQuery';
+    try {
+
+      Response response = await get(url);
+      print('[${response.statusCode}] $url');
+
+      if (response.statusCode == 200)
+       return utf8.decode(response.bodyBytes);
+
+    } catch (_) {}
+
+    print('failed to fetch $url');
+    return null;
+  }
+
   /// uses network or given data and caches it
   /// set [useJSON] for batch update (prefetch in an earlier step)
   /// 1: use json from [useJSON] if [useJSON] is not null
@@ -51,7 +73,7 @@ class ApiService {
     }
 
     if (response != null && response.statusCode == 200) {
-      DataWithTimestamp<String> newData = DataWithTimestamp(data: response.body, timestamp: DateTime.now());
+      DataWithTimestamp<String> newData = DataWithTimestamp(data: utf8.decode(response.bodyBytes), timestamp: DateTime.now());
       PersistentService.instance.setApiJson(key, newData);
       return newData;
     } else {

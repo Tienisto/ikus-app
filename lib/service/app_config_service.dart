@@ -69,7 +69,10 @@ class AppConfigService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(days: 1);
+  Duration maxAge = Duration(days: 1);
+
+  @override
+  String batchKey = 'APP_CONFIG';
 
   bool isCompatibleWithApi() {
     return _compatibleWithApi;

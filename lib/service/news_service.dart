@@ -55,7 +55,10 @@ class NewsService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(hours: 1);
+  Duration maxAge = Duration(hours: 1);
+
+  @override
+  String batchKey = 'NEWS';
 
   List<Post> getPosts() {
     return _channelHandler.onlySubscribed(_posts, (item) => item.channel.id);

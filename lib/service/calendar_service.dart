@@ -65,7 +65,10 @@ class CalendarService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(hours: 1);
+  Duration maxAge = Duration(hours: 1);
+
+  @override
+  String batchKey = 'CALENDAR';
 
   List<Event> getEvents() {
     return _channelHandler.onlySubscribed(_events, (item) => item.channel.id);

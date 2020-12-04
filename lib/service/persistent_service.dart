@@ -94,6 +94,12 @@ class PersistentService {
     return Hive.box<DateTime>(_BOX_LAST_SYNC).get(key);
   }
 
+  Future<void> deleteApiCache() async {
+    await Hive.box<String>(_BOX_API_JSON).clear();
+    await Hive.box<Uint8List>(_BOX_API_BINARY).clear();
+    await Hive.box<DateTime>(_BOX_LAST_SYNC).clear();
+  }
+
   // settings
 
   SettingsData getSettings() {

@@ -51,7 +51,10 @@ class HandbookService implements SyncableService {
   }
 
   @override
-  Duration getMaxAge() => Duration(days: 3);
+  Duration maxAge = Duration(days: 3);
+
+  @override
+  String batchKey = 'HANDBOOK_BOOKMARKS'; // applies only to json route
 
   Uint8List getPDF() {
     return _bytes;
