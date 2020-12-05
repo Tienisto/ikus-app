@@ -19,7 +19,7 @@ class FAQService implements SyncableService {
   String getName() => t.sync.items.faq;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'faq',
       locale: LocaleSettings.currentLocale,

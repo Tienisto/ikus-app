@@ -21,7 +21,7 @@ class HandbookService implements SyncableService {
 
   // useJSON applies only to the rest route
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
     DataWithTimestamp pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,

@@ -26,7 +26,7 @@ class MailService implements SyncableService {
   String getName() => t.sync.items.emails;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
 
     assert(useJSON == null, "mail service sync cannot handle json");
 

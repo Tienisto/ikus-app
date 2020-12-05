@@ -12,7 +12,7 @@ import 'package:ikus_app/service/news_service.dart';
 abstract class SyncableService {
 
   String getName();
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications});
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false});
   DateTime getLastUpdate();
   Duration maxAge;
   String batchKey;

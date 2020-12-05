@@ -19,7 +19,7 @@ class LinkService implements SyncableService {
   String getName() => t.sync.items.links;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'links',
       locale: LocaleSettings.currentLocale,

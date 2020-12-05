@@ -19,7 +19,7 @@ class ContactService implements SyncableService {
   String getName() => t.sync.items.contact;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
       locale: LocaleSettings.currentLocale,
