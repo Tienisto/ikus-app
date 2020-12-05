@@ -12,13 +12,33 @@ import 'package:ikus_app/utility/callbacks.dart';
 
 abstract class SyncableService {
 
+  /// name of the service, for display purposes, shown in sync screen
   String getName();
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished});
+
+  /// update data from network or from local storage
+  /// if [useNetwork] is true, then allow fetching data from the internet
+  /// if [useJSON] is not null, then ALWAYS prefer this over network fetch
+  /// if [showNotifications] is true, then allow the service to push notifications on specific events
+  /// if [onBatchFinished] is not null, then move specific actions to this callback (e.g. show notifications at the end of batch update)
+  Future<void> sync({
+    @required bool useNetwork,
+    String useJSON,
+    bool showNotifications = false,
+    AddFutureCallback onBatchFinished
+  });
+
+  /// timestamp of last successful sync (from network or useJSON)
+  /// may be null before first sync
   DateTime getLastUpdate();
+
+  /// constant amount of time after which the service need to be synced
+  /// happens during app start or background fetch
   Duration maxAge;
+
+  /// a constant for batch update
   String batchKey;
 
-  // list of all services extending SyncableService
+  /// list of all services extending SyncableService
   static List<SyncableService> get services => [
     NewsService.instance,
     CalendarService.instance,
@@ -31,7 +51,7 @@ abstract class SyncableService {
     AppConfigService.instance
   ];
 
-  // same as above but without AppConfigService
+  /// same as [services] but without [AppConfigService]
   static List<SyncableService> get servicesWithoutAppConfig => [
     NewsService.instance,
     CalendarService.instance,
