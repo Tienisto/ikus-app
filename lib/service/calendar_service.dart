@@ -22,7 +22,10 @@ class CalendarService implements SyncableService {
   List<Event> _myEvents;
 
   @override
-  String getName() => t.sync.items.calendar;
+  String id = 'CALENDAR';
+
+  @override
+  String getDescription() => t.sync.items.calendar;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

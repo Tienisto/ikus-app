@@ -45,7 +45,7 @@ class Init {
   }
 
   /// runs after the first frame
-  static Future<void> postInit({bool appStart = true}) async {
+  static Future<void> postInit({bool appStart = true, LogServiceSync logServiceSync}) async {
 
     await _syncAppConfig();
 
@@ -59,7 +59,7 @@ class Init {
       await _appStart();
     }
 
-    await _updateOldData();
+    await _updateOldData(logServiceSync);
     _postInitFinished = true;
     print('post init finished');
   }
@@ -126,7 +126,7 @@ class Init {
   }
 
   /// update old data based on maxAge
-  static Future<void> _updateOldData() async {
+  static Future<void> _updateOldData(LogServiceSync logServiceSync) async {
 
     print('[3 / 3] check if old data needs to be refetched');
 
@@ -144,11 +144,15 @@ class Init {
       Duration age = now.difference(service.getLastUpdate());
       String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
       if (age >= service.maxAge) {
-        print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age >= ${service.maxAge}) -> fetch');
+        print(' -> ${service.id.padRight(18)}: $lastUpdateString ($age >= ${service.maxAge}) -> fetch');
         fetchList.add(service);
       } else {
-        print(' -> ${service.getName().padRight(18)}: $lastUpdateString ($age < ${service.maxAge}) -> up-to-date');
+        print(' -> ${service.id.padRight(18)}: $lastUpdateString ($age < ${service.maxAge}) -> up-to-date');
       }
+    }
+
+    if (logServiceSync != null) {
+      logServiceSync(fetchList.map((s) => s.id).toList());
     }
 
     // batch fetch
@@ -177,7 +181,7 @@ class Init {
     List<FutureCallback> postSyncTasks = List();
     for (SyncableService service in fetchList) {
       String useJSON = batchResult[service];
-      print(' -> ${service.getName().padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}');
+      print(' -> ${service.id.padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}');
       await service.sync(
         useNetwork: true, // useNetwork must be true, e.g. handbook
         useJSON: useJSON,

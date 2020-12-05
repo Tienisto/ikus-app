@@ -4,6 +4,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/screens/background_task_log_screen.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
@@ -44,12 +45,22 @@ class _DevScreenState extends State<DevScreen> {
           ),
           SizedBox(height: 20),
           SettingsItem(
+              left: 'Show background tasks',
+              right: OvguButton(
+                callback: () {
+                  pushScreen(context, () => BackgroundTaskLogScreen());
+                },
+                child: Icon(Icons.schedule, color: Colors.white),
+              )
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
               left: 'Show tutorial',
               right: OvguButton(
                 callback: () {
-                  setScreen(context, () => MainScreen(tutorial: true, key: MainScreen.mainScreenKey));
+                  setScreen(context, () => MainScreen(tutorial: true));
                 },
-                child: Icon(Icons.restore, color: Colors.white),
+                child: Icon(Icons.help, color: Colors.white),
               )
           ),
           SizedBox(height: 20),

@@ -17,7 +17,10 @@ class ContactService implements SyncableService {
   List<Contact> _contacts;
 
   @override
-  String getName() => t.sync.items.contact;
+  String id = 'CONTACT';
+
+  @override
+  String getDescription() => t.sync.items.contact;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

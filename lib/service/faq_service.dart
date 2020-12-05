@@ -17,7 +17,10 @@ class FAQService implements SyncableService {
   List<PostGroup> _groups;
 
   @override
-  String getName() => t.sync.items.faq;
+  String id = 'FAQ';
+
+  @override
+  String getDescription() => t.sync.items.faq;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

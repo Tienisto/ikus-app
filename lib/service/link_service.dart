@@ -17,7 +17,10 @@ class LinkService implements SyncableService {
   List<LinkGroup> _links;
 
   @override
-  String getName() => t.sync.items.links;
+  String id = 'LINKS';
+
+  @override
+  String getDescription() => t.sync.items.links;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

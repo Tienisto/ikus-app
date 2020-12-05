@@ -21,7 +21,10 @@ class NewsService implements SyncableService {
   List<Post> _posts;
 
   @override
-  String getName() => t.sync.items.news;
+  String id = 'NEWS';
+
+  @override
+  String getDescription() => t.sync.items.news;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

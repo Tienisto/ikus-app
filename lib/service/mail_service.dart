@@ -24,7 +24,10 @@ class MailService implements SyncableService {
   MailCollection _mails;
 
   @override
-  String getName() => t.sync.items.emails;
+  String id = 'MAIL';
+
+  @override
+  String getDescription() => t.sync.items.emails;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

@@ -23,10 +23,15 @@ class AppConfigService implements SyncableService {
   List<Feature> _recommendedFavoriteFeatures;
 
   @override
-  String getName() => t.sync.items.appConfig;
+  String id = 'APP_CONFIG';
+
+  @override
+  String getDescription() => t.sync.items.appConfig;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+    assert(useJSON == null, 'no batch update');
+
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'app-config',
       locale: LocaleSettings.currentLocale,

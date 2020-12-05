@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
+import 'package:ikus_app/model/local/background_task.dart';
 import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mensa_info.dart';
@@ -27,6 +28,7 @@ class PersistentService {
   static const String _BOX_MAILS_INBOX = 'mails_inbox'; // contains all mails (without attachments) as JSON
   static const String _BOX_MAILS_SENT = 'mails_sent'; // contains all mails (without attachments) as JSON
   static const String _BOX_MAILS_META = 'mails_meta'; // metadata for mails
+  static const String _BOX_LOGS_BACKGROUND_TASK = 'logs_background_task'; // tracking background task events for debugging
 
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
@@ -42,6 +44,8 @@ class PersistentService {
     await Hive.openBox<String>(_BOX_MAILS_INBOX);
     await Hive.openBox<String>(_BOX_MAILS_SENT);
     await Hive.openBox(_BOX_MAILS_META);
+    Hive.registerAdapter(BackgroundTaskAdapter());
+    await Hive.openBox<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
   }
 
   /// wipes all data except device id
@@ -205,6 +209,20 @@ class PersistentService {
     await Hive.box<String>(_BOX_MAILS_INBOX).clear();
     await Hive.box<String>(_BOX_MAILS_SENT).clear();
     await Hive.box(_BOX_MAILS_META).clear();
+  }
+
+  List<BackgroundTask> getBackgroundTasks() {
+    return Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).values.toList();
+  }
+
+  Future<void> addBackgroundTask(BackgroundTask task) async {
+    final box = Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
+    await box.add(task);
+    if (box.length > 200) {
+      List keys = box.keys.toList();
+      await box.deleteAll(keys.sublist(0, (keys.length / 2).ceil()));
+      print('Hive: background task box compressed');
+    }
   }
 
   /// closes all boxes

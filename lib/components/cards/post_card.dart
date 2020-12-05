@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ikus_app/components/cards/ovgu_card.dart';
+import 'package:ikus_app/components/cards/ovgu_card_with_header.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
@@ -14,65 +14,35 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OvguCard(
-      child: InkWell(
-        customBorder: OvguPixels.shape,
-        onTap: callback,
+    return OvguCardWithHeader(
+      onTap: callback,
+      left: post.channel.name,
+      headerIcons: [
+        if (post.pinned)
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Icon(Icons.push_pin, size: 16, color: OvguColor.secondaryDarken2),
+          )
+      ],
+      right: post.formattedDate,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 20),
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      height: 25,
-                      decoration: BoxDecoration(
-                        color: OvguColor.primary,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), bottomRight: Radius.circular(OvguPixels.borderRadiusPlain))
-                      ),
-                      child: FittedBox(
-                        // FittedBox scales the text down if it is too large
-                        child: Text(post.channel.name, style: TextStyle(color: Colors.white))
-                      )
-                    ),
-                  ),
-                ),
-                if (post.pinned)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5),
-                    child: Icon(Icons.push_pin, size: 16, color: OvguColor.secondaryDarken2),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Text(post.formattedDate, style: TextStyle(color: OvguColor.secondaryDarken2)),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (post.images.isNotEmpty)
-                    ClipRRect(
-                        borderRadius: OvguPixels.borderRadiusImage,
-                        child: Image.network(ApiService.getFileUrl(post.images.first))
-                    ),
-                  if (post.images.isNotEmpty)
-                    SizedBox(height: 15),
-                  Text(post.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 10),
-                  Text(post.preview),
-                ],
+            if (post.images.isNotEmpty)
+              ClipRRect(
+                  borderRadius: OvguPixels.borderRadiusImage,
+                  child: Image.network(ApiService.getFileUrl(post.images.first))
               ),
-            )
+            if (post.images.isNotEmpty)
+              SizedBox(height: 15),
+            Text(post.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Text(post.preview),
           ],
         ),
-      ),
+      )
     );
   }
 }

@@ -18,7 +18,10 @@ class HandbookService implements SyncableService {
   Uint8List _bytes;
 
   @override
-  String getName() => t.sync.items.handbook;
+  String id = 'HANDBOOK';
+
+  @override
+  String getDescription() => t.sync.items.handbook;
 
   // useJSON applies only to the rest route
   @override

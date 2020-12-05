@@ -12,8 +12,11 @@ import 'package:ikus_app/utility/callbacks.dart';
 
 abstract class SyncableService {
 
-  /// name of the service, for display purposes, shown in sync screen
-  String getName();
+  /// service id used for equality check and debugging
+  String id;
+
+  /// description, for display purposes, shown in sync screen
+  String getDescription();
 
   /// update data from network or from local storage
   /// if [useNetwork] is true, then allow fetching data from the internet

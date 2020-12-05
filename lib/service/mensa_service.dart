@@ -17,7 +17,10 @@ class MensaService implements SyncableService {
   List<MensaInfo> _menu;
 
   @override
-  String getName() => t.sync.items.mensa;
+  String id = 'MENSA';
+
+  @override
+  String getDescription() => t.sync.items.mensa;
 
   @override
   Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {

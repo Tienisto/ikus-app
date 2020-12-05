@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:ikus_app/init.dart';
+import 'package:ikus_app/model/local/background_task.dart';
 import 'package:ikus_app/service/persistent_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:workmanager/workmanager.dart';
 
 /// executes code in background
@@ -24,22 +26,32 @@ class BackgroundService {
   }
 }
 
-Future<void> backgroundTask(String taskId) async {
+Future<void> backgroundTask(String taskId, LogServiceSync logServiceSync) async {
   print('Running background task... ($taskId)');
 
   await Init.init();
-  await Init.postInit(appStart: false); // also syncing data and showing notifications
-  await PersistentService.instance.close(); // ensure that everything is committed
+  await Init.postInit(appStart: false, logServiceSync: logServiceSync); // also syncing data and showing notifications
 }
 
 void workmanagerWrapper() {
   Workmanager.executeTask((String task, Map<String, dynamic> inputData) async {
+    DateTime start = DateTime.now();
+    bool success = false;
+    List<String> tasks;
     try {
-      await backgroundTask(task);
+      await backgroundTask(task, (List<String> t) => tasks = t);
+      success = true;
       return true;
     } catch (e) {
-      print(e);
       return false;
+    } finally {
+      final loggingTask = BackgroundTask()
+        ..start = start
+        ..end = DateTime.now()
+        ..success = success
+        ..services = tasks ?? [];
+      await PersistentService.instance.addBackgroundTask(loggingTask);
+      await PersistentService.instance.close(); // ensure that everything is committed
     }
   });
 }
