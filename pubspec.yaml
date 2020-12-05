@@ -41,8 +41,9 @@ dependencies:
   add_2_calendar: ^1.4.0 # add calendar reminders
   map_launcher: ^1.0.0 # launch external map app
   url_launcher: ^5.7.10 # open links
-  imap_client: ^0.2.9 # receive emails (TODO: wait for enough_mail bug fixes)
-  enough_mail: ^0.0.33 # emails
+  enough_mail: # emails
+    git:
+      url: git@github.com:Tienisto/enough_mail.git
   workmanager: # run tasks in background (use PR version for now)
     git:
       url: git@github.com:ened/flutter_workmanager.git

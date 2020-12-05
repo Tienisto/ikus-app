@@ -1,7 +1,6 @@
 import 'dart:math';
 
-import 'package:enough_mail/codecs/date_codec.dart';
-import 'package:enough_mail/enough_mail.dart' as enough_mail;
+import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/model/mail_message.dart';
@@ -9,7 +8,6 @@ import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
-import 'package:imap_client/imap_client.dart';
 
 enum PartType {
   MULTIPART, PLAIN, HTML, OTHER
@@ -32,7 +30,7 @@ class MailFacade {
 
   static Future<bool> testLogin({@required String name, @required String password}) async {
     try {
-      final client = enough_mail.ImapClient();
+      final client = ImapClient();
       await client.connectToServer('cyrus.ovgu.de', 993);
       final response = await client.login(name, password);
       final ok = response.isOkStatus;
@@ -62,7 +60,7 @@ class MailFacade {
       if (ids.isFailedStatus)
         return null;
 
-      final fetchSequence = enough_mail.MessageSequence();
+      final fetchSequence = MessageSequence();
       final resultMap = Map<int, MailMessage>();
       ids.result.ids.forEach((id) {
         MailMessage message = existing[id];
@@ -96,77 +94,67 @@ class MailFacade {
         }
       });
 
-      try {
-        await imapClient.closeConnection();
-      } catch (e) {
-        print(' -> IMAP logout failed');
-      }
-
-      // using imap_client package because enough_mail cannot handle specific BODY[x] queries
-      // TODO: migrate when enough_mail has fixed this
-      ImapClient fallbackClient = ImapClient();
-      await fallbackClient.connect('cyrus.ovgu.de', 993, true);
-      await fallbackClient.login(name, password);
-      ImapFolder box = await fallbackClient.getFolder(mailbox.path);
-
-      // now fetch the actual content of each mail
       int curr = 0;
       int errors = 0;
       for (final mail in fetchIdMap.entries) {
-        final id = mail.key;
-
-        if (progressCallback != null) {
-          curr++;
-          progressCallback(curr, fetchIdMap.length);
-        }
-
         try {
-          final partMetadata = mail.value;
-          final bodies = partMetadata.map((part) => 'BODY[${part.path}]');
-          final response = await box.fetch(['ENVELOPE', ...bodies], messageIds: [id], uid: true);
-          final map = response.entries.first.value;
+          if (progressCallback != null) {
+            curr++;
+            progressCallback(curr, fetchIdMap.length);
+          }
 
-          final String from = getMailAddress(map['ENVELOPE']['from']).firstWhere((element) => true, orElse: () => 'unknown');
-          final String to = getMailAddress(map['ENVELOPE']['to']).firstWhere((element) => true, orElse: () => 'unknown');
-          final List<String> cc = getMailAddress(map['ENVELOPE']['cc']);
-          final String subject = enough_mail.MailCodec.decodeHeader(map['ENVELOPE']['subject']);
+          final uid = mail.key;
+          final partMetadata = mail.value;
+          final fetchSequence = MessageSequence()..add(uid);
+          final bodies = mail.value.map((part) => 'BODY[${part.path}]').join(' ');
+          final res = await imapClient.uidFetchMessages(fetchSequence, '(ENVELOPE $bodies)');
+          if (res.isFailedStatus)
+            return null;
+
+          final mailResponse = res.result.messages.first;
           final PartMetadata htmlPart = partMetadata.firstWhere((part) => part.type == PartType.HTML, orElse: () => null);
           final PartMetadata plainPart = partMetadata.firstWhere((part) => part.type == PartType.PLAIN, orElse: () => null);
-          String html;
           String plain;
-
-          if (htmlPart != null) {
-            html = enough_mail.MailCodec.decodeAnyText(map['BODY[${htmlPart.path}]'], htmlPart.encoding, htmlPart.charset);
-          }
+          String html;
 
           if (plainPart != null) {
-            plain = enough_mail.MailCodec.decodeAnyText(map['BODY[${plainPart.path}]'], plainPart.encoding, plainPart.charset);
+            plain = mailResponse.getPart(plainPart.path)?.bodyRaw;
+
+            // workaround: skip decoding for 8bit/windows-1252
+            if (plainPart.encoding != '8bit' || plainPart.charset != 'windows-1252') {
+              plain = MailCodec.decodeAnyText(plain, plainPart.encoding, plainPart.charset);
+            }
           }
 
-          resultMap[id] = MailMessage(
-            uid: id,
-            from: from,
-            to: to,
-            cc: cc,
-            timestamp: DateCodec.decodeDate(map['ENVELOPE']['date']) ?? ApiService.FALLBACK_TIME,
-            subject: subject,
-            preview: (plain?.substring(0, min(plain.length, 100))?.replaceAll('\r\n', ' ') ?? '') + '...',
+          if (htmlPart != null) {
+            html = mailResponse.getPart(htmlPart.path)?.bodyRaw;
+
+            // workaround: skip decoding for 8bit/windows-1252
+            if (htmlPart.encoding != '8bit' || htmlPart.charset != 'windows-1252') {
+              html = MailCodec.decodeAnyText(html, htmlPart.encoding, htmlPart.charset);
+            }
+          }
+
+          String preview = (plain?.substring(0, min(plain.length, 100))?.replaceAll('\r\n', ' ') ?? '') + '...';
+          resultMap[uid] = MailMessage(
+            uid: uid,
+            from: mailResponse.fromEmail ?? 'unknown',
+            to: mailResponse.to.map((m) => m.email).firstWhere((m) => true, orElse: () => 'unknown'),
+            cc: mailResponse.cc.map((m) => m.email).toList(),
+            timestamp: mailResponse.decodeDate()?.toLocal() ?? ApiService.FALLBACK_TIME,
+            subject: mailResponse.decodeSubject(),
+            preview: preview,
             content: html ?? plain?.replaceAll('\r\n', '<br>') ?? ''
           );
+
         } catch (e) {
           errors++;
-          print(' -> Fetch error (uid = $id) ($e)');
-
-          // reinitialize because the current connection is dirty
-          fallbackClient = ImapClient();
-          await fallbackClient.connect("cyrus.ovgu.de", 993, true);
-          await fallbackClient.login(name, password);
-          box = await fallbackClient.getFolder(mailbox.path);
+          print('error: $e');
         }
       }
 
       try {
-        await fallbackClient.logout();
+        await imapClient.closeConnection();
       } catch (e) {
         print(' -> IMAP logout failed');
       }
@@ -189,7 +177,7 @@ class MailFacade {
     if (selectInboxResponse.isFailedStatus)
       return null;
 
-    final uidSequence = enough_mail.MessageSequence()..add(uid);
+    final uidSequence = MessageSequence()..add(uid);
     final markResponse = await imapClient.uidMarkDeleted(uidSequence);
     if (markResponse.isFailedStatus)
       return false;
@@ -206,7 +194,7 @@ class MailFacade {
   static Future<bool> sendMessage(MailMessageSend message, {@required String name, @required String password}) async {
 
     try {
-      final client = enough_mail.SmtpClient('ovgu.de');
+      final client = SmtpClient('ovgu.de');
       await client.connectToServer('mail.ovgu.de', 587, isSecure: false);
       final ehloResponse = await client.ehlo();
       if (ehloResponse.isFailedStatus) {
@@ -242,7 +230,7 @@ class MailFacade {
   }
 
   // for enough_mail (not using yet)
-  static void _addTextParts(List<enough_mail.BodyPart> parts, List<PartMetadata> result) {
+  static void _addTextParts(List<BodyPart> parts, List<PartMetadata> result) {
     parts.forEach((part) {
       if (part.contentType.mediaType.isText) {
         final path = part.fetchId;
@@ -256,10 +244,10 @@ class MailFacade {
     });
   }
 
-  static PartType getPartType(enough_mail.MediaSubtype type) {
+  static PartType getPartType(MediaSubtype type) {
     switch (type) {
-      case enough_mail.MediaSubtype.textPlain: return PartType.PLAIN;
-      case enough_mail.MediaSubtype.textHtml: return PartType.HTML;
+      case MediaSubtype.textPlain: return PartType.PLAIN;
+      case MediaSubtype.textHtml: return PartType.HTML;
       default: return PartType.OTHER;
     }
   }
@@ -271,8 +259,8 @@ class MailFacade {
     return raw.map((address) => address[address.length - 2] + '@' + address.last).toList();
   }
 
-  static Future<enough_mail.ImapClient> getImapClient({@required String name, @required String password}) async {
-    final imapClient = enough_mail.ImapClient();
+  static Future<ImapClient> getImapClient({@required String name, @required String password}) async {
+    final imapClient = ImapClient();
     await imapClient.connectToServer('cyrus.ovgu.de', 993);
     final response = await imapClient.login(name, password);
     if (response.isFailedStatus)
