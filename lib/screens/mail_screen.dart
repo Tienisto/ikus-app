@@ -94,7 +94,7 @@ class _MailScreenState extends State<MailScreen> {
         progressString = "${progress.mailbox.name} (${progress.curr} / $total)";
         progressPercent = progress.curr / total.toDouble();
       } else {
-        progressString = "${progress.mailbox.name} (0 / ?)";
+        progressString = progress.mailbox.name;
         progressPercent = 0;
       }
     });
@@ -226,7 +226,7 @@ class _MailScreenState extends State<MailScreen> {
                     backgroundColor: Colors.white,
                   ),
                   SizedBox(height: 10),
-                  Text(t.mails.sync(text: progressString ?? ''))
+                  Text(progressString != null ? t.mails.sync(text: progressString) : '')
                 ],
               ),
             ),
