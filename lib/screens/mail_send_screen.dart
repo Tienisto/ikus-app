@@ -47,8 +47,23 @@ class _MailSendScreenState extends State<MailSendScreen> {
 
   Future<void> send() async {
 
-    if (_from.isEmpty || _to.isEmpty || _subject.isEmpty || _content.isEmpty) {
-      ErrorPopup.open(context);
+    if (_from.isEmpty) {
+      ErrorPopup.open(context, message: t.mailMessageSend.errors.missingFrom);
+      return;
+    }
+
+    if (_to.isEmpty) {
+      ErrorPopup.open(context, message: t.mailMessageSend.errors.missingTo);
+      return;
+    }
+
+    if (_subject.isEmpty) {
+      ErrorPopup.open(context, message: t.mailMessageSend.errors.missingSubject);
+      return;
+    }
+
+    if (_content.isEmpty) {
+      ErrorPopup.open(context, message: t.mailMessageSend.errors.missingContent);
       return;
     }
 

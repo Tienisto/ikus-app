@@ -6,18 +6,21 @@ import 'package:ikus_app/utility/popups.dart';
 
 class ErrorPopup extends StatelessWidget {
 
-  static void open(BuildContext context) {
+  static void open(BuildContext context, {String message}) {
     Popups.generic(
         context: context,
         height: 150,
-        body: ErrorPopup()
+        body: ErrorPopup(message)
     );
   }
+
+  final String message;
+  const ErrorPopup(this.message);
 
   @override
   Widget build(BuildContext context) {
     return GenericConfirmPopup(
-      title: t.popups.error.title,
+      title: message ?? t.popups.error.title,
       buttons: [
         OvguButton(
           padding: EdgeInsets.symmetric(horizontal: 30),

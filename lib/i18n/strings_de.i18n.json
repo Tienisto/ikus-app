@@ -153,7 +153,13 @@
     "subject": "Betreff",
     "content": "Inhalt",
     "send": "Senden",
-    "sending": "E-Mail wird gesendet..."
+    "sending": "E-Mail wird gesendet...",
+    "errors": {
+      "missingFrom": "Von-Adresse fehlt",
+      "missingTo": "An-Adresse fehlt",
+      "missingSubject": "Betreff fehlt",
+      "missingContent": "Inhalt fehlt"
+    }
   },
   "map": {
     "title": "Campusplan",
