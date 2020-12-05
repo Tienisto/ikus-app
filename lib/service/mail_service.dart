@@ -85,7 +85,6 @@ class MailService implements SyncableService {
       );
 
       if (inbox == null || sent == null) {
-        _mails = MailCollection.EMPTY;
         _progress.active = false;
         print(' -> Mail update failed');
         return;
