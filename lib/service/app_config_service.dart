@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ikus_app/service/settings_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
@@ -25,7 +26,7 @@ class AppConfigService implements SyncableService {
   String getName() => t.sync.items.appConfig;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'app-config',
       locale: LocaleSettings.currentLocale,

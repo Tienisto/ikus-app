@@ -6,6 +6,7 @@ import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/pdf_bookmark.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 
 class HandbookService implements SyncableService {
 
@@ -21,7 +22,7 @@ class HandbookService implements SyncableService {
 
   // useJSON applies only to the rest route
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
     DataWithTimestamp pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,

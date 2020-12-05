@@ -6,6 +6,7 @@ import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/link_group.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 
 class LinkService implements SyncableService {
 
@@ -19,7 +20,7 @@ class LinkService implements SyncableService {
   String getName() => t.sync.items.links;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'links',
       locale: LocaleSettings.currentLocale,

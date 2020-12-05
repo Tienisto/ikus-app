@@ -11,6 +11,7 @@ import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/mail_facade.dart';
 
 class MailService implements SyncableService {
@@ -26,7 +27,7 @@ class MailService implements SyncableService {
   String getName() => t.sync.items.emails;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
 
     assert(useJSON == null, "mail service sync cannot handle json");
 
@@ -106,7 +107,13 @@ class MailService implements SyncableService {
             .toList();
 
         if (newMails.isNotEmpty) {
-          NotificationService.createInstance().showNewMail(newMails);
+          if (onBatchFinished != null) {
+            // show at the end of batch update
+            onBatchFinished(() => NotificationService.createInstance().showNewMail(newMails));
+          } else {
+            // show immediately
+            NotificationService.createInstance().showNewMail(newMails);
+          }
         }
       }
 

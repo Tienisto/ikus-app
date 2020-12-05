@@ -9,6 +9,7 @@ import 'package:ikus_app/service/background_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/notification_payload_serialization.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -138,7 +139,7 @@ class Init {
     Map<SyncableService, String> batchResult = Map();
 
     // prepare outdated services
-    print(' -> (1/3) check outdated');
+    print(' -> (1/4) check outdated');
     for (SyncableService service in SyncableService.servicesWithoutAppConfig) {
       Duration age = now.difference(service.getLastUpdate());
       String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
@@ -156,7 +157,7 @@ class Init {
         .map((service) => service.batchKey)
         .toList();
     if (routes.isNotEmpty) {
-      print(' -> (2/3) fetch batch route');
+      print(' -> (2/4) fetch batch route');
       String response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale, routes: routes);
       if (response != null) {
         Map<String, dynamic> parsed = json.decode(response);
@@ -168,19 +169,27 @@ class Init {
         }
       }
     } else {
-      print(' -> (2/3) no compatible batch service found');
+      print(' -> (2/4) no compatible batch service found');
     }
 
     // apply fetch list with batch data
-    print(' -> (3/3) sync');
+    print(' -> (3/4) sync');
+    List<FutureCallback> postSyncTasks = List();
     for (SyncableService service in fetchList) {
       String useJSON = batchResult[service];
       print(' -> ${service.getName().padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}');
       await service.sync(
-          useNetwork: true, // useNetwork must be true, e.g. handbook
-          useJSON: useJSON,
-          showNotifications: true
+        useNetwork: true, // useNetwork must be true, e.g. handbook
+        useJSON: useJSON,
+        showNotifications: true,
+        onBatchFinished: (callback) => postSyncTasks.add(callback)
       );
+    }
+
+    // post sync (e.g. show notifications)
+    print(' -> (4/4) post sync (e.g. notifications)');
+    for (FutureCallback postSyncTask in postSyncTasks) {
+      await postSyncTask();
     }
 
     DateTime after = DateTime.now();

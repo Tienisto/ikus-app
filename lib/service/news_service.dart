@@ -8,6 +8,7 @@ import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/channel_handler.dart';
 
 class NewsService implements SyncableService {
@@ -23,7 +24,7 @@ class NewsService implements SyncableService {
   String getName() => t.sync.items.news;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'news',
       locale: LocaleSettings.currentLocale,

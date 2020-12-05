@@ -8,11 +8,12 @@ import 'package:ikus_app/service/link_service.dart';
 import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/news_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 
 abstract class SyncableService {
 
   String getName();
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false});
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished});
   DateTime getLastUpdate();
   Duration maxAge;
   String batchKey;

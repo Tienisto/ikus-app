@@ -13,6 +13,7 @@ typedef void StringCallback(String string);
 typedef void SwitchCallback(SwitchState state);
 typedef void EventCallback(Event event);
 typedef void MailProgressCallback(int progress, int total);
+typedef void AddFutureCallback(FutureCallback callback);
 typedef Future<void> FutureCallback();
 typedef Future<void> FutureWithContextCallback(BuildContext context);
 typedef Future<void> ChannelBooleanCallback(Channel channel, bool boolean);

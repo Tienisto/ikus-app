@@ -6,6 +6,7 @@ import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/contact.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 
 class ContactService implements SyncableService {
 
@@ -19,7 +20,7 @@ class ContactService implements SyncableService {
   String getName() => t.sync.items.contact;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
       locale: LocaleSettings.currentLocale,
