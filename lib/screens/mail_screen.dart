@@ -76,7 +76,7 @@ class _MailScreenState extends State<MailScreen> {
         if (mounted) {
           setState(() {
             progressString = null;
-            progressPercent = null;
+            progressPercent = 1;
             updateMails();
           });
         }
@@ -89,13 +89,12 @@ class _MailScreenState extends State<MailScreen> {
 
   void updateProgressString(MailProgress progress) {
     setState(() {
+      progressPercent = progress.percent;
       final int total = progress.total;
       if (total != 0) {
         progressString = "${progress.mailbox.name} (${progress.curr} / $total)";
-        progressPercent = progress.curr / total.toDouble();
       } else {
         progressString = progress.mailbox.name;
-        progressPercent = 0;
       }
     });
   }

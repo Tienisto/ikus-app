@@ -41,6 +41,7 @@ class MailService implements SyncableService {
     _progress.mailbox = MailboxType.INBOX;
     _progress.curr = 0;
     _progress.total = 0;
+    _progress.percent = 0;
 
     // load from storage
     final data = PersistentService.instance.getMails();
@@ -75,12 +76,14 @@ class MailService implements SyncableService {
         progressCallback: (curr, total) {
           _progress.curr = curr;
           _progress.total = total;
+          _progress.percent = (curr / total.toDouble()) * 0.5;
         }
       );
 
       _progress.mailbox = MailboxType.SENT;
       _progress.curr = 0;
       _progress.total = 0;
+      _progress.percent = 0.5;
       Map<int, MailMessage> sent = await MailFacade.fetchMessages(
         mailbox: MailboxType.SENT,
         existing: _mails.sent,
@@ -89,6 +92,7 @@ class MailService implements SyncableService {
         progressCallback: (curr, total) {
           _progress.curr = curr;
           _progress.total = total;
+          _progress.percent = 0.5 + (curr / total.toDouble()) * 0.5;
         }
       );
 
