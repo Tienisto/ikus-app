@@ -62,8 +62,8 @@ class PersistentService {
     return Hive.box(_BOX_DEVICE_ID).get('device_id');
   }
 
-  void setDeviceId(String deviceId) {
-    Hive.box(_BOX_DEVICE_ID).put('device_id', deviceId);
+  Future<void> setDeviceId(String deviceId) async {
+    await Hive.box(_BOX_DEVICE_ID).put('device_id', deviceId);
   }
 
   // api storage
@@ -74,9 +74,9 @@ class PersistentService {
     return binary != null && timestamp != null ? DataWithTimestamp(data: binary, timestamp: timestamp) : null;
   }
 
-  void setApiBinary(String key, DataWithTimestamp<Uint8List> data) {
-    Hive.box<Uint8List>(_BOX_API_BINARY).put(key, data.data);
-    Hive.box<DateTime>(_BOX_LAST_SYNC).put(key, data.timestamp);
+  Future<void> setApiBinary(String key, DataWithTimestamp<Uint8List> data) async {
+    await Hive.box<Uint8List>(_BOX_API_BINARY).put(key, data.data);
+    await Hive.box<DateTime>(_BOX_LAST_SYNC).put(key, data.timestamp);
   }
 
   DataWithTimestamp<String> getApiJson(String key) {
@@ -85,9 +85,9 @@ class PersistentService {
     return json != null && timestamp != null ? DataWithTimestamp(data: json, timestamp: timestamp) : null;
   }
 
-  void setApiJson(String key, DataWithTimestamp<String> data) {
-    Hive.box<String>(_BOX_API_JSON).put(key, data.data);
-    Hive.box<DateTime>(_BOX_LAST_SYNC).put(key, data.timestamp);
+  Future<void> setApiJson(String key, DataWithTimestamp<String> data) async {
+    await Hive.box<String>(_BOX_API_JSON).put(key, data.data);
+    await Hive.box<DateTime>(_BOX_LAST_SYNC).put(key, data.timestamp);
   }
 
   DateTime getApiTimestamp(String key) {
@@ -125,17 +125,17 @@ class PersistentService {
     );
   }
 
-  void setSettings(SettingsData data) {
+  Future<void> setSettings(SettingsData data) async {
     final Box box = Hive.box(_BOX_SETTINGS);
-    box.put('welcome', data.welcome);
-    box.put('locale', data.locale);
-    box.put('favorite_feature_list', data.favorites);
-    box.put('news_channels', data.newsChannels);
-    box.put('calendar_channels', data.calendarChannels);
-    box.put('my_events', data.myEvents);
-    box.put('mensa', describeEnum(data.mensa));
-    box.put('dev_settings', data.devSettings);
-    box.put('dev_server', data.devServer);
+    await box.put('welcome', data.welcome);
+    await box.put('locale', data.locale);
+    await box.put('favorite_feature_list', data.favorites);
+    await box.put('news_channels', data.newsChannels);
+    await box.put('calendar_channels', data.calendarChannels);
+    await box.put('my_events', data.myEvents);
+    await box.put('mensa', describeEnum(data.mensa));
+    await box.put('dev_settings', data.devSettings);
+    await box.put('dev_server', data.devServer);
   }
 
   // ovgu account

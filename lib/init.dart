@@ -85,7 +85,7 @@ class Init {
       // initialize
       deviceId = Uuid().v4();
       print(' -> set device id: $deviceId');
-      PersistentService.instance.setDeviceId(deviceId);
+      await PersistentService.instance.setDeviceId(deviceId);
     }
   }
 

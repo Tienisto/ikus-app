@@ -58,7 +58,7 @@ class ApiService {
 
     if (useJSON != null) {
       DataWithTimestamp<String> newData = DataWithTimestamp(data: useJSON, timestamp: DateTime.now());
-      PersistentService.instance.setApiJson(key, newData);
+      await PersistentService.instance.setApiJson(key, newData);
       return newData;
     }
 
@@ -74,7 +74,7 @@ class ApiService {
 
     if (response != null && response.statusCode == 200) {
       DataWithTimestamp<String> newData = DataWithTimestamp(data: utf8.decode(response.bodyBytes), timestamp: DateTime.now());
-      PersistentService.instance.setApiJson(key, newData);
+      await PersistentService.instance.setApiJson(key, newData);
       return newData;
     } else {
       return PersistentService.instance.getApiJson(key) ?? DataWithTimestamp(data: jsonEncode(fallback), timestamp: FALLBACK_TIME);
@@ -103,7 +103,7 @@ class ApiService {
 
     if (response != null && response.statusCode == 200) {
       DataWithTimestamp<Uint8List> newData = DataWithTimestamp(data: response.bodyBytes, timestamp: DateTime.now());
-      PersistentService.instance.setApiBinary(key, newData);
+      await PersistentService.instance.setApiBinary(key, newData);
       return newData;
     } else {
       return PersistentService.instance.getApiBinary(key) ?? DataWithTimestamp(data: fallback, timestamp: FALLBACK_TIME);

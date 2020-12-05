@@ -20,8 +20,8 @@ class SettingsService {
 
   /// saves the new settings config into hive
   /// does not include ovgu account
-  void _persistSettings() {
-    PersistentService.instance.setSettings(_settings);
+  Future<void> _persistSettings() async {
+    await PersistentService.instance.setSettings(_settings);
   }
 
   void setWelcome(bool welcome) {
