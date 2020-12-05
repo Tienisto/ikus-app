@@ -21,7 +21,7 @@ class BackgroundTaskLogScreen extends StatelessWidget {
           child: ListView.builder(
             itemCount: tasks.length + 2,
             itemBuilder: (context, index) {
-              if (index > 0 && index+1 < tasks.length) {
+              if (index > 0 && index-1 < tasks.length) {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                   child: BackgroundTaskLogCard(tasks[index - 1]),

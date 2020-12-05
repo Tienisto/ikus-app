@@ -37,18 +37,21 @@ void workmanagerWrapper() {
   Workmanager.executeTask((String task, Map<String, dynamic> inputData) async {
     DateTime start = DateTime.now();
     bool success = false;
+    String message;
     List<String> tasks;
     try {
       await backgroundTask(task, (List<String> t) => tasks = t);
       success = true;
       return true;
     } catch (e) {
+      message = e.toString();
       return false;
     } finally {
       final loggingTask = BackgroundTask()
         ..start = start
         ..end = DateTime.now()
         ..success = success
+        ..message = message
         ..services = tasks ?? [];
       await PersistentService.instance.addBackgroundTask(loggingTask);
       await PersistentService.instance.close(); // ensure that everything is committed

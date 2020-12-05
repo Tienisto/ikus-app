@@ -14,5 +14,8 @@ class BackgroundTask {
   bool success;
 
   @HiveField(3)
+  String message;
+
+  @HiveField(4)
   List<String> services;
 }
