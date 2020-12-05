@@ -22,9 +22,11 @@ import 'package:ikus_app/utility/ui.dart';
 
 class MainScreen extends StatefulWidget {
 
+  static GlobalKey<_MainScreenState> mainScreenKey = GlobalKey();
   final bool tutorial;
+  final SimpleWidgetBuilder screen;
 
-  const MainScreen({this.tutorial = false});
+  const MainScreen({Key key, this.tutorial = false, this.screen}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -59,16 +61,17 @@ class _MainScreenState extends State<MainScreen> {
     _page = 0;
     tutorialMode = widget.tutorial;
     currTutorialStep = 0;
-    showNeedUpdateIfNeeded();
+    showNeedUpdateIfNeeded().whenComplete(() {
+      if (widget.screen != null) {
+        pushScreen(context, widget.screen);
+      }
+    });
   }
 
   Future<void> showNeedUpdateIfNeeded() async {
-    do {
-      await sleep(1000);
-    } while (!Init.postInitFinished);
-
+    await Init.awaitPostInit();
     if (!AppConfigService.instance.isCompatibleWithApi()) {
-      NeedUpdatePopup.open(context);
+      await NeedUpdatePopup.open(context);
     }
   }
 

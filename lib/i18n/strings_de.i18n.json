@@ -287,5 +287,11 @@
       "ok": "OK"
     }
   },
+  "notifications": {
+    "newMail": {
+      "titleOne": "Neue E-Mail",
+      "titleMultiple": "$count neue E-Mails"
+    }
+  },
   "timeFormat": "$time Uhr"
 }

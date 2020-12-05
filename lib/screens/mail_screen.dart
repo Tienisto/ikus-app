@@ -6,8 +6,6 @@ import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
-import 'package:ikus_app/components/popups/error_popup.dart';
-import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
@@ -22,6 +20,10 @@ import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class MailScreen extends StatefulWidget {
+
+  final int openUid;
+
+  const MailScreen({this.openUid});
 
   @override
   _MailScreenState createState() => _MailScreenState();
@@ -42,6 +44,7 @@ class _MailScreenState extends State<MailScreen> {
     super.initState();
     updateMails();
     showProgress();
+    handleUid();
   }
 
   void updateMails() {
@@ -51,26 +54,8 @@ class _MailScreenState extends State<MailScreen> {
         break;
       case MailboxType.SENT:
         mails = MailService.instance.getMailsSent();
+        break;
     }
-  }
-
-  void toggleMailState() {
-    setState(() {
-      switch (mailbox) {
-        case MailboxType.INBOX:
-          mailbox = MailboxType.SENT;
-          break;
-        case MailboxType.SENT:
-          mailbox = MailboxType.INBOX;
-          break;
-      }
-      updateMails();
-    });
-  }
-
-  Future<void> sync() async {
-    MailService.instance.sync(useNetwork: true);
-    showProgress();
   }
 
   void showProgress() {
@@ -112,6 +97,37 @@ class _MailScreenState extends State<MailScreen> {
         progressString = "${progress.mailbox.name} (0 / ?)";
         progressPercent = 0;
       }
+    });
+  }
+
+  /// open mail by uid (used by notification callback, inbox only)
+  Future<void> handleUid() async {
+    if (widget.openUid != null) {
+      final inbox = MailService.instance.getMailsInbox();
+      final mail = inbox.firstWhere((m) => m.uid == widget.openUid, orElse: () => null);
+      await sleep(1000); // wait for initialization
+      if (mail != null) {
+        pushScreen(context, () => getMailMessageScreen(mail));
+      }
+    }
+  }
+
+  Future<void> sync() async {
+    MailService.instance.sync(useNetwork: true);
+    showProgress();
+  }
+
+  void toggleMailState() {
+    setState(() {
+      switch (mailbox) {
+        case MailboxType.INBOX:
+          mailbox = MailboxType.SENT;
+          break;
+        case MailboxType.SENT:
+          mailbox = MailboxType.INBOX;
+          break;
+      }
+      updateMails();
     });
   }
 
@@ -223,6 +239,20 @@ class _MailScreenState extends State<MailScreen> {
     ];
   }
 
+  Widget getMailMessageScreen(MailMessage mail) {
+    return MailMessageScreen(
+      mail: mail,
+      mailbox: mailbox,
+      onReply: () {
+        // TODO
+        WipPopup.open(context);
+      },
+      onDelete: () async {
+        sync();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final preWidgets = getPreWidgets(context);
@@ -245,27 +275,7 @@ class _MailScreenState extends State<MailScreen> {
                     mail: mail,
                     mailbox: mailbox,
                     callback: () async {
-                      pushScreen(context, () =>
-                        MailMessageScreen(
-                          mail: mail,
-                          mailbox: mailbox,
-                          onReply: () {
-                            // TODO
-                            WipPopup.open(context);
-                          },
-                          onDelete: () async {
-                            GenericTextPopup.open(context: context, text: t.mails.deleting);
-                            bool result = await MailService.instance.deleteMessage(mailbox, mail.uid);
-                            if (result) {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              sync();
-                            } else {
-                              Navigator.pop(context);
-                              ErrorPopup.open(context);
-                            }
-                          },
-                        ));
+                      pushScreen(context, () => getMailMessageScreen(mail));
                     }
                   ),
                 );

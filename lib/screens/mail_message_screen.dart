@@ -3,10 +3,13 @@ import 'package:ikus_app/components/badge.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/html_view.dart';
 import 'package:ikus_app/components/main_list_view.dart';
+import 'package:ikus_app/components/popups/error_popup.dart';
+import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/components/popups/mail_delete_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
+import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -57,7 +60,16 @@ class MailMessageScreen extends StatelessWidget {
                 callback: () {
                   MailDeletePopup.open(context: context, callback: () async {
                     Navigator.pop(context);
-                    onDelete();
+                    GenericTextPopup.open(context: context, text: t.mails.deleting);
+                    bool result = await MailService.instance.deleteMessage(mailbox, mail.uid);
+                    if (result) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      onDelete();
+                    } else {
+                      Navigator.pop(context);
+                      ErrorPopup.open(context);
+                    }
                   });
                 },
                 child: Icon(Icons.delete),

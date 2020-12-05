@@ -287,5 +287,11 @@
       "ok": "OK"
     }
   },
+  "notifications": {
+    "newMail": {
+      "titleOne": "New Mail",
+      "titleMultiple": "$count new mails"
+    }
+  },
   "timeFormat": "$time"
 }

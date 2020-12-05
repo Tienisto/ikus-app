@@ -206,4 +206,11 @@ class PersistentService {
     await Hive.box<String>(_BOX_MAILS_SENT).clear();
     await Hive.box(_BOX_MAILS_META).clear();
   }
+
+  /// closes all boxes
+  /// for debugging purposes only
+  Future<void> close() async {
+    await Hive.close();
+    print('Hive closed');
+  }
 }

@@ -8,12 +8,12 @@ class Popups {
 
   static const double DEFAULT_HEIGHT = 270;
 
-  static void generic({
+  static Future<void> generic({
     @required BuildContext context,
     @required Widget body,
     double height = DEFAULT_HEIGHT,
     bool dismissible = true,
-  }) {
+  }) async {
     showGeneralDialog(
       context: context,
       transitionDuration: Duration(milliseconds: 300),

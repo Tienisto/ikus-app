@@ -49,7 +49,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _cardKey.currentState.startReverseAnimation();
     await sleep(1000);
     SettingsService.instance.setWelcome(false);
-    await Navigator.pushAndRemoveUntil(context, FadePageRoute(duration: Duration(milliseconds: 1500), builder: (_) => MainScreen(tutorial: true)), (_) => false);
+    await Navigator.pushAndRemoveUntil(context,
+        FadePageRoute(
+            duration: Duration(milliseconds: 1500),
+            builder: (_) => MainScreen(tutorial: true, key: MainScreen.mainScreenKey)
+        ), (_) => false);
   }
 
   @override

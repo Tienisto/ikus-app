@@ -1,11 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/app_config_service.dart';
+import 'package:ikus_app/service/background_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
+import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/notification_payload_serialization.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
@@ -14,17 +20,31 @@ class Init {
   static bool _postInitFinished = false;
   static bool get postInitFinished => _postInitFinished;
 
-  /// runs before the first frame
+  /// runs before app has even run
+  /// returns a screen when handling notification start
+  static Future<SimpleWidgetBuilder> preInit() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    LocaleSettings.useDeviceLocale();
+    BackgroundService.instance.init();
+    await initializeDateFormatting();
+    NotificationAppLaunchDetails details = await FlutterLocalNotificationsPlugin().getNotificationAppLaunchDetails();
+    if (details.didNotificationLaunchApp && details.payload != null) {
+      return NotificationPayloadSerialization.parse(details.payload);
+    } else {
+      return null;
+    }
+  }
+
+  /// runs before the first frame and after state initialization
   static Future<void> init() async {
     await _initHive();
     await _initDeviceId();
     await _initLocalSettings();
     await _initLocalApiCache();
-    print('init finished');
   }
 
   /// runs after the first frame
-  static Future<void> postInit() async {
+  static Future<void> postInit({bool appStart = true}) async {
 
     await _syncAppConfig();
 
@@ -34,10 +54,20 @@ class Init {
       return;
     }
 
-    await _appStart();
+    if (appStart) {
+      await _appStart();
+    }
+
     await _updateOldData();
     _postInitFinished = true;
     print('post init finished');
+  }
+
+  /// waits until postInit finished
+  static Future<void> awaitPostInit() async {
+    do {
+      await sleep(1000);
+    } while (!Init.postInitFinished);
   }
 
   /// initializes hive boxes
@@ -133,7 +163,6 @@ class Init {
         for (final entry in parsed.entries) {
           SyncableService service = SyncableService.servicesWithoutAppConfig.firstWhere((s) => s.batchKey == entry.key, orElse: () => null);
           if (service != null) {
-            print(entry.value);
             batchResult[service] = entry.value; // add batch result
           }
         }

@@ -3,22 +3,25 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
-import 'package:ikus_app/service/background_service.dart';
 import 'package:ikus_app/service/orientation_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  LocaleSettings.useDeviceLocale();
-  BackgroundService.instance.init();
-  await initializeDateFormatting();
-  runApp(TranslationProvider(child: IkusApp()));
+  final openScreen = await Init.preInit();
+  final app = TranslationProvider(
+    child: IkusApp(screen: openScreen)
+  );
+  runApp(app);
 }
 
 class IkusApp extends StatefulWidget {
+
+  final SimpleWidgetBuilder screen; // will open this screen after init
+  const IkusApp({this.screen});
+
   @override
   IkusAppState createState() => IkusAppState();
 }
@@ -38,7 +41,7 @@ class IkusAppState extends State<IkusApp> {
   Future<void> init() async {
     await Init.init();
     setState((){
-      _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen();
+      _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen(screen: widget.screen, key: MainScreen.mainScreenKey);
       _initialized = true;
     });
     await Init.postInit();

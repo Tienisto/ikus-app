@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:ikus_app/service/notification_service.dart';
+import 'package:ikus_app/init.dart';
 import 'package:workmanager/workmanager.dart';
 
 /// executes code in background
@@ -23,15 +23,21 @@ class BackgroundService {
   }
 }
 
-void backgroundTaskDispatcher(String taskId) {
+Future<void> backgroundTask(String taskId) async {
   print('Running background task... ($taskId)');
-  NotificationService notificationService = NotificationService.createInstance();
-  //notificationService.showTest();
+
+  await Init.init();
+  await Init.postInit(appStart: false); // also syncing data and showing notifications
 }
 
 void workmanagerWrapper() {
-  Workmanager.executeTask((String task, Map<String, dynamic> inputData) {
-    backgroundTaskDispatcher(task);
-    return Future.value(true);
+  Workmanager.executeTask((String task, Map<String, dynamic> inputData) async {
+    try {
+      await backgroundTask(task);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   });
 }

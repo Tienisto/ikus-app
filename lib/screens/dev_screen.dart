@@ -47,7 +47,7 @@ class _DevScreenState extends State<DevScreen> {
               left: 'Show tutorial',
               right: OvguButton(
                 callback: () {
-                  setScreen(context, () => MainScreen(tutorial: true));
+                  setScreen(context, () => MainScreen(tutorial: true, key: MainScreen.mainScreenKey));
                 },
                 child: Icon(Icons.restore, color: Colors.white),
               )

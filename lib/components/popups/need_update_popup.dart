@@ -6,8 +6,8 @@ import 'package:ikus_app/utility/popups.dart';
 
 class NeedUpdatePopup extends StatelessWidget {
 
-  static void open(BuildContext context) {
-    Popups.generic(
+  static Future<void> open(BuildContext context) async {
+    await Popups.generic(
         context: context,
         height: 230,
         body: NeedUpdatePopup()

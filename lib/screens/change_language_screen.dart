@@ -33,7 +33,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
       });
     }
     await sleep(100);
-    setScreen(context, () => MainScreen());
+    setScreen(context, () => MainScreen(key: MainScreen.mainScreenKey));
   }
 
   @override
