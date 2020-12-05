@@ -113,7 +113,7 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   Future<void> sync() async {
-    MailService.instance.sync(useNetwork: true);
+    MailService.instance.sync(useNetwork: true, showNotifications: true);
     showProgress();
   }
 

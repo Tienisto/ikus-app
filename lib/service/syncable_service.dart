@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/contact_service.dart';
 import 'package:ikus_app/service/calendar_service.dart';
@@ -11,7 +12,7 @@ import 'package:ikus_app/service/news_service.dart';
 abstract class SyncableService {
 
   String getName();
-  Future<void> sync({bool useNetwork, String useJSON});
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications});
   DateTime getLastUpdate();
   Duration maxAge;
   String batchKey;

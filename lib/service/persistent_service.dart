@@ -208,7 +208,6 @@ class PersistentService {
   }
 
   /// closes all boxes
-  /// for debugging purposes only
   Future<void> close() async {
     await Hive.close();
     print('Hive closed');

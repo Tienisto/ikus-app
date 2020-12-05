@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/mail_collection.dart';
@@ -6,6 +7,7 @@ import 'package:ikus_app/model/mail_message_send.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/model/ui/mail_progress.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
@@ -24,7 +26,7 @@ class MailService implements SyncableService {
   String getName() => t.sync.items.emails;
 
   @override
-  Future<void> sync({bool useNetwork, String useJSON}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
 
     assert(useJSON == null, "mail service sync cannot handle json");
 
@@ -57,6 +59,11 @@ class MailService implements SyncableService {
         _progress.active = false;
         print(' -> skip mail (no ovgu account)');
         return;
+      }
+
+      Set<int> prevInboxMails;
+      if (showNotifications) {
+        prevInboxMails = _mails.inbox.keys.toSet();
       }
 
       Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
@@ -92,8 +99,19 @@ class MailService implements SyncableService {
 
       _mails = MailCollection(inbox: inbox, sent: sent);
 
+      // show notifications
+      if (showNotifications) {
+        List<MailMessage> newMails = _mails.inbox.values
+            .where((mail) => !prevInboxMails.contains(mail.uid))
+            .toList();
+
+        if (newMails.isNotEmpty) {
+          NotificationService.createInstance().showNewMail(newMails);
+        }
+      }
+
       final now = DateTime.now();
-      PersistentService.instance.setMails(DataWithTimestamp(data: _mails, timestamp: now));
+      await PersistentService.instance.setMails(DataWithTimestamp(data: _mails, timestamp: now));
       _lastUpdate = DateTime.now();
       print(' -> Mails updated (${now.difference(start)})');
     } else {

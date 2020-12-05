@@ -72,8 +72,11 @@ class MailFacade {
           fetchSequence.add(id); // add to fetch list (will be fetched in the next step)
       });
 
-      if (fetchSequence.isEmpty())
+      print(' -> Provided ${existing.length} cached mails, need to fetch ${fetchSequence.length}.');
+
+      if (fetchSequence.isEmpty()) {
         return resultMap; // all mails has already been fetched (no new mails)
+      }
 
       final fetchIdMap = Map<int, List<PartMetadata>>();
       final fetchResponse = await imapClient.uidFetchMessages(fetchSequence, '(BODYSTRUCTURE)');

@@ -105,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       await SettingsService.instance.loadFromStorage();
                       SettingsService.instance.setDevServer(devServer); // set value before the deletion
                       for (SyncableService service in SyncableService.services) {
-                        await service.sync(useNetwork: false);
+                        await service.sync(useNetwork: false, showNotifications: true);
                       }
                       nextFrame(() {
                         setScreen(context, () => WelcomeScreen());

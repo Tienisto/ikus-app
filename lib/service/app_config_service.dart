@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
@@ -24,7 +25,7 @@ class AppConfigService implements SyncableService {
   String getName() => t.sync.items.appConfig;
 
   @override
-  Future<void> sync({bool useNetwork, String useJSON}) async {
+  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'app-config',
       locale: LocaleSettings.currentLocale,

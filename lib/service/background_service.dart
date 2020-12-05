@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ikus_app/init.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 import 'package:workmanager/workmanager.dart';
 
 /// executes code in background
@@ -28,6 +29,7 @@ Future<void> backgroundTask(String taskId) async {
 
   await Init.init();
   await Init.postInit(appStart: false); // also syncing data and showing notifications
+  await PersistentService.instance.close(); // ensure that everything is committed
 }
 
 void workmanagerWrapper() {

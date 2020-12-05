@@ -64,7 +64,7 @@ class NotificationService {
         iOS: IOSNotificationDetails()
     );
 
-    final id = DateTime.now().millisecondsSinceEpoch;
+    final id = _getRandomId();
     if (mails.length == 1) {
       final mail = mails.first;
       final info = mail.subject;
@@ -90,5 +90,9 @@ class NotificationService {
       final context = MainScreen.mainScreenKey.currentState.context;
       pushScreen(context, screen);
     }
+  }
+
+  static int _getRandomId() {
+    return Random().nextInt(1000000);
   }
 }

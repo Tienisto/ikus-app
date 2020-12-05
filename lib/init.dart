@@ -176,7 +176,11 @@ class Init {
     for (SyncableService service in fetchList) {
       String useJSON = batchResult[service];
       print(' -> ${service.getName().padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}');
-      await service.sync(useNetwork: true, useJSON: useJSON); // useNetwork must be true, e.g. handbook
+      await service.sync(
+          useNetwork: true, // useNetwork must be true, e.g. handbook
+          useJSON: useJSON,
+          showNotifications: true
+      );
     }
 
     DateTime after = DateTime.now();
