@@ -278,9 +278,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "8783ff303626c14f1e444e2a343c79d05aed3766"
-      url: "git@github.com:Tienisto/enough_mail.git"
+      ref: "26a10fab50e938a787714194ee0d970810768b0a"
+      resolved-ref: "26a10fab50e938a787714194ee0d970810768b0a"
+      url: "git@github.com:Enough-Software/enough_mail.git"
     source: git
     version: "0.0.34"
   enough_serialization:
