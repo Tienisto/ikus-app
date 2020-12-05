@@ -104,9 +104,10 @@ class _MailScreenState extends State<MailScreen> {
     if (widget.openUid != null) {
       final inbox = MailService.instance.getMailsInbox();
       final mail = inbox.firstWhere((m) => m.uid == widget.openUid, orElse: () => null);
-      await sleep(1000); // wait for initialization
       if (mail != null) {
-        pushScreen(context, () => getMailMessageScreen(mail));
+        nextFrame(() {
+          pushScreen(context, () => getMailMessageScreen(mail));
+        });
       }
     }
   }

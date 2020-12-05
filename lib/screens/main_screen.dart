@@ -61,11 +61,12 @@ class _MainScreenState extends State<MainScreen> {
     _page = 0;
     tutorialMode = widget.tutorial;
     currTutorialStep = 0;
-    showNeedUpdateIfNeeded().whenComplete(() {
-      if (widget.screen != null) {
+    if (widget.screen != null) {
+      nextFrame(() {
         pushScreen(context, widget.screen);
-      }
-    });
+      });
+    }
+    showNeedUpdateIfNeeded();
   }
 
   Future<void> showNeedUpdateIfNeeded() async {
