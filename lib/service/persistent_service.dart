@@ -225,8 +225,7 @@ class PersistentService {
     final box = await _openBoxSafely<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
     await box.add(task);
     if (box.length > 100) {
-      List keys = box.keys.toList();
-      await box.deleteAll(keys.sublist(0, (keys.length / 2).ceil()));
+      _sliceHalf(box);
       print('Hive: background task box compressed');
     }
     await box.close();
@@ -238,9 +237,16 @@ class PersistentService {
     return errors;
   }
 
-  Future<void> addError(LogError error) async {
+  Future<void> logError(String message, String stacktrace) async {
+    final error = LogError()
+      ..timestamp = DateTime.now()
+      ..message = message
+      ..stacktrace = stacktrace;
     final box = Hive.box<LogError>(_BOX_LOGS_ERROR);
     await box.add(error);
+    if (box.length > 10) {
+      _sliceHalf(box);
+    }
   }
 
   /// closes all boxes
@@ -260,14 +266,15 @@ class PersistentService {
         if (e is Error) {
           stacktrace = e.stackTrace?.toString();
         }
-        final error = LogError()
-          ..timestamp = DateTime.now()
-          ..message = e.toString()
-          ..stacktrace = stacktrace;
-        await addError(error);
+        await logError(e.toString(), stacktrace);
       }
       await Hive.deleteBoxFromDisk(boxName);
       return await Hive.openBox<T>(boxName);
     }
+  }
+
+  Future<void> _sliceHalf(Box box) async {
+    List keys = box.keys.toList();
+    await box.deleteAll(keys.sublist(0, (keys.length / 2).ceil()));
   }
 }

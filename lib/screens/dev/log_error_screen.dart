@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 class LogErrorScreen extends StatelessWidget {
 
   static DateFormat _formatter = DateFormat("dd.MM.yyyy, HH:mm");
-  final List<LogError> errors = PersistentService.instance.getErrors();
+  final List<LogError> errors = PersistentService.instance.getErrors().reversed.toList();
 
   @override
   Widget build(BuildContext context) {

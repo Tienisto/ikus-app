@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
 import 'package:ikus_app/service/orientation_service.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/globals.dart';
@@ -14,7 +17,19 @@ void main() async {
   final app = TranslationProvider(
     child: IkusApp(screen: openScreen)
   );
-  runApp(app);
+
+  runZoned<Future<void>>(() async {
+    runApp(app);
+  }, onError: (error, stackTrace) {
+    print('ERROR: $error');
+    print(stackTrace);
+    PersistentService.instance.logError(error.toString(), stackTrace?.toString());
+  });
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    PersistentService.instance.logError(details.exception.toString(), details.stack?.toString());
+    FlutterError.presentError(details);
+  };
 }
 
 class IkusApp extends StatefulWidget {
