@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -36,14 +37,14 @@ class PersistentService {
   /// must be called before first hive access
   Future<void> initHive() async {
     await Hive.initFlutter();
-    await Hive.openBox(_BOX_DEVICE_ID);
-    await Hive.openBox(_BOX_SETTINGS);
-    await Hive.openBox<DateTime>(_BOX_LAST_SYNC);
-    await Hive.openBox<String>(_BOX_API_JSON);
-    await Hive.openBox<Uint8List>(_BOX_API_BINARY);
-    await Hive.openBox<String>(_BOX_MAILS_INBOX);
-    await Hive.openBox<String>(_BOX_MAILS_SENT);
-    await Hive.openBox(_BOX_MAILS_META);
+    await _openBoxSafely(_BOX_DEVICE_ID);
+    await _openBoxSafely(_BOX_SETTINGS);
+    await _openBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    await _openBoxSafely<String>(_BOX_API_JSON);
+    await _openBoxSafely<Uint8List>(_BOX_API_BINARY);
+    await _openBoxSafely<String>(_BOX_MAILS_INBOX);
+    await _openBoxSafely<String>(_BOX_MAILS_SENT);
+    await _openBoxSafely(_BOX_MAILS_META);
     Hive.registerAdapter(BackgroundTaskAdapter());
   }
 
@@ -211,27 +212,36 @@ class PersistentService {
   }
 
   Future<List<BackgroundTask>> getBackgroundTasks() async {
-    await Hive.openBox<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
-    List<BackgroundTask> tasks = Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).values.toList();
-    await Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).close();
+    final box = await _openBoxSafely<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
+    List<BackgroundTask> tasks = box.values.toList();
+    await box.close();
     return tasks;
   }
 
   Future<void> addBackgroundTask(BackgroundTask task) async {
-    await Hive.openBox<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
-    final box = Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
+    final box = await _openBoxSafely<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
     await box.add(task);
     if (box.length > 100) {
       List keys = box.keys.toList();
       await box.deleteAll(keys.sublist(0, (keys.length / 2).ceil()));
       print('Hive: background task box compressed');
     }
-    await Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).close();
+    await box.close();
   }
 
   /// closes all boxes
   Future<void> close() async {
     await Hive.close();
     print('Hive closed');
+  }
+
+  Future<Box<T>> _openBoxSafely<T>(String boxName) async {
+    try {
+      return await Hive.openBox<T>(boxName);
+    } catch (e) {
+      log(e);
+      await Hive.deleteBoxFromDisk(boxName);
+      return await Hive.openBox<T>(boxName);
+    }
   }
 }
