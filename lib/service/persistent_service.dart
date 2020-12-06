@@ -45,7 +45,6 @@ class PersistentService {
     await Hive.openBox<String>(_BOX_MAILS_SENT);
     await Hive.openBox(_BOX_MAILS_META);
     Hive.registerAdapter(BackgroundTaskAdapter());
-    await Hive.openBox<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
   }
 
   /// wipes all data except device id
@@ -211,18 +210,23 @@ class PersistentService {
     await Hive.box(_BOX_MAILS_META).clear();
   }
 
-  List<BackgroundTask> getBackgroundTasks() {
-    return Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).values.toList();
+  Future<List<BackgroundTask>> getBackgroundTasks() async {
+    await Hive.openBox<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
+    List<BackgroundTask> tasks = Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).values.toList();
+    await Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).close();
+    return tasks;
   }
 
   Future<void> addBackgroundTask(BackgroundTask task) async {
+    await Hive.openBox<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
     final box = Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK);
     await box.add(task);
-    if (box.length > 200) {
+    if (box.length > 100) {
       List keys = box.keys.toList();
       await box.deleteAll(keys.sublist(0, (keys.length / 2).ceil()));
       print('Hive: background task box compressed');
     }
+    await Hive.box<BackgroundTask>(_BOX_LOGS_BACKGROUND_TASK).close();
   }
 
   /// closes all boxes
