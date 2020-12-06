@@ -4,7 +4,8 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/screens/background_task_log_screen.dart';
+import 'package:ikus_app/screens/dev/background_task_log_screen.dart';
+import 'package:ikus_app/screens/dev/log_error_screen.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
@@ -42,6 +43,16 @@ class _DevScreenState extends State<DevScreen> {
                 });
               }
             ),
+          ),
+          SizedBox(height: 20),
+          SettingsItem(
+              left: 'Error log',
+              right: OvguButton(
+                callback: () {
+                  pushScreen(context, () => LogErrorScreen());
+                },
+                child: Icon(Icons.bug_report, color: Colors.white),
+              )
           ),
           SizedBox(height: 20),
           SettingsItem(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -8,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/local/background_task.dart';
+import 'package:ikus_app/model/local/log_error.dart';
 import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mensa_info.dart';
@@ -30,6 +30,7 @@ class PersistentService {
   static const String _BOX_MAILS_SENT = 'mails_sent'; // contains all mails (without attachments) as JSON
   static const String _BOX_MAILS_META = 'mails_meta'; // metadata for mails
   static const String _BOX_LOGS_BACKGROUND_TASK = 'logs_background_task'; // tracking background task events for debugging
+  static const String _BOX_LOGS_ERROR = 'logs_error'; // tracking errors for debugging
 
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
@@ -37,6 +38,9 @@ class PersistentService {
   /// must be called before first hive access
   Future<void> initHive() async {
     await Hive.initFlutter();
+    Hive.registerAdapter(BackgroundTaskAdapter());
+    Hive.registerAdapter(LogErrorAdapter());
+    await _openBoxSafely<LogError>(_BOX_LOGS_ERROR);
     await _openBoxSafely(_BOX_DEVICE_ID);
     await _openBoxSafely(_BOX_SETTINGS);
     await _openBoxSafely<DateTime>(_BOX_LAST_SYNC);
@@ -45,7 +49,6 @@ class PersistentService {
     await _openBoxSafely<String>(_BOX_MAILS_INBOX);
     await _openBoxSafely<String>(_BOX_MAILS_SENT);
     await _openBoxSafely(_BOX_MAILS_META);
-    Hive.registerAdapter(BackgroundTaskAdapter());
   }
 
   /// wipes all data except device id
@@ -229,6 +232,17 @@ class PersistentService {
     await box.close();
   }
 
+  List<LogError> getErrors() {
+    final box = Hive.box<LogError>(_BOX_LOGS_ERROR);
+    List<LogError> errors = box.values.toList();
+    return errors;
+  }
+
+  Future<void> addError(LogError error) async {
+    final box = Hive.box<LogError>(_BOX_LOGS_ERROR);
+    await box.add(error);
+  }
+
   /// closes all boxes
   Future<void> close() async {
     await Hive.close();
@@ -239,7 +253,19 @@ class PersistentService {
     try {
       return await Hive.openBox<T>(boxName);
     } catch (e) {
-      log(e);
+      print(e);
+      if (boxName != _BOX_LOGS_ERROR) {
+        // log error
+        String stacktrace;
+        if (e is Error) {
+          stacktrace = e.stackTrace?.toString();
+        }
+        final error = LogError()
+          ..timestamp = DateTime.now()
+          ..message = e.toString()
+          ..stacktrace = stacktrace;
+        await addError(error);
+      }
       await Hive.deleteBoxFromDisk(boxName);
       return await Hive.openBox<T>(boxName);
     }

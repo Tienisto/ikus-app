@@ -8,7 +8,7 @@ import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
 import 'package:ikus_app/screens/change_language_screen.dart';
-import 'package:ikus_app/screens/dev_screen.dart';
+import 'package:ikus_app/screens/dev/dev_screen.dart';
 import 'package:ikus_app/screens/ovgu_account_screen.dart';
 import 'package:ikus_app/screens/sync_screen.dart';
 import 'package:ikus_app/screens/welcome_screen.dart';
