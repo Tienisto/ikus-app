@@ -36,7 +36,16 @@ class Init {
     }
   }
 
+  /// similar to [preInit] but for background tasks
+  static Future<void> preInitBackground() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    //LocaleSettings.useDeviceLocale(); (not working yet, use locale from storage)
+    await initializeDateFormatting();
+  }
+
   /// runs before the first frame and after state initialization
+  /// - initialization of services using storage data
+  /// - no network traffic happen here
   static Future<void> init() async {
     await _initHive();
     await _initDeviceId();
@@ -45,6 +54,7 @@ class Init {
   }
 
   /// runs after the first frame
+  /// - network stuff like syncing data with API
   static Future<void> postInit({bool appStart = true, LogServiceSync logServiceSync}) async {
 
     await _syncAppConfig();
@@ -102,6 +112,10 @@ class Init {
     if (locale != null) {
       print(' -> use locale: $locale');
       LocaleSettings.setLocale(locale);
+    } else {
+      String deviceLocale = LocaleSettings.currentLocale;
+      print(' -> use default device locale: $deviceLocale');
+      SettingsService.instance.setLocale(deviceLocale);
     }
   }
 

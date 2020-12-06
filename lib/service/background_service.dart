@@ -29,6 +29,7 @@ class BackgroundService {
 Future<void> backgroundTask(String taskId, LogServiceSync logServiceSync) async {
   print('Running background task... ($taskId)');
 
+  await Init.preInitBackground();
   await Init.init();
   await Init.postInit(appStart: false, logServiceSync: logServiceSync); // also syncing data and showing notifications
 }
@@ -42,11 +43,12 @@ void workmanagerWrapper() {
     try {
       await backgroundTask(task, (List<String> t) => tasks = t);
       success = true;
-      return true;
     } catch (e) {
       message = e.toString();
-      return false;
-    } finally {
+      print(e);
+    }
+
+    try {
       final loggingTask = BackgroundTask()
         ..start = start
         ..end = DateTime.now()
@@ -55,6 +57,11 @@ void workmanagerWrapper() {
         ..services = tasks ?? [];
       await PersistentService.instance.addBackgroundTask(loggingTask);
       await PersistentService.instance.close(); // ensure that everything is committed
+    } catch (e) {
+      // this should not happen
+      print(e);
     }
+
+    return success;
   });
 }
