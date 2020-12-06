@@ -45,7 +45,7 @@ class _DevScreenState extends State<DevScreen> {
           ),
           SizedBox(height: 20),
           SettingsItem(
-              left: 'Show background tasks',
+              left: 'Background task log',
               right: OvguButton(
                 callback: () {
                   pushScreen(context, () => BackgroundTaskLogScreen());
@@ -55,7 +55,7 @@ class _DevScreenState extends State<DevScreen> {
           ),
           SizedBox(height: 20),
           SettingsItem(
-              left: 'Show tutorial',
+              left: 'Start tutorial',
               right: OvguButton(
                 callback: () {
                   setScreen(context, () => MainScreen(tutorial: true));
