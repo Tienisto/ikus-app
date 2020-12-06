@@ -141,7 +141,7 @@ class MailService implements SyncableService {
   }
 
   @override
-  Duration maxAge = Duration(minutes: 30);
+  Duration maxAge = Duration(minutes: 15);
 
   @override
   String batchKey; // not available in batch route
