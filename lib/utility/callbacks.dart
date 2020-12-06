@@ -14,7 +14,7 @@ typedef void SwitchCallback(SwitchState state);
 typedef void EventCallback(Event event);
 typedef void MailProgressCallback(int progress, int total);
 typedef void AddFutureCallback(FutureCallback callback);
-typedef void LogServiceSync(List<String> services);
+typedef void BackgroundSyncCallback(List<String> services, [String message]);
 typedef Future<void> FutureCallback();
 typedef Future<void> FutureWithContextCallback(BuildContext context);
 typedef Future<void> ChannelBooleanCallback(Channel channel, bool boolean);

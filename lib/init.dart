@@ -55,13 +55,22 @@ class Init {
 
   /// runs after the first frame
   /// - network stuff like syncing data with API
-  static Future<void> postInit({bool appStart = true, LogServiceSync logServiceSync}) async {
+  static Future<void> postInit({bool appStart = true, BackgroundSyncCallback backgroundSyncCallback}) async {
 
     await _syncAppConfig();
 
     if (!AppConfigService.instance.isCompatibleWithApi()) {
       _postInitFinished = true;
-      print('post init finished (skip app start and update old data)');
+      print('post init finished (skip "app start" and "update old data")');
+      return;
+    }
+
+    if (ApiService.usedNetworkOnLastJSONFetch == false) {
+      _postInitFinished = true;
+      print('post init finished (no network)');
+      if (backgroundSyncCallback != null) {
+        backgroundSyncCallback([], 'No network');
+      }
       return;
     }
 
@@ -69,7 +78,7 @@ class Init {
       await _appStart();
     }
 
-    await _updateOldData(logServiceSync);
+    await _updateOldData(backgroundSyncCallback);
     _postInitFinished = true;
     print('post init finished');
   }
@@ -140,7 +149,7 @@ class Init {
   }
 
   /// update old data based on maxAge
-  static Future<void> _updateOldData(LogServiceSync logServiceSync) async {
+  static Future<void> _updateOldData(BackgroundSyncCallback backgroundSyncCallback) async {
 
     print('[3 / 3] check if old data needs to be refetched');
 
@@ -165,8 +174,8 @@ class Init {
       }
     }
 
-    if (logServiceSync != null) {
-      logServiceSync(fetchList.map((s) => s.id).toList());
+    if (backgroundSyncCallback != null) {
+      backgroundSyncCallback(fetchList.map((s) => s.id).toList());
     }
 
     // batch fetch

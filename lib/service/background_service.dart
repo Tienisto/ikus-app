@@ -26,12 +26,12 @@ class BackgroundService {
   }
 }
 
-Future<void> backgroundTask(String taskId, LogServiceSync logServiceSync) async {
+Future<void> backgroundTask(String taskId, BackgroundSyncCallback logServiceSync) async {
   print('Running background task... ($taskId)');
 
   await Init.preInitBackground();
   await Init.init();
-  await Init.postInit(appStart: false, logServiceSync: logServiceSync); // also syncing data and showing notifications
+  await Init.postInit(appStart: false, backgroundSyncCallback: logServiceSync); // also syncing data and showing notifications
 }
 
 void workmanagerWrapper() {
@@ -41,7 +41,10 @@ void workmanagerWrapper() {
     String message;
     List<String> tasks;
     try {
-      await backgroundTask(task, (List<String> t) => tasks = t);
+      await backgroundTask(task, (List<String> t, [String m]) {
+        tasks = t;
+        message = m;
+      });
       success = true;
     } catch (e) {
       message = e.toString();

@@ -20,6 +20,9 @@ class ApiService {
   static final DateTime FALLBACK_TIME = DateTime(2020, 8, 1);
   static final DateFormat _lastModifiedFormatter = DateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", 'en');
 
+  /// true if last [getCacheOrFetchString] used internet connection
+  static bool usedNetworkOnLastJSONFetch;
+
   static String getFileUrl(String fileName) {
     return '$URL/file/$fileName';
   }
@@ -67,7 +70,11 @@ class ApiService {
       try {
         response = await get('$URL/$route?locale=${locale.toUpperCase()}');
         print('[${response.statusCode}] $route');
-      } catch (_) {
+        usedNetworkOnLastJSONFetch = true;
+      } catch (e) {
+        if (e is SocketException) {
+          usedNetworkOnLastJSONFetch = false;
+        }
         print('failed to fetch $route');
       }
     }
