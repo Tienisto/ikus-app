@@ -27,17 +27,7 @@ class BackgroundTaskLogCard extends StatelessWidget {
   }
 
   String durationToStringShort(Duration duration) {
-    return '${duration.inSeconds}s ${duration.inMilliseconds.remainder(1000)}ms';
-  }
-
-  String durationToStringVerbose(Duration duration) {
-    int minutes = duration.inMinutes;
-    int seconds = duration.inSeconds.remainder(60);
-    int millis = duration.inMilliseconds.remainder(1000);
-    String minuteString = minutes == 1 ? 'minute' : 'minutes';
-    String secondsString = seconds == 1 ? 'second' : 'seconds';
-    String millisString = millis == 1 ? 'millisecond' : 'milliseconds';
-    return '$minutes $minuteString, $seconds $secondsString, $millis $millisString';
+    return '${duration.inSeconds} s ${duration.inMilliseconds % 1000} ms';
   }
 
   @override
@@ -63,10 +53,6 @@ class BackgroundTaskLogCard extends StatelessWidget {
             Text('Timestamp:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 5),
             Text(timestampToStringVerbose(task.start, task.end), style: TextStyle(fontSize: 16)),
-            SizedBox(height: 15),
-            Text('Duration:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            SizedBox(height: 5),
-            Text(durationToStringVerbose(duration), style: TextStyle(fontSize: 16)),
             SizedBox(height: 15),
             Text('Synchronized Services:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 5),
