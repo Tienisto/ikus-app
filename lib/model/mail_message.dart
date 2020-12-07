@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 
 class MailMessage {
 
   static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
+  static DateFormat _timeFormatterDe = DateFormat("HH:mm");
+  static DateFormat _timeFormatterEn = DateFormat("h:mm a");
 
   final int uid;
   final String from;
@@ -18,7 +21,15 @@ class MailMessage {
   MailMessage({@required this.uid, @required this.from, @required this.to, @required this.cc, @required this.timestamp, @required this.subject, @required this.contentPlain, @required this.contentHtml});
 
   String get formattedTimestamp {
-    return _dateFormatter.format(timestamp);
+    final today = DateTime.now();
+    if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
+      if (LocaleSettings.currentLocale == 'en')
+        return _timeFormatterEn.format(timestamp);
+      else
+        return _timeFormatterDe.format(timestamp);
+    } else {
+      return _dateFormatter.format(timestamp);
+    }
   }
 
   static MailMessage fromMap(Map<String, dynamic> map) {
