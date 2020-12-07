@@ -6,6 +6,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/components/popups/mail_delete_popup.dart';
+import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
@@ -87,7 +88,9 @@ class MailMessageScreen extends StatelessWidget {
                 child: OvguButton(
                   flat: true,
                   padding: EdgeInsets.only(left: 10),
-                  callback: onReply,
+                  callback: () {
+                    WipPopup.open(context);
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.attach_file),
