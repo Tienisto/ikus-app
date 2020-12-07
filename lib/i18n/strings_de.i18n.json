@@ -275,6 +275,12 @@
       "delete": "Löschen",
       "cancel": "Abbrechen"
     },
+    "mailPeople": {
+      "title": "Personen",
+      "from": "Von",
+      "to": "An",
+      "cc": "CC"
+    },
     "mensaOpeningHours": {
       "title": "Öffnungszeiten"
     },

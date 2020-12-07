@@ -6,6 +6,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/components/popups/mail_delete_popup.dart';
+import 'package:ikus_app/components/popups/mail_people_popup.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
@@ -99,7 +100,25 @@ class MailMessageScreen extends StatelessWidget {
                     ],
                   )
                 ),
-              )
+              ),
+              if (mail.cc.isNotEmpty)
+                SizedBox(
+                  width: 70,
+                  child: OvguButton(
+                    flat: true,
+                    padding: EdgeInsets.only(left: 10),
+                    callback: () {
+                      MailPeoplePopup.open(context: context, mail: mail);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.people),
+                        SizedBox(width: 5),
+                        Text((mail.cc.length + 1).toString(), style: TextStyle(fontSize: 16))
+                      ],
+                    )
+                  ),
+                )
             ],
           ),
           SizedBox(height: 30),

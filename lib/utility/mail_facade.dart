@@ -135,11 +135,18 @@ class MailFacade {
             }
           }
 
+          List<String> toList = mailResponse.to.map((m) => m.email).toList();
+          String to = toList.firstWhere((t) => true, orElse: () => 'unknown');
+          List<String> cc = mailResponse.cc.map((m) => m.email).toList();
+          if (toList.length > 1) {
+            cc = [...toList.sublist(1), ...cc];
+          }
+
           resultMap[uid] = MailMessage(
             uid: uid,
             from: mailResponse.fromEmail ?? 'unknown',
-            to: mailResponse.to.map((m) => m.email).firstWhere((m) => true, orElse: () => 'unknown'),
-            cc: mailResponse.cc.map((m) => m.email).toList(),
+            to: to,
+            cc: cc,
             timestamp: mailResponse.decodeDate()?.toLocal() ?? ApiService.FALLBACK_TIME,
             subject: mailResponse.decodeSubject(),
             contentPlain: plain,
@@ -249,13 +256,6 @@ class MailFacade {
       case MediaSubtype.textHtml: return PartType.HTML;
       default: return PartType.OTHER;
     }
-  }
-
-  /// takes the last 2 parts of the mail address (ignoring personal name for now)
-  static List<String> getMailAddress(List<List<String>> raw) {
-    if (raw == null)
-      return [];
-    return raw.map((address) => address[address.length - 2] + '@' + address.last).toList();
   }
 
   static Future<ImapClient> getImapClient({@required String name, @required String password}) async {
