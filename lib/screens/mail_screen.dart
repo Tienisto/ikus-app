@@ -141,7 +141,7 @@ class _MailScreenState extends State<MailScreen> {
     String content;
     if (reply != null) {
       String plain = reply.getPlainOrParseHtml();
-      content = '\n> ${t.mails.replyPrefix}${reply.from}:\n>\n> '+plain.split('\n').join('\n> ');
+      content = '\n\n> ${t.mails.replyPrefix}${reply.from}:\n>\n> '+plain.split('\n').join('\n> ');
     }
     await pushScreen(context, () => MailSendScreen(
       onSend: () => sent = true,
