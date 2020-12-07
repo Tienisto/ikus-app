@@ -201,9 +201,9 @@ class PersistentService {
     final mailsInbox = data.data.inbox.map((key, value) => MapEntry(key, json.encode(value.toMap())));
     final mailsSent = data.data.sent.map((key, value) => MapEntry(key, json.encode(value.toMap())));
 
-    final boxInbox = await _openBoxSafely<String>(_BOX_MAILS_INBOX);
-    final boxSent = await _openBoxSafely<String>(_BOX_MAILS_SENT);
-    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
+    final boxInbox = await _openLazyBoxSafely<String>(_BOX_MAILS_INBOX);
+    final boxSent = await _openLazyBoxSafely<String>(_BOX_MAILS_SENT);
+    final boxMeta = await _openLazyBoxSafely(_BOX_MAILS_META);
 
     await boxInbox.clear();
     await boxInbox.putAll(mailsInbox);
@@ -219,12 +219,12 @@ class PersistentService {
   }
 
   Future<void> deleteMailCache() async {
-    final boxInbox = await _openBoxSafely<String>(_BOX_MAILS_INBOX);
-    final boxSent = await _openBoxSafely<String>(_BOX_MAILS_SENT);
-    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
-    await Hive.box<String>(_BOX_MAILS_INBOX).clear();
-    await Hive.box<String>(_BOX_MAILS_SENT).clear();
-    await Hive.box(_BOX_MAILS_META).clear();
+    final boxInbox = await _openLazyBoxSafely<String>(_BOX_MAILS_INBOX);
+    final boxSent = await _openLazyBoxSafely<String>(_BOX_MAILS_SENT);
+    final boxMeta = await _openLazyBoxSafely(_BOX_MAILS_META);
+    await boxInbox.clear();
+    await boxSent.clear();
+    await boxMeta.clear();
     await boxInbox.close();
     await boxSent.close();
     await boxMeta.close();
@@ -275,18 +275,33 @@ class PersistentService {
     try {
       return await Hive.openBox<T>(boxName);
     } catch (e) {
-      print(e);
-      if (boxName != _BOX_LOGS_ERROR) {
-        // log error
-        String stacktrace;
-        if (e is Error) {
-          stacktrace = e.stackTrace?.toString();
-        }
-        await logError(e.toString(), stacktrace);
-      }
-      await Hive.deleteBoxFromDisk(boxName);
+      await _handleOpenBoxError(boxName, e);
       return await Hive.openBox<T>(boxName);
     }
+  }
+
+  Future<LazyBox<T>> _openLazyBoxSafely<T>(String boxName) async {
+    try {
+      return await Hive.openLazyBox<T>(boxName);
+    } catch (e) {
+      await _handleOpenBoxError(boxName, e);
+      return await Hive.openLazyBox<T>(boxName);
+    }
+  }
+
+  /// write entry to error log box
+  /// delete contents of failed box
+  Future<void> _handleOpenBoxError(String boxName, e) async {
+    print(e);
+    if (boxName != _BOX_LOGS_ERROR) {
+      // log error
+      String stacktrace;
+      if (e is Error) {
+        stacktrace = e.stackTrace?.toString();
+      }
+      await logError(e.toString(), stacktrace);
+    }
+    await Hive.deleteBoxFromDisk(boxName);
   }
 
   Future<void> _sliceHalf(Box box) async {
