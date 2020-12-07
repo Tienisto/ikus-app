@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/foundation.dart';
@@ -137,7 +136,6 @@ class MailFacade {
             }
           }
 
-          String preview = (plain?.substring(0, math.min(plain.length, 100))?.replaceAll('\r\n', ' ') ?? '') + '...';
           resultMap[uid] = MailMessage(
             uid: uid,
             from: mailResponse.fromEmail ?? 'unknown',
@@ -145,8 +143,8 @@ class MailFacade {
             cc: mailResponse.cc.map((m) => m.email).toList(),
             timestamp: mailResponse.decodeDate()?.toLocal() ?? ApiService.FALLBACK_TIME,
             subject: mailResponse.decodeSubject(),
-            preview: preview,
-            content: html ?? plain?.replaceAll('\r\n', '<br>') ?? ''
+            contentPlain: plain,
+            contentHtml: html
           );
 
         } catch (e) {

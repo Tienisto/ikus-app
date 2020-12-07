@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
 class MailMessage {
@@ -11,10 +12,10 @@ class MailMessage {
   final List<String> cc;
   final DateTime timestamp;
   final String subject;
-  final String preview;
-  final String content;
+  final String contentPlain;
+  final String contentHtml;
 
-  MailMessage({@required this.uid, @required this.from, @required this.to, @required this.cc, @required this.timestamp, @required this.subject, @required this.preview, @required this.content});
+  MailMessage({@required this.uid, @required this.from, @required this.to, @required this.cc, @required this.timestamp, @required this.subject, @required this.contentPlain, @required this.contentHtml});
 
   String get formattedTimestamp {
     return _dateFormatter.format(timestamp);
@@ -28,8 +29,8 @@ class MailMessage {
       cc: map['cc'].cast<String>(),
       timestamp: DateTime.parse(map['timestamp']).toLocal(),
       subject: map['subject'],
-      preview: map['preview'],
-      content: map['content']
+      contentPlain: map['contentPlain'],
+      contentHtml: map['contentHtml'] ?? map['content'] // fallback to content for legacy reasons
     );
   }
 
@@ -41,9 +42,19 @@ class MailMessage {
       'cc': cc,
       'timestamp': timestamp.toIso8601String(),
       'subject': subject,
-      'preview': preview,
-      'content': content
+      'contentPlain': contentPlain,
+      'contentHtml': contentHtml
     };
+  }
+
+  String getPlainOrParseHtml() {
+    if (contentPlain != null)
+      return contentPlain;
+
+    // fallback to html parsing
+    final raw = contentHtml.replaceAll('<br>', '\n');
+    final document = parse(raw);
+    return parse(document.body.text).documentElement.text;
   }
 
   @override

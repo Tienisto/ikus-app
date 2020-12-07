@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card_with_header.dart';
 import 'package:ikus_app/model/mail_message.dart';
@@ -12,6 +14,16 @@ class MailCard extends StatelessWidget {
 
   const MailCard({@required this.mail, @required this.mailbox, @required this.callback});
 
+  String getPreview(MailMessage mail) {
+    final plain = mail.getPlainOrParseHtml();
+    final length = plain.length;
+    String preview = plain.substring(0, min(length, 100)).replaceAll('\n', ' ').replaceAll('\r\n', ' ');
+    if (length > 100) {
+      preview += '...';
+    }
+    return preview;
+  }
+
   @override
   Widget build(BuildContext context) {
     return OvguCardWithHeader(
@@ -25,7 +37,7 @@ class MailCard extends StatelessWidget {
           children: [
             Text(mail.subject, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
-            Text(mail.preview),
+            Text(getPreview(mail)),
           ],
         ),
       )

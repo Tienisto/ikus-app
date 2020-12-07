@@ -102,7 +102,7 @@ class MailMessageScreen extends StatelessWidget {
           SizedBox(height: 30),
           HtmlView(
             padding: EdgeInsets.symmetric(horizontal: 12),
-            html: mail.content
+            html: mail.contentHtml ?? mail.contentPlain.replaceAll('\n', '<br>')
           ),
           SizedBox(height: 50)
         ],

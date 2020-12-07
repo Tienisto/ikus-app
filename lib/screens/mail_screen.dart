@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
 import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
@@ -141,9 +140,7 @@ class _MailScreenState extends State<MailScreen> {
     bool sent = false;
     String content;
     if (reply != null) {
-      final raw = reply.content.replaceAll('<br>', '\n');
-      final document = parse(raw);
-      final plain = parse(document.body.text).documentElement.text;
+      String plain = reply.getPlainOrParseHtml();
       content = '\n> ${t.mails.replyPrefix}${reply.from}:\n>\n> '+plain.split('\n').join('\n> ');
     }
     await pushScreen(context, () => MailSendScreen(
