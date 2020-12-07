@@ -45,7 +45,6 @@ class MailFacade {
 
   /// Fetches mails younger than [MAILS_YOUNGER_THAN].
   /// Use existing mails to reduce fetch amount
-  /// Using imap_client package for now because enough_mail cannot parse BODY[1.2.3] queries
   static Future<Map<int, MailMessage>> fetchMessages({@required MailboxType mailbox, @required String name, @required String password, @required Map<int, MailMessage> existing, MailProgressCallback progressCallback}) async {
     try {
       final imapClient = await getImapClient(name: name, password: password);
