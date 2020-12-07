@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,7 @@ class PartMetadata {
 
 class MailFacade {
 
+  static const String LOG_NAME = 'Mail';
   static const Duration MAILS_YOUNGER_THAN = Duration(days: 90);
   static const String MAILBOX_PATH_INBOX = "INBOX";
   static const String MAILBOX_PATH_SEND = "INBOX.Sent";
@@ -37,7 +39,7 @@ class MailFacade {
       await client.closeConnection();
       return ok;
     } catch (e) {
-      print(e);
+      log(e.toString(), error: e, name: LOG_NAME);
       return false;
     }
   }
@@ -70,7 +72,7 @@ class MailFacade {
           fetchSequence.add(id); // add to fetch list (will be fetched in the next step)
       });
 
-      print(' -> Provided ${existing.length} cached mails, need to fetch ${fetchSequence.length}.');
+      log(' -> Provided ${existing.length} cached mails, need to fetch ${fetchSequence.length}.', name: LOG_NAME);
 
       if (fetchSequence.isEmpty()) {
         return resultMap; // all mails has already been fetched (no new mails)
@@ -135,7 +137,7 @@ class MailFacade {
             }
           }
 
-          String preview = (plain?.substring(0, min(plain.length, 100))?.replaceAll('\r\n', ' ') ?? '') + '...';
+          String preview = (plain?.substring(0, math.min(plain.length, 100))?.replaceAll('\r\n', ' ') ?? '') + '...';
           resultMap[uid] = MailMessage(
             uid: uid,
             from: mailResponse.fromEmail ?? 'unknown',
@@ -149,21 +151,21 @@ class MailFacade {
 
         } catch (e) {
           errors++;
-          print('error: $e');
+          log(e.toString(), error: e, name: LOG_NAME);
         }
       }
 
       try {
         await imapClient.closeConnection();
       } catch (e) {
-        print(' -> IMAP logout failed');
+        log(' -> IMAP logout failed', name: LOG_NAME);
       }
 
-      print(' -> Fetched ($errors errors / ${fetchIdMap.length} total)');
+      log(' -> Fetched ($errors errors / ${fetchIdMap.length} total)', name: LOG_NAME);
 
       return resultMap;
     } catch (e) {
-      print(e);
+      log(e.toString(), error: e, name: LOG_NAME);
       return null;
     }
   }
@@ -224,7 +226,7 @@ class MailFacade {
 
       return true;
     } catch (e) {
-      print(e);
+      log(e.toString(), error: e, name: LOG_NAME);
       return false;
     }
   }

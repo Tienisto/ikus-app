@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/animations/smart_animation.dart';
@@ -22,6 +24,7 @@ class MensaScreen extends StatefulWidget {
 
 class _MensaScreenState extends State<MensaScreen> {
 
+  static const String LOG_NAME = 'Mensa';
   static DateFormat _lastUpdateFormatter = DateFormat("dd.MM.yyyy, HH:mm");
   static DateFormat _lastUpdateFormatterTimeOnly = DateFormat("HH:mm");
   static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
@@ -44,7 +47,7 @@ class _MensaScreenState extends State<MensaScreen> {
     if (index == -1)
       index = 0;
     else
-      print('[storage] use last mensa: $lastMensa');
+      log('use last mensa: $lastMensa', name: LOG_NAME);
 
     Duration durationNotUpdated = DateTime.now().difference(MensaService.instance.getLastUpdate());
     if (durationNotUpdated > Duration(minutes: 15)) {

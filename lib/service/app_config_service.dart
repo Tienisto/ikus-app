@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:ikus_app/service/settings_service.dart';
@@ -13,6 +14,7 @@ import 'package:ikus_app/service/syncable_service.dart';
 class AppConfigService implements SyncableService {
 
   static const int API_VERSION = 1;
+  static const String LOG_NAME = 'AppConfig';
   static final AppConfigService _instance = AppConfigService();
   static AppConfigService get instance => _instance;
 
@@ -45,10 +47,10 @@ class AppConfigService implements SyncableService {
 
     if (API_VERSION < apiLevel) {
       _compatibleWithApi = false;
-      print(' -> App is not compatible with API ($API_VERSION < $apiLevel)');
-    } else {
+      log(' -> App is not compatible with API ($API_VERSION < $apiLevel)', name: LOG_NAME);
+    } else if (useNetwork) {
       _compatibleWithApi = true;
-      print(' -> API level OK ($API_VERSION >= $apiLevel)');
+      log(' -> API level OK ($API_VERSION >= $apiLevel)', name: LOG_NAME);
     }
 
     List<dynamic> featureList = map["features"];
@@ -63,7 +65,7 @@ class AppConfigService implements SyncableService {
     List<int> favoriteIds = SettingsService.instance.getFavorites();
     _favoriteFeatures = _features.where((feature) => favoriteIds.any((id) => feature.id == id)).toList();
     if (_lastUpdate == ApiService.FALLBACK_TIME) {
-      print(' -> first app config fetch ($_lastUpdate) -> use recommended favorites');
+      log(' -> first app config fetch ($_lastUpdate) -> use recommended favorites', name: LOG_NAME);
       useRecommendedFavorites();
     }
 

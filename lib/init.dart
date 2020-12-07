@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -17,6 +18,8 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 class Init {
+
+  static const String LOG_NAME = 'Init';
   static final DateFormat _lastModifiedFormatter = DateFormat("dd.MM.yyyy HH:mm:ss");
   static bool _postInitFinished = false;
   static bool get postInitFinished => _postInitFinished;
@@ -51,6 +54,7 @@ class Init {
     await _initDeviceId();
     await _initLocalSettings();
     await _initLocalApiCache();
+    log('Done.', name: LOG_NAME);
   }
 
   /// runs after the first frame
@@ -61,13 +65,13 @@ class Init {
 
     if (!AppConfigService.instance.isCompatibleWithApi()) {
       _postInitFinished = true;
-      print('post init finished (skip "app start" and "update old data")');
+      log('post init finished (skip "app start" and "update old data")', name: LOG_NAME);
       return;
     }
 
     if (ApiService.usedNetworkOnLastJSONFetch == false) {
       _postInitFinished = true;
-      print('post init finished (no network)');
+      log('post init finished (no network)', name: LOG_NAME);
       if (backgroundSyncCallback != null) {
         backgroundSyncCallback([], 'No network');
       }
@@ -80,7 +84,7 @@ class Init {
 
     await _updateOldData(backgroundSyncCallback);
     _postInitFinished = true;
-    print('post init finished');
+    log('post init finished', name: LOG_NAME);
   }
 
   /// waits until postInit finished
@@ -92,18 +96,18 @@ class Init {
 
   /// initializes hive boxes
   static Future<void> _initHive() async {
-    print('[1 / 4] init local storage (hive)');
+    log('[1 / 4] init local storage (hive)', name: LOG_NAME);
     await PersistentService.instance.initHive();
   }
 
   /// initialize the device id if needed
   static Future<void> _initDeviceId() async {
-    print('[2 / 4] init device id');
+    log('[2 / 4] init device id', name: LOG_NAME);
     String deviceId = PersistentService.instance.getDeviceId();
     if (deviceId == null) {
       // initialize
       deviceId = Uuid().v4();
-      print(' -> set device id: $deviceId');
+      log(' -> set device id: $deviceId', name: LOG_NAME);
       await PersistentService.instance.setDeviceId(deviceId);
     }
   }
@@ -111,7 +115,7 @@ class Init {
   /// initializes the settings
   static Future<void> _initLocalSettings() async {
 
-    print('[3 / 4] init settings');
+    log('[3 / 4] init settings', name: LOG_NAME);
 
     // init settings
     await SettingsService.instance.loadFromStorage();
@@ -119,18 +123,18 @@ class Init {
     // set locale
     String locale = SettingsService.instance.getLocale();
     if (locale != null) {
-      print(' -> use locale: $locale');
+      log(' -> use locale: $locale', name: LOG_NAME);
       LocaleSettings.setLocale(locale);
     } else {
       String deviceLocale = LocaleSettings.currentLocale;
-      print(' -> use default device locale: $deviceLocale');
+      log(' -> use default device locale: $deviceLocale', name: LOG_NAME);
       SettingsService.instance.setLocale(deviceLocale);
     }
   }
 
   /// initializes every syncable service with the data from local storage
   static Future<void> _initLocalApiCache() async {
-    print('[4 / 4] init api cache');
+    log('[4 / 4] init api cache', name: LOG_NAME);
     List<SyncableService> services = SyncableService.services;
     for(SyncableService service in services) {
       await service.sync(useNetwork: false);
@@ -138,20 +142,20 @@ class Init {
   }
 
   static Future<void> _syncAppConfig() async {
-    print('[1 / 3] sync app config');
+    log('[1 / 3] sync app config', name: LOG_NAME);
     await AppConfigService.instance.sync(useNetwork: true);
   }
 
   /// sends app start signal to server
   static Future<void> _appStart() async {
-    print('[2 / 3] app start');
+    log('[2 / 3] app start', name: LOG_NAME);
     await ApiService.appStart();
   }
 
   /// update old data based on maxAge
   static Future<void> _updateOldData(BackgroundSyncCallback backgroundSyncCallback) async {
 
-    print('[3 / 3] check if old data needs to be refetched');
+    log('[3 / 3] check if old data needs to be refetched', name: LOG_NAME);
 
     // not on the first start
     if (SettingsService.instance.getWelcome())
@@ -162,15 +166,15 @@ class Init {
     Map<SyncableService, String> batchResult = Map();
 
     // prepare outdated services
-    print(' -> (1/4) check outdated');
+    log(' -> (1/4) check outdated', name: LOG_NAME);
     for (SyncableService service in SyncableService.servicesWithoutAppConfig) {
       Duration age = now.difference(service.getLastUpdate());
       String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
       if (age >= service.maxAge) {
-        print(' -> ${service.id.padRight(18)}: $lastUpdateString ($age >= ${service.maxAge}) -> fetch');
+        log(' -> ${service.id.padRight(18)}: $lastUpdateString ($age >= ${service.maxAge}) -> fetch', name: LOG_NAME);
         fetchList.add(service);
       } else {
-        print(' -> ${service.id.padRight(18)}: $lastUpdateString ($age < ${service.maxAge}) -> up-to-date');
+        log(' -> ${service.id.padRight(18)}: $lastUpdateString ($age < ${service.maxAge}) -> up-to-date', name: LOG_NAME);
       }
     }
 
@@ -184,7 +188,7 @@ class Init {
         .map((service) => service.batchKey)
         .toList();
     if (routes.isNotEmpty) {
-      print(' -> (2/4) fetch batch route');
+      log(' -> (2/4) fetch batch route', name: LOG_NAME);
       String response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale, routes: routes);
       if (response != null) {
         Map<String, dynamic> parsed = json.decode(response);
@@ -196,15 +200,15 @@ class Init {
         }
       }
     } else {
-      print(' -> (2/4) no compatible batch service found');
+      log(' -> (2/4) no compatible batch service found', name: LOG_NAME);
     }
 
     // apply fetch list with batch data
-    print(' -> (3/4) sync');
+    log(' -> (3/4) sync', name: LOG_NAME);
     List<FutureCallback> postSyncTasks = List();
     for (SyncableService service in fetchList) {
       String useJSON = batchResult[service];
-      print(' -> ${service.id.padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}');
+      log(' -> ${service.id.padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}', name: LOG_NAME);
       await service.sync(
         useNetwork: true, // useNetwork must be true, e.g. handbook
         useJSON: useJSON,
@@ -214,12 +218,12 @@ class Init {
     }
 
     // post sync (e.g. show notifications)
-    print(' -> (4/4) post sync (e.g. notifications)');
+    log(' -> (4/4) post sync (e.g. notifications)', name: LOG_NAME);
     for (FutureCallback postSyncTask in postSyncTasks) {
       await postSyncTask();
     }
 
     DateTime after = DateTime.now();
-    print(' -> update old data step took ${after.difference(now)}');
+    log(' -> update old data step took ${after.difference(now)}', name: LOG_NAME);
   }
 }

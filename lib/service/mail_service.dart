@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
@@ -16,6 +18,7 @@ import 'package:ikus_app/utility/mail_facade.dart';
 
 class MailService implements SyncableService {
 
+  static const String LOG_NAME = 'Mail';
   static final MailService _instance = MailService();
   static MailService get instance => _instance;
 
@@ -35,11 +38,11 @@ class MailService implements SyncableService {
     assert(useJSON == null, "mail service sync cannot handle json");
 
     if (_progress.active) {
-      print(' -> Already syncing mails');
+      log(' -> Already syncing mails', name: LOG_NAME);
       return;
     }
 
-    print(' -> Syncing mails...');
+    log(' -> Syncing mails...', name: LOG_NAME);
     _progress.reset(starting: true);
 
     // load from storage
@@ -58,7 +61,7 @@ class MailService implements SyncableService {
       final account = SettingsService.instance.getOvguAccount();
       if (account == null) {
         _progress.active = false;
-        print(' -> skip mail (no ovgu account)');
+        log(' -> skip mail (no ovgu account)', name: LOG_NAME);
         return;
       }
 
@@ -97,7 +100,7 @@ class MailService implements SyncableService {
 
       if (inbox == null || sent == null) {
         _progress.active = false;
-        print(' -> Mail update failed');
+        log(' -> Mail update failed', name: LOG_NAME);
         return;
       }
 
@@ -123,9 +126,9 @@ class MailService implements SyncableService {
       final now = DateTime.now();
       await PersistentService.instance.setMails(DataWithTimestamp(data: _mails, timestamp: now));
       _lastUpdate = DateTime.now();
-      print(' -> Mails updated (${now.difference(start)})');
+      log(' -> Mails updated (${now.difference(start)})', name: LOG_NAME);
     } else {
-      print(' -> Mails updated (from cache only)');
+      log(' -> Mails updated (from cache only)', name: LOG_NAME);
     }
 
     _progress.reset();
