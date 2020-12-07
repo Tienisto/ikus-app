@@ -76,7 +76,10 @@ class MailMessageScreen extends StatelessWidget {
               ),
               OvguButton(
                 flat: true,
-                callback: onReply,
+                callback: () {
+                  Navigator.pop(context);
+                  onReply();
+                },
                 child: Icon(Icons.reply),
               ),
               SizedBox(

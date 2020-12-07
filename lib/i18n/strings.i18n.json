@@ -140,7 +140,8 @@
     "inbox": "Inbox",
     "sent": "Sent",
     "sync": "Syncing: $text",
-    "deleting": "Deleting..."
+    "deleting": "Deleting...",
+    "replyPrefix": "from "
   },
   "mailMessage": {
     "title": "Email"

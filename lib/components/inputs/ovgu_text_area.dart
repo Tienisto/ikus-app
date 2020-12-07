@@ -7,12 +7,14 @@ class OvguTextArea extends StatelessWidget {
   final int minLines;
   final int maxLines;
   final StringCallback onChange;
+  final TextEditingController controller;
 
-  const OvguTextArea({@required this.hint, this.minLines = 6, this.maxLines = 6, @required this.onChange});
+  const OvguTextArea({@required this.hint, this.minLines = 6, this.maxLines = 6, @required this.onChange, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       style: TextStyle(fontSize: 16),
       autocorrect: true,
       enableSuggestions: false,

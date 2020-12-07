@@ -18,8 +18,12 @@ import 'package:ikus_app/utility/ui.dart';
 class MailSendScreen extends StatefulWidget {
 
   final Callback onSend;
+  final String to;
+  final List<String> cc;
+  final String subject;
+  final String content;
 
-  const MailSendScreen({this.onSend});
+  const MailSendScreen({this.onSend, this.to, this.cc, this.subject, this.content});
 
   @override
   _MailSendScreenState createState() => _MailSendScreenState();
@@ -28,6 +32,10 @@ class MailSendScreen extends StatefulWidget {
 class _MailSendScreenState extends State<MailSendScreen> {
 
   final _fromController = TextEditingController();
+  final _toController = TextEditingController();
+  final _ccController = List<TextEditingController>();
+  final _subjectController = TextEditingController();
+  final _contentController = TextEditingController();
   OvguAccount _ovguAccount;
   String _from = '';
   String _to = '';
@@ -38,6 +46,33 @@ class _MailSendScreenState extends State<MailSendScreen> {
   @override
   void initState() {
     super.initState();
+
+    // apply params
+    if (widget.to != null) {
+      _to = widget.to;
+      _toController.text = _to;
+    }
+
+    if (widget.cc != null) {
+      for (String curr in widget.cc) {
+        _cc.add(curr);
+        final currController = TextEditingController();
+        currController.text = curr;
+        _ccController.add(currController);
+      }
+    }
+
+    if (widget.subject != null) {
+      _subject = widget.subject;
+      _subjectController.text = _subject;
+    }
+
+    if (widget.content != null) {
+      _content = widget.content;
+      _contentController.text = _content;
+    }
+
+    // apply from address from storage
     _ovguAccount = SettingsService.instance.getOvguAccount();
     if (_ovguAccount.mailAddress != null) {
       _from = _ovguAccount.mailAddress;
@@ -141,6 +176,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
                     Text(t.mailMessageSend.to),
                     SizedBox(height: 5),
                     OvguTextField(
+                      controller: _toController,
                       hint: t.mailMessageSend.to,
                       icon: Icons.person,
                       type: TextFieldType.CLEAR,
@@ -155,6 +191,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15),
                         child: OvguTextField(
+                          controller: index < _ccController.length ? _ccController[index] : null,
                           hint: t.mailMessageSend.cc,
                           icon: Icons.people,
                           type: TextFieldType.CLEAR,
@@ -188,28 +225,30 @@ class _MailSendScreenState extends State<MailSendScreen> {
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: OvguTextField(
-                hint: t.mailMessageSend.subject,
-                icon: Icons.subject,
-                type: TextFieldType.CLEAR,
-                onChange: (value) {
-                  setState(() {
-                    _subject = value;
-                  });
-                }
+              controller: _subjectController,
+              hint: t.mailMessageSend.subject,
+              icon: Icons.subject,
+              type: TextFieldType.CLEAR,
+              onChange: (value) {
+                setState(() {
+                  _subject = value;
+                });
+              }
             ),
           ),
           SizedBox(height: 20),
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: OvguTextArea(
-                hint: t.mailMessageSend.content,
-                minLines: 10,
-                maxLines: 20,
-                onChange: (value) {
-                  setState(() {
-                    _content = value;
-                  });
-                }
+              controller: _contentController,
+              hint: t.mailMessageSend.content,
+              minLines: 10,
+              maxLines: 20,
+              onChange: (value) {
+                setState(() {
+                  _content = value;
+                });
+              }
             ),
           ),
           SizedBox(height: 20),

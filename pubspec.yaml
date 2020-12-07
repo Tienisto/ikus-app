@@ -30,6 +30,7 @@ dependencies:
   jaguar_jwt: ^2.1.6 # jwt
   package_info: ^0.4.3 # show version and build of the app
   uuid: ^2.2.2 # create device id
+  html: ^0.14.0+4 # parse html
 
   # storage
   hive: ^1.4.4 # persistent storage

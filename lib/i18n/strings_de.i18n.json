@@ -140,7 +140,8 @@
     "inbox": "Posteingang",
     "sent": "Gesendet",
     "sync": "Synchronisieren: $text",
-    "deleting": "Löschen..."
+    "deleting": "Löschen...",
+    "replyPrefix": "von "
   },
   "mailMessage": {
     "title": "E-Mail"

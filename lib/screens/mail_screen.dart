@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
-import 'package:ikus_app/components/popups/wip_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
@@ -137,6 +137,27 @@ class _MailScreenState extends State<MailScreen> {
     });
   }
 
+  Future<void> pushSendScreen(MailMessage reply) async {
+    bool sent = false;
+    String content;
+    if (reply != null) {
+      final raw = reply.content.replaceAll('<br>', '\n');
+      final document = parse(raw);
+      final plain = parse(document.body.text).documentElement.text;
+      content = '\n> ${t.mails.replyPrefix}${reply.from}:\n>\n> '+plain.split('\n').join('\n> ');
+    }
+    await pushScreen(context, () => MailSendScreen(
+      onSend: () => sent = true,
+      to: reply?.from,
+      cc: reply?.cc,
+      subject: reply != null ? 'Re: ${reply.subject}' : null,
+      content: content,
+    ));
+    if (sent) {
+      await sync();
+    }
+  }
+
   List<Widget> getPreWidgets(BuildContext context) {
     double width = min(MediaQuery.of(context).size.width, OvguPixels.maxWidth);
     const int btnCount = 3;
@@ -184,11 +205,7 @@ class _MailScreenState extends State<MailScreen> {
                 width: btnWidth,
                 fontSize: btnFontSize,
                 callback: () async {
-                  bool sent = false;
-                  await pushScreen(context, () => MailSendScreen(onSend: () => sent = true));
-                  if (sent) {
-                    await sync();
-                  }
+                  await pushSendScreen(null);
                 }
             )
           ],
@@ -250,8 +267,7 @@ class _MailScreenState extends State<MailScreen> {
       mail: mail,
       mailbox: mailbox,
       onReply: () {
-        // TODO
-        WipPopup.open(context);
+        pushSendScreen(mail);
       },
       onDelete: () async {
         sync();
