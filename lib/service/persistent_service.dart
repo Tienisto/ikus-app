@@ -46,9 +46,6 @@ class PersistentService {
     await _openBoxSafely<DateTime>(_BOX_LAST_SYNC);
     await _openBoxSafely<String>(_BOX_API_JSON);
     await _openBoxSafely<Uint8List>(_BOX_API_BINARY);
-    await _openBoxSafely<String>(_BOX_MAILS_INBOX);
-    await _openBoxSafely<String>(_BOX_MAILS_SENT);
-    await _openBoxSafely(_BOX_MAILS_META);
   }
 
   /// wipes all data except device id
@@ -176,36 +173,49 @@ class PersistentService {
 
   // mails
 
-  DataWithTimestamp<MailCollection> getMails() {
-    final timestamp = Hive.box(_BOX_MAILS_META).get('last_update');
+  Future<DataWithTimestamp<MailCollection>> getMails() async {
+    final boxInbox = await _openBoxSafely<String>(_BOX_MAILS_INBOX);
+    final boxSent = await _openBoxSafely<String>(_BOX_MAILS_SENT);
+    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
+    final timestamp = boxMeta.get('last_update');
+    DataWithTimestamp<MailCollection> mails;
     if (timestamp != null) {
-      final inbox = Hive.box<String>(_BOX_MAILS_INBOX).toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
-      final sent = Hive.box<String>(_BOX_MAILS_SENT).toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
-      return DataWithTimestamp(
+      final inbox = boxInbox.toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
+      final sent = boxSent.toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
+      mails = DataWithTimestamp(
         data: MailCollection(
           inbox: Map.from(inbox),
           sent: Map.from(sent)
         ),
         timestamp: timestamp
       );
-    } else {
-      return null;
     }
+
+    await boxInbox.close();
+    await boxSent.close();
+    await boxMeta.close();
+    return mails;
   }
 
   Future<void> setMails(DataWithTimestamp<MailCollection> data) async {
     final mailsInbox = data.data.inbox.map((key, value) => MapEntry(key, json.encode(value.toMap())));
     final mailsSent = data.data.sent.map((key, value) => MapEntry(key, json.encode(value.toMap())));
 
-    final boxIn = Hive.box<String>(_BOX_MAILS_INBOX);
-    await boxIn.clear();
-    await boxIn.putAll(mailsInbox);
+    final boxInbox = await _openBoxSafely<String>(_BOX_MAILS_INBOX);
+    final boxSent = await _openBoxSafely<String>(_BOX_MAILS_SENT);
+    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
 
-    final boxSent = Hive.box<String>(_BOX_MAILS_SENT);
+    await boxInbox.clear();
+    await boxInbox.putAll(mailsInbox);
+
     await boxSent.clear();
     await boxSent.putAll(mailsSent);
 
-    await Hive.box(_BOX_MAILS_META).put('last_update', data.timestamp);
+    await boxMeta.put('last_update', data.timestamp);
+
+    await boxInbox.close();
+    await boxSent.close();
+    await boxMeta.close();
   }
 
   Future<void> deleteMailCache() async {

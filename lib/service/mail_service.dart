@@ -47,7 +47,7 @@ class MailService implements SyncableService {
     _progress.percent = 0;
 
     // load from storage
-    final data = PersistentService.instance.getMails();
+    final data = await PersistentService.instance.getMails();
     if (data != null) {
       _mails = data.data;
       _lastUpdate = data.timestamp;
