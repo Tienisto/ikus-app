@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -16,6 +17,7 @@ import 'package:intl/intl.dart';
 /// e.g. raw json, pdfs, images
 class ApiService {
 
+  static const String LOG_NAME = 'API';
   static String get URL => SettingsService.instance.getDevServer() ? Constants.apiUrlDebug : Constants.apiUrlLive;
   static final DateTime FALLBACK_TIME = DateTime(2020, 8, 1);
   static final DateFormat _lastModifiedFormatter = DateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", 'en');
@@ -38,14 +40,14 @@ class ApiService {
     try {
 
       Response response = await get(url);
-      print('[${response.statusCode}] $url');
+      log('[${response.statusCode}] $url', name: LOG_NAME);
 
       if (response.statusCode == 200)
        return utf8.decode(response.bodyBytes);
 
     } catch (_) {}
 
-    print('failed to fetch $url');
+    log('failed to fetch $url', name: LOG_NAME);
     return null;
   }
 
@@ -69,13 +71,13 @@ class ApiService {
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
         response = await get('$URL/$route?locale=${locale.toUpperCase()}');
-        print('[${response.statusCode}] $route');
+        log('[${response.statusCode}] $route', name: LOG_NAME);
         usedNetworkOnLastJSONFetch = true;
       } catch (e) {
         if (e is SocketException) {
           usedNetworkOnLastJSONFetch = false;
         }
-        print('failed to fetch $route');
+        log('failed to fetch $route', name: LOG_NAME);
       }
     }
 
@@ -84,7 +86,7 @@ class ApiService {
       await PersistentService.instance.setApiJson(key, newData);
       return newData;
     } else {
-      return PersistentService.instance.getApiJson(key) ?? DataWithTimestamp(data: jsonEncode(fallback), timestamp: FALLBACK_TIME);
+      return await PersistentService.instance.getApiJson(key) ?? DataWithTimestamp(data: jsonEncode(fallback), timestamp: FALLBACK_TIME);
     }
   }
 
@@ -98,13 +100,13 @@ class ApiService {
 
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
-        DateTime timestamp = PersistentService.instance.getApiTimestamp(key) ?? FALLBACK_TIME;
+        DateTime timestamp = await PersistentService.instance.getApiTimestamp(key) ?? FALLBACK_TIME;
         response = await get('$URL/file/$route', headers: {
           'If-Modified-Since': _lastModifiedFormatter.format(timestamp.toUtc())
         });
-        print('[${response.statusCode}] $route');
+        log('[${response.statusCode}] $route', name: LOG_NAME);
       } catch (_) {
-        print('failed to fetch $route');
+        log('failed to fetch $route', name: LOG_NAME);
       }
     }
 
@@ -113,7 +115,7 @@ class ApiService {
       await PersistentService.instance.setApiBinary(key, newData);
       return newData;
     } else {
-      return PersistentService.instance.getApiBinary(key) ?? DataWithTimestamp(data: fallback, timestamp: FALLBACK_TIME);
+      return await PersistentService.instance.getApiBinary(key) ?? DataWithTimestamp(data: fallback, timestamp: FALLBACK_TIME);
     }
   }
 

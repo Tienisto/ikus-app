@@ -7,6 +7,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/screens/dev/background_task_log_screen.dart';
 import 'package:ikus_app/screens/dev/log_error_screen.dart';
 import 'package:ikus_app/screens/main_screen.dart';
+import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
@@ -99,7 +100,7 @@ class _DevScreenState extends State<DevScreen> {
               left: 'Delete mail cache',
               right: OvguButton(
                 callback: () async {
-                  await PersistentService.instance.deleteMailCache();
+                  await MailService.instance.deleteCache();
                 },
                 child: Icon(Icons.delete, color: Colors.white),
               )

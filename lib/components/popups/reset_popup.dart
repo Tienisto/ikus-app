@@ -33,10 +33,7 @@ class ResetPopup extends StatelessWidget {
             child: Text(t.popups.reset.cancel),
           ),
           OvguButton(
-            callback: () async {
-              await callback();
-              Navigator.pop(context);
-            },
+            callback: callback,
             child: Text(t.popups.reset.reset, style: TextStyle(color: Colors.white)),
           )
         ]

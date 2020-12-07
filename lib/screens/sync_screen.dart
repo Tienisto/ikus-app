@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
@@ -16,6 +18,7 @@ class SyncScreen extends StatefulWidget {
 
 class _SyncScreenState extends State<SyncScreen> {
 
+  static const String LOG_NAME = 'SyncScreen';
   static DateFormat _dateFormatterDe = DateFormat("dd.MM.yyyy, HH:mm");
   static DateFormat _dateFormatterEn = DateFormat("dd.MM.yyyy, h:mm a");
   Map<String, bool> syncing = Map();
@@ -37,9 +40,12 @@ class _SyncScreenState extends State<SyncScreen> {
           OvguButton(
             flat: true,
             callback: () async {
-              setState(() {
-                syncing[name] = true;
-              });
+              if (syncing[name] == true) {
+                log('$name is already syncing', name: LOG_NAME);
+                return;
+              }
+              syncing[name] = true; // not inside setState to lock immediately
+              setState(() {});
               await callback();
               if (!mounted)
                 return;
@@ -79,7 +85,7 @@ class _SyncScreenState extends State<SyncScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: SyncableService.services.map((service) {
                       return getSyncItem(service.getDescription(), service.getLastUpdate(), () async {
-                        await service.sync(useNetwork: true);
+                        await service.sync(useNetwork: true, showNotifications: true);
                       });
                     }).toList()
                 ),

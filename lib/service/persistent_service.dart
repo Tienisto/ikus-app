@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -18,6 +19,7 @@ import 'package:ikus_app/model/settings_data.dart';
 /// no class except this class has dependency to hive or secure storage
 class PersistentService {
 
+  static const String LOG_NAME = 'Persistence';
   static final PersistentService _instance = PersistentService();
   static PersistentService get instance => _instance;
 
@@ -43,20 +45,13 @@ class PersistentService {
     await _openBoxSafely<LogError>(_BOX_LOGS_ERROR);
     await _openBoxSafely(_BOX_DEVICE_ID);
     await _openBoxSafely(_BOX_SETTINGS);
-    await _openBoxSafely<DateTime>(_BOX_LAST_SYNC);
-    await _openBoxSafely<String>(_BOX_API_JSON);
-    await _openBoxSafely<Uint8List>(_BOX_API_BINARY);
   }
 
-  /// wipes all data except device id
+  /// wipes all data except device id and logs
   Future<void> clearData() async {
     await Hive.box(_BOX_SETTINGS).clear();
-    await Hive.box<DateTime>(_BOX_LAST_SYNC).clear();
-    await Hive.box<String>(_BOX_API_JSON).clear();
-    await Hive.box<Uint8List>(_BOX_API_BINARY).clear();
-    await Hive.box<String>(_BOX_MAILS_INBOX).clear();
-    await Hive.box<String>(_BOX_MAILS_SENT).clear();
-    await Hive.box(_BOX_MAILS_META).clear();
+    await deleteMailCache();
+    await deleteApiCache();
     await _secureStorage.deleteAll();
   }
 
@@ -72,36 +67,63 @@ class PersistentService {
 
   // api storage
 
-  DataWithTimestamp<Uint8List> getApiBinary(String key) {
-    final Uint8List binary = Hive.box<Uint8List>(_BOX_API_BINARY).get(key);
-    final DateTime timestamp = Hive.box<DateTime>(_BOX_LAST_SYNC).get(key);
-    return binary != null && timestamp != null ? DataWithTimestamp(data: binary, timestamp: timestamp) : null;
+  Future<DataWithTimestamp<Uint8List>> getApiBinary(String key) async {
+    final boxBinary = await _openLazyBoxSafely<Uint8List>(_BOX_API_BINARY);
+    final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    final Uint8List binary = await boxBinary.get(key);
+    final DateTime timestamp = await boxLastSync.get(key);
+    final result = binary != null && timestamp != null ? DataWithTimestamp(data: binary, timestamp: timestamp) : null;
+    await boxBinary.close();
+    await boxLastSync.close();
+    return result;
   }
 
   Future<void> setApiBinary(String key, DataWithTimestamp<Uint8List> data) async {
-    await Hive.box<Uint8List>(_BOX_API_BINARY).put(key, data.data);
-    await Hive.box<DateTime>(_BOX_LAST_SYNC).put(key, data.timestamp);
+    final boxBinary = await _openLazyBoxSafely<Uint8List>(_BOX_API_BINARY);
+    final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    await boxBinary.put(key, data.data);
+    await boxLastSync.put(key, data.timestamp);
+    await boxBinary.close();
+    await boxLastSync.close();
   }
 
-  DataWithTimestamp<String> getApiJson(String key) {
-    final String json = Hive.box<String>(_BOX_API_JSON).get(key);
-    final DateTime timestamp = Hive.box<DateTime>(_BOX_LAST_SYNC).get(key);
-    return json != null && timestamp != null ? DataWithTimestamp(data: json, timestamp: timestamp) : null;
+  Future<DataWithTimestamp<String>> getApiJson(String key) async {
+    final boxJson = await _openLazyBoxSafely<String>(_BOX_API_JSON);
+    final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    final String json = await boxJson.get(key);
+    final DateTime timestamp = await boxLastSync.get(key);
+    final result = json != null && timestamp != null ? DataWithTimestamp(data: json, timestamp: timestamp) : null;
+    await boxJson.close();
+    await boxLastSync.close();
+    return result;
   }
 
   Future<void> setApiJson(String key, DataWithTimestamp<String> data) async {
-    await Hive.box<String>(_BOX_API_JSON).put(key, data.data);
-    await Hive.box<DateTime>(_BOX_LAST_SYNC).put(key, data.timestamp);
+    final boxJson = await _openLazyBoxSafely<String>(_BOX_API_JSON);
+    final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    await boxJson.put(key, data.data);
+    await boxLastSync.put(key, data.timestamp);
+    await boxJson.close();
+    await boxLastSync.close();
   }
 
-  DateTime getApiTimestamp(String key) {
-    return Hive.box<DateTime>(_BOX_LAST_SYNC).get(key);
+  Future<DateTime> getApiTimestamp(String key) async {
+    final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    final result = boxLastSync.get(key);
+    await boxLastSync.close();
+    return result;
   }
 
   Future<void> deleteApiCache() async {
-    await Hive.box<String>(_BOX_API_JSON).clear();
-    await Hive.box<Uint8List>(_BOX_API_BINARY).clear();
-    await Hive.box<DateTime>(_BOX_LAST_SYNC).clear();
+    final boxJson = await _openLazyBoxSafely<String>(_BOX_API_JSON);
+    final boxBinary = await _openLazyBoxSafely<Uint8List>(_BOX_API_BINARY);
+    final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
+    await boxJson.clear();
+    await boxBinary.clear();
+    await boxLastSync.clear();
+    await boxJson.close();
+    await boxBinary.close();
+    await boxLastSync.close();
   }
 
   // settings
@@ -268,7 +290,7 @@ class PersistentService {
   /// closes all boxes
   Future<void> close() async {
     await Hive.close();
-    print('Hive closed');
+    log('Hive closed', name: LOG_NAME);
   }
 
   Future<Box<T>> _openBoxSafely<T>(String boxName) async {

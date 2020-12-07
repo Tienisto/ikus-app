@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/icon_text.dart';
@@ -26,9 +28,11 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
+  static const String LOG_NAME = 'SettingsPage';
   static const Color LOGO_COLOR = Color(0xFFAFAFAF);
   String _version = '';
   int devCounter = 0;
+  bool resetting = false;
 
   @override
   void initState() {
@@ -100,16 +104,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   ResetPopup.open(
                     context: context,
                     callback: () async {
+                      if (resetting) {
+                        log('Already resetting', name: LOG_NAME);
+                        return;
+                      }
+                      resetting = true;
+                      log('Reset initiated', name: LOG_NAME);
                       bool devServer = SettingsService.instance.getDevServer();
                       await PersistentService.instance.clearData();
                       await SettingsService.instance.loadFromStorage();
-                      SettingsService.instance.setDevServer(devServer); // set value before the deletion
+                      SettingsService.instance.setDevServer(devServer); // set value to before the deletion
                       for (SyncableService service in SyncableService.services) {
-                        await service.sync(useNetwork: false, showNotifications: true);
+                        await service.sync(useNetwork: false);
                       }
-                      nextFrame(() {
-                        setScreen(context, () => WelcomeScreen());
-                      });
+                      setScreen(context, () => WelcomeScreen());
                     }
                   );
                 },
