@@ -8,4 +8,12 @@ class MailProgress {
   double percent; // total progress (all mailboxes)
 
   MailProgress({this.active = false, this.mailbox, this.curr, this.total, this.percent});
+
+  void reset({bool starting = false}) {
+    active = starting;
+    mailbox = MailboxType.INBOX;
+    curr = 0;
+    total = 0;
+    percent = 0;
+  }
 }

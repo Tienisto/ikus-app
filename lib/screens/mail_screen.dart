@@ -38,12 +38,19 @@ class _MailScreenState extends State<MailScreen> {
   List<MailMessage> mails;
   String progressString;
   double progressPercent;
+  bool syncing = false;
 
   @override
   void initState() {
     super.initState();
     updateMails();
-    showProgress();
+    if (MailService.instance.getProgress().active) {
+      nextFrame(() {
+        syncing = true;
+        updateProgressString(MailService.instance.getProgress());
+        startProgressTimer();
+      });
+    }
     handleUid();
   }
 
@@ -58,15 +65,7 @@ class _MailScreenState extends State<MailScreen> {
     }
   }
 
-  void showProgress() {
-
-    final initialProgress = MailService.instance.getProgress();
-
-    if (!initialProgress.active)
-      return;
-
-    updateProgressString(initialProgress);
-
+  void startProgressTimer() {
     Timer.periodic(Duration(milliseconds: 100), (timer) {
 
       final progress = MailService.instance.getProgress();
@@ -77,6 +76,7 @@ class _MailScreenState extends State<MailScreen> {
           setState(() {
             progressString = null;
             progressPercent = 1;
+            syncing = false;
             updateMails();
           });
         }
@@ -113,8 +113,14 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   Future<void> sync() async {
+    setState(() {
+      syncing = true;
+      progressPercent = 0;
+      progressString = null;
+    });
+    await sleep(200); // wait for animation
     MailService.instance.sync(useNetwork: true, showNotifications: true);
-    showProgress();
+    startProgressTimer();
   }
 
   void toggleMailState() {
@@ -233,7 +239,7 @@ class _MailScreenState extends State<MailScreen> {
           ),
         ),
         secondChild: Container(),
-        crossFadeState: progressString != null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        crossFadeState: syncing ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         duration: Duration(milliseconds: 200)
       )
     ];

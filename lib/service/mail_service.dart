@@ -40,11 +40,7 @@ class MailService implements SyncableService {
     }
 
     print(' -> Syncing mails...');
-    _progress.active = true;
-    _progress.mailbox = MailboxType.INBOX;
-    _progress.curr = 0;
-    _progress.total = 0;
-    _progress.percent = 0;
+    _progress.reset(starting: true);
 
     // load from storage
     final data = await PersistentService.instance.getMails();
@@ -132,7 +128,7 @@ class MailService implements SyncableService {
       print(' -> Mails updated (from cache only)');
     }
 
-    _progress.active = false;
+    _progress.reset();
   }
 
   @override

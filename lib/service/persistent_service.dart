@@ -219,9 +219,15 @@ class PersistentService {
   }
 
   Future<void> deleteMailCache() async {
+    final boxInbox = await _openBoxSafely<String>(_BOX_MAILS_INBOX);
+    final boxSent = await _openBoxSafely<String>(_BOX_MAILS_SENT);
+    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
     await Hive.box<String>(_BOX_MAILS_INBOX).clear();
     await Hive.box<String>(_BOX_MAILS_SENT).clear();
     await Hive.box(_BOX_MAILS_META).clear();
+    await boxInbox.close();
+    await boxSent.close();
+    await boxMeta.close();
   }
 
   Future<List<BackgroundTask>> getBackgroundTasks() async {

@@ -28,6 +28,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
   String _accountName = SettingsService.instance.getOvguAccount()?.name;
   String _name = '';
   String _password = '';
+  bool loggingOut = false;
 
   void login() async {
 
@@ -50,6 +51,11 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
   }
 
   void logout() async {
+    if (loggingOut)
+      return;
+
+    loggingOut = true;
+
     await SettingsService.instance.deleteOvguAccount();
     await MailService.instance.deleteCache();
     setState(() {
