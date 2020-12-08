@@ -54,14 +54,14 @@ class _BackgroundTaskLogScreenState extends State<BackgroundTaskLogScreen> {
   }
 
   Duration averageInterval(List<BackgroundTask> tasks) {
-    if (tasks.length == 0)
+    if (tasks.length <= 1)
       return Duration.zero;
 
     int millisSum = 0;
     for (int i = 0; i < tasks.length - 1; i++) {
       millisSum += tasks[i].start.difference(tasks[i+1].start).inMilliseconds;
     }
-    int millisAverage = (millisSum / tasks.length).round();
+    int millisAverage = (millisSum / (tasks.length - 1)).round();
     return Duration(milliseconds: millisAverage);
   }
 
