@@ -4,7 +4,13 @@ An official app by Magdeburg University
 
 ## Getting Started
 
-run `flutter run`
+Install Flutter: https://flutter.dev/docs/get-started/install
+
+Get dependencies: `flutter pub get`
+
+Generate specific files: `flutter pub run build_runner build`
+
+Run: `flutter run`
 
 ## Deploy
 
