@@ -281,15 +281,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  enough_convert:
+    dependency: transitive
+    description:
+      name: enough_convert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   enough_mail:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "26a10fab50e938a787714194ee0d970810768b0a"
-      resolved-ref: "26a10fab50e938a787714194ee0d970810768b0a"
-      url: "git@github.com:Enough-Software/enough_mail.git"
-    source: git
-    version: "0.0.34"
+      name: enough_mail
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.35"
   enough_serialization:
     dependency: transitive
     description:
