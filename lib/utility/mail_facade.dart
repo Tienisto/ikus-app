@@ -135,18 +135,11 @@ class MailFacade {
             }
           }
 
-          List<String> toList = mailResponse.to.map((m) => m.email).toList();
-          String to = toList.firstWhere((t) => true, orElse: () => 'unknown');
-          List<String> cc = mailResponse.cc.map((m) => m.email).toList();
-          if (toList.length > 1) {
-            cc = [...toList.sublist(1), ...cc];
-          }
-
           resultMap[uid] = MailMessage(
             uid: uid,
             from: mailResponse.fromEmail ?? 'unknown',
-            to: to,
-            cc: cc,
+            to: mailResponse.to.map((m) => m.email).toList(),
+            cc: mailResponse.cc.map((m) => m.email).toList(),
             timestamp: mailResponse.decodeDate()?.toLocal() ?? ApiService.FALLBACK_TIME,
             subject: mailResponse.decodeSubject(),
             contentPlain: plain,

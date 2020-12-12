@@ -101,24 +101,23 @@ class MailMessageScreen extends StatelessWidget {
                   )
                 ),
               ),
-              if (mail.cc.isNotEmpty)
-                SizedBox(
-                  width: 70,
-                  child: OvguButton(
-                    flat: true,
-                    padding: EdgeInsets.only(left: 10),
-                    callback: () {
-                      MailPeoplePopup.open(context: context, mail: mail);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.people),
-                        SizedBox(width: 5),
-                        Text((mail.cc.length + 1).toString(), style: TextStyle(fontSize: 16))
-                      ],
-                    )
-                  ),
-                )
+              SizedBox(
+                width: 70,
+                child: OvguButton(
+                  flat: true,
+                  padding: EdgeInsets.only(left: 10),
+                  callback: () {
+                    MailPeoplePopup.open(context: context, mail: mail);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.people),
+                      SizedBox(width: 5),
+                      Text((mail.to.length + mail.cc.length).toString(), style: TextStyle(fontSize: 16))
+                    ],
+                  )
+                ),
+              )
             ],
           ),
           SizedBox(height: 30),

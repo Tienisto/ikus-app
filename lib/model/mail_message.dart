@@ -11,7 +11,7 @@ class MailMessage {
 
   final int uid;
   final String from;
-  final String to;
+  final List<String> to;
   final List<String> cc;
   final DateTime timestamp;
   final String subject;
@@ -36,7 +36,7 @@ class MailMessage {
     return MailMessage(
       uid: map['uid'],
       from: map['from'],
-      to: map['to'],
+      to: map['toList']?.cast<String>() ?? [map['to']], // fallback
       cc: map['cc'].cast<String>(),
       timestamp: DateTime.parse(map['timestamp']).toLocal(),
       subject: map['subject'],
@@ -49,7 +49,7 @@ class MailMessage {
     return {
       'uid': uid,
       'from': from,
-      'to': to,
+      'toList': to,
       'cc': cc,
       'timestamp': timestamp.toIso8601String(),
       'subject': subject,

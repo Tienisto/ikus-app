@@ -33,10 +33,12 @@ class MailPeoplePopup extends StatelessWidget {
               Text(mail.from),
               SizedBox(height: 10),
               Text(t.popups.mailPeople.to, style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(mail.to),
+              ...mail.to.map((to) => Text(to)),
               SizedBox(height: 10),
               Text(t.popups.mailPeople.cc, style: TextStyle(fontWeight: FontWeight.bold)),
               ...mail.cc.map((cc) => Text(cc)),
+              if (mail.cc.isEmpty)
+                Text('-'),
               SizedBox(height: 30),
             ],
           ),
