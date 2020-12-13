@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/animated_progress_bar.dart';
@@ -30,11 +31,15 @@ class MailScreen extends StatefulWidget {
 
 class _MailScreenState extends State<MailScreen> {
 
+  static const String LOG_NAME = 'MailScreen';
   static const PRE_WIDGET_COUNT = 7;
   static const POST_WIDGET_COUNT = 1;
 
   MailboxType mailbox = MailboxType.INBOX;
-  List<MailMessage> mails;
+  bool switching = false; // flag for switch inbox/sent folder
+  bool fetching = false; // flag if fetching data from storage
+  Map<int, MailMessage> mails = {}; // mails are fetched lazily
+  int mailCount = 0; // total count of mails of current mailbox (not only in cache, total!)
   String progressString;
   double progressPercent;
   bool syncing = false;
@@ -42,7 +47,12 @@ class _MailScreenState extends State<MailScreen> {
   @override
   void initState() {
     super.initState();
-    updateMails();
+    postInit();
+  }
+
+  Future<void> postInit() async {
+    await prefetch(mailbox: mailbox, missIndex: 0); // fetch first mails
+    updateMailCount(mailbox);
     if (MailService.instance.getProgress().active) {
       nextFrame(() {
         syncing = true;
@@ -50,18 +60,50 @@ class _MailScreenState extends State<MailScreen> {
         startProgressTimer();
       });
     }
-    handleUid();
+    await handleUid();
   }
 
-  void updateMails() {
-    switch (mailbox) {
-      case MailboxType.INBOX:
-        mails = MailService.instance.getMailsInbox();
-        break;
-      case MailboxType.SENT:
-        mails = MailService.instance.getMailsSent();
-        break;
+  void updateMailCount(MailboxType mailbox) {
+    final metadata = MailService.instance.getMailMetadata();
+    setState(() {
+      mailCount = mailbox == MailboxType.INBOX ? metadata.countInbox : metadata.countSent;
+    });
+  }
+
+  void resetCache() {
+    setState(() {
+      mails = {};
+    });
+  }
+
+  /// get mails from missing index and also some additional mails
+  Future<void> prefetch({@required MailboxType mailbox, @required int missIndex, bool clearOld = false}) async {
+    if (fetching || MailService.instance.getProgress().active)
+      return;
+
+    fetching = true;
+    log('Fetch index $missIndex', name: LOG_NAME);
+    final fetched = await MailService.instance.getMails(mailbox: mailbox, startIndex: missIndex, size: 10);
+    setState(() {
+      if (clearOld)
+        mails = {};
+      for(int i = 0; i < fetched.length; i++) {
+        mails[missIndex + i] = fetched[i];
+      }
+      fetching = false;
+    });
+  }
+
+  /// use data from last sync to avoid additional fetching
+  void applyLastSyncResult() {
+    resetCache();
+    final lastResult = MailService.instance.getLastFetchResult();
+    final mailsList = mailbox == MailboxType.INBOX ? lastResult.inbox : lastResult.sent;
+    final mailsReversed = mailsList.entries.toList().reversed.toList();
+    for (int i = 0; i < mailsReversed.length; i++) {
+      mails[i] = mailsReversed[i].value;
     }
+    mailCount = mails.length;
   }
 
   void startProgressTimer() {
@@ -76,7 +118,7 @@ class _MailScreenState extends State<MailScreen> {
             progressString = null;
             progressPercent = 1;
             syncing = false;
-            updateMails();
+            applyLastSyncResult();
           });
         }
         return;
@@ -101,8 +143,7 @@ class _MailScreenState extends State<MailScreen> {
   /// open mail by uid (used by notification callback, inbox only)
   Future<void> handleUid() async {
     if (widget.openUid != null) {
-      final inbox = MailService.instance.getMailsInbox();
-      final mail = inbox.firstWhere((m) => m.uid == widget.openUid, orElse: () => null);
+      final mail = await MailService.instance.getMail(MailboxType.INBOX, widget.openUid);
       if (mail != null) {
         nextFrame(() {
           pushScreen(context, () => getMailMessageScreen(mail));
@@ -122,17 +163,27 @@ class _MailScreenState extends State<MailScreen> {
     startProgressTimer();
   }
 
-  void toggleMailState() {
+  Future<void> toggleMailState() async {
+    if (switching)
+      return;
+    switching = true;
+    setState(() {});
+
+    MailboxType newMailbox;
+    switch (mailbox) {
+      case MailboxType.INBOX:
+        newMailbox = MailboxType.SENT;
+        break;
+      case MailboxType.SENT:
+        newMailbox = MailboxType.INBOX;
+        break;
+    }
+
+    await prefetch(mailbox: newMailbox, missIndex: 0, clearOld: true);
+    updateMailCount(newMailbox);
     setState(() {
-      switch (mailbox) {
-        case MailboxType.INBOX:
-          mailbox = MailboxType.SENT;
-          break;
-        case MailboxType.SENT:
-          mailbox = MailboxType.INBOX;
-          break;
-      }
-      updateMails();
+      mailbox = newMailbox;
+      switching = false;
     });
   }
 
@@ -156,7 +207,7 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   List<Widget> getPreWidgets(BuildContext context) {
-    double width = min(MediaQuery.of(context).size.width, OvguPixels.maxWidth);
+    double width = math.min(MediaQuery.of(context).size.width, OvguPixels.maxWidth);
     const int btnCount = 3;
     const double btnMargin = 20;
     const double btnFontSize = 14;
@@ -182,7 +233,7 @@ class _MailScreenState extends State<MailScreen> {
                   bool loggedIn = false;
                   await pushScreen(context, () => OvguAccountScreen(onLogin: () => loggedIn = true));
                   if (loggedIn) {
-                    updateMails();
+                    resetCache();
                     await sync();
                   } else if (!SettingsService.instance.hasOvguAccount()) {
                     Navigator.pop(context);
@@ -284,10 +335,14 @@ class _MailScreenState extends State<MailScreen> {
         child: ConstrainedBox(
           constraints: BoxConstraints(minWidth: 0, maxWidth: OvguPixels.maxWidth),
           child: ListView.builder(
-            itemCount: PRE_WIDGET_COUNT + mails.length + POST_WIDGET_COUNT,
+            itemCount: PRE_WIDGET_COUNT + mailCount + POST_WIDGET_COUNT,
             itemBuilder: (context, index) {
-              if (index >= PRE_WIDGET_COUNT && index < PRE_WIDGET_COUNT + mails.length) {
+              if (index >= PRE_WIDGET_COUNT && index < PRE_WIDGET_COUNT + mailCount) {
                 MailMessage mail = mails[index - PRE_WIDGET_COUNT];
+                if (mail == null) {
+                  prefetch(mailbox: mailbox, missIndex: index - PRE_WIDGET_COUNT);
+                  return Container();
+                }
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                   child: MailCard(
@@ -296,7 +351,7 @@ class _MailScreenState extends State<MailScreen> {
                     callback: () async {
                       pushScreen(context, () => getMailMessageScreen(mail));
                     }
-                  ),
+                  )
                 );
               } else if (index < PRE_WIDGET_COUNT) {
                 return preWidgets[index];

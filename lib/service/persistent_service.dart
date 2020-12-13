@@ -9,8 +9,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/local/background_task.dart';
 import 'package:ikus_app/model/local/log_error.dart';
+import 'package:ikus_app/model/local/mail_metadata.dart';
 import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
+import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/model/ovgu_account.dart';
 import 'package:ikus_app/model/settings_data.dart';
@@ -195,28 +197,73 @@ class PersistentService {
 
   // mails
 
-  Future<DataWithTimestamp<MailCollection>> getMails() async {
+  Future<MailCollection> getAllMails() async {
     final boxInbox = await _openBoxSafely<String>(_BOX_MAILS_INBOX);
     final boxSent = await _openBoxSafely<String>(_BOX_MAILS_SENT);
-    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
-    final timestamp = boxMeta.get('last_update');
-    DataWithTimestamp<MailCollection> mails;
-    if (timestamp != null) {
-      final inbox = boxInbox.toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
-      final sent = boxSent.toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
-      mails = DataWithTimestamp(
-        data: MailCollection(
-          inbox: Map.from(inbox),
-          sent: Map.from(sent)
-        ),
-        timestamp: timestamp
-      );
-    }
+    final inbox = boxInbox.toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
+    final sent = boxSent.toMap().map((key, value) => MapEntry(key, MailMessage.fromMap(json.decode(value))));
+    final mails = MailCollection(
+        inbox: Map.from(inbox),
+        sent: Map.from(sent)
+    );
 
     await boxInbox.close();
     await boxSent.close();
-    await boxMeta.close();
     return mails;
+  }
+
+  /// used to display mails
+  /// only show a part of the collection to improve performance
+  /// order of keys are reversed
+  Future<List<MailMessage>> getMails({@required MailboxType mailbox, @required int startIndex, @required int size}) async {
+    final box = await _openLazyBoxSafely<String>(mailbox == MailboxType.INBOX ? _BOX_MAILS_INBOX : _BOX_MAILS_SENT);
+
+    // get keys
+    final keys = box.keys.toList().reversed.toList();
+    final selectedKeys = <int>[];
+    for (int i = startIndex; i < keys.length && i < startIndex + size; i++) {
+      selectedKeys.add(keys[i]);
+    }
+
+    // get mails using the keys
+    final mails = <MailMessage>[];
+    for (int key in selectedKeys) {
+      final mail = await box.get(key);
+      if (mail != null) {
+        mails.add(MailMessage.fromMap(json.decode(mail)));
+      }
+    }
+
+    await box.close();
+    return mails;
+  }
+
+  /// returns a specific mail by uid
+  /// may be null
+  Future<MailMessage> getMail(MailboxType mailbox, int uid) async {
+    final box = await _openLazyBoxSafely<String>(mailbox == MailboxType.INBOX ? _BOX_MAILS_INBOX : _BOX_MAILS_SENT);
+    final mailRaw = await box.get(uid);
+    MailMessage message;
+    if (mailRaw != null) {
+      message = MailMessage.fromMap(json.decode(mailRaw));
+    }
+    await box.close();
+    return message;
+  }
+
+  Future<MailMetadata> getMailMetadata() async {
+    final boxInbox = await _openLazyBoxSafely<String>(_BOX_MAILS_INBOX);
+    final boxSent = await _openLazyBoxSafely<String>(_BOX_MAILS_SENT);
+    final boxMeta = await _openBoxSafely(_BOX_MAILS_META);
+    final metadata = MailMetadata(
+      timestamp: boxMeta.get('last_update'),
+      countInbox: boxInbox.length,
+      countSent: boxSent.length
+    );
+    await boxInbox.close();
+    await boxSent.close();
+    await boxMeta.close();
+    return metadata;
   }
 
   Future<void> setMails(DataWithTimestamp<MailCollection> data) async {

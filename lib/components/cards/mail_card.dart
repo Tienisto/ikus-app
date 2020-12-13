@@ -28,7 +28,7 @@ class MailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return OvguCardWithHeader(
       onTap: callback,
-      left: mailbox == MailboxType.INBOX ? mail.from : mail.to,
+      left: mailbox == MailboxType.INBOX ? mail.from : mail.to.firstWhere((to) => true, orElse: () => ''),
       right: mail.formattedTimestamp,
       child: Padding(
         padding: const EdgeInsets.all(15),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/data_with_timestamp.dart';
+import 'package:ikus_app/model/local/mail_metadata.dart';
 import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mail_message_send.dart';
@@ -23,8 +24,8 @@ class MailService implements SyncableService {
   static MailService get instance => _instance;
 
   final MailProgress _progress = MailProgress();
-  DateTime _lastUpdate;
-  MailCollection _mails;
+  MailMetadata _mailMetadata;
+  MailCollection _lastFetchResult; // nullable, only exists if fetched using network at least once
 
   @override
   String id = 'MAIL';
@@ -45,16 +46,6 @@ class MailService implements SyncableService {
     log(' -> Syncing mails...', name: LOG_NAME);
     _progress.reset(starting: true);
 
-    // load from storage
-    final data = await PersistentService.instance.getMails();
-    if (data != null) {
-      _mails = data.data;
-      _lastUpdate = data.timestamp;
-    } else {
-      _mails = MailCollection.EMPTY;
-      _lastUpdate = ApiService.FALLBACK_TIME;
-    }
-
     if (useNetwork) {
       // fetch from mail server
       final start = DateTime.now();
@@ -65,50 +56,55 @@ class MailService implements SyncableService {
         return;
       }
 
+      // get current mails
+      final cache = await PersistentService.instance.getAllMails();
+
       Set<int> prevInboxMails;
       if (showNotifications) {
-        prevInboxMails = _mails.inbox.keys.toSet();
+        prevInboxMails = cache.inbox.keys.toSet();
       }
 
       Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
         mailbox: MailboxType.INBOX,
-        existing: _mails.inbox,
+        existing: cache.inbox,
         name: account.name,
         password: account.password,
         progressCallback: (curr, total) {
           _progress.curr = curr;
           _progress.total = total;
-          _progress.percent = (curr / total.toDouble()) * 0.5;
+          _progress.percent = (curr / total.toDouble()) * 0.7;
         }
       );
 
       _progress.mailbox = MailboxType.SENT;
       _progress.curr = 0;
       _progress.total = 0;
-      _progress.percent = 0.5;
+      _progress.percent = 0.7;
       Map<int, MailMessage> sent = await MailFacade.fetchMessages(
         mailbox: MailboxType.SENT,
-        existing: _mails.sent,
+        existing: cache.sent,
         name: account.name,
         password: account.password,
         progressCallback: (curr, total) {
           _progress.curr = curr;
           _progress.total = total;
-          _progress.percent = 0.5 + (curr / total.toDouble()) * 0.5;
+          _progress.percent = 0.7 + (curr / total.toDouble()) * 0.3;
         }
       );
 
       if (inbox == null || sent == null) {
         _progress.active = false;
+        _mailMetadata = await PersistentService.instance.getMailMetadata();
+        _lastFetchResult = cache;
         log(' -> Mail update failed', name: LOG_NAME);
         return;
       }
 
-      _mails = MailCollection(inbox: inbox, sent: sent);
+      final newMailCollection = MailCollection(inbox: inbox, sent: sent);
 
       // show notifications
       if (showNotifications) {
-        List<MailMessage> newMails = _mails.inbox.values
+        List<MailMessage> newMails = newMailCollection.inbox.values
             .where((mail) => !prevInboxMails.contains(mail.uid))
             .toList();
 
@@ -124,11 +120,17 @@ class MailService implements SyncableService {
       }
 
       final now = DateTime.now();
-      await PersistentService.instance.setMails(DataWithTimestamp(data: _mails, timestamp: now));
-      _lastUpdate = DateTime.now();
+      await PersistentService.instance.setMails(DataWithTimestamp(data: newMailCollection, timestamp: now));
+      _mailMetadata = MailMetadata(
+        timestamp: now,
+        countInbox: newMailCollection.inbox.length,
+        countSent: newMailCollection.sent.length
+      );
+      _lastFetchResult = newMailCollection;
       log(' -> Mails updated (${now.difference(start)})', name: LOG_NAME);
     } else {
-      log(' -> Mails updated (from cache only)', name: LOG_NAME);
+      _mailMetadata = await PersistentService.instance.getMailMetadata();
+      log(' -> Fetched mail metadata (from cache only)', name: LOG_NAME);
     }
 
     _progress.reset();
@@ -136,7 +138,7 @@ class MailService implements SyncableService {
 
   @override
   DateTime getLastUpdate() {
-    return _lastUpdate;
+    return _mailMetadata.timestamp ?? ApiService.FALLBACK_TIME;
   }
 
   @override
@@ -145,12 +147,24 @@ class MailService implements SyncableService {
   @override
   String batchKey; // not available in batch route
 
-  List<MailMessage> getMailsInbox() {
-    return _mails.inbox.values.toList().reversed.toList();
+  MailMetadata getMailMetadata() {
+    return _mailMetadata;
   }
 
-  List<MailMessage> getMailsSent() {
-    return _mails.sent.values.toList().reversed.toList();
+  Future<List<MailMessage>> getMails({@required MailboxType mailbox, @required int startIndex, @required int size}) async {
+    return await PersistentService.instance.getMails(
+      mailbox: mailbox,
+      startIndex: startIndex,
+      size: size
+    );
+  }
+
+  Future<MailMessage> getMail(MailboxType mailbox, int uid) async {
+    return await PersistentService.instance.getMail(mailbox, uid);
+  }
+
+  MailCollection getLastFetchResult() {
+    return _lastFetchResult;
   }
 
   Future<bool> sendMessage(MailMessageSend message) {
