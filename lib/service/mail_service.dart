@@ -46,94 +46,93 @@ class MailService implements SyncableService {
     log(' -> Syncing mails...', name: LOG_NAME);
     _progress.reset(starting: true);
 
-    if (useNetwork) {
-      // fetch from mail server
-      final start = DateTime.now();
-      final account = SettingsService.instance.getOvguAccount();
-      if (account == null) {
-        _progress.active = false;
-        log(' -> skip mail (no ovgu account)', name: LOG_NAME);
-        return;
-      }
-
-      // get current mails
-      final cache = await PersistentService.instance.getAllMails();
-
-      Set<int> prevInboxMails;
-      if (showNotifications) {
-        prevInboxMails = cache.inbox.keys.toSet();
-      }
-
-      Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
-        mailbox: MailboxType.INBOX,
-        existing: cache.inbox,
-        name: account.name,
-        password: account.password,
-        progressCallback: (curr, total) {
-          _progress.curr = curr;
-          _progress.total = total;
-          _progress.percent = (curr / total.toDouble()) * 0.7;
-        }
-      );
-
-      _progress.mailbox = MailboxType.SENT;
-      _progress.curr = 0;
-      _progress.total = 0;
-      _progress.percent = 0.7;
-      Map<int, MailMessage> sent = await MailFacade.fetchMessages(
-        mailbox: MailboxType.SENT,
-        existing: cache.sent,
-        name: account.name,
-        password: account.password,
-        progressCallback: (curr, total) {
-          _progress.curr = curr;
-          _progress.total = total;
-          _progress.percent = 0.7 + (curr / total.toDouble()) * 0.3;
-        }
-      );
-
-      if (inbox == null || sent == null) {
-        _progress.active = false;
-        _mailMetadata = await PersistentService.instance.getMailMetadata();
-        _lastFetchResult = cache;
-        log(' -> Mail update failed', name: LOG_NAME);
-        return;
-      }
-
-      final newMailCollection = MailCollection(inbox: inbox, sent: sent);
-
-      // show notifications
-      if (showNotifications) {
-        List<MailMessage> newMails = newMailCollection.inbox.values
-            .where((mail) => !prevInboxMails.contains(mail.uid))
-            .toList();
-
-        if (newMails.isNotEmpty) {
-          if (onBatchFinished != null) {
-            // show at the end of batch update
-            onBatchFinished(() => NotificationService.createInstance().showNewMail(newMails));
-          } else {
-            // show immediately
-            NotificationService.createInstance().showNewMail(newMails);
-          }
-        }
-      }
-
-      final now = DateTime.now();
-      await PersistentService.instance.setMails(DataWithTimestamp(data: newMailCollection, timestamp: now));
-      _mailMetadata = MailMetadata(
-        timestamp: now,
-        countInbox: newMailCollection.inbox.length,
-        countSent: newMailCollection.sent.length
-      );
-      _lastFetchResult = newMailCollection;
-      log(' -> Mails updated (${now.difference(start)})', name: LOG_NAME);
-    } else {
+    if (!useNetwork) {
+      _progress.reset();
       _mailMetadata = await PersistentService.instance.getMailMetadata();
       log(' -> Fetched mail metadata (from cache only)', name: LOG_NAME);
+      return;
     }
 
+    // fetch from mail server
+    final start = DateTime.now();
+    final account = SettingsService.instance.getOvguAccount();
+    if (account == null) {
+      _progress.reset();
+      log(' -> skip mail (no ovgu account)', name: LOG_NAME);
+      return;
+    }
+
+    // get current mails
+    final cache = await PersistentService.instance.getAllMails();
+
+    Set<int> prevInboxMails;
+    if (showNotifications) {
+      prevInboxMails = cache.inbox.keys.toSet();
+    }
+
+    Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
+      mailbox: MailboxType.INBOX,
+      existing: cache.inbox,
+      name: account.name,
+      password: account.password,
+      progressCallback: (curr, total) {
+        _progress.curr = curr;
+        _progress.total = total;
+        _progress.percent = (curr / total.toDouble()) * 0.7;
+      }
+    );
+
+    _progress.mailbox = MailboxType.SENT;
+    _progress.curr = 0;
+    _progress.total = 0;
+    _progress.percent = 0.7;
+    Map<int, MailMessage> sent = await MailFacade.fetchMessages(
+      mailbox: MailboxType.SENT,
+      existing: cache.sent,
+      name: account.name,
+      password: account.password,
+      progressCallback: (curr, total) {
+        _progress.curr = curr;
+        _progress.total = total;
+        _progress.percent = 0.7 + (curr / total.toDouble()) * 0.3;
+      }
+    );
+
+    if (inbox == null || sent == null) {
+      _progress.reset();
+      log(' -> Mail update failed', name: LOG_NAME);
+      return;
+    }
+
+    final newMailCollection = MailCollection(inbox: inbox, sent: sent);
+
+    // show notifications
+    if (showNotifications) {
+      List<MailMessage> newMails = newMailCollection.inbox.values
+          .where((mail) => !prevInboxMails.contains(mail.uid))
+          .toList();
+
+      if (newMails.isNotEmpty) {
+        if (onBatchFinished != null) {
+          // show at the end of batch update
+          onBatchFinished(() => NotificationService.createInstance().showNewMail(newMails));
+        } else {
+          // show immediately
+          NotificationService.createInstance().showNewMail(newMails);
+        }
+      }
+    }
+
+    final now = DateTime.now();
+    await PersistentService.instance.setMails(DataWithTimestamp(data: newMailCollection, timestamp: now));
+    _mailMetadata = MailMetadata(
+      timestamp: now,
+      countInbox: newMailCollection.inbox.length,
+      countSent: newMailCollection.sent.length
+    );
+    _lastFetchResult = newMailCollection;
     _progress.reset();
+    log(' -> Mails updated (${now.difference(start)})', name: LOG_NAME);
   }
 
   @override

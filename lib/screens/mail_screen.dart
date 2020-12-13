@@ -8,6 +8,7 @@ import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/model/mail_collection.dart';
 import 'package:ikus_app/model/mail_message.dart';
 import 'package:ikus_app/model/mailbox_type.dart';
 import 'package:ikus_app/model/ui/mail_progress.dart';
@@ -95,9 +96,8 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   /// use data from last sync to avoid additional fetching
-  void applyLastSyncResult() {
+  void applyLastSyncResult(MailCollection lastResult) {
     resetCache();
-    final lastResult = MailService.instance.getLastFetchResult();
     final mailsList = mailbox == MailboxType.INBOX ? lastResult.inbox : lastResult.sent;
     final mailsReversed = mailsList.entries.toList().reversed.toList();
     for (int i = 0; i < mailsReversed.length; i++) {
@@ -118,7 +118,11 @@ class _MailScreenState extends State<MailScreen> {
             progressString = null;
             progressPercent = 1;
             syncing = false;
-            applyLastSyncResult();
+
+            final lastResult = MailService.instance.getLastFetchResult();
+            if (lastResult != null) {
+              applyLastSyncResult(lastResult);
+            }
           });
         }
         return;
