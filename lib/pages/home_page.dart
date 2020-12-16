@@ -192,9 +192,12 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 20),
             ..._posts.map((post) => Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              child: PostCard(post: post, callback: () {
-                pushScreen(context, () => PostScreen(post));
-              }),
+              child: PostCard(
+                post: post,
+                callback: () {
+                  pushScreen(context, () => PostScreen(post));
+                }
+              ),
             )),
             SizedBox(height: 50),
           ],
