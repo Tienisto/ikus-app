@@ -20,6 +20,10 @@
       "short": "Handbuch",
       "long": "Handbuch"
     },
+    "podcasts": {
+      "short": "Podcasts",
+      "long": "Podcasts"
+    },
     "faq": {
       "short": "FAQ",
       "long": "FAQ"
@@ -208,6 +212,10 @@
     "privacy": "Deine Login-Daten werden verschlüsselt und nur auf deinem Gerät gespeichert.",
     "authenticating": "Authentifizierung"
   },
+  "podcast_list": {
+    "title": "Podcasts",
+    "empty": "In Arbeit."
+  },
   "post": {
     "title": "Beitrag"
   },
@@ -220,6 +228,7 @@
       "mensa": "Mensa",
       "links": "Links",
       "handbook": "Handbuch",
+      "podcasts": "Podcasts",
       "faq": "FAQ",
       "contact": "Kontakte",
       "emails": "E-Mails",

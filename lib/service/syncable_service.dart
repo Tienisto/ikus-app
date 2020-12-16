@@ -8,6 +8,7 @@ import 'package:ikus_app/service/link_service.dart';
 import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/news_service.dart';
+import 'package:ikus_app/service/podcast_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 
 abstract class SyncableService {
@@ -48,6 +49,7 @@ abstract class SyncableService {
     MensaService.instance,
     LinkService.instance,
     HandbookService.instance,
+    PodcastService.instance,
     FAQService.instance,
     ContactService.instance,
     MailService.instance,
@@ -61,6 +63,7 @@ abstract class SyncableService {
     MensaService.instance,
     LinkService.instance,
     HandbookService.instance,
+    PodcastService.instance,
     FAQService.instance,
     ContactService.instance,
     MailService.instance
