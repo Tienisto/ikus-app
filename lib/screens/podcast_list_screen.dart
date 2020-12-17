@@ -3,7 +3,9 @@ import 'package:ikus_app/components/cards/podcast_card.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/podcast.dart';
+import 'package:ikus_app/screens/podcast_screen.dart';
 import 'package:ikus_app/service/podcast_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class PodcastListScreen extends StatefulWidget {
@@ -50,7 +52,12 @@ class _PodcastListScreenState extends State<PodcastListScreen> {
             ...podcasts.map((podcast) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
-                child: PodcastCard(podcast: podcast),
+                child: PodcastCard(
+                  podcast: podcast,
+                  onTap: () {
+                    pushScreen(context, () => PodcastScreen(podcast: podcast));
+                  },
+                ),
               );
             }),
           SizedBox(height: 50),

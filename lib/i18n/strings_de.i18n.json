@@ -216,6 +216,9 @@
     "title": "Podcasts",
     "empty": "In Arbeit."
   },
+  "podcast": {
+    "title": "Podcast"
+  },
   "post": {
     "title": "Beitrag"
   },

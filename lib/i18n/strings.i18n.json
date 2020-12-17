@@ -216,6 +216,9 @@
     "title": "Podcasts",
     "empty": "Work in progress."
   },
+  "podcast": {
+    "title": "Podcast"
+  },
   "post": {
     "title": "Post"
   },
