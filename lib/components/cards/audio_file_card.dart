@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
-import 'package:ikus_app/components/popups/podcast_text_popup.dart';
-import 'package:ikus_app/model/podcast_file.dart';
+import 'package:ikus_app/components/popups/audio_text_popup.dart';
+import 'package:ikus_app/model/audio_file.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class PodcastFileCard extends StatefulWidget {
+class AudioFileCard extends StatefulWidget {
 
-  final PodcastFile file;
+  final AudioFile file;
 
-  const PodcastFileCard({@required this.file});
+  const AudioFileCard({@required this.file});
 
   @override
-  _PodcastFileCardState createState() => _PodcastFileCardState();
+  _AudioFileCardState createState() => _AudioFileCardState();
 }
 
-class _PodcastFileCardState extends State<PodcastFileCard> {
+class _AudioFileCardState extends State<AudioFileCard> {
 
   double _currTime = 0;
   bool _playing = false;
@@ -56,7 +56,7 @@ class _PodcastFileCardState extends State<PodcastFileCard> {
                   OvguButton(
                     flat: true,
                     callback: () {
-                      PodcastTextPopup.open(context: context, file: widget.file);
+                      AudioTextPopup.open(context: context, file: widget.file);
                     },
                     child: Icon(Icons.notes)
                   ),

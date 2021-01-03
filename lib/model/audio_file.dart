@@ -1,13 +1,13 @@
-class PodcastFile {
+class AudioFile {
 
   final String name;
   final String file;
   final String text; // nullable
 
-  PodcastFile({this.name, this.file, this.text});
+  AudioFile({this.name, this.file, this.text});
 
-  static PodcastFile fromMap(Map<String, dynamic> map) {
-    return PodcastFile(
+  static AudioFile fromMap(Map<String, dynamic> map) {
+    return AudioFile(
       name: map['name'],
       file: map['file'],
       text: map['text']

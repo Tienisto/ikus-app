@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/popups/generic_info_popup.dart';
-import 'package:ikus_app/model/podcast_file.dart';
+import 'package:ikus_app/model/audio_file.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/popups.dart';
 
-class PodcastTextPopup extends StatelessWidget {
+class AudioTextPopup extends StatelessWidget {
 
-  final PodcastFile file;
+  final AudioFile file;
 
-  const PodcastTextPopup(this.file);
+  const AudioTextPopup(this.file);
 
-  static void open({@required BuildContext context, @required PodcastFile file}) {
+  static void open({@required BuildContext context, @required AudioFile file}) {
     final height = MediaQuery.of(context).size.height;
     Popups.generic(
         context: context,
         height: height - 200,
-        body: PodcastTextPopup(file)
+        body: AudioTextPopup(file)
     );
   }
 

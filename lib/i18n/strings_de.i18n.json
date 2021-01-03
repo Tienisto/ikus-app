@@ -20,9 +20,9 @@
       "short": "Handbuch",
       "long": "Handbuch"
     },
-    "podcasts": {
-      "short": "Podcasts",
-      "long": "Podcasts"
+    "audio": {
+      "short": "Audio",
+      "long": "Audio"
     },
     "faq": {
       "short": "FAQ",
@@ -212,12 +212,12 @@
     "privacy": "Deine Login-Daten werden verschlüsselt und nur auf deinem Gerät gespeichert.",
     "authenticating": "Authentifizierung"
   },
-  "podcast_list": {
-    "title": "Podcasts",
+  "audioList": {
+    "title": "Audio",
     "empty": "In Arbeit."
   },
-  "podcast": {
-    "title": "Podcast"
+  "audio": {
+    "title": "Audio"
   },
   "post": {
     "title": "Beitrag"
@@ -231,7 +231,7 @@
       "mensa": "Mensa",
       "links": "Links",
       "handbook": "Handbuch",
-      "podcasts": "Podcasts",
+      "audio": "Audio",
       "faq": "FAQ",
       "contact": "Kontakte",
       "emails": "E-Mails",
