@@ -25,7 +25,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
   }
 
   Future<void> loadAudio() async {
-    audioGroups = await AudioService.instance.getAudio();
+    audioGroups = AudioService.instance.getAudio();
     setState(() {});
   }
 

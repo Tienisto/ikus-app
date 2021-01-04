@@ -4,7 +4,7 @@ class Audio {
 
   final int id; // for hero animation
   final String name;
-  final String image;
+  final String image; // nullable
   final List<AudioFile> files;
 
   Audio({this.id, this.name, this.image, this.files});

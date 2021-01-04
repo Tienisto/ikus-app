@@ -48,6 +48,7 @@ dependencies:
       url: git@github.com:ened/flutter_workmanager.git
       ref: 1c4e162ea4e71855856fb9e55a1545b3dae9a25d
   flutter_local_notifications: ^3.0.1+5 # show notifications
+  audioplayers: 0.17.0 # play audio
 
   # components
   flutter_html: ^1.0.2 # show post content encoded in html

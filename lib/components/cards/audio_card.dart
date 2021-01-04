@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/ovgu_network_image.dart';
 import 'package:ikus_app/model/audio.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -23,8 +24,10 @@ class AudioCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              OvguNetworkImage(url: audio.image, height: 200),
-              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: OvguNetworkImage(url: audio.image != null ? ApiService.getFileUrl(audio.image) : null, height: 200),
+              ),
               Text(audio.name, style: TextStyle(fontSize: 20))
             ],
           ),

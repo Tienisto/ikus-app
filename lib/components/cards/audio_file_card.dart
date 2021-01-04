@@ -1,8 +1,11 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/popups/audio_text_popup.dart';
+import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/model/audio_file.dart';
+import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class AudioFileCard extends StatefulWidget {
@@ -17,8 +20,56 @@ class AudioFileCard extends StatefulWidget {
 
 class _AudioFileCardState extends State<AudioFileCard> {
 
-  double _currTime = 0;
-  bool _playing = false;
+  AudioPlayer audioPlayer = AudioPlayer();
+  AudioPlayerState _playerState = AudioPlayerState.STOPPED;
+  bool _loading = false;
+  double _targetTime; // in sec, not null during dragging
+  double _currTime = 0; // in sec
+  double _duration; // in sec
+
+  Future<void> play({position}) async {
+    if (_loading)
+      return;
+
+    // lock
+    _loading = true;
+    setState(() {});
+
+    await audioPlayer.play(ApiService.getFileUrl(widget.file.file), isLocal: false, position: position);
+    audioPlayer.onDurationChanged.listen((Duration d) {
+      if (mounted)
+        setState(() => _duration = d.inMilliseconds / 1000);
+    });
+    audioPlayer.onAudioPositionChanged.listen((Duration d) {
+      if (mounted)
+        setState(() {
+          _currTime = d.inMilliseconds / 1000;
+          _loading = false; // release lock
+        });
+    });
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted)
+        setState(() => _playerState = state);
+    });
+
+    _playerState = AudioPlayerState.PLAYING;
+  }
+
+  Future<void> stop() async {
+    await audioPlayer.pause();
+  }
+
+  String secondsToString(double sec) {
+    int minutes = sec ~/ 60;
+    int seconds = sec.floor() % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +86,35 @@ class _AudioFileCardState extends State<AudioFileCard> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Slider(
-              value: _currTime,
+              value: (_targetTime ?? _currTime) / (_duration ?? 1),
               activeColor: OvguColor.primary,
               inactiveColor: Colors.white,
               onChanged: (value) {
                 setState(() {
-                  _currTime = value;
+                  if (_duration == null)
+                    return;
+                  _targetTime = value * _duration;
+                });
+              },
+              onChangeStart: (value) {
+                setState(() {
+                  if (_duration == null)
+                    return;
+                  _targetTime = value * _duration;
+                });
+              },
+              onChangeEnd: (value) {
+                setState(() {
+                  if (_duration == null)
+                    return;
+
+                  final position = Duration(seconds: (value * _duration).floor());
+                  if (_playerState == AudioPlayerState.COMPLETED)
+                    play(position: position);
+                  else
+                    audioPlayer.seek(position);
+
+                  _targetTime = null;
                 });
               },
             ),
@@ -50,7 +124,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text('0:00 / 3:12')
+                  child: Text(_duration != null ? '${secondsToString(_targetTime ?? _currTime)} / ${secondsToString(_duration)}' : '')
                 ),
                 if (widget.file.text != null)
                   OvguButton(
@@ -63,11 +137,16 @@ class _AudioFileCardState extends State<AudioFileCard> {
                 OvguButton(
                   flat: true,
                   callback: () {
-                    setState(() {
-                      _playing = !_playing;
-                    });
+                    if (_loading)
+                      return;
+
+                    if (_playerState == AudioPlayerState.PLAYING) {
+                      stop();
+                    } else {
+                      play();
+                    }
                   },
-                  child: Icon(_playing ? Icons.pause : Icons.play_arrow)
+                  child: _loading ? Rotating(child: Icon(Icons.sync)) : Icon(_playerState == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow)
                 )
               ],
             ),
