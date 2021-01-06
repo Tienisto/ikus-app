@@ -4,7 +4,7 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 
 class ImageScreen extends StatelessWidget {
 
-  final String tag;
+  final Object tag;
   final String title;
   final Image image;
 

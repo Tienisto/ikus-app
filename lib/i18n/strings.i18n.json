@@ -20,6 +20,10 @@
       "short": "Handbook",
       "long": "Handbook"
     },
+    "audio": {
+      "short": "Audio",
+      "long": "Audio"
+    },
     "faq": {
       "short": "FAQ",
       "long": "FAQ"
@@ -208,6 +212,13 @@
     "privacy": "Your login credentials will be encrypted and only stored on your device.",
     "authenticating": "Authenticating"
   },
+  "audioList": {
+    "title": "Audio",
+    "empty": "Work in progress."
+  },
+  "audio": {
+    "title": "Audio"
+  },
   "post": {
     "title": "Post"
   },
@@ -220,6 +231,7 @@
       "mensa": "Mensa",
       "links": "Links",
       "handbook": "Handbook",
+      "audio": "Audio",
       "faq": "FAQ",
       "contact": "Contacts",
       "emails": "Emails",
