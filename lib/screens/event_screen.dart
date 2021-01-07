@@ -2,6 +2,7 @@ import 'package:add_2_calendar/add_2_calendar.dart' as calendar;
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/badge.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
+import 'package:ikus_app/components/cards/event_time_card.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
@@ -12,6 +13,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/my_events_screen.dart';
 import 'package:ikus_app/service/calendar_service.dart';
+import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
@@ -104,49 +106,17 @@ class _EventScreenState extends State<EventScreen> {
               ),
             ),
           SizedBox(height: 20),
-          OvguCard(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.event.when, style: EventScreen.keyStyle),
-                        SizedBox(height: 10),
-                        IconText(
-                          size: EventScreen.valueSize,
-                          icon: Icons.event,
-                          text: widget.event.formattedStartDateWithWeekday,
-                        ),
-                        if(widget.event.hasTime)
-                          SizedBox(height: 10),
-                        if(widget.event.hasTime)
-                          IconText(
-                            size: EventScreen.valueSize,
-                            icon: Icons.access_time,
-                            text: t.timeFormat(time: widget.event.formattedTime),
-                          ),
-                      ],
-                    ),
-                  ),
-                  OvguButton(
-                    callback: () {
-                      calendar.Add2Calendar.addEvent2Cal(calendar.Event(
-                          title: widget.event.name,
-                          location: widget.event.place,
-                          startDate: widget.event.startTime,
-                          endDate: widget.event.hasEndTime ? widget.event.endTime : widget.event.hasTime ? widget.event.startTime.add(Duration(hours: 10)) : widget.event.startTime,
-                          allDay: !widget.event.hasTime
-                      ));
-                    },
-                    child: Icon(Icons.add_alert, color: Colors.white),
-                  )
-                ],
-              ),
-            ),
+          EventTimeCard(
+            event: widget.event,
+            onAddCalendar: () {
+              calendar.Add2Calendar.addEvent2Cal(calendar.Event(
+                title: widget.event.name,
+                location: widget.event.place,
+                startDate: widget.event.startTime,
+                endDate: widget.event.hasEndTimestamp ? widget.event.endTime : widget.event.startTime.hasTime() ? widget.event.startTime.add(Duration(hours: 10)) : widget.event.startTime,
+                allDay: !widget.event.startTime.hasTime()
+              ));
+            }
           ),
           SizedBox(height: 20),
           if (widget.event.place != null || widget.event.coords != null)

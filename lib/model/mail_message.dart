@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/utility/extensions.dart';
 import 'package:intl/intl.dart';
 
 class MailMessage {
@@ -21,8 +22,7 @@ class MailMessage {
   MailMessage({@required this.uid, @required this.from, @required this.to, @required this.cc, @required this.timestamp, @required this.subject, @required this.contentPlain, @required this.contentHtml});
 
   String get formattedTimestamp {
-    final today = DateTime.now();
-    if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
+    if (timestamp.isSameDay(DateTime.now())) {
       if (LocaleSettings.currentLocale == 'en')
         return _timeFormatterEn.format(timestamp);
       else

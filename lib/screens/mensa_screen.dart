@@ -12,6 +12,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
+import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
@@ -92,9 +93,9 @@ class _MensaScreenState extends State<MensaScreen> {
   String formatDate(DateTime timestamp) {
     DateTime today = DateTime.now();
     DateTime tomorrow = DateTime.now().add(Duration(days: 1));
-    if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
+    if (timestamp.isSameDay(today)) {
       return t.mensa.today(date: _dateFormatter.format(timestamp));
-    } else if (tomorrow.day == timestamp.day && tomorrow.month == timestamp.month && tomorrow.year == timestamp.year) {
+    } else if (timestamp.isSameDay(tomorrow)) {
       return t.mensa.tomorrow(date: _dateFormatter.format(timestamp));
     } else {
       return _dateWithWeekdayFormatter.format(timestamp);
@@ -102,8 +103,7 @@ class _MensaScreenState extends State<MensaScreen> {
   }
 
   String formatLastUpdate(DateTime timestamp) {
-    DateTime today = DateTime.now();
-    if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
+    if (timestamp.isSameDay(DateTime.now())) {
       return t.mensa.today(date: _lastUpdateFormatterTimeOnly.format(timestamp));
     } else {
       return _lastUpdateFormatter.format(timestamp);

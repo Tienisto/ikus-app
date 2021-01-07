@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card_with_header.dart';
 import 'package:ikus_app/model/local/background_task.dart';
+import 'package:ikus_app/utility/extensions.dart';
 import 'package:intl/intl.dart';
 
 class BackgroundTaskLogCard extends StatelessWidget {
@@ -14,8 +15,7 @@ class BackgroundTaskLogCard extends StatelessWidget {
   const BackgroundTaskLogCard(this.task);
 
   String timestampToStringShort(DateTime timestamp) {
-    DateTime today = DateTime.now();
-    if (today.day == timestamp.day && today.month == timestamp.month && today.year == timestamp.year) {
+    if (timestamp.isSameDay(DateTime.now())) {
       return _formatterTimeOnly.format(timestamp);
     } else {
       return _formatter.format(timestamp);

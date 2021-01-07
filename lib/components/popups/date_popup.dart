@@ -5,6 +5,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/utility/adaptive.dart';
+import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
@@ -25,7 +26,7 @@ class DatePopup extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 15, top: 10),
-              child: Text(Event.formatOnlyDate.format(date), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(Event.formatDate(date), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             OvguButton(
               flat: true,
@@ -73,11 +74,11 @@ class DatePopup extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(event.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold), overflow: TextOverflow.fade, softWrap: false),
-                          if (event.hasTime)
+                          if (event.startTime.hasTime())
                             IconText(
                               size: 14,
                               icon: Icons.access_time,
-                              text: t.timeFormat(time: event.formattedTime),
+                              text: t.timeFormat(time: event.formattedSameDayTime),
                               color: Colors.white,
                             )
                         ],

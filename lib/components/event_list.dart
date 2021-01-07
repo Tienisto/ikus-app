@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/utility/callbacks.dart';
+import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class EventList extends StatelessWidget {
@@ -11,6 +12,25 @@ class EventList extends StatelessWidget {
   final EventCallback callback;
 
   const EventList({@required this.events, @required this.highlighted, @required this.callback});
+
+  List<Widget> getSubTimeInfo(Event event) {
+    if (!event.hasEndTimestamp || event.endTime.isSameDay(event.startTime)) {
+      // same day format
+      if (event.startTime.hasTime())
+        return [Text(t.timeFormat(time: event.formattedSameDayTime), style: TextStyle(color: OvguColor.secondaryDarken2))];
+      else
+        return [SizedBox(height: 10)]; // placeholder
+    } else {
+      // multiple days format
+      if (event.startTime.hasTime())
+        return [
+          Text(t.timeFormat(time: Event.formatTime(event.startTime)) + ' ' + t.event.to, style: TextStyle(color: OvguColor.secondaryDarken2)),
+          Text(t.timeFormat(time: Event.formatFull(event.endTime)), style: TextStyle(color: OvguColor.secondaryDarken2))
+        ];
+      else
+        return [Text(t.event.to + ' ' + t.timeFormat(time: Event.formatFull(event.endTime)), style: TextStyle(color: OvguColor.secondaryDarken2))];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +43,7 @@ class EventList extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(events.first.formattedStartDate, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(Event.formatDate(events.first.startTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -40,10 +60,7 @@ class EventList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(event.name, style: TextStyle(fontSize: 16, fontWeight: currHighlighted ? FontWeight.bold : FontWeight.normal)),
-                            if (event.hasTime)
-                              Text(t.timeFormat(time: event.formattedTime), style: TextStyle(color: OvguColor.secondaryDarken2)),
-                            if (!event.hasTime)
-                              SizedBox(height: 10) // placeholder
+                            ...getSubTimeInfo(event)
                           ],
                         ),
                       ),

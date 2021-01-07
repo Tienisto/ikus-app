@@ -118,6 +118,7 @@
   "event": {
     "title": "Event",
     "when": "Wann?",
+    "to": "bis",
     "where": "Wo?"
   },
   "faq": {
