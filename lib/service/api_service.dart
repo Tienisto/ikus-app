@@ -36,7 +36,7 @@ class ApiService {
     assert(routes.isNotEmpty, 'routes must not be empty');
 
     String routesQuery = routes.join(',');
-    String url = '$URL/combined?locale=${locale.toUpperCase()}&routes=$routesQuery';
+    String url = '$URL/batch?locale=${locale.toUpperCase()}&routes=$routesQuery';
     try {
 
       Response response = await get(url);
