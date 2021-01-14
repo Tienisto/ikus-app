@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:ikus_app/model/local/ovgu_account.dart';
+import 'package:ikus_app/model/local/settings_data.dart';
 import 'package:ikus_app/model/mensa_info.dart';
-import 'package:ikus_app/model/ovgu_account.dart';
-import 'package:ikus_app/model/settings_data.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 
 class SettingsService {

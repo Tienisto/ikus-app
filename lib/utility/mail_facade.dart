@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ikus_app/model/mail_message.dart';
-import 'package:ikus_app/model/mail_message_send.dart';
-import 'package:ikus_app/model/mailbox_type.dart';
+import 'package:ikus_app/model/mail/mail_message.dart';
+import 'package:ikus_app/model/mail/mail_message_send.dart';
+import 'package:ikus_app/model/mail/mailbox_type.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 

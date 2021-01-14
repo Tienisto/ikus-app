@@ -1,4 +1,4 @@
-import 'package:ikus_app/model/mailbox_type.dart';
+import 'package:ikus_app/model/mail/mailbox_type.dart';
 
 class MailProgress {
   bool active;

@@ -1,4 +1,4 @@
-import 'package:ikus_app/model/mail_message.dart';
+import 'package:ikus_app/model/mail/mail_message.dart';
 
 class MailCollection {
 

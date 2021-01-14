@@ -6,7 +6,7 @@ import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/data_with_timestamp.dart';
+import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/popups/generic_info_popup.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
-import 'package:ikus_app/model/mail_message.dart';
+import 'package:ikus_app/model/mail/mail_message.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/popups.dart';
 

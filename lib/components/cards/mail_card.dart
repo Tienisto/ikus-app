@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/ovgu_card_with_header.dart';
-import 'package:ikus_app/model/mail_message.dart';
-import 'package:ikus_app/model/mailbox_type.dart';
+import 'package:ikus_app/model/mail/mail_message.dart';
+import 'package:ikus_app/model/mail/mailbox_type.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 
 class MailCard extends StatelessWidget {

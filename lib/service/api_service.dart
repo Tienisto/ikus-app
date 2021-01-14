@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:ikus_app/constants.dart';
 import 'package:ikus_app/init.dart';
-import 'package:ikus_app/model/data_with_timestamp.dart';
+import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/jwt_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';

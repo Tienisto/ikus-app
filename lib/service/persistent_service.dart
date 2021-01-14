@@ -6,16 +6,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ikus_app/model/data_with_timestamp.dart';
 import 'package:ikus_app/model/local/background_task.dart';
+import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/local/log_error.dart';
 import 'package:ikus_app/model/local/mail_metadata.dart';
-import 'package:ikus_app/model/mail_collection.dart';
-import 'package:ikus_app/model/mail_message.dart';
-import 'package:ikus_app/model/mailbox_type.dart';
+import 'package:ikus_app/model/local/ovgu_account.dart';
+import 'package:ikus_app/model/local/settings_data.dart';
+import 'package:ikus_app/model/mail/mail_collection.dart';
+import 'package:ikus_app/model/mail/mail_message.dart';
+import 'package:ikus_app/model/mail/mailbox_type.dart';
 import 'package:ikus_app/model/mensa_info.dart';
-import 'package:ikus_app/model/ovgu_account.dart';
-import 'package:ikus_app/model/settings_data.dart';
 
 /// manages hive (persistent) storage and secure storage
 /// no class except this class has dependency to hive or secure storage
