@@ -51,7 +51,7 @@ dependencies:
   audioplayers: 0.17.0 # play audio
 
   # components
-  flutter_html: ^1.0.2 # show post content encoded in html
+  flutter_html: ^1.1.1 # show post content encoded in html
   flutter_map: ^0.10.1 # show event location in-app
   carousel_slider: ^2.3.1 # slider (e.g. home page)
   table_calendar: ^2.3.1 # calendar
@@ -59,7 +59,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
+  cupertino_icons: ^1.0.0
 
 dev_dependencies:
   hive_generator: ^0.8.2
