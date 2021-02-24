@@ -2,10 +2,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
+import 'package:ikus_app/components/ovgu_network_image.dart';
 import 'package:ikus_app/components/popups/audio_text_popup.dart';
 import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/model/audio_file.dart';
+import 'package:ikus_app/screens/image_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class AudioFileCard extends StatefulWidget {
@@ -78,6 +81,19 @@ class _AudioFileCardState extends State<AudioFileCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 15),
+          if (widget.file.image != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+              child: InkWell(
+                onTap: () {
+                  pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(widget.file.image)), tag: 'audioFile-${widget.file.id}'));
+                },
+                child: OvguNetworkImage(
+                  url: ApiService.getFileUrl(widget.file.image),
+                  height: 150,
+                ),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(widget.file.name, style: TextStyle(fontSize: 16)),
