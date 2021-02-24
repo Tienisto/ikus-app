@@ -26,7 +26,7 @@ dependencies:
 
   # core
   intl: ^0.16.1 # used by table_calendar and for formatting dates
-  fast_i18n: ^2.1.0 # translations
+  fast_i18n: ^2.2.0 # translations
   jaguar_jwt: ^2.1.6 # jwt
   package_info: ^0.4.3 # show version and build of the app
   uuid: ^2.2.2 # create device id
