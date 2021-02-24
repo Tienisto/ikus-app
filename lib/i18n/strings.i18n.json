@@ -21,8 +21,8 @@
       "long": "Handbook"
     },
     "audio": {
-      "short": "Audio",
-      "long": "Audio"
+      "short": "Guides",
+      "long": "Audio Guides"
     },
     "faq": {
       "short": "FAQ",
@@ -214,11 +214,11 @@
     "authenticating": "Authenticating"
   },
   "audioList": {
-    "title": "Audio",
+    "title": "Audio Guides",
     "empty": "Work in progress."
   },
   "audio": {
-    "title": "Audio"
+    "title": "Audio Guide"
   },
   "post": {
     "title": "Post"
