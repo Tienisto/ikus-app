@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/service/contact_service.dart';
 import 'package:ikus_app/service/calendar_service.dart';
@@ -14,7 +13,7 @@ import 'package:ikus_app/utility/callbacks.dart';
 abstract class SyncableService {
 
   /// service id used for equality check and debugging
-  String id;
+  String get id;
 
   /// description, for display purposes, shown in sync screen
   String getDescription();
@@ -25,10 +24,10 @@ abstract class SyncableService {
   /// if [showNotifications] is true, then allow the service to push notifications on specific events
   /// if [onBatchFinished] is not null, then move specific actions to this callback (e.g. show notifications at the end of batch update)
   Future<void> sync({
-    @required bool useNetwork,
-    String useJSON,
+    required bool useNetwork,
+    String? useJSON,
     bool showNotifications = false,
-    AddFutureCallback onBatchFinished
+    AddFutureCallback? onBatchFinished
   });
 
   /// timestamp of last successful sync (from network or useJSON)
@@ -37,10 +36,10 @@ abstract class SyncableService {
 
   /// constant amount of time after which the service need to be synced
   /// happens during app start or background fetch
-  Duration maxAge;
+  Duration get maxAge;
 
   /// a constant for batch update
-  String batchKey;
+  String? get batchKey;
 
   /// list of all services extending SyncableService
   static List<SyncableService> get services => [

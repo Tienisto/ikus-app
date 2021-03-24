@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/local/mail_metadata.dart';
@@ -24,8 +23,8 @@ class MailService implements SyncableService {
   static MailService get instance => _instance;
 
   final MailProgress _progress = MailProgress();
-  MailMetadata _mailMetadata;
-  MailCollection _lastFetchResult; // nullable, only exists if fetched using network at least once
+  late MailMetadata _mailMetadata;
+  MailCollection? _lastFetchResult; // nullable, only exists if fetched using network at least once
 
   @override
   String id = 'MAIL';
@@ -34,7 +33,7 @@ class MailService implements SyncableService {
   String getDescription() => t.sync.items.emails;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
 
     assert(useJSON == null, "mail service sync cannot handle json");
 
@@ -65,12 +64,12 @@ class MailService implements SyncableService {
     // get current mails
     final cache = await PersistentService.instance.getAllMails();
 
-    Set<int> prevInboxMails;
+    Set<int>? prevInboxMails;
     if (showNotifications) {
       prevInboxMails = cache.inbox.keys.toSet();
     }
 
-    Map<int, MailMessage> inbox = await MailFacade.fetchMessages(
+    Map<int, MailMessage>? inbox = await MailFacade.fetchMessages(
       mailbox: MailboxType.INBOX,
       existing: cache.inbox,
       name: account.name,
@@ -86,7 +85,7 @@ class MailService implements SyncableService {
     _progress.curr = 0;
     _progress.total = 0;
     _progress.percent = 0.7;
-    Map<int, MailMessage> sent = await MailFacade.fetchMessages(
+    Map<int, MailMessage>? sent = await MailFacade.fetchMessages(
       mailbox: MailboxType.SENT,
       existing: cache.sent,
       name: account.name,
@@ -107,9 +106,9 @@ class MailService implements SyncableService {
     final newMailCollection = MailCollection(inbox: inbox, sent: sent);
 
     // show notifications
-    if (showNotifications) {
+    if (showNotifications && prevInboxMails != null) {
       List<MailMessage> newMails = newMailCollection.inbox.values
-          .where((mail) => !prevInboxMails.contains(mail.uid))
+          .where((mail) => !prevInboxMails!.contains(mail.uid))
           .toList();
 
       if (newMails.isNotEmpty) {
@@ -144,13 +143,13 @@ class MailService implements SyncableService {
   Duration maxAge = Duration(minutes: 15);
 
   @override
-  String batchKey; // not available in batch route
+  String? get batchKey => null; // not available in batch route
 
   MailMetadata getMailMetadata() {
     return _mailMetadata;
   }
 
-  Future<List<MailMessage>> getMails({@required MailboxType mailbox, @required int startIndex, @required int size}) async {
+  Future<List<MailMessage>> getMails({required MailboxType mailbox, required int startIndex, required int size}) async {
     return await PersistentService.instance.getMails(
       mailbox: mailbox,
       startIndex: startIndex,
@@ -158,21 +157,25 @@ class MailService implements SyncableService {
     );
   }
 
-  Future<MailMessage> getMail(MailboxType mailbox, int uid) async {
+  Future<MailMessage?> getMail(MailboxType mailbox, int uid) async {
     return await PersistentService.instance.getMail(mailbox, uid);
   }
 
-  MailCollection getLastFetchResult() {
+  MailCollection? getLastFetchResult() {
     return _lastFetchResult;
   }
 
   Future<bool> sendMessage(MailMessageSend message) {
     final account = SettingsService.instance.getOvguAccount();
+    if (account == null)
+      return Future.value(false);
     return MailFacade.sendMessage(message, name: account.name, password: account.password);
   }
 
   Future<bool> deleteMessage(MailboxType mailbox, int uid) {
     final account = SettingsService.instance.getOvguAccount();
+    if (account == null)
+      return Future.value(false);
     return MailFacade.deleteMessage(mailbox: mailbox, uid: uid, name: account.name, password: account.password);
   }
 

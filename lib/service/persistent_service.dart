@@ -59,7 +59,7 @@ class PersistentService {
 
   // device id
 
-  String getDeviceId() {
+  String? getDeviceId() {
     return Hive.box(_BOX_DEVICE_ID).get('device_id');
   }
 
@@ -69,11 +69,11 @@ class PersistentService {
 
   // api storage
 
-  Future<DataWithTimestamp<Uint8List>> getApiBinary(String key) async {
+  Future<DataWithTimestamp<Uint8List>?> getApiBinary(String key) async {
     final boxBinary = await _openLazyBoxSafely<Uint8List>(_BOX_API_BINARY);
     final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
-    final Uint8List binary = await boxBinary.get(key);
-    final DateTime timestamp = await boxLastSync.get(key);
+    final Uint8List? binary = await boxBinary.get(key);
+    final DateTime? timestamp = await boxLastSync.get(key);
     final result = binary != null && timestamp != null ? DataWithTimestamp(data: binary, timestamp: timestamp) : null;
     await boxBinary.close();
     await boxLastSync.close();
@@ -89,11 +89,11 @@ class PersistentService {
     await boxLastSync.close();
   }
 
-  Future<DataWithTimestamp<String>> getApiJson(String key) async {
+  Future<DataWithTimestamp<String>?> getApiJson(String key) async {
     final boxJson = await _openLazyBoxSafely<String>(_BOX_API_JSON);
     final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
-    final String json = await boxJson.get(key);
-    final DateTime timestamp = await boxLastSync.get(key);
+    final String? json = await boxJson.get(key);
+    final DateTime? timestamp = await boxLastSync.get(key);
     final result = json != null && timestamp != null ? DataWithTimestamp(data: json, timestamp: timestamp) : null;
     await boxJson.close();
     await boxLastSync.close();
@@ -109,7 +109,7 @@ class PersistentService {
     await boxLastSync.close();
   }
 
-  Future<DateTime> getApiTimestamp(String key) async {
+  Future<DateTime?> getApiTimestamp(String key) async {
     final boxLastSync = await _openLazyBoxSafely<DateTime>(_BOX_LAST_SYNC);
     final result = boxLastSync.get(key);
     await boxLastSync.close();
@@ -147,7 +147,7 @@ class PersistentService {
       myEvents: box
           .get('my_events', defaultValue: [])
           .cast<int>(),
-      mensa: (box.get('mensa') as String)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN,
+      mensa: (box.get('mensa') as String?)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN,
       devSettings: box.get('dev_settings', defaultValue: false),
       devServer: box.get('dev_server', defaultValue: false)
     );
@@ -168,10 +168,10 @@ class PersistentService {
 
   // ovgu account
 
-  Future<OvguAccount> getOvguAccount() async {
-    String ovguName = await _secureStorage.read(key: 'ovgu_name');
-    String ovguPassword = await _secureStorage.read(key: 'ovgu_password');
-    String mailAddress = await _secureStorage.read(key: 'ovgu_mail_address');
+  Future<OvguAccount?> getOvguAccount() async {
+    String? ovguName = await _secureStorage.read(key: 'ovgu_name');
+    String? ovguPassword = await _secureStorage.read(key: 'ovgu_password');
+    String? mailAddress = await _secureStorage.read(key: 'ovgu_mail_address');
     if (ovguName == null || ovguPassword == null) {
       return null;
     } else {
@@ -215,7 +215,7 @@ class PersistentService {
   /// used to display mails
   /// only show a part of the collection to improve performance
   /// order of keys are reversed
-  Future<List<MailMessage>> getMails({@required MailboxType mailbox, @required int startIndex, @required int size}) async {
+  Future<List<MailMessage>> getMails({required MailboxType mailbox, required int startIndex, required int size}) async {
     final box = await _openLazyBoxSafely<String>(mailbox == MailboxType.INBOX ? _BOX_MAILS_INBOX : _BOX_MAILS_SENT);
 
     // get keys
@@ -240,10 +240,10 @@ class PersistentService {
 
   /// returns a specific mail by uid
   /// may be null
-  Future<MailMessage> getMail(MailboxType mailbox, int uid) async {
+  Future<MailMessage?> getMail(MailboxType mailbox, int uid) async {
     final box = await _openLazyBoxSafely<String>(mailbox == MailboxType.INBOX ? _BOX_MAILS_INBOX : _BOX_MAILS_SENT);
     final mailRaw = await box.get(uid);
-    MailMessage message;
+    MailMessage? message;
     if (mailRaw != null) {
       message = MailMessage.fromMap(json.decode(mailRaw));
     }
@@ -322,7 +322,7 @@ class PersistentService {
     return errors;
   }
 
-  Future<void> logError(String message, String stacktrace) async {
+  Future<void> logError(String message, String? stacktrace) async {
     final error = LogError()
       ..timestamp = DateTime.now()
       ..message = message
@@ -364,7 +364,7 @@ class PersistentService {
     print(e);
     if (boxName != _BOX_LOGS_ERROR) {
       // log error
-      String stacktrace;
+      String? stacktrace;
       if (e is Error) {
         stacktrace = e.stackTrace?.toString();
       }

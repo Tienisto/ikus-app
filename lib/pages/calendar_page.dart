@@ -24,9 +24,9 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
 
-  CalendarController _calendarController;
-  Map<DateTime, List<Event>> _events;
-  List<Event> _myEvents;
+  late CalendarController _calendarController;
+  late Map<DateTime, List<Event>> _events;
+  late List<Event> _myEvents;
 
   @override
   void initState() {

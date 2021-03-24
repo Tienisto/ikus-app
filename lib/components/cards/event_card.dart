@@ -11,7 +11,7 @@ class EventCard extends StatelessWidget {
   final Event event;
   final Callback callback;
 
-  const EventCard({@required this.event, @required this.callback});
+  const EventCard({required this.event, required this.callback});
 
   @override
   Widget build(BuildContext context) {

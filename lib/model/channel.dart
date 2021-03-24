@@ -3,7 +3,7 @@ class Channel {
   final int id;
   final String name;
 
-  Channel({this.id, this.name});
+  Channel({required this.id, required this.name});
 
   static Channel fromMap(Map<String, dynamic> map) {
     return Channel(

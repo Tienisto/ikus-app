@@ -7,7 +7,7 @@ class GenericInfoPopup extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const GenericInfoPopup({@required this.title, @required this.child});
+  const GenericInfoPopup({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {

@@ -5,11 +5,11 @@ import 'package:ikus_app/utility/ui.dart';
 class MainListView extends StatelessWidget {
 
   final List<Widget> children;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final CrossAxisAlignment crossAxisAlignment;
-  final ScrollPhysics scrollPhysics;
+  final ScrollPhysics? scrollPhysics;
 
-  const MainListView({@required this.children, this.padding, this.crossAxisAlignment = CrossAxisAlignment.start, this.scrollPhysics});
+  const MainListView({required this.children, this.padding, this.crossAxisAlignment = CrossAxisAlignment.start, this.scrollPhysics});
 
   @override
   Widget build(BuildContext context) {

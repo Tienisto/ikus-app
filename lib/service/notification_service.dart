@@ -83,12 +83,16 @@ class NotificationService {
     }
   }
 
-  static Future<void> onSelectNotification(String payload) async {
+  static Future<void> onSelectNotification(String? payload) async {
     print('Received notification callback');
-    SimpleWidgetBuilder screen = NotificationPayloadSerialization.parse(payload);
+    if (payload == null)
+      return;
+
+    SimpleWidgetBuilder? screen = NotificationPayloadSerialization.parse(payload);
     if (screen != null) {
-      final context = MainScreen.mainScreenKey.currentState.context;
-      pushScreen(context, screen);
+      final context = MainScreen.mainScreenKey.currentState?.context;
+      if (context != null)
+        pushScreen(context, screen);
     }
   }
 

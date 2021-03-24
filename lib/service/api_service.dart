@@ -23,7 +23,7 @@ class ApiService {
   static final DateFormat _lastModifiedFormatter = DateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", 'en');
 
   /// true if last [getCacheOrFetchString] used internet connection
-  static bool usedNetworkOnLastJSONFetch;
+  static bool? usedNetworkOnLastJSONFetch;
 
   static String getFileUrl(String fileName) {
     return '$URL/file/$fileName';
@@ -31,7 +31,7 @@ class ApiService {
 
   /// fetch batch route (no cache mechanism)
   /// preparation for [getCacheOrFetchString] with useJSON
-  static Future<String> fetchBatchString({String locale, List<String> routes}) async {
+  static Future<String?> fetchBatchString({required String locale, required List<String> routes}) async {
 
     assert(routes.isNotEmpty, 'routes must not be empty');
 
@@ -39,7 +39,7 @@ class ApiService {
     String url = '$URL/batch?locale=${locale.toUpperCase()}&routes=$routesQuery';
     try {
 
-      Response response = await get(url);
+      Response response = await get(Uri.parse(url));
       log('[${response.statusCode}] $url', name: LOG_NAME);
 
       if (response.statusCode == 200)
@@ -57,7 +57,7 @@ class ApiService {
   /// 2: fetch route if [useNetwork] is true
   /// 3: use cache
   /// 4: use [fallback]
-  static Future<DataWithTimestamp<String>> getCacheOrFetchString({String route, String locale, String useJSON, bool useNetwork, fallback}) async {
+  static Future<DataWithTimestamp<String>> getCacheOrFetchString({required String route, required String locale, String? useJSON, required bool useNetwork, required fallback}) async {
 
     final String key = 'api_json/$route';
 
@@ -67,10 +67,10 @@ class ApiService {
       return newData;
     }
 
-    Response response;
+    Response? response;
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
-        response = await get('$URL/$route?locale=${locale.toUpperCase()}');
+        response = await get(Uri.parse('$URL/$route?locale=${locale.toUpperCase()}'));
         log('[${response.statusCode}] $route', name: LOG_NAME);
         usedNetworkOnLastJSONFetch = true;
       } catch (e) {
@@ -94,14 +94,14 @@ class ApiService {
   /// 1: fetch route if [useNetwork] is true
   /// 2: use cache
   /// 3: use [fallback]
-  static Future<DataWithTimestamp<Uint8List>> getCacheOrFetchBinary({String route, bool useNetwork, fallback}) async {
-    Response response;
+  static Future<DataWithTimestamp<Uint8List>> getCacheOrFetchBinary({required String route, required bool useNetwork, required fallback}) async {
+    Response? response;
     final String key = 'api_binary/$route';
 
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
         DateTime timestamp = await PersistentService.instance.getApiTimestamp(key) ?? FALLBACK_TIME;
-        response = await get('$URL/file/$route', headers: {
+        response = await get(Uri.parse('$URL/file/$route'), headers: {
           'If-Modified-Since': _lastModifiedFormatter.format(timestamp.toUtc())
         });
         log('[${response.statusCode}] $route', name: LOG_NAME);
@@ -120,16 +120,16 @@ class ApiService {
   }
 
   static Future<void> appStart() async {
-    String deviceId = PersistentService.instance.getDeviceId();
+    String? deviceId = PersistentService.instance.getDeviceId();
 
     Map<String, dynamic> body = {
       'token': JwtService.generateToken(),
-      'deviceId': deviceId,
+      'deviceId': deviceId ?? 'unknown',
       'platform': Platform.isIOS ? 'IOS' : 'ANDROID',
     };
 
     await post(
-      '$URL/start',
+      Uri.parse('$URL/start'),
       headers: {'content-type': 'application/json'},
       body: json.encode(body)
     );

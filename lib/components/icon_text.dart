@@ -6,12 +6,12 @@ class IconText extends StatelessWidget {
   final double distance;
   final IconData icon;
   final String text;
-  final Color color;
+  final Color? color;
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisAlignment mainAxisAlignment;
   final bool multiLine;
 
-  const IconText({@required this.size, @required this.icon, @required this.text, this.distance = 5, this.color, this.crossAxisAlignment = CrossAxisAlignment.center, this.mainAxisAlignment = MainAxisAlignment.start, this.multiLine = false});
+  const IconText({required this.size, required this.icon, required this.text, this.distance = 5, this.color, this.crossAxisAlignment = CrossAxisAlignment.center, this.mainAxisAlignment = MainAxisAlignment.start, this.multiLine = false});
 
   @override
   Widget build(BuildContext context) {

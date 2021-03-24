@@ -16,7 +16,7 @@ class AudioListScreen extends StatefulWidget {
 
 class _AudioListScreenState extends State<AudioListScreen> {
 
-  List<Audio> audioGroups;
+  late List<Audio> audioGroups;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
     loadAudio();
   }
 
-  Future<void> loadAudio() async {
+  void loadAudio()  {
     audioGroups = AudioService.instance.getAudio();
     setState(() {});
   }
@@ -39,7 +39,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
       body: MainListView(
         children: [
           SizedBox(height: 30),
-          if (audioGroups != null && audioGroups.isEmpty)
+          if (audioGroups.isEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 100),
               child: Center(
@@ -48,18 +48,17 @@ class _AudioListScreenState extends State<AudioListScreen> {
                 ),
               ),
             ),
-          if (audioGroups != null)
-            ...audioGroups.map((audio) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
-                child: AudioCard(
-                  audio: audio,
-                  onTap: () {
-                    pushScreen(context, () => AudioScreen(audio: audio));
-                  },
-                ),
-              );
-            }),
+          ...audioGroups.map((audio) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
+              child: AudioCard(
+                audio: audio,
+                onTap: () {
+                  pushScreen(context, () => AudioScreen(audio: audio));
+                },
+              ),
+            );
+          }),
           SizedBox(height: 50),
         ],
       ),

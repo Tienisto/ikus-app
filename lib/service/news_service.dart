@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/channel.dart';
@@ -16,9 +15,9 @@ class NewsService implements SyncableService {
   static final NewsService _instance = NewsService();
   static NewsService get instance => _instance;
 
-  DateTime _lastUpdate;
-  ChannelHandler<Post> _channelHandler;
-  List<Post> _posts;
+  late DateTime _lastUpdate;
+  late ChannelHandler<Post> _channelHandler;
+  late List<Post> _posts;
 
   @override
   String id = 'NEWS';
@@ -27,7 +26,7 @@ class NewsService implements SyncableService {
   String getDescription() => t.sync.items.news;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'news',
       locale: LocaleSettings.currentLocale,
@@ -46,7 +45,7 @@ class NewsService implements SyncableService {
     List<dynamic> postsRaw = map['posts'];
     List<Post> posts = postsRaw.map((p) => Post.fromMap(p)).toList();
 
-    List<int> subscribedIds = SettingsService.instance.getNewsChannels();
+    List<int>? subscribedIds = SettingsService.instance.getNewsChannels();
     List<Channel> subscribedChannels = subscribedIds != null ? channels.where((channel) => subscribedIds.any((id) => channel.id == id)).toList() : [...channels];
 
     _channelHandler = ChannelHandler(channels, subscribedChannels);

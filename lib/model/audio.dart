@@ -4,10 +4,10 @@ class Audio {
 
   final int id; // for hero animation
   final String name;
-  final String image; // nullable
+  final String? image;
   final List<AudioFile> files;
 
-  Audio({this.id, this.name, this.image, this.files});
+  Audio({required this.id, required this.name, required this.image, required this.files});
 
   static Audio fromMap(Map<String, dynamic> map) {
     return Audio(

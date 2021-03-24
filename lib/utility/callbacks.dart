@@ -7,7 +7,7 @@ import 'package:ikus_app/model/post.dart';
 
 typedef void Callback();
 typedef void IntCallback(int integer);
-typedef void BoolCallback(bool boolean);
+typedef void BoolCallback(bool? boolean);
 typedef void PostCallback(Post post);
 typedef void StringCallback(String string);
 typedef void SwitchCallback(SwitchState state);

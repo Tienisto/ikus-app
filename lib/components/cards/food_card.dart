@@ -9,7 +9,7 @@ class FoodCard extends StatelessWidget {
   static NumberFormat currencyFormat = NumberFormat("0.00", LocaleSettings.currentLocale);
   final Food food;
 
-  const FoodCard({@required this.food});
+  const FoodCard({required this.food});
 
   @override
   Widget build(BuildContext context) {

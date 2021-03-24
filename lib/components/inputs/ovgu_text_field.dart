@@ -10,13 +10,13 @@ class OvguTextField extends StatelessWidget {
   final String hint;
   final StringCallback onChange;
   final TextFieldType type;
-  final IconData icon;
-  final List<String> autofillHints;
-  final TextEditingController controller;
-  final Function onEditingComplete;
-  final Function onSubmitted;
+  final IconData? icon;
+  final List<String>? autofillHints;
+  final TextEditingController? controller;
+  final VoidCallback? onEditingComplete;
+  final ValueChanged<String>? onSubmitted;
 
-  const OvguTextField({@required this.hint, @required this.onChange, this.type = TextFieldType.CLEAR,
+  const OvguTextField({required this.hint, required this.onChange, this.type = TextFieldType.CLEAR,
     this.icon, this.controller, this.autofillHints, this.onEditingComplete, this.onSubmitted});
 
   @override

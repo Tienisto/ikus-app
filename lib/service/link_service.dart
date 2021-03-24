@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/link_group.dart';
@@ -13,8 +12,8 @@ class LinkService implements SyncableService {
   static final LinkService _instance = LinkService();
   static LinkService get instance => _instance;
 
-  DateTime _lastUpdate;
-  List<LinkGroup> _links;
+  late DateTime _lastUpdate;
+  late List<LinkGroup> _links;
 
   @override
   String id = 'LINKS';
@@ -23,7 +22,7 @@ class LinkService implements SyncableService {
   String getDescription() => t.sync.items.links;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'links',
       locale: LocaleSettings.currentLocale,

@@ -11,7 +11,7 @@ class MailPeoplePopup extends StatelessWidget {
 
   const MailPeoplePopup(this.mail);
 
-  static void open({@required BuildContext context, @required MailMessage mail}) {
+  static void open({required BuildContext context, required MailMessage mail}) {
     Popups.generic(
         context: context,
         height: 250,

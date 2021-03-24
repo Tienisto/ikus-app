@@ -9,8 +9,8 @@ class Popups {
   static const double DEFAULT_HEIGHT = 270;
 
   static Future<void> generic({
-    @required BuildContext context,
-    @required Widget body,
+    required BuildContext context,
+    required Widget body,
     double height = DEFAULT_HEIGHT,
     bool dismissible = true,
   }) async {
@@ -45,7 +45,7 @@ class Popups {
           ),
         );
       },
-      pageBuilder: (context, animation1, animation2) { return null; }
+      pageBuilder: (context, animation1, animation2) { return Container(); }
     );
   }
 }

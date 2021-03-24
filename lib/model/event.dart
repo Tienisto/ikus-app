@@ -1,8 +1,8 @@
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
+import 'package:ikus_app/model/coords.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:intl/intl.dart';
-import "package:latlong/latlong.dart";
 
 class Event {
 
@@ -13,25 +13,21 @@ class Event {
 
   final int id;
   final String name;
-  final String info;
+  final String? info;
   final Channel channel;
   final DateTime startTime;
-  final DateTime endTime;
-  final String place;
-  final LatLng coords;
+  final DateTime? endTime;
+  final String? place;
+  final Coords? coords;
 
-  const Event({this.id, this.name, this.info, this.channel, this.startTime, this.endTime, this.place, this.coords});
+  const Event({required this.id, required this.name, required this.info, required this.channel, required this.startTime, required this.endTime, required this.place, required this.coords});
 
   /// same as formattedTimestamp but only time
   String get formattedSameDayTime {
-    if (hasEndTimestamp)
-      return formatTime(startTime) + ' - ' + formatTime(endTime);
+    if (endTime != null)
+      return formatTime(startTime) + ' - ' + formatTime(endTime!);
     else
       return formatTime(startTime);
-  }
-
-  bool get hasEndTimestamp {
-    return endTime != null;
   }
 
   static Event fromMap(Map<String, dynamic> map) {
@@ -43,7 +39,7 @@ class Event {
         startTime: DateTime.parse(map['startTime']).toLocal(),
         endTime: map['endTime'] != null ? DateTime.parse(map['endTime']).toLocal() : null,
         place: map['place'],
-        coords: map['coords'] != null ? LatLng(map['coords']['x'], map['coords']['y']) : null
+        coords: map['coords'] != null ? Coords.fromMap(map['coords']) : null
     );
   }
 
@@ -83,7 +79,7 @@ extension EventGroup on List<Event> {
     Map<DateTime, List<Event>> map = Map();
     this.forEach((event) {
       DateTime date = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
-      List<Event> currEvents = map[date];
+      List<Event>? currEvents = map[date];
       if (currEvents != null) {
         currEvents.add(event);
       } else {

@@ -11,10 +11,10 @@ class EventList extends StatelessWidget {
   final List<Event> highlighted;
   final EventCallback callback;
 
-  const EventList({@required this.events, @required this.highlighted, @required this.callback});
+  const EventList({required this.events, required this.highlighted, required this.callback});
 
   List<Widget> getSubTimeInfo(Event event) {
-    if (!event.hasEndTimestamp || event.endTime.isSameDay(event.startTime)) {
+    if (event.endTime == null || event.endTime!.isSameDay(event.startTime)) {
       // same day format
       if (event.startTime.hasTime())
         return [Text(t.timeFormat(time: event.formattedSameDayTime), style: TextStyle(color: OvguColor.secondaryDarken2))];
@@ -25,10 +25,10 @@ class EventList extends StatelessWidget {
       if (event.startTime.hasTime())
         return [
           Text(t.timeFormat(time: Event.formatTime(event.startTime)) + ' ' + t.event.to, style: TextStyle(color: OvguColor.secondaryDarken2)),
-          Text(t.timeFormat(time: Event.formatFull(event.endTime)), style: TextStyle(color: OvguColor.secondaryDarken2))
+          Text(t.timeFormat(time: Event.formatFull(event.endTime!)), style: TextStyle(color: OvguColor.secondaryDarken2))
         ];
       else
-        return [Text(t.event.to + ' ' + t.timeFormat(time: Event.formatFull(event.endTime)), style: TextStyle(color: OvguColor.secondaryDarken2))];
+        return [Text(t.event.to + ' ' + t.timeFormat(time: Event.formatFull(event.endTime!)), style: TextStyle(color: OvguColor.secondaryDarken2))];
     }
   }
 

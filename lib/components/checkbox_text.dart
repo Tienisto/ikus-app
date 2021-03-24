@@ -8,7 +8,7 @@ class CheckBoxText extends StatelessWidget {
   final bool value;
   final String text;
 
-  const CheckBoxText({@required this.callback, @required this.value, @required this.text});
+  const CheckBoxText({required this.callback, required this.value, required this.text});
 
   @override
   Widget build(BuildContext context) {

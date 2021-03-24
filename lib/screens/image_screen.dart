@@ -5,10 +5,10 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 class ImageScreen extends StatelessWidget {
 
   final Object tag;
-  final String title;
+  final String? title;
   final Image image;
 
-  const ImageScreen({@required this.tag, @required this.image, this.title});
+  const ImageScreen({required this.tag, required this.image, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ImageScreen extends StatelessWidget {
               alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.only(top: 10, right: 10),
-                child: Badge(text: title),
+                child: Badge(text: title!),
               ),
             ),
           ),

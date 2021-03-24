@@ -22,7 +22,7 @@ class MailMessageScreen extends StatelessWidget {
   final Callback onReply;
   final Callback onDelete;
 
-  const MailMessageScreen({@required this.mail, @required this.mailbox, @required this.onReply, @required this.onDelete});
+  const MailMessageScreen({required this.mail, required this.mailbox, required this.onReply, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,7 @@ class MailMessageScreen extends StatelessWidget {
           SizedBox(height: 30),
           HtmlView(
             padding: EdgeInsets.symmetric(horizontal: 12),
-            html: mail.contentHtml ?? mail.contentPlain.replaceAll('\n', '<br>')
+            html: mail.contentHtml ?? mail.contentPlain?.replaceAll('\n', '<br>') ?? ''
           ),
           SizedBox(height: 50)
         ],

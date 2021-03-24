@@ -34,9 +34,9 @@ class _HomePageState extends State<HomePage> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   int _currentEventIndex = 0;
-  List<Feature> _favorites;
-  List<Event> _nextEvents;
-  List<Post> _posts;
+  late List<Feature> _favorites;
+  late List<Event> _nextEvents;
+  late List<Post> _posts;
 
   @override
   void initState() {

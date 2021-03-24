@@ -47,7 +47,7 @@ class BackgroundTaskLogCard extends StatelessWidget {
                 SizedBox(height: 15),
                 Text('Message:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 SizedBox(height: 5),
-                Text(task.message, style: TextStyle(fontSize: 16)),
+                Text(task.message!, style: TextStyle(fontSize: 16)),
               ],
             SizedBox(height: 15),
             Text('Timestamp:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

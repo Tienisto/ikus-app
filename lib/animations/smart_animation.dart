@@ -5,7 +5,7 @@ class SmartAnimation extends StatefulWidget {
   final Widget child;
   final Duration duration;
   final Duration delay;
-  final Curve curve;
+  final Curve? curve;
   final bool startImmediately;
   final bool reverseAfterFinish;
 
@@ -13,8 +13,8 @@ class SmartAnimation extends StatefulWidget {
   final double startOpacity, endOpacity;
 
   SmartAnimation({
-    @required this.child,
-    @required this.duration,
+    required this.child,
+    required this.duration,
     this.delay = const Duration(milliseconds: 0),
     this.curve,
     this.startImmediately = true,
@@ -32,11 +32,11 @@ class SmartAnimation extends StatefulWidget {
 
 class SmartAnimationState extends State<SmartAnimation> with SingleTickerProviderStateMixin {
 
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
-  Animation<Offset> _animationTranslate;
-  Animation<double> _animationFade;
-  int _animationStartTimestamp;
+  Animation<Offset>? _animationTranslate;
+  Animation<double>? _animationFade;
+  int? _animationStartTimestamp;
 
   @override
   void initState() {
@@ -52,15 +52,15 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
     });
 
     if (widget.startPosition != widget.endPosition) {
-      Tween tweenTranslate = Tween<Offset>(
+      final tweenTranslate = Tween<Offset>(
           begin: widget.startPosition,
           end: widget.endPosition
       );
 
       if(widget.curve != null) {
         _animationTranslate = tweenTranslate.animate(CurvedAnimation(
-            parent: _animationController,
-            curve: widget.curve
+          parent: _animationController,
+          curve: widget.curve!
         ));
       } else {
         _animationTranslate = tweenTranslate.animate(_animationController);
@@ -68,15 +68,15 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
     }
 
     if (widget.startOpacity != widget.endOpacity) {
-      Tween tweenFade = Tween<double>(
+      final tweenFade = Tween<double>(
           begin: widget.startOpacity,
           end: widget.endOpacity
       );
 
       if(widget.curve != null) {
         _animationFade = tweenFade.animate(CurvedAnimation(
-            curve: widget.curve,
-            parent: _animationController
+          parent: _animationController,
+          curve: widget.curve!,
         ));
       } else {
         _animationFade = tweenFade.animate(_animationController);
@@ -88,7 +88,7 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
     }
   }
 
-  void startAnimation({Duration delay}) {
+  void startAnimation({Duration? delay}) {
     if (delay != null) {
       int myTimestamp = DateTime.now().millisecondsSinceEpoch;
       _animationController.reset();
@@ -114,40 +114,42 @@ class SmartAnimationState extends State<SmartAnimation> with SingleTickerProvide
 
   @override
   Widget build(BuildContext context) {
-    if (_animationTranslate != null && _animationFade != null) {
+    final translate = _animationTranslate;
+    final fade = _animationFade;
+    if (translate != null && fade != null) {
       // animate position and opacity
       return AnimatedBuilder(
-          animation: _animationTranslate,
-          builder: (BuildContext context, Widget child) {
+          animation: translate,
+          builder: (BuildContext context, Widget? child) {
             return Transform.translate(
-                offset: _animationTranslate.value,
+                offset: translate.value,
                 child: Opacity(
-                    opacity: _animationFade.value,
+                    opacity: fade.value,
                     child: widget.child
                 )
             );
           },
           child: widget.child
       );
-    } else if (_animationTranslate != null) {
+    } else if (translate != null) {
       // animate position only
       return AnimatedBuilder(
-          animation: _animationTranslate,
-          builder: (BuildContext context, Widget child) {
+          animation: translate,
+          builder: (BuildContext context, Widget? child) {
             return Transform.translate(
-                offset: _animationTranslate.value,
+                offset: translate.value,
                 child: widget.child
             );
           },
           child: widget.child
       );
-    } else if (_animationFade != null) {
+    } else if (fade != null) {
       // animate opacity only
       return AnimatedBuilder(
-          animation: _animationFade,
-          builder: (BuildContext context, Widget child) {
+          animation: fade,
+          builder: (BuildContext context, Widget? child) {
             return Opacity(
-                opacity: _animationFade.value,
+                opacity: fade.value,
                 child: widget.child
             );
           },

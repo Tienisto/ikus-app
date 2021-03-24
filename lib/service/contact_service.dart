@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/contact.dart';
@@ -13,8 +12,8 @@ class ContactService implements SyncableService {
   static final ContactService _instance = ContactService();
   static ContactService get instance => _instance;
 
-  DateTime _lastUpdate;
-  List<Contact> _contacts;
+  late DateTime _lastUpdate;
+  late List<Contact> _contacts;
 
   @override
   String id = 'CONTACT';
@@ -23,7 +22,7 @@ class ContactService implements SyncableService {
   String getDescription() => t.sync.items.contact;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
       locale: LocaleSettings.currentLocale,

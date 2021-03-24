@@ -18,12 +18,12 @@ import 'package:ikus_app/utility/ui.dart';
 class MailSendScreen extends StatefulWidget {
 
   final Callback onSend;
-  final String to;
-  final List<String> cc;
-  final String subject;
-  final String content;
+  final String? to;
+  final List<String>? cc;
+  final String? subject;
+  final String? content;
 
-  const MailSendScreen({this.onSend, this.to, this.cc, this.subject, this.content});
+  const MailSendScreen({required this.onSend, this.to, this.cc, this.subject, this.content});
 
   @override
   _MailSendScreenState createState() => _MailSendScreenState();
@@ -33,10 +33,10 @@ class _MailSendScreenState extends State<MailSendScreen> {
 
   final _fromController = TextEditingController();
   final _toController = TextEditingController();
-  final _ccController = List<TextEditingController>();
+  final _ccController = <TextEditingController>[];
   final _subjectController = TextEditingController();
   final _contentController = TextEditingController();
-  OvguAccount _ovguAccount;
+  late OvguAccount _ovguAccount;
   String _from = '';
   String _to = '';
   List<String> _cc = [];
@@ -49,12 +49,12 @@ class _MailSendScreenState extends State<MailSendScreen> {
 
     // apply params
     if (widget.to != null) {
-      _to = widget.to;
+      _to = widget.to!;
       _toController.text = _to;
     }
 
     if (widget.cc != null) {
-      for (String curr in widget.cc) {
+      for (String curr in widget.cc!) {
         _cc.add(curr);
         final currController = TextEditingController();
         currController.text = curr;
@@ -63,19 +63,19 @@ class _MailSendScreenState extends State<MailSendScreen> {
     }
 
     if (widget.subject != null) {
-      _subject = widget.subject;
+      _subject = widget.subject!;
       _subjectController.text = _subject;
     }
 
     if (widget.content != null) {
-      _content = widget.content;
+      _content = widget.content!;
       _contentController.text = _content;
     }
 
     // apply from address from storage
-    _ovguAccount = SettingsService.instance.getOvguAccount();
+    _ovguAccount = SettingsService.instance.getOvguAccount()!;
     if (_ovguAccount.mailAddress != null) {
-      _from = _ovguAccount.mailAddress;
+      _from = _ovguAccount.mailAddress!;
       _fromController.text = _from;
     }
   }
@@ -121,9 +121,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
 
     if (result) {
       Navigator.pop(context);
-      if (widget.onSend != null) {
-        widget.onSend();
-      }
+      widget.onSend();
     } else {
       ErrorPopup.open(context);
     }

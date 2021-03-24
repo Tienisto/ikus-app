@@ -5,7 +5,7 @@ class Badge extends StatelessWidget {
 
   final String text;
 
-  const Badge({this.text});
+  const Badge({required this.text});
 
   @override
   Widget build(BuildContext context) {

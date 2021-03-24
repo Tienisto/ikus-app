@@ -34,9 +34,9 @@ void _setOrientation(ScreenOrientation orientation) {
 
 class NavigatorObserverWithOrientation extends NavigatorObserver {
   @override
-  void didPop(Route route, Route previousRoute) {
-    if (previousRoute.settings.arguments is ScreenOrientation) {
-      _setOrientation(previousRoute.settings.arguments);
+  void didPop(Route route, Route? previousRoute) {
+    if (previousRoute?.settings.arguments is ScreenOrientation) {
+      _setOrientation(previousRoute!.settings.arguments as ScreenOrientation);
     } else {
       // fallback
       _setOrientation(ScreenOrientation.PORTRAIT);
@@ -44,9 +44,9 @@ class NavigatorObserverWithOrientation extends NavigatorObserver {
   }
 
   @override
-  void didPush(Route route, Route previousRoute) {
+  void didPush(Route route, Route? previousRoute) {
     if (route.settings.arguments is ScreenOrientation) {
-      _setOrientation(route.settings.arguments);
+      _setOrientation(route.settings.arguments as ScreenOrientation);
     } else {
       _setOrientation(ScreenOrientation.PORTRAIT);
     }

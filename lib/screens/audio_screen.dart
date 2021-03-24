@@ -12,7 +12,7 @@ class AudioScreen extends StatefulWidget {
 
   final Audio audio;
 
-  const AudioScreen({@required this.audio});
+  const AudioScreen({required this.audio});
 
   @override
   _AudioScreenState createState() => _AudioScreenState();
@@ -43,13 +43,13 @@ class _AudioScreenState extends State<AudioScreen> {
               padding: const EdgeInsets.only(bottom: 30),
               child: InkWell(
                 onTap: () {
-                  pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(widget.audio.image)), tag: widget.audio.id));
+                  pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(widget.audio.image!)), tag: widget.audio.id));
                 },
                 child: Hero(
                   tag: widget.audio.id,
                   child: ClipRRect(
                     borderRadius: OvguPixels.borderRadiusImage,
-                    child: Image.network(ApiService.getFileUrl(widget.audio.image))
+                    child: Image.network(ApiService.getFileUrl(widget.audio.image!))
                   )
                 ),
               ),

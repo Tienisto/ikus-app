@@ -4,7 +4,7 @@ import 'package:ikus_app/utility/ui.dart';
 
 class GenericTextPopup extends StatelessWidget {
 
-  static void open({@required BuildContext context, @required String text}) {
+  static void open({required BuildContext context, required String text}) {
     Popups.generic(
         context: context,
         height: 140,

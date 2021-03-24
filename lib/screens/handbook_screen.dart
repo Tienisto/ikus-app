@@ -20,7 +20,7 @@ class HandbookScreen extends StatefulWidget {
 
 class _HandbookScreenState extends State<HandbookScreen> {
 
-  PdfController pdfController;
+  PdfController? pdfController;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
             ),
           if (pdfController != null)
             PdfView(
-              controller: pdfController,
+              controller: pdfController!,
               scrollDirection: Axis.vertical,
             ),
           if (pdfController != null)
@@ -68,7 +68,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
                             callback: (page) async {
                               Navigator.pop(context);
                               await sleep(300);
-                              pdfController.animateToPage(page,
+                              pdfController!.animateToPage(page,
                                 duration: Duration(milliseconds: 1000),
                                 curve: Curves.easeInOutCubic
                               );

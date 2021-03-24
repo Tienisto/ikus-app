@@ -15,7 +15,7 @@ class AudioFileCard extends StatefulWidget {
 
   final AudioFile file;
 
-  const AudioFileCard({@required this.file});
+  const AudioFileCard({required this.file});
 
   @override
   _AudioFileCardState createState() => _AudioFileCardState();
@@ -26,9 +26,9 @@ class _AudioFileCardState extends State<AudioFileCard> {
   AudioPlayer audioPlayer = AudioPlayer();
   AudioPlayerState _playerState = AudioPlayerState.STOPPED;
   bool _loading = false;
-  double _targetTime; // in sec, not null during dragging
+  double? _targetTime; // in sec, not null during dragging
   double _currTime = 0; // in sec
-  double _duration; // in sec
+  double? _duration; // in sec
 
   Future<void> play({position}) async {
     if (_loading)
@@ -86,10 +86,10 @@ class _AudioFileCardState extends State<AudioFileCard> {
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
               child: InkWell(
                 onTap: () {
-                  pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(widget.file.image)), tag: 'audioFile-${widget.file.id}'));
+                  pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(widget.file.image!)), tag: 'audioFile-${widget.file.id}'));
                 },
                 child: OvguNetworkImage(
-                  url: ApiService.getFileUrl(widget.file.image),
+                  url: ApiService.getFileUrl(widget.file.image!),
                   height: 150,
                 ),
               ),
@@ -109,14 +109,14 @@ class _AudioFileCardState extends State<AudioFileCard> {
                 setState(() {
                   if (_duration == null)
                     return;
-                  _targetTime = value * _duration;
+                  _targetTime = value * _duration!;
                 });
               },
               onChangeStart: (value) {
                 setState(() {
                   if (_duration == null)
                     return;
-                  _targetTime = value * _duration;
+                  _targetTime = value * _duration!;
                 });
               },
               onChangeEnd: (value) {
@@ -124,7 +124,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
                   if (_duration == null)
                     return;
 
-                  final position = Duration(seconds: (value * _duration).floor());
+                  final position = Duration(seconds: (value * _duration!).floor());
                   if (_playerState == AudioPlayerState.COMPLETED)
                     play(position: position);
                   else
@@ -140,13 +140,13 @@ class _AudioFileCardState extends State<AudioFileCard> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(_duration != null ? '${secondsToString(_targetTime ?? _currTime)} / ${secondsToString(_duration)}' : '')
+                  child: Text(_duration != null ? '${secondsToString(_targetTime ?? _currTime)} / ${secondsToString(_duration!)}' : '')
                 ),
                 if (widget.file.text != null)
                   OvguButton(
                     flat: true,
                     callback: () {
-                      AudioTextPopup.open(context: context, file: widget.file);
+                      AudioTextPopup.open(context: context, name: widget.file.name, text: widget.file.text!);
                     },
                     child: Icon(Icons.notes)
                   ),

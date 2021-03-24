@@ -5,12 +5,12 @@ import 'package:ikus_app/utility/ui.dart';
 class OvguButton extends StatelessWidget {
 
   final Widget child;
-  final Callback callback;
-  final EdgeInsets padding;
+  final Callback? callback;
+  final EdgeInsets? padding;
   final bool flat;
   final Color color;
 
-  const OvguButton({@required this.child, this.callback, this.padding, this.flat = false, this.color = OvguColor.primary});
+  const OvguButton({required this.child, this.callback, this.padding, this.flat = false, this.color = OvguColor.primary});
 
   @override
   Widget build(BuildContext context) {

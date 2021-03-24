@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/pdf_bookmark.dart';
@@ -13,9 +12,9 @@ class HandbookService implements SyncableService {
   static final HandbookService _instance = HandbookService();
   static HandbookService get instance => _instance;
 
-  DateTime _lastUpdate;
-  List<PdfBookmark> _bookmarks;
-  Uint8List _bytes;
+  late DateTime _lastUpdate;
+  late List<PdfBookmark> _bookmarks;
+  late Uint8List _bytes;
 
   @override
   String id = 'HANDBOOK';
@@ -25,7 +24,7 @@ class HandbookService implements SyncableService {
 
   // useJSON applies only to the rest route
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
     DataWithTimestamp pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,

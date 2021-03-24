@@ -37,7 +37,7 @@ class LogErrorScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(errors[i].message ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(errors[i].message, style: TextStyle(fontWeight: FontWeight.bold)),
                               Text(errors[i].stacktrace ?? ''),
                             ],
                           ),

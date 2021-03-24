@@ -38,10 +38,10 @@ void workmanagerWrapper() {
   Workmanager.executeTask((String task, Map<String, dynamic> inputData) async {
     DateTime start = DateTime.now();
     bool success = false;
-    String message;
-    List<String> tasks;
+    String? message;
+    List<String>? tasks;
     try {
-      await backgroundTask(task, (List<String> t, [String m]) {
+      await backgroundTask(task, (List<String> t, [String? m]) {
         tasks = t;
         message = m;
       });

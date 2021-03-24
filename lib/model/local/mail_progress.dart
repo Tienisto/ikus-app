@@ -7,7 +7,7 @@ class MailProgress {
   int total; // total amount of mails fetching (current mailbox)
   double percent; // total progress (all mailboxes)
 
-  MailProgress({this.active = false, this.mailbox, this.curr, this.total, this.percent});
+  MailProgress({this.active = false, this.mailbox = MailboxType.INBOX, this.curr = 0, this.total = 0, this.percent = 0});
 
   void reset({bool starting = false}) {
     active = starting;

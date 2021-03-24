@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:ikus_app/model/local/ovgu_account.dart';
 import 'package:ikus_app/model/local/settings_data.dart';
 import 'package:ikus_app/model/mensa_info.dart';
@@ -9,8 +8,8 @@ class SettingsService {
   static final SettingsService _instance = SettingsService();
   static SettingsService get instance => _instance;
 
-  SettingsData _settings;
-  OvguAccount _ovguAccount; // nullable
+  late SettingsData _settings;
+  OvguAccount? _ovguAccount;
 
   /// load all settings data from local storage
   Future<void> loadFromStorage() async {
@@ -38,7 +37,7 @@ class SettingsService {
     _persistSettings();
   }
 
-  String getLocale() {
+  String? getLocale() {
     return _settings.locale;
   }
 
@@ -56,7 +55,7 @@ class SettingsService {
     _persistSettings();
   }
 
-  List<int> getNewsChannels() {
+  List<int>? getNewsChannels() {
     return _settings.newsChannels;
   }
 
@@ -65,7 +64,7 @@ class SettingsService {
     _persistSettings();
   }
 
-  List<int> getCalendarChannels() {
+  List<int>? getCalendarChannels() {
     return _settings.calendarChannels;
   }
 
@@ -105,7 +104,7 @@ class SettingsService {
     return _settings.devServer;
   }
 
-  Future<void> setOvguAccount({@required String name, @required String password, String mailAddress}) async {
+  Future<void> setOvguAccount({required String name, required String password, String? mailAddress}) async {
     OvguAccount account = OvguAccount(name: name, password: password, mailAddress: mailAddress);
     PersistentService.instance.setOvguAccount(account);
     _ovguAccount = account;
@@ -120,7 +119,7 @@ class SettingsService {
     return _ovguAccount != null;
   }
 
-  OvguAccount getOvguAccount() {
+  OvguAccount? getOvguAccount() {
     return _ovguAccount;
   }
 }

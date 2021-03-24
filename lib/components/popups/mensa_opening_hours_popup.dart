@@ -9,9 +9,9 @@ class MensaOpeningHoursPopup extends StatelessWidget {
   final String mensa;
   final String openingHours;
 
-  const MensaOpeningHoursPopup({@required this.mensa, @required this.openingHours});
+  const MensaOpeningHoursPopup({required this.mensa, required this.openingHours});
 
-  static void open({@required BuildContext context, @required String mensa, @required String openingHours}) {
+  static void open({required BuildContext context, required String mensa, required String openingHours}) {
     Popups.generic(
         context: context,
         height: 150,

@@ -14,7 +14,7 @@ class ChannelPopup extends StatefulWidget {
   final List<Channel> selected;
   final ChannelBooleanCallback callback;
 
-  const ChannelPopup({@required this.available, @required this.selected, @required this.callback});
+  const ChannelPopup({required this.available, required this.selected, required this.callback});
 
   @override
   _ChannelPopupState createState() => _ChannelPopupState();
@@ -28,13 +28,11 @@ class ChannelPopup extends StatefulWidget {
 class _ChannelPopupState extends State<ChannelPopup> {
 
   static const bool DEFAULT_STATE = false;
-  Map<int, bool> selectedMap;
+  Map<int, bool> selectedMap = Map();
 
   @override
   void initState() {
     super.initState();
-
-    selectedMap = Map();
     widget.selected.forEach((channel) {
       selectedMap[channel.id] = true;
     });
@@ -52,7 +50,7 @@ class _ChannelPopupState extends State<ChannelPopup> {
               text: channel.name,
               value: selectedMap[channel.id] ?? DEFAULT_STATE,
               callback: (selected) async {
-                await widget.callback(channel, selected);
+                await widget.callback(channel, selected!);
                 setState(() {
                   selectedMap[channel.id] = selected;
                 });

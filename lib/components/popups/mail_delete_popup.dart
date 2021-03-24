@@ -9,9 +9,9 @@ class MailDeletePopup extends StatelessWidget {
 
   final Callback callback;
 
-  const MailDeletePopup({@required this.callback});
+  const MailDeletePopup({required this.callback});
 
-  static void open({@required BuildContext context, @required Callback callback}) {
+  static void open({required BuildContext context, required Callback callback}) {
     Popups.generic(
         context: context,
         height: 180,

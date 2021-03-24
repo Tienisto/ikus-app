@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/mensa_info.dart';
@@ -13,8 +12,8 @@ class MensaService implements SyncableService {
   static final MensaService _instance = MensaService();
   static MensaService get instance => _instance;
 
-  DateTime _lastUpdate;
-  List<MensaInfo> _menu;
+  late DateTime _lastUpdate;
+  late List<MensaInfo> _menu;
 
   @override
   String id = 'MENSA';
@@ -23,7 +22,7 @@ class MensaService implements SyncableService {
   String getDescription() => t.sync.items.mensa;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'mensa',
       locale: LocaleSettings.currentLocale,
@@ -33,9 +32,7 @@ class MensaService implements SyncableService {
     );
 
     List<dynamic> list = jsonDecode(data.data);
-    _menu = list.map((mensa) => MensaInfo.fromMap(mensa))
-        .where((mensa) => mensa.name != null)
-        .toList();
+    _menu = list.map((mensa) => MensaInfo.fromMap(mensa)).toList();
     _lastUpdate = data.timestamp;
   }
 

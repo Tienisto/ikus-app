@@ -12,7 +12,7 @@ class EventAddedPopup extends StatelessWidget {
   final Callback onUndo;
   final Callback onShowList;
 
-  const EventAddedPopup({@required this.event, @required this.onOk, @required this.onUndo, @required this.onShowList});
+  const EventAddedPopup({required this.event, required this.onOk, required this.onUndo, required this.onShowList});
 
   @override
   Widget build(BuildContext context) {

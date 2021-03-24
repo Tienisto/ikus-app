@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
@@ -26,14 +27,14 @@ class Init {
 
   /// runs before app has even run
   /// returns a screen when handling notification start
-  static Future<SimpleWidgetBuilder> preInit() async {
+  static Future<SimpleWidgetBuilder?> preInit() async {
     WidgetsFlutterBinding.ensureInitialized();
     LocaleSettings.useDeviceLocale();
     BackgroundService.instance.init();
     await initializeDateFormatting();
-    NotificationAppLaunchDetails details = await FlutterLocalNotificationsPlugin().getNotificationAppLaunchDetails();
-    if (details.didNotificationLaunchApp && details.payload != null) {
-      return NotificationPayloadSerialization.parse(details.payload);
+    NotificationAppLaunchDetails? details = await FlutterLocalNotificationsPlugin().getNotificationAppLaunchDetails();
+    if (details != null && details.didNotificationLaunchApp && details.payload != null) {
+      return NotificationPayloadSerialization.parse(details.payload!);
     } else {
       return null;
     }
@@ -59,7 +60,7 @@ class Init {
 
   /// runs after the first frame
   /// - network stuff like syncing data with API
-  static Future<void> postInit({bool appStart = true, BackgroundSyncCallback backgroundSyncCallback}) async {
+  static Future<void> postInit({bool appStart = true, BackgroundSyncCallback? backgroundSyncCallback}) async {
 
     await _syncAppConfig();
 
@@ -103,7 +104,7 @@ class Init {
   /// initialize the device id if needed
   static Future<void> _initDeviceId() async {
     log('[2 / 4] init device id', name: LOG_NAME);
-    String deviceId = PersistentService.instance.getDeviceId();
+    String? deviceId = PersistentService.instance.getDeviceId();
     if (deviceId == null) {
       // initialize
       deviceId = Uuid().v4();
@@ -121,7 +122,7 @@ class Init {
     await SettingsService.instance.loadFromStorage();
 
     // set locale
-    String locale = SettingsService.instance.getLocale();
+    String? locale = SettingsService.instance.getLocale();
     if (locale != null) {
       log(' -> use locale: $locale', name: LOG_NAME);
       LocaleSettings.setLocale(locale);
@@ -153,7 +154,7 @@ class Init {
   }
 
   /// update old data based on maxAge
-  static Future<void> _updateOldData(BackgroundSyncCallback backgroundSyncCallback) async {
+  static Future<void> _updateOldData(BackgroundSyncCallback? backgroundSyncCallback) async {
 
     log('[3 / 3] check if old data needs to be refetched', name: LOG_NAME);
 
@@ -162,7 +163,7 @@ class Init {
       return;
 
     DateTime now = DateTime.now();
-    List<SyncableService> fetchList = List();
+    List<SyncableService> fetchList = [];
     Map<SyncableService, String> batchResult = Map();
 
     // prepare outdated services
@@ -186,14 +187,15 @@ class Init {
     List<String> routes = fetchList
         .where((service) => service.batchKey != null)
         .map((service) => service.batchKey)
+        .cast<String>()
         .toList();
     if (routes.isNotEmpty) {
       log(' -> (2/4) fetch batch route', name: LOG_NAME);
-      String response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale, routes: routes);
+      String? response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale, routes: routes);
       if (response != null) {
         Map<String, dynamic> parsed = json.decode(response);
         for (final entry in parsed.entries) {
-          SyncableService service = SyncableService.servicesWithoutAppConfig.firstWhere((s) => s.batchKey == entry.key, orElse: () => null);
+          SyncableService? service = SyncableService.servicesWithoutAppConfig.firstWhereOrNull((s) => s.batchKey == entry.key);
           if (service != null) {
             batchResult[service] = entry.value; // add batch result
           }
@@ -205,9 +207,9 @@ class Init {
 
     // apply fetch list with batch data
     log(' -> (3/4) sync', name: LOG_NAME);
-    List<FutureCallback> postSyncTasks = List();
+    List<FutureCallback> postSyncTasks = [];
     for (SyncableService service in fetchList) {
-      String useJSON = batchResult[service];
+      String? useJSON = batchResult[service];
       log(' -> ${service.id.padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}', name: LOG_NAME);
       await service.sync(
         useNetwork: true, // useNetwork must be true, e.g. handbook

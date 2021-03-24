@@ -18,7 +18,7 @@ class MyEventsScreen extends StatefulWidget {
 
 class _MyEventsScreenState extends State<MyEventsScreen> {
 
-  Map<DateTime, List<Event>> _events;
+  late Map<DateTime, List<Event>> _events;
 
   @override
   void initState() {

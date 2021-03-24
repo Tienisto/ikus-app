@@ -17,7 +17,7 @@ class BottomNavigator extends StatelessWidget {
   final IntCallback callback;
   final bool disabled;
 
-  const BottomNavigator({@required this.selectedIndex, @required this.callback, @required this.disabled});
+  const BottomNavigator({required this.selectedIndex, required this.callback, required this.disabled});
 
   @override
   Widget build(BuildContext context) {

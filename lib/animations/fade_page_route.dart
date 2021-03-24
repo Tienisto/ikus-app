@@ -4,7 +4,7 @@ class FadePageRoute extends PageRouteBuilder {
 
   final WidgetBuilder builder;
 
-  FadePageRoute({@required this.builder, @required duration}) : super(
+  FadePageRoute({required this.builder, required duration}) : super(
     transitionDuration: duration,
     pageBuilder: (context, animation, secondaryAnimation) => builder(context),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {

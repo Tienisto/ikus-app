@@ -5,17 +5,17 @@ part 'background_task.g.dart';
 @HiveType(typeId: 1)
 class BackgroundTask {
   @HiveField(0)
-  DateTime start;
+  late DateTime start;
 
   @HiveField(1)
-  DateTime end;
+  late DateTime end;
 
   @HiveField(2)
-  bool success;
+  late bool success;
 
   @HiveField(3)
-  String message;
+  String? message;
 
   @HiveField(4)
-  List<String> services;
+  late List<String> services;
 }

@@ -10,7 +10,7 @@ class FeatureButton extends StatelessWidget {
   final Callback selectCallback;
   final Callback favoriteCallback;
 
-  const FeatureButton({@required this.feature, @required this.favorite, @required this.selectCallback, @required this.favoriteCallback});
+  const FeatureButton({required this.feature, required this.favorite, required this.selectCallback, required this.favoriteCallback});
 
   @override
   Widget build(BuildContext context) {

@@ -22,18 +22,16 @@ class _FAQScreenState extends State<FAQScreen> {
   List<PostGroup> faq = [];
 
   String query = '';
-  List<Post> pool; // flatten PostGroup
-  List<Post> results;
+  late List<Post> pool; // flatten PostGroup
+  late List<Post> results;
 
   @override
   void initState() {
     super.initState();
 
-    setState(() {
-      faq = FAQService.instance.getFAQ();
-      pool = faq.expand((i) => i.posts).toList();
-      results = [];
-    });
+    faq = FAQService.instance.getFAQ();
+    pool = faq.expand((i) => i.posts).toList();
+    results = [];
   }
 
   void updateResults() {

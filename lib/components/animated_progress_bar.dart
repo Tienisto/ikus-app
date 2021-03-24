@@ -7,7 +7,7 @@ class AnimatedProgressBar extends StatefulWidget {
   final Color backgroundColor;
   final Duration reactDuration;
 
-  const AnimatedProgressBar({@required this.progress, @required this.reactDuration, @required this.backgroundColor});
+  const AnimatedProgressBar({required this.progress, required this.reactDuration, required this.backgroundColor});
 
   @override
   _AnimatedProgressBarState createState() => _AnimatedProgressBarState();
@@ -15,8 +15,8 @@ class AnimatedProgressBar extends StatefulWidget {
 
 class _AnimatedProgressBarState extends State<AnimatedProgressBar> with SingleTickerProviderStateMixin {
 
-  AnimationController _animationController;
-  Animation<double> _animationProgress;
+  late AnimationController _animationController;
+  late Animation<double> _animationProgress;
   double _progress = 0;
 
   @override

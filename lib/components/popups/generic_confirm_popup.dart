@@ -4,10 +4,10 @@ import 'package:ikus_app/utility/ui.dart';
 class GenericConfirmPopup extends StatelessWidget {
 
   final String title;
-  final String info;
+  final String? info;
   final List<Widget> buttons;
 
-  const GenericConfirmPopup({@required this.title, this.info, @required this.buttons});
+  const GenericConfirmPopup({required this.title, this.info, required this.buttons});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class GenericConfirmPopup extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   if (info != null)
-                    Center(child: Text(info, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)),
+                    Center(child: Text(info!, style: TextStyle(fontSize: 16), textAlign: TextAlign.center)),
                   if (buttons.length == 1)
                     Center(
                       child: buttons.first,

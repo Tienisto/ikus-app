@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/link.dart';
@@ -30,7 +29,7 @@ class Feature {
   final bool recommendedFavorite;
   final FutureWithContextCallback onOpen;
 
-  Feature({@required this.id, @required this.index, @required this.icon, @required this.shortName, @required this.longName, @required this.recommendedFavorite, @required this.onOpen});
+  Feature({required this.id, required this.index, required this.icon, required this.shortName, required this.longName, required this.recommendedFavorite, required this.onOpen});
 
   static Feature get MAP => Feature(id: 0, index: 0, icon: Icons.map, shortName: t.features.map.short, longName: t.features.map.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MapScreen()));
   static Feature get MY_EVENTS => Feature(id: 0, index: 0, icon: Icons.today, shortName: t.features.myEvents.short, longName: t.features.myEvents.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MyEventsScreen()));
@@ -44,9 +43,9 @@ class Feature {
 
   /// returns the feature with the specified index from the json map
   /// returns null if parsing failed
-  static Feature fromMap(int index, Map<String, dynamic> map) {
+  static Feature? fromMap(int index, Map<String, dynamic> map) {
 
-    String nativeFeature = map['nativeFeature'];
+    String? nativeFeature = map['nativeFeature'];
     if (nativeFeature != null) {
       // use predefined native feature
       Feature feature;
@@ -109,7 +108,7 @@ class Feature {
   }
 
   /// returns a new instance with information which cannot be hardcoded (must be fetched from the server)
-  Feature withServerData({@required int id, @required int index, @required bool favorite}) {
+  Feature withServerData({required int id, required int index, required bool favorite}) {
     return Feature(id: id, index: index, icon: icon, shortName: shortName, longName: longName, recommendedFavorite: favorite, onOpen: onOpen);
   }
 

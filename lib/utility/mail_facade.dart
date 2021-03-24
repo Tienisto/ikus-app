@@ -1,8 +1,7 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:enough_mail/enough_mail.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:ikus_app/model/mail/mail_message.dart';
 import 'package:ikus_app/model/mail/mail_message_send.dart';
 import 'package:ikus_app/model/mail/mailbox_type.dart';
@@ -16,8 +15,8 @@ enum PartType {
 class PartMetadata {
   final String path;
   final PartType type;
-  final String encoding; // nullable
-  final String charset; // nullable
+  final String? encoding;
+  final String? charset;
 
   PartMetadata(this.path, this.type, this.encoding, this.charset);
 }
@@ -29,14 +28,13 @@ class MailFacade {
   static const String MAILBOX_PATH_INBOX = "INBOX";
   static const String MAILBOX_PATH_SEND = "INBOX.Sent";
 
-  static Future<bool> testLogin({@required String name, @required String password}) async {
+  static Future<bool> testLogin({required String name, required String password}) async {
     try {
       final client = ImapClient();
       await client.connectToServer('cyrus.ovgu.de', 993);
-      final response = await client.login(name, password);
-      final ok = response.isOkStatus;
+      await client.login(name, password);
       await client.closeConnection();
-      return ok;
+      return true;
     } catch (e) {
       log(e.toString(), error: e, name: LOG_NAME);
       return false;
@@ -45,25 +43,17 @@ class MailFacade {
 
   /// Fetches mails younger than [MAILS_YOUNGER_THAN].
   /// Use existing mails to reduce fetch amount
-  static Future<Map<int, MailMessage>> fetchMessages({@required MailboxType mailbox, @required String name, @required String password, @required Map<int, MailMessage> existing, MailProgressCallback progressCallback}) async {
+  static Future<Map<int, MailMessage>?> fetchMessages({required MailboxType mailbox, required String name, required String password, required Map<int, MailMessage> existing, MailProgressCallback? progressCallback}) async {
     try {
       final imapClient = await getImapClient(name: name, password: password);
-      if (imapClient == null)
-        return null;
-
-      final selectInboxResponse = await imapClient.selectMailboxByPath(mailbox.path);
-      if (selectInboxResponse.isFailedStatus)
-        return null;
+      await imapClient.selectMailboxByPath(mailbox.path);
 
       final ids = await imapClient.uidSearchMessages('YOUNGER ${MAILS_YOUNGER_THAN.inSeconds}');
 
-      if (ids.isFailedStatus)
-        return null;
-
       final fetchSequence = MessageSequence();
       final resultMap = Map<int, MailMessage>();
-      ids.result.ids.forEach((id) {
-        MailMessage message = existing[id];
+      ids.matchingSequence?.toList().forEach((id) {
+        MailMessage? message = existing[id];
         if (message != null)
           resultMap[id] = message; // add existing message
         else
@@ -78,21 +68,23 @@ class MailFacade {
 
       final fetchIdMap = Map<int, List<PartMetadata>>();
       final fetchResponse = await imapClient.uidFetchMessages(fetchSequence, '(BODYSTRUCTURE)');
-      if (fetchResponse.isFailedStatus)
-        return null;
 
-      fetchResponse.result.messages.forEach((m) {
-        if (m.body.parts == null) {
+      for (final m in fetchResponse.messages) {
+        final uid = m.uid;
+        if (uid == null)
+          continue;
+
+        if (m.body?.parts == null) {
           final type = getPartType(m.mediaType.sub);
-          final encoding = m.body.encoding;
-          final charset = m.body.contentType.charset;
-          fetchIdMap[m.uid] = [PartMetadata("1", type, encoding, charset)];
+          final encoding = m.body?.encoding;
+          final charset = m.body?.contentType?.charset;
+          fetchIdMap[uid] = [PartMetadata("1", type, encoding, charset)];
         } else {
-          List<PartMetadata> list = List();
-          _addTextParts(m.body.parts, list);
-          fetchIdMap[m.uid] = list;
+          List<PartMetadata> list = [];
+          _addTextParts(m.body?.parts ?? [], list);
+          fetchIdMap[uid] = list;
         }
-      });
+      }
 
       int curr = 0;
       int errors = 0;
@@ -108,40 +100,29 @@ class MailFacade {
           final fetchSequence = MessageSequence()..add(uid);
           final bodies = mail.value.map((part) => 'BODY[${part.path}]').join(' ');
           final res = await imapClient.uidFetchMessages(fetchSequence, '(ENVELOPE $bodies)');
-          if (res.isFailedStatus)
-            return null;
-
-          final mailResponse = res.result.messages.first;
-          final PartMetadata htmlPart = partMetadata.firstWhere((part) => part.type == PartType.HTML, orElse: () => null);
-          final PartMetadata plainPart = partMetadata.firstWhere((part) => part.type == PartType.PLAIN, orElse: () => null);
-          String plain;
-          String html;
+          final mailResponse = res.messages.first;
+          final PartMetadata? htmlPart = partMetadata.firstWhereOrNull((part) => part.type == PartType.HTML);
+          final PartMetadata? plainPart = partMetadata.firstWhereOrNull((part) => part.type == PartType.PLAIN);
+          String? plain;
+          String? html;
 
           if (plainPart != null) {
-            plain = mailResponse.getPart(plainPart.path)?.bodyRaw;
-
-            // workaround: skip decoding for 8bit/windows-1252
-            if (plainPart.encoding != '8bit' || plainPart.charset != 'windows-1252') {
-              plain = MailCodec.decodeAnyText(plain, plainPart.encoding, plainPart.charset);
-            }
+            final part = mailResponse.getPart(plainPart.path)!;
+            plain = part.mimeData?.decodeText(ContentTypeHeader.from(MediaType.textPlain, charset: plainPart.charset), plainPart.encoding);
           }
 
           if (htmlPart != null) {
-            html = mailResponse.getPart(htmlPart.path)?.bodyRaw;
-
-            // workaround: skip decoding for 8bit/windows-1252
-            if (htmlPart.encoding != '8bit' || htmlPart.charset != 'windows-1252') {
-              html = MailCodec.decodeAnyText(html, htmlPart.encoding, htmlPart.charset);
-            }
+            final part = mailResponse.getPart(htmlPart.path)!;
+            html = part.mimeData?.decodeText(ContentTypeHeader.from(MediaType.textPlain, charset: htmlPart.charset), htmlPart.encoding);
           }
 
           resultMap[uid] = MailMessage(
             uid: uid,
             from: mailResponse.fromEmail ?? 'unknown',
-            to: mailResponse.to.map((m) => m.email).toList(),
-            cc: mailResponse.cc.map((m) => m.email).toList(),
+            to: mailResponse.to?.map((m) => m.email).toList() ?? [],
+            cc: mailResponse.cc?.map((m) => m.email).toList() ?? [],
             timestamp: mailResponse.decodeDate()?.toLocal() ?? ApiService.FALLBACK_TIME,
-            subject: mailResponse.decodeSubject(),
+            subject: mailResponse.decodeSubject() ?? '',
             contentPlain: plain,
             contentHtml: html
           );
@@ -167,30 +148,22 @@ class MailFacade {
     }
   }
 
-  static Future<bool> deleteMessage({@required MailboxType mailbox, @required int uid, @required String name, @required String password}) async {
-    final imapClient = await getImapClient(name: name, password: password);
-    if (imapClient == null)
+  static Future<bool> deleteMessage({required MailboxType mailbox, required int uid, required String name, required String password}) async {
+    try {
+      final imapClient = await getImapClient(name: name, password: password);
+      await imapClient.selectMailboxByPath(mailbox.path);
+      final uidSequence = MessageSequence()..add(uid);
+      await imapClient.uidMarkDeleted(uidSequence);
+      await imapClient.expunge();
+      await imapClient.closeConnection();
+      return true;
+    } catch (e) {
+      log(e.toString(), error: e, name: LOG_NAME);
       return false;
-
-    final selectInboxResponse = await imapClient.selectMailboxByPath(mailbox.path);
-    if (selectInboxResponse.isFailedStatus)
-      return null;
-
-    final uidSequence = MessageSequence()..add(uid);
-    final markResponse = await imapClient.uidMarkDeleted(uidSequence);
-    if (markResponse.isFailedStatus)
-      return false;
-
-    final deleteResponse = await imapClient.expunge();
-    if (deleteResponse.isFailedStatus)
-      return false;
-
-    await imapClient.closeConnection();
-
-    return true;
+    }
   }
 
-  static Future<bool> sendMessage(MailMessageSend message, {@required String name, @required String password}) async {
+  static Future<bool> sendMessage(MailMessageSend message, {required String name, required String password}) async {
 
     try {
       final client = SmtpClient('ovgu.de');
@@ -204,7 +177,7 @@ class MailFacade {
       if (tlsResponse.isFailedStatus)
         return false;
 
-      final loginResponse = await client.login(name, password);
+      final loginResponse = await client.authenticate(name, password);
       if (loginResponse.isFailedStatus)
         return false;
 
@@ -216,8 +189,6 @@ class MailFacade {
 
       // add email to sent folder
       final imapClient = await getImapClient(name: name, password: password);
-      if (imapClient == null)
-        return false;
       await imapClient.appendMessage(message.toMimeMessage(), targetMailboxPath: MAILBOX_PATH_SEND);
       await imapClient.closeConnection();
 
@@ -230,17 +201,20 @@ class MailFacade {
 
   // for enough_mail (not using yet)
   static void _addTextParts(List<BodyPart> parts, List<PartMetadata> result) {
-    parts.forEach((part) {
-      if (part.contentType.mediaType.isText) {
+    for (final part in parts) {
+      final contentType = part.contentType;
+      if (contentType != null && contentType.mediaType.isText) {
         final path = part.fetchId;
-        final type = getPartType(part.contentType.mediaType.sub);
+        final type = getPartType(contentType.mediaType.sub);
         final encoding = part.encoding;
-        final charset = part.contentType.charset;
-        result.add(PartMetadata(path, type, encoding, charset));
-      } else if (part.parts != null) {
-        _addTextParts(part.parts, result);
+        final charset = contentType.charset;
+
+        if (path != null)
+          result.add(PartMetadata(path, type, encoding, charset));
+      } else {
+        _addTextParts(part.parts ?? [], result);
       }
-    });
+    }
   }
 
   static PartType getPartType(MediaSubtype type) {
@@ -251,13 +225,10 @@ class MailFacade {
     }
   }
 
-  static Future<ImapClient> getImapClient({@required String name, @required String password}) async {
+  static Future<ImapClient> getImapClient({required String name, required String password}) async {
     final imapClient = ImapClient();
     await imapClient.connectToServer('cyrus.ovgu.de', 993);
-    final response = await imapClient.login(name, password);
-    if (response.isFailedStatus)
-      return null;
-
+    await imapClient.login(name, password);
     return imapClient;
   }
 }

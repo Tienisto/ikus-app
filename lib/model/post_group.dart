@@ -6,7 +6,7 @@ class PostGroup {
   final Channel channel;
   final List<Post> posts;
 
-  const PostGroup({this.channel, this.posts});
+  const PostGroup({required this.channel, required this.posts});
 
   static PostGroup fromMap(Map<String, dynamic> map) {
     return PostGroup(

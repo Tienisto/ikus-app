@@ -9,7 +9,7 @@ class MapPreviewCard extends StatelessWidget {
   final Callback callback;
   final String tag;
 
-  const MapPreviewCard({@required this.image, @required this.tag, @required this.callback});
+  const MapPreviewCard({required this.image, required this.tag, required this.callback});
 
   @override
   Widget build(BuildContext context) {

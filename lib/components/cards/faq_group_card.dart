@@ -10,7 +10,7 @@ class FAQGroupCard extends StatefulWidget {
   final PostGroup postGroup;
   final PostCallback postCallback;
 
-  const FAQGroupCard({@required this.postGroup, @required this.postCallback});
+  const FAQGroupCard({required this.postGroup, required this.postCallback});
 
   @override
   _FAQGroupCardState createState() => _FAQGroupCardState();

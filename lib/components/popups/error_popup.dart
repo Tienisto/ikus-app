@@ -6,7 +6,7 @@ import 'package:ikus_app/utility/popups.dart';
 
 class ErrorPopup extends StatelessWidget {
 
-  static void open(BuildContext context, {String message}) {
+  static void open(BuildContext context, {String? message}) {
     Popups.generic(
         context: context,
         height: 150,
@@ -14,7 +14,7 @@ class ErrorPopup extends StatelessWidget {
     );
   }
 
-  final String message;
+  final String? message;
   const ErrorPopup(this.message);
 
   @override

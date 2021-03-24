@@ -33,15 +33,15 @@ class ContactCard extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 15),
                     child: InkWell(
                       onTap: () {
-                        pushScreen(context, () => ImageScreen(tag: contact.image, image: Image.network(ApiService.getFileUrl(contact.image))));
+                        pushScreen(context, () => ImageScreen(tag: contact.image!, image: Image.network(ApiService.getFileUrl(contact.image!))));
                       },
                       child: ClipRRect(
                           borderRadius: OvguPixels.borderRadiusImage,
                           child: SizedBox(
                               width: 50,
                               child: Hero(
-                                tag: contact.image,
-                                child: Image.network(ApiService.getFileUrl(contact.image))
+                                tag: contact.image!,
+                                child: Image.network(ApiService.getFileUrl(contact.image!))
                               )
                           )
                       ),
@@ -60,7 +60,7 @@ class ContactCard extends StatelessWidget {
                   size: ATTRIBUTE_SIZE,
                   distance: ICON_TEXT_DISTANCE,
                   icon: Icons.place,
-                  text: contact.place,
+                  text: contact.place!,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   multiLine: true,
                 ),
@@ -76,7 +76,7 @@ class ContactCard extends StatelessWidget {
                     size: ATTRIBUTE_SIZE,
                     distance: ICON_TEXT_DISTANCE,
                     icon: Icons.email,
-                    text: contact.email,
+                    text: contact.email!,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     multiLine: true,
                   ),
@@ -85,7 +85,7 @@ class ContactCard extends StatelessWidget {
             if (contact.phoneNumber != null)
               InkWell(
                 onTap: () async {
-                  String url = 'tel:${contact.phoneNumber.replaceAll(' ', '').replaceAll('-', '').replaceAll('/', '')}';
+                  String url = 'tel:${contact.phoneNumber!.replaceAll(' ', '').replaceAll('-', '').replaceAll('/', '')}';
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -97,7 +97,7 @@ class ContactCard extends StatelessWidget {
                     size: ATTRIBUTE_SIZE,
                     distance: ICON_TEXT_DISTANCE,
                     icon: Icons.phone,
-                    text: contact.phoneNumber,
+                    text: contact.phoneNumber!,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     multiLine: true,
                   ),
@@ -110,7 +110,7 @@ class ContactCard extends StatelessWidget {
                   size: ATTRIBUTE_SIZE,
                   distance: ICON_TEXT_DISTANCE,
                   icon: Icons.access_time,
-                  text: contact.openingHours,
+                  text: contact.openingHours!,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   multiLine: true,
                 ),

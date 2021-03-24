@@ -7,11 +7,11 @@ class OvguCardWithHeader extends StatelessWidget {
 
   final String left;
   final String right;
-  final List<Widget> headerIcons;
+  final List<Widget>? headerIcons;
   final Widget child;
-  final Callback onTap;
+  final Callback? onTap;
 
-  const OvguCardWithHeader({@required this.left, @required this.right, @required this.child, this.headerIcons, this.onTap});
+  const OvguCardWithHeader({required this.left, required this.right, required this.child, this.headerIcons, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class OvguCardWithHeader extends StatelessWidget {
                   ),
                 ),
                 if (headerIcons != null)
-                  ...headerIcons,
+                  ...headerIcons!,
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Text(right, style: TextStyle(color: OvguColor.secondaryDarken2)),

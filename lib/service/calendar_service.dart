@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/channel.dart';
@@ -16,10 +16,10 @@ class CalendarService implements SyncableService {
   static final CalendarService _instance = CalendarService();
   static CalendarService get instance => _instance;
 
-  DateTime _lastUpdate;
-  ChannelHandler<Event> _channelHandler;
-  List<Event> _events;
-  List<Event> _myEvents;
+  late DateTime _lastUpdate;
+  late ChannelHandler<Event> _channelHandler;
+  late List<Event> _events;
+  late List<Event> _myEvents;
 
   @override
   String id = 'CALENDAR';
@@ -28,7 +28,7 @@ class CalendarService implements SyncableService {
   String getDescription() => t.sync.items.calendar;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'calendar',
       locale: LocaleSettings.currentLocale,
@@ -47,15 +47,16 @@ class CalendarService implements SyncableService {
     List<dynamic> eventsRaw = map['events'];
     List<Event> events = eventsRaw.map((e) => Event.fromMap(e)).toList();
 
-    List<int> subscribedIds = SettingsService.instance.getCalendarChannels();
+    List<int>? subscribedIds = SettingsService.instance.getCalendarChannels();
     List<Channel> subscribedChannels = subscribedIds != null ? channels.where((channel) => subscribedIds.any((id) => channel.id == id)).toList() : [...channels];
 
     // my next events
     DateTime now = DateTime.now();
     List<int> myEventIds = SettingsService.instance.getMyEvents();
     List<Event> myEvents = myEventIds
-        .map((id) => events.firstWhere((event) => event.id == id, orElse: () => null))
+        .map((id) => events.firstWhereOrNull((event) => event.id == id))
         .where((event) => event != null && isInFuture(event, now))
+        .cast<Event>()
         .toList();
 
     _channelHandler = ChannelHandler(channels, subscribedChannels);
@@ -149,11 +150,11 @@ class CalendarService implements SyncableService {
     SettingsService.instance.setMyEvents(myEvents);
   }
 
-  bool isInFuture(Event event, [DateTime now]) {
+  bool isInFuture(Event event, [DateTime? now]) {
     if (now == null) {
       now = DateTime.now();
     }
 
-    return event.startTime.isAfter(now) || (event.endTime != null && event.endTime.isAfter(now));
+    return event.startTime.isAfter(now) || (event.endTime != null && event.endTime!.isAfter(now));
   }
 }

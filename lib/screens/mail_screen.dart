@@ -22,7 +22,7 @@ import 'package:ikus_app/utility/ui.dart';
 
 class MailScreen extends StatefulWidget {
 
-  final int openUid;
+  final int? openUid;
 
   const MailScreen({this.openUid});
 
@@ -41,8 +41,8 @@ class _MailScreenState extends State<MailScreen> {
   bool fetching = false; // flag if fetching data from storage
   Map<int, MailMessage> mails = {}; // mails are fetched lazily
   int mailCount = 0; // total count of mails of current mailbox (not only in cache, total!)
-  String progressString;
-  double progressPercent;
+  String? progressString;
+  double? progressPercent;
   bool syncing = false;
 
   @override
@@ -78,7 +78,7 @@ class _MailScreenState extends State<MailScreen> {
   }
 
   /// get mails from missing index and also some additional mails
-  Future<void> prefetch({@required MailboxType mailbox, @required int missIndex, bool clearOld = false}) async {
+  Future<void> prefetch({required MailboxType mailbox, required int missIndex, bool clearOld = false}) async {
     if (fetching || MailService.instance.getProgress().active)
       return;
 
@@ -147,7 +147,7 @@ class _MailScreenState extends State<MailScreen> {
   /// open mail by uid (used by notification callback, inbox only)
   Future<void> handleUid() async {
     if (widget.openUid != null) {
-      final mail = await MailService.instance.getMail(MailboxType.INBOX, widget.openUid);
+      final mail = await MailService.instance.getMail(MailboxType.INBOX, widget.openUid!);
       if (mail != null) {
         nextFrame(() {
           pushScreen(context, () => getMailMessageScreen(mail));
@@ -191,9 +191,9 @@ class _MailScreenState extends State<MailScreen> {
     });
   }
 
-  Future<void> pushSendScreen(MailMessage reply) async {
+  Future<void> pushSendScreen(MailMessage? reply) async {
     bool sent = false;
-    String content;
+    String? content;
     if (reply != null) {
       String plain = reply.getPlainOrParseHtml();
       content = '\n\n> ${t.mails.replyPrefix}${reply.from}:\n>\n> '+plain.split('\n').join('\n> ');
@@ -301,7 +301,7 @@ class _MailScreenState extends State<MailScreen> {
                     backgroundColor: Colors.white,
                   ),
                   SizedBox(height: 10),
-                  Text(progressString != null ? t.mails.sync(text: progressString) : '')
+                  Text(progressString != null ? t.mails.sync(text: progressString!) : '')
                 ],
               ),
             ),
@@ -342,7 +342,7 @@ class _MailScreenState extends State<MailScreen> {
             itemCount: PRE_WIDGET_COUNT + mailCount + POST_WIDGET_COUNT,
             itemBuilder: (context, index) {
               if (index >= PRE_WIDGET_COUNT && index < PRE_WIDGET_COUNT + mailCount) {
-                MailMessage mail = mails[index - PRE_WIDGET_COUNT];
+                MailMessage? mail = mails[index - PRE_WIDGET_COUNT];
                 if (mail == null) {
                   prefetch(mailbox: mailbox, missIndex: index - PRE_WIDGET_COUNT);
                   return Container();

@@ -9,9 +9,9 @@ class ResetPopup extends StatelessWidget {
 
   final FutureCallback callback;
 
-  const ResetPopup({@required this.callback});
+  const ResetPopup({required this.callback});
 
-  static void open({@required BuildContext context, @required FutureCallback callback}) {
+  static void open({required BuildContext context, required FutureCallback callback}) {
     Popups.generic(
         context: context,
         height: 220,

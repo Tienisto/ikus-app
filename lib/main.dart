@@ -18,12 +18,12 @@ void main() async {
     child: IkusApp(screen: openScreen)
   );
 
-  runZoned<Future<void>>(() async {
+  runZonedGuarded(() async {
     runApp(app);
-  }, onError: (error, stackTrace) {
+  }, (error, stackTrace) {
     print('ERROR: $error');
     print(stackTrace);
-    PersistentService.instance.logError(error.toString(), stackTrace?.toString());
+    PersistentService.instance.logError(error.toString(), stackTrace.toString());
   });
 
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -34,7 +34,7 @@ void main() async {
 
 class IkusApp extends StatefulWidget {
 
-  final SimpleWidgetBuilder screen; // will open this screen after init
+  final SimpleWidgetBuilder? screen; // will open this screen after init
   const IkusApp({this.screen});
 
   @override
@@ -44,8 +44,7 @@ class IkusApp extends StatefulWidget {
 class IkusAppState extends State<IkusApp> {
 
   final NavigatorObserver _navObserver = NavigatorObserverWithOrientation();
-  bool _initialized = false;
-  Widget _home;
+  Widget? _home;
 
   @override
   void initState() {
@@ -57,7 +56,6 @@ class IkusAppState extends State<IkusApp> {
     await Init.init();
     setState((){
       _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen(screen: widget.screen, key: MainScreen.mainScreenKey);
-      _initialized = true;
     });
     await Init.postInit();
   }
@@ -68,7 +66,7 @@ class IkusAppState extends State<IkusApp> {
     precacheImage(AssetImage("assets/img/maps/campus-main.jpg"), context);
     precacheImage(AssetImage("assets/img/maps/campus-med.jpg"), context);
 
-    if (!_initialized)
+    if (_home == null)
       return Container(color: OvguColor.primary);
 
     return MaterialApp(
@@ -80,7 +78,7 @@ class IkusAppState extends State<IkusApp> {
         accentColor: OvguColor.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: _home,
+      home: _home!,
       navigatorObservers: [ _navObserver ],
     );
   }

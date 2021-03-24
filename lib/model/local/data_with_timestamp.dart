@@ -3,5 +3,5 @@ class DataWithTimestamp<T> {
   final T data;
   final DateTime timestamp;
 
-  DataWithTimestamp({this.data, this.timestamp});
+  DataWithTimestamp({required this.data, required this.timestamp});
 }

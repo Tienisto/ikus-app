@@ -16,7 +16,7 @@ class FeaturesPage extends StatefulWidget {
 
 class _FeaturesPageState extends State<FeaturesPage> {
 
-  List<Feature> features;
+  late List<Feature> features;
 
   @override
   void initState() {

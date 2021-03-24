@@ -12,7 +12,7 @@ class MailCard extends StatelessWidget {
   final MailboxType mailbox;
   final Callback callback;
 
-  const MailCard({@required this.mail, @required this.mailbox, @required this.callback});
+  const MailCard({required this.mail, required this.mailbox, required this.callback});
 
   String getPreview(MailMessage mail) {
     final plain = mail.getPlainOrParseHtml();

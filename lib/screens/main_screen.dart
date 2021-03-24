@@ -24,9 +24,9 @@ class MainScreen extends StatefulWidget {
 
   static GlobalKey<_MainScreenState> mainScreenKey = GlobalKey();
   final bool tutorial;
-  final SimpleWidgetBuilder screen;
+  final SimpleWidgetBuilder? screen;
 
-  const MainScreen({Key key, this.tutorial = false, this.screen}) : super(key: key);
+  const MainScreen({Key? key, this.tutorial = false, this.screen}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -34,18 +34,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  List<Widget> pages;
-  PageController _pageController;
-  int _page;
+  late List<Widget> pages;
+  late PageController _pageController;
+  int _page = 0;
 
-  bool tutorialMode;
-  int currTutorialStep;
+  late bool tutorialMode;
+  int currTutorialStep = 0;
   final int tutorialStepCount = 6;
-  Offset tutorialPosition; // will be set on first build
-  String tutorialText; // will be set on first build
-  String tutorialProgress; // will be set on first build
-  bool tutorialFavoritesHighlight; // will be set on first build
-  bool tutorialFeatureHeartHighlight; // will be set on first build
+  Offset? tutorialPosition; // will be set on first build
+  String? tutorialText; // will be set on first build
+  String? tutorialProgress; // will be set on first build
+  bool? tutorialFavoritesHighlight; // will be set on first build
+  bool? tutorialFeatureHeartHighlight; // will be set on first build
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
     currTutorialStep = 0;
     if (widget.screen != null) {
       nextFrame(() {
-        pushScreen(context, widget.screen);
+        pushScreen(context, widget.screen!);
       });
     }
     showNeedUpdateIfNeeded();
@@ -190,7 +190,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 67, right: 14),
                           child: TutorialFeatureHighlight(
-                            visible: tutorialFeatureHeartHighlight,
+                            visible: tutorialFeatureHeartHighlight!,
                             width: 60,
                             height: AppConfigService.instance.getFeatures().length * 54.0
                           ),
@@ -206,7 +206,7 @@ class _MainScreenState extends State<MainScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: TutorialFeatureHighlight(
-                        visible: tutorialFavoritesHighlight,
+                        visible: tutorialFavoritesHighlight!,
                         width: min(size.width, OvguPixels.maxWidth) - 15,
                         height: 90
                       ),
@@ -215,13 +215,13 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               if (tutorialMode)
                 AnimatedPositioned(
-                  top: tutorialPosition.dy,
-                  left: tutorialPosition.dx,
+                  top: tutorialPosition!.dy,
+                  left: tutorialPosition!.dx,
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.easeInOutCubic,
                   child: TutorialOverlay(
-                    text: tutorialText,
-                    progress: tutorialProgress,
+                    text: tutorialText!,
+                    progress: tutorialProgress!,
                     isLast: currTutorialStep >= tutorialStepCount - 1,
                     onSkip: skipTutorial,
                     onNext: nextTutorial,

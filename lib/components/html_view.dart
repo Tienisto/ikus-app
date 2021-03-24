@@ -9,7 +9,7 @@ class HtmlView extends StatelessWidget {
   final String html;
   final EdgeInsets padding;
 
-  const HtmlView({@required this.html, this.padding = EdgeInsets.zero});
+  const HtmlView({required this.html, this.padding = EdgeInsets.zero});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,9 @@ class HtmlView extends StatelessWidget {
         style: {
           "body": Style(fontSize: FontSize.large, padding: EdgeInsets.zero), // make text bigger
         },
-        onLinkTap: (url) async {
-          await launch(url);
+        onLinkTap: (String? url, context, attributes, element) async {
+          if (url != null)
+            await launch(url);
         },
       ),
     );

@@ -14,7 +14,7 @@ class Post {
   final List<String> images;
   final bool pinned;
 
-  const Post({this.id, this.title, this.preview, this.content, this.channel, this.date, this.images, this.pinned});
+  const Post({required this.id, required this.title, required this.preview, required this.content, required this.channel, required this.date, required this.images, required this.pinned});
 
   String get formattedDate {
     return _dateFormatter.format(date);

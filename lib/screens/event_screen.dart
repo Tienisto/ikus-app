@@ -102,7 +102,7 @@ class _EventScreenState extends State<EventScreen> {
               padding: const EdgeInsets.only(left: 10, top: 25),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(widget.event.info, style: TextStyle(fontSize: 16))
+                  child: Text(widget.event.info!, style: TextStyle(fontSize: 16))
               ),
             ),
           SizedBox(height: 20),
@@ -111,9 +111,9 @@ class _EventScreenState extends State<EventScreen> {
             onAddCalendar: () {
               calendar.Add2Calendar.addEvent2Cal(calendar.Event(
                 title: widget.event.name,
-                location: widget.event.place,
+                location: widget.event.place ?? '',
                 startDate: widget.event.startTime,
-                endDate: widget.event.hasEndTimestamp ? widget.event.endTime : widget.event.startTime.hasTime() ? widget.event.startTime.add(Duration(hours: 10)) : widget.event.startTime,
+                endDate: widget.event.endTime != null ? widget.event.endTime! : widget.event.startTime.hasTime() ? widget.event.startTime.add(Duration(hours: 10)) : widget.event.startTime,
                 allDay: !widget.event.startTime.hasTime()
               ));
             }
@@ -133,7 +133,7 @@ class _EventScreenState extends State<EventScreen> {
                         child: IconText(
                           size: EventScreen.valueSize,
                           icon: Icons.place,
-                          text: widget.event.place,
+                          text: widget.event.place!,
                           multiLine: true,
                           crossAxisAlignment: CrossAxisAlignment.start,
                         ),
@@ -143,7 +143,7 @@ class _EventScreenState extends State<EventScreen> {
                         padding: const EdgeInsets.only(top: 15),
                         child: MapWithMarker(
                           name: widget.event.place,
-                          coords: widget.event.coords,
+                          coords: widget.event.coords!,
                         ),
                       )
                   ],

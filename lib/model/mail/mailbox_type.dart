@@ -6,13 +6,21 @@ enum MailboxType {
 }
 
 extension MailboxTypeExtensions on MailboxType {
-  String get name => {
-    MailboxType.INBOX: t.mails.inbox,
-    MailboxType.SENT: t.mails.sent
-  }[this];
+  String get name {
+    switch (this) {
+      case MailboxType.INBOX:
+        return t.mails.inbox;
+      case MailboxType.SENT:
+        return t.mails.sent;
+    }
+  }
 
-  String get path => {
-    MailboxType.INBOX: MailFacade.MAILBOX_PATH_INBOX,
-    MailboxType.SENT: MailFacade.MAILBOX_PATH_SEND
-  }[this];
+  String get path {
+    switch (this) {
+      case MailboxType.INBOX:
+        return MailFacade.MAILBOX_PATH_INBOX;
+      case MailboxType.SENT:
+        return MailFacade.MAILBOX_PATH_SEND;
+    }
+  }
 }

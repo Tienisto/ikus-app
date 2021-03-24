@@ -7,7 +7,7 @@ class TutorialFeatureHighlight extends StatefulWidget {
   final double width;
   final double height;
 
-  const TutorialFeatureHighlight({@required this.visible, @required this.width, @required this.height});
+  const TutorialFeatureHighlight({required this.visible, required this.width, required this.height});
 
   @override
   _TutorialFeatureHighlightState createState() => _TutorialFeatureHighlightState();

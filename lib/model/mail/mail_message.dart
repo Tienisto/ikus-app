@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/utility/extensions.dart';
@@ -16,10 +15,10 @@ class MailMessage {
   final List<String> cc;
   final DateTime timestamp;
   final String subject;
-  final String contentPlain;
-  final String contentHtml;
+  final String? contentPlain;
+  final String? contentHtml;
 
-  MailMessage({@required this.uid, @required this.from, @required this.to, @required this.cc, @required this.timestamp, @required this.subject, @required this.contentPlain, @required this.contentHtml});
+  MailMessage({required this.uid, required this.from, required this.to, required this.cc, required this.timestamp, required this.subject, required this.contentPlain, required this.contentHtml});
 
   String get formattedTimestamp {
     if (timestamp.isSameDay(DateTime.now())) {
@@ -60,12 +59,16 @@ class MailMessage {
 
   String getPlainOrParseHtml() {
     if (contentPlain != null)
-      return contentPlain;
+      return contentPlain!;
 
     // fallback to html parsing
-    final raw = contentHtml.replaceAll('<br>', '\n');
-    final document = parse(raw);
-    return parse(document.body.text).documentElement.text;
+    if (contentHtml != null) {
+      final raw = contentHtml!.replaceAll('<br>', '\n');
+      final document = parse(raw);
+      return parse(document.body?.text ?? '').documentElement?.text ?? '';
+    }
+
+    return '';
   }
 
   @override

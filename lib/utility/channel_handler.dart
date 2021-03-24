@@ -7,10 +7,8 @@ class ChannelHandler<T> {
   List<Channel> _available;
   List<Channel> _subscribed;
 
-  ChannelHandler(List<Channel> available, List<Channel> subscribed) {
-    _available = available;
-    _subscribed = subscribed;
-  }
+  ChannelHandler(List<Channel> available, List<Channel> subscribed)
+      : _available = available, _subscribed = subscribed;
 
   /// returns a new list which contains only items whose channel is subscribed
   List<T> onlySubscribed(List<T> items, IdSelector<T> selector) {

@@ -4,7 +4,7 @@ class Rotating extends StatefulWidget {
 
   final Widget child;
 
-  const Rotating({Key key, this.child}) : super(key: key);
+  const Rotating({Key? key, required this.child}) : super(key: key);
 
   @override
   _RotatingState createState() => _RotatingState();
@@ -12,7 +12,7 @@ class Rotating extends StatefulWidget {
 
 class _RotatingState extends State<Rotating> with TickerProviderStateMixin {
 
-  AnimationController rotationController;
+  late AnimationController rotationController;
 
   @override
   void initState() {

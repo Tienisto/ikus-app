@@ -24,7 +24,7 @@ class OvguPixels {
 
   static List<BoxShadow> boxShadow = [
     BoxShadow(
-      color: Colors.grey[700].withAlpha(80),
+      color: Colors.grey.shade700.withAlpha(80),
       blurRadius: 5, // soften the shadow
       offset: Offset(
         5, // Move to right 10  horizontally

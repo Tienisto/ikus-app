@@ -10,7 +10,7 @@ class QuadraticButton extends StatelessWidget {
   final double width;
   final double fontSize;
 
-  const QuadraticButton({@required this.callback, @required this.icon, @required this.text, @required this.width, @required this.fontSize});
+  const QuadraticButton({required this.callback, required this.icon, required this.text, required this.width, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {

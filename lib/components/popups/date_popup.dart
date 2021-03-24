@@ -14,7 +14,7 @@ class DatePopup extends StatelessWidget {
   final DateTime date;
   final List<Event> events;
 
-  const DatePopup({@required this.date, @required this.events});
+  const DatePopup({required this.date, required this.events});
 
   @override
   Widget build(BuildContext context) {

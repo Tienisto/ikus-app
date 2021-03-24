@@ -13,7 +13,7 @@ class EventTimeCard extends StatelessWidget {
   final Event event;
   final Callback onAddCalendar;
 
-  const EventTimeCard({@required this.event, @required this.onAddCalendar});
+  const EventTimeCard({required this.event, required this.onAddCalendar});
 
   Widget getAddCalendarButton() {
     return OvguButton(
@@ -23,7 +23,7 @@ class EventTimeCard extends StatelessWidget {
   }
 
   Widget getContent() {
-    if (!event.hasEndTimestamp || event.endTime.isSameDay(event.startTime)) {
+    if (event.endTime == null || event.endTime!.isSameDay(event.startTime)) {
       /*
        * one day format:
        * - date
@@ -73,7 +73,7 @@ class EventTimeCard extends StatelessWidget {
           SizedBox(height: 10),
           Text(t.event.to),
           SizedBox(height: 10),
-          Text(Event.formatFull(event.endTime, weekday: true), style: TextStyle(fontSize: EventScreen.valueSize)),
+          Text(Event.formatFull(event.endTime!, weekday: true), style: TextStyle(fontSize: EventScreen.valueSize)),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

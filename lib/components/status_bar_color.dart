@@ -6,7 +6,7 @@ class StatusBarColor extends StatelessWidget {
   final Widget child;
   final Brightness brightness;
 
-  const StatusBarColor({@required this.child, @required this.brightness});
+  const StatusBarColor({required this.child, required this.brightness});
 
   @override
   Widget build(BuildContext context) {

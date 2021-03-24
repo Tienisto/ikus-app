@@ -1,14 +1,14 @@
 class Contact {
 
   final String name;
-  final String image;
-  final String email;
-  final String phoneNumber;
-  final String place;
-  final String openingHours;
+  final String? image;
+  final String? email;
+  final String? phoneNumber;
+  final String? place;
+  final String? openingHours;
   final List<String> links;
 
-  Contact({this.name, this.image, this.email, this.phoneNumber, this.place, this.openingHours, this.links});
+  Contact({required this.name, required this.image, required this.email, required this.phoneNumber, required this.place, required this.openingHours, required this.links});
 
   static Contact fromMap(Map<String, dynamic> map) {
     return Contact(

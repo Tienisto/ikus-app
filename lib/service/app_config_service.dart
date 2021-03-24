@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/extensions.dart';
@@ -18,11 +17,11 @@ class AppConfigService implements SyncableService {
   static final AppConfigService _instance = AppConfigService();
   static AppConfigService get instance => _instance;
 
-  DateTime _lastUpdate;
-  bool _compatibleWithApi;
-  List<Feature> _features;
-  List<Feature> _favoriteFeatures;
-  List<Feature> _recommendedFavoriteFeatures;
+  DateTime _lastUpdate = ApiService.FALLBACK_TIME;
+  late bool _compatibleWithApi;
+  late List<Feature> _features;
+  late List<Feature> _favoriteFeatures;
+  late List<Feature> _recommendedFavoriteFeatures;
 
   @override
   String id = 'APP_CONFIG';
@@ -31,7 +30,7 @@ class AppConfigService implements SyncableService {
   String getDescription() => t.sync.items.appConfig;
 
   @override
-  Future<void> sync({@required bool useNetwork, String useJSON, bool showNotifications = false, AddFutureCallback onBatchFinished}) async {
+  Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     assert(useJSON == null, 'no batch update');
 
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
@@ -58,6 +57,7 @@ class AppConfigService implements SyncableService {
     _features = featureList
         .mapIndexed((feature, index) => Feature.fromMap(index, feature))
         .where((feature) => feature != null)
+        .cast<Feature>()
         .toList();
 
     _recommendedFavoriteFeatures = _features.where((feature) => feature.recommendedFavorite).toList();

@@ -16,7 +16,7 @@ class TutorialOverlay extends StatelessWidget {
   final Callback onNext;
   final bool isLast;
 
-  const TutorialOverlay({@required this.text, @required this.progress, @required this.onSkip, @required this.onNext, @required this.isLast});
+  const TutorialOverlay({required this.text, required this.progress, required this.onSkip, required this.onNext, required this.isLast});
 
   @override
   Widget build(BuildContext context) {

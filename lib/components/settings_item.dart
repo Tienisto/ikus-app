@@ -5,7 +5,7 @@ class SettingsItem extends StatelessWidget {
   final String left;
   final dynamic right;
 
-  const SettingsItem({@required this.left, @required this.right});
+  const SettingsItem({required this.left, required this.right});
 
   @override
   Widget build(BuildContext context) {

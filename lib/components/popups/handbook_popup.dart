@@ -11,7 +11,7 @@ class HandbookPopup extends StatelessWidget {
   final List<PdfBookmark> bookmarks;
   final IntCallback callback;
 
-  const HandbookPopup({@required this.bookmarks, @required this.callback});
+  const HandbookPopup({required this.bookmarks, required this.callback});
 
   @override
   Widget build(BuildContext context) {

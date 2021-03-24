@@ -6,7 +6,7 @@ class LinkGroup {
   final Channel channel;
   final List<Link> links;
 
-  LinkGroup({this.channel, this.links});
+  LinkGroup({required this.channel, required this.links});
 
   static LinkGroup fromMap(Map<String, dynamic> map) {
     return LinkGroup(

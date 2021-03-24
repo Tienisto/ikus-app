@@ -9,5 +9,5 @@ class MailCollection {
   final Map<int, MailMessage> inbox;
   final Map<int, MailMessage> sent;
 
-  const MailCollection({this.inbox, this.sent});
+  const MailCollection({required this.inbox, required this.sent});
 }

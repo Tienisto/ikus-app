@@ -3,7 +3,7 @@ class PdfBookmark {
   final int page;
   final String name;
 
-  PdfBookmark({this.page, this.name});
+  PdfBookmark({required this.page, required this.name});
 
   static PdfBookmark fromMap(Map<String, dynamic> map) {
     return PdfBookmark(

@@ -15,7 +15,7 @@ import 'package:ikus_app/utility/ui.dart';
 
 class OvguAccountScreen extends StatefulWidget {
 
-  final Callback onLogin;
+  final Callback? onLogin;
 
   const OvguAccountScreen({this.onLogin});
 
@@ -25,7 +25,7 @@ class OvguAccountScreen extends StatefulWidget {
 
 class _OvguAccountScreenState extends State<OvguAccountScreen> {
 
-  String _accountName = SettingsService.instance.getOvguAccount()?.name;
+  String? _accountName = SettingsService.instance.getOvguAccount()?.name;
   String _name = '';
   String _password = '';
   bool loggingOut = false;
@@ -42,7 +42,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
       Navigator.pop(context);
       Navigator.pop(context);
       if (widget.onLogin != null) {
-        widget.onLogin();
+        widget.onLogin!();
       }
     } else {
       Navigator.pop(context);
@@ -99,7 +99,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
                     SizedBox(height: 20),
                     Text(t.ovguAccount.loggedInAs, style: TextStyle(fontSize: 20)),
                     SizedBox(height: 20),
-                    Text(_accountName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    Text(_accountName!, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     SizedBox(height: 30),
                     OvguButton(
                       callback: logout,

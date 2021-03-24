@@ -35,8 +35,8 @@ class _MensaScreenState extends State<MensaScreen> {
   final GlobalKey<SmartAnimationState> _headerAnimationKey = new GlobalKey<SmartAnimationState>();
   final GlobalKey<SmartAnimationState> _infoIconsAnimationKey = new GlobalKey<SmartAnimationState>();
   final GlobalKey<SmartAnimationState> _bodyAnimationKey = new GlobalKey<SmartAnimationState>();
-  List<MensaInfo> menu;
-  int index;
+  late List<MensaInfo> menu;
+  late int index;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _MensaScreenState extends State<MensaScreen> {
     if (durationNotUpdated > Duration(minutes: 15)) {
       // update
       nextFrame(() {
-        _refreshIndicatorKey.currentState.show();
+        _refreshIndicatorKey.currentState?.show();
       });
     }
   }
@@ -85,9 +85,9 @@ class _MensaScreenState extends State<MensaScreen> {
 
   void postMensaChange() {
     SettingsService.instance.setMensa(menu[index].name);
-    _headerAnimationKey.currentState.startAnimation();
-    _infoIconsAnimationKey.currentState.startAnimation(delay: Duration(milliseconds: 500));
-    _bodyAnimationKey.currentState.startAnimation();
+    _headerAnimationKey.currentState?.startAnimation();
+    _infoIconsAnimationKey.currentState?.startAnimation(delay: Duration(milliseconds: 500));
+    _bodyAnimationKey.currentState?.startAnimation();
   }
 
   String formatDate(DateTime timestamp) {
@@ -200,7 +200,7 @@ class _MensaScreenState extends State<MensaScreen> {
                           MensaOpeningHoursPopup.open(
                             context: context,
                             mensa: curr.name.name.replaceAll('\n', ' '),
-                            openingHours: curr.openingHours
+                            openingHours: curr.openingHours!
                           );
                         },
                         child: Icon(Icons.access_time),
@@ -209,7 +209,7 @@ class _MensaScreenState extends State<MensaScreen> {
                       OvguButton(
                         flat: true,
                         callback: () async {
-                          await openMap(curr.coords, curr.name.name);
+                          await openMap(curr.coords!, curr.name.name);
                         },
                         child: Icon(Icons.location_pin),
                       ),

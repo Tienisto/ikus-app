@@ -4,7 +4,7 @@ class Menu {
   final DateTime date;
   final List<Food> food;
 
-  Menu({this.date, this.food});
+  Menu({required this.date, required this.food});
 
   static Menu fromMap(Map<String, dynamic> map) {
     return Menu(

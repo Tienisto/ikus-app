@@ -12,7 +12,7 @@ class OvguSwitch extends StatelessWidget {
   final String left, right;
   final SwitchCallback callback;
 
-  const OvguSwitch({@required this.state, @required this.left, @required this.right, @required this.callback});
+  const OvguSwitch({required this.state, required this.left, required this.right, required this.callback});
 
   @override
   Widget build(BuildContext context) {

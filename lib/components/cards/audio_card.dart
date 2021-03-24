@@ -11,7 +11,7 @@ class AudioCard extends StatelessWidget {
   final Audio audio;
   final Callback onTap;
 
-  const AudioCard({@required this.audio, @required this.onTap});
+  const AudioCard({required this.audio, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class AudioCard extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: OvguNetworkImage(url: audio.image != null ? ApiService.getFileUrl(audio.image) : null, height: 200),
+                child: OvguNetworkImage(url: audio.image != null ? ApiService.getFileUrl(audio.image!) : null, height: 200),
               ),
               Text(audio.name, style: TextStyle(fontSize: 20))
             ],

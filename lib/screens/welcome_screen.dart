@@ -33,7 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       _starting = true;
     });
     await sleep(500);
-    _progressBarKey.currentState.startAnimation();
+    _progressBarKey.currentState?.startAnimation();
     await sleep(500);
     List<SyncableService> services = SyncableService.services;
     for (int i = 0; i < services.length; i++) {
@@ -44,9 +44,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       });
     }
     await sleep(500);
-    _titleKey.currentState.startReverseAnimation();
-    _introKey.currentState.startReverseAnimation();
-    _cardKey.currentState.startReverseAnimation();
+    _titleKey.currentState?.startReverseAnimation();
+    _introKey.currentState?.startReverseAnimation();
+    _cardKey.currentState?.startReverseAnimation();
     await sleep(1000);
     SettingsService.instance.setWelcome(false);
     await Navigator.pushAndRemoveUntil(context,
@@ -132,7 +132,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   OvguButton(
-                                    color: LocaleSettings.currentLocale == 'en' ? OvguColor.primary : Colors.grey[300],
+                                    color: LocaleSettings.currentLocale == 'en' ? OvguColor.primary : Colors.grey.shade300,
                                     callback: () {
                                       setState(() {
                                         LocaleSettings.setLocale('en');
@@ -142,7 +142,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     child: Text(t.welcome.english, style: TextStyle(color: LocaleSettings.currentLocale == 'en' ? Colors.white : Colors.black)),
                                   ),
                                   OvguButton(
-                                    color: LocaleSettings.currentLocale == 'de' ? OvguColor.primary : Colors.grey[300],
+                                    color: LocaleSettings.currentLocale == 'de' ? OvguColor.primary : Colors.grey.shade300,
                                     callback: () {
                                       setState(() {
                                         LocaleSettings.setLocale('de');

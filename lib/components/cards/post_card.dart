@@ -11,7 +11,7 @@ class PostCard extends StatelessWidget {
   final Post post;
   final Callback callback;
 
-  const PostCard({@required this.post, @required this.callback});
+  const PostCard({required this.post, required this.callback});
 
   @override
   Widget build(BuildContext context) {

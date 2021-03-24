@@ -3,11 +3,11 @@ import 'package:ikus_app/utility/ui.dart';
 
 class OvguNetworkImage extends StatelessWidget {
 
-  final String url;
+  final String? url;
   final double height;
 
   /// url may be null, then the placeholder will be shown
-  const OvguNetworkImage({@required this.url, @required this.height});
+  const OvguNetworkImage({required this.url, required this.height});
 
   Widget getPlaceholder() {
     return Container(
@@ -27,7 +27,7 @@ class OvguNetworkImage extends StatelessWidget {
       height: height,
       child: ClipRRect(
         borderRadius: OvguPixels.borderRadiusImage,
-        child: url == null ? getPlaceholder() : Image.network(url,
+        child: url == null ? getPlaceholder() : Image.network(url!,
           width: 2000, // always use full width
           fit: BoxFit.cover,
           frameBuilder: (context, child, frame, _) {
