@@ -23,6 +23,7 @@ class OvguSwitch extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: state == SwitchState.LEFT ? OvguColor.primary : OvguColor.secondary,
+              onPrimary: Colors.black,
               shape: RoundedRectangleBorder(
                   borderRadius: const BorderRadius.horizontal(left: Radius.circular(15))
               ),
@@ -38,6 +39,7 @@ class OvguSwitch extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: state == SwitchState.RIGHT ? OvguColor.primary : OvguColor.secondary,
+              onPrimary: Colors.black,
               shape: RoundedRectangleBorder(
                   borderRadius: const BorderRadius.horizontal(right: Radius.circular(15))
               ),
