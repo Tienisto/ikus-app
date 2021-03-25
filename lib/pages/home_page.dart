@@ -65,9 +65,11 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () async {
           await NewsService.instance.sync(useNetwork: true);
           await CalendarService.instance.sync(useNetwork: true);
-          setState(() {
-            _updateData();
-          });
+          if (mounted) {
+            setState(() {
+              _updateData();
+            });
+          }
         },
         child: MainListView(
           children: [
