@@ -22,6 +22,8 @@ class DevScreen extends StatefulWidget {
 
 class _DevScreenState extends State<DevScreen> {
 
+  static const double SPACE_BETWEEN = 10;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,7 @@ class _DevScreenState extends State<DevScreen> {
               }
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Error log',
               right: OvguButton(
@@ -55,7 +57,7 @@ class _DevScreenState extends State<DevScreen> {
                 child: Icon(Icons.bug_report, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Background task log',
               right: OvguButton(
@@ -65,7 +67,7 @@ class _DevScreenState extends State<DevScreen> {
                 child: Icon(Icons.schedule, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Start tutorial',
               right: OvguButton(
@@ -75,7 +77,7 @@ class _DevScreenState extends State<DevScreen> {
                 child: Icon(Icons.help, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Show notification',
               right: OvguButton(
@@ -85,7 +87,7 @@ class _DevScreenState extends State<DevScreen> {
                 child: Icon(Icons.notifications, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Delete API cache',
               right: OvguButton(
@@ -95,7 +97,7 @@ class _DevScreenState extends State<DevScreen> {
                 child: Icon(Icons.delete, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Delete mail cache',
               right: OvguButton(
@@ -105,7 +107,7 @@ class _DevScreenState extends State<DevScreen> {
                 child: Icon(Icons.delete, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: 'Disable dev settings',
               right: OvguButton(
