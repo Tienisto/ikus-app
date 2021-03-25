@@ -17,24 +17,29 @@ class OvguButton extends StatelessWidget {
     if (flat) {
       return ButtonTheme(
         minWidth: 0,
-        child: FlatButton(
-          shape: OvguPixels.shape,
-          padding: padding,
+        child: TextButton(
+          style: TextButton.styleFrom(
+            padding: padding,
+            shape: OvguPixels.shape,
+            minimumSize: Size(50, 40),
+            primary: Colors.black
+          ),
           onPressed: callback,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
           child: child,
         ),
       );
     } else {
       return ButtonTheme(
         minWidth: 0,
-        child: RaisedButton(
-          color: color,
-          shape: OvguPixels.shape,
-          elevation: OvguPixels.elevation,
-          padding: padding,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: color,
+            onPrimary: Colors.black,
+            shape: OvguPixels.shape,
+            elevation: OvguPixels.elevation,
+            padding: padding,
+          ),
           onPressed: callback,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove margin
           child: child,
         ),
       );

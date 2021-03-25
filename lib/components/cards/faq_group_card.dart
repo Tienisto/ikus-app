@@ -58,16 +58,13 @@ class _FAQGroupCardState extends State<FAQGroupCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: widget.postGroup.posts.map((post) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: OvguButton(
-                          callback: () {
-                            widget.postCallback(post);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(post.title, style: TextStyle(color: Colors.white)),
-                          ),
+                      return OvguButton(
+                        callback: () {
+                          widget.postCallback(post);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text(post.title, style: TextStyle(color: Colors.white)),
                         ),
                       );
                     }).toList(),

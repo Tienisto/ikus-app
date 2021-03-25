@@ -59,11 +59,13 @@ class DatePopup extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20),
                 child: SizedBox(
                   height: 50,
-                  child: RaisedButton(
-                    color: OvguColor.primary,
-                    shape: OvguPixels.shape,
-                    elevation: OvguPixels.elevation,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: OvguColor.primary,
+                      shape: OvguPixels.shape,
+                      elevation: OvguPixels.elevation,
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    ),
                     onPressed: () {
                       pushScreen(context, () => EventScreen(event));
                     },

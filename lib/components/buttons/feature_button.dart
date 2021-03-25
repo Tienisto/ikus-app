@@ -17,9 +17,12 @@ class FeatureButton extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: FlatButton(
-            padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
-            shape: OvguPixels.shape,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              primary: Colors.black,
+              padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
+              shape: OvguPixels.shape,
+            ),
             onPressed: selectCallback,
             child: Row(
               children: [
@@ -30,9 +33,12 @@ class FeatureButton extends StatelessWidget {
             )
           ),
         ),
-        FlatButton(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          shape: OvguPixels.shape,
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Colors.black,
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            shape: OvguPixels.shape,
+          ),
           child: Icon(favorite ? Icons.favorite : Icons.favorite_border),
           onPressed: favoriteCallback,
         )

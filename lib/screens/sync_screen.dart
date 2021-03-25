@@ -24,39 +24,36 @@ class _SyncScreenState extends State<SyncScreen> {
   Map<String, bool> syncing = Map();
 
   Widget getSyncItem(String name, DateTime lastUpdate, FutureCallback callback) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(LocaleSettings.currentLocale == 'en' ? _dateFormatterEn.format(lastUpdate) : _dateFormatterDe.format(lastUpdate))
-                ],
-              )
-          ),
-          OvguButton(
-            flat: true,
-            callback: () async {
-              if (syncing[name] == true) {
-                log('$name is already syncing', name: LOG_NAME);
-                return;
-              }
-              syncing[name] = true; // not inside setState to lock immediately
-              setState(() {});
-              await callback();
-              if (!mounted)
-                return;
-              setState(() {
-                syncing[name] = false;
-              });
-            },
-            child: syncing[name] == true ? Rotating(child: Icon(Icons.sync)) : Icon(Icons.sync),
-          )
-        ],
-      ),
+    return Row(
+      children: [
+        Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(LocaleSettings.currentLocale == 'en' ? _dateFormatterEn.format(lastUpdate) : _dateFormatterDe.format(lastUpdate))
+              ],
+            )
+        ),
+        OvguButton(
+          flat: true,
+          callback: () async {
+            if (syncing[name] == true) {
+              log('$name is already syncing', name: LOG_NAME);
+              return;
+            }
+            syncing[name] = true; // not inside setState to lock immediately
+            setState(() {});
+            await callback();
+            if (!mounted)
+              return;
+            setState(() {
+              syncing[name] = false;
+            });
+          },
+          child: syncing[name] == true ? Rotating(child: Icon(Icons.sync)) : Icon(Icons.sync),
+        )
+      ],
     );
   }
 

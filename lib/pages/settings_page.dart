@@ -30,6 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   static const String LOG_NAME = 'SettingsPage';
   static const Color LOGO_COLOR = Color(0xFFAFAFAF);
+  static const double SPACE_BETWEEN = 10;
   String _version = '';
   int devCounter = 0;
   bool resetting = false;
@@ -76,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 },
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           SettingsItem(
               left: t.main.settings.account,
               right: OvguButton(
@@ -86,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Icon(Icons.person, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: t.main.settings.sync,
               right: OvguButton(
@@ -96,7 +97,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Icon(Icons.sync, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: t.main.settings.reset,
               right: OvguButton(
@@ -124,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Icon(Icons.restore, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: t.main.settings.licenses,
               right: OvguButton(
@@ -134,7 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Icon(Icons.description, color: Colors.white),
               )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: SPACE_BETWEEN),
           SettingsItem(
               left: t.main.settings.about,
               right: OvguButton(
@@ -146,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           if (SettingsService.instance.getDevSettings())
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: SPACE_BETWEEN),
               child: SettingsItem(
                   left: t.main.settings.dev,
                   right: OvguButton(

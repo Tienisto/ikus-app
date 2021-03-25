@@ -20,7 +20,7 @@ class OvguPixels {
   static const BorderRadius borderRadius = BorderRadius.all(Radius.circular(borderRadiusPlain));
   static const BorderRadius borderRadiusImage = BorderRadius.all(Radius.circular(borderRadiusImagePlain));
   static const double elevation = 3;
-  static const ShapeBorder shape = RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius);
+  static const OutlinedBorder shape = RoundedRectangleBorder(borderRadius: OvguPixels.borderRadius);
 
   static List<BoxShadow> boxShadow = [
     BoxShadow(

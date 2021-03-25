@@ -20,10 +20,12 @@ class OvguSwitch extends StatelessWidget {
       children: [
         SizedBox(
           width: 70,
-          child: RaisedButton(
-            color: state == SwitchState.LEFT ? OvguColor.primary : OvguColor.secondary,
-            shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.horizontal(left: Radius.circular(15))
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: state == SwitchState.LEFT ? OvguColor.primary : OvguColor.secondary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.horizontal(left: Radius.circular(15))
+              ),
             ),
             onPressed: () {
               callback(SwitchState.LEFT);
@@ -33,10 +35,12 @@ class OvguSwitch extends StatelessWidget {
         ),
         SizedBox(
           width: 70,
-          child: RaisedButton(
-            color: state == SwitchState.RIGHT ? OvguColor.primary : OvguColor.secondary,
-            shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.horizontal(right: Radius.circular(15))
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: state == SwitchState.RIGHT ? OvguColor.primary : OvguColor.secondary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.horizontal(right: Radius.circular(15))
+              ),
             ),
             onPressed: () {
               callback(SwitchState.RIGHT);

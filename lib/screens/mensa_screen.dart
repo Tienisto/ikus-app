@@ -190,7 +190,7 @@ class _MensaScreenState extends State<MensaScreen> {
               endOpacity: 1,
               curve: Curves.easeOutCubic,
               child: Padding(
-                padding: EdgeInsets.only(left: 40),
+                padding: EdgeInsets.only(left: 45),
                 child: Row(
                   children: [
                     if (curr.openingHours != null)

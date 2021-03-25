@@ -33,7 +33,7 @@ class LinksScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: group.links.map((link) => Padding(
-                    padding: const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 5),
                     child: Row(
                       children: [
                         SizedBox(width: 5),
