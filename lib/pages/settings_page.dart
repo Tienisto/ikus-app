@@ -179,7 +179,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Text('Version $_version', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
           ),
           SizedBox(height: 5),
-          Text('© 2020 OVGU', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
+          Text('© ${DateTime.now().year} OVGU', style: TextStyle(color: LOGO_COLOR, fontSize: 14)),
           SizedBox(height: 100),
         ],
       ),
