@@ -13,8 +13,7 @@ class Crypto {
   }
 
   static String generateToken() {
-    // https://github.com/jonasroussel/jsonwebtoken/issues/8
-    return JWT({'dummy':'dummy'}).sign(
+    return JWT({}).sign(
         SecretKey(Constants.jwt),
         algorithm: JWTAlgorithm.HS256,
         expiresIn: const Duration(minutes: 10)
