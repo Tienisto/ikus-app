@@ -44,6 +44,7 @@ class _FAQScreenState extends State<FAQScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.faq.title),
       ),
       body: MainListView(

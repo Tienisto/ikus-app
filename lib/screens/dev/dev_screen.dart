@@ -29,6 +29,7 @@ class _DevScreenState extends State<DevScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.dev.title)
       ),
       body: MainListView(

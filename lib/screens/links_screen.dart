@@ -16,6 +16,7 @@ class LinksScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.links.title)
       ),
       body: MainListView(

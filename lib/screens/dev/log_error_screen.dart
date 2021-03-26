@@ -15,6 +15,7 @@ class LogErrorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text('Errors')
       ),
       body: Center(

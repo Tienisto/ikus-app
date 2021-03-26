@@ -144,6 +144,7 @@ class _MailSendScreenState extends State<MailSendScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.mailMessageSend.title),
       ),
       body: MainListView(

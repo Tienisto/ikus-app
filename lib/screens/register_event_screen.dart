@@ -225,6 +225,7 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.registerEvent.title),
       ),
       body: MainListView(

@@ -18,6 +18,7 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.map.title),
       ),
       body: MainListView(

@@ -35,6 +35,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.myEvents.title)
       ),
       body: MainListView(

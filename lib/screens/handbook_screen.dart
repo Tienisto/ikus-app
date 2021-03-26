@@ -35,6 +35,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.handbook.title)
       ),
       body: Stack(

@@ -124,6 +124,7 @@ class _EventScreenState extends State<EventScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.event.title),
       ),
       body: MainListView(

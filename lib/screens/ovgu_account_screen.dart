@@ -71,6 +71,7 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OvguColor.primary,
+        brightness: Brightness.dark,
         title: Text(t.ovguAccount.title)
       ),
       body: MainListView(
