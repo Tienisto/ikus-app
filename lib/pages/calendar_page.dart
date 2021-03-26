@@ -40,6 +40,15 @@ class _CalendarPageState extends State<CalendarPage> {
     _myEvents = CalendarService.instance.getMyEvents();
   }
 
+  void _updateDataWithSetState() {
+    setState(() {
+      _updateData();
+      nextFrame(() {
+        setState(() {});
+      });
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -81,15 +90,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               CalendarService.instance.subscribe(channel);
                             else
                               CalendarService.instance.unsubscribe(channel);
-                            setState(() {
-                              _updateData();
-
-                              // update again if user changed subscribed channels
-                              // _events change -> updated visible events -> nextFrame -> setState
-                              nextFrame(() {
-                                setState(() {});
-                              });
-                            });
+                            _updateDataWithSetState();
                           },
                         )
                     );
@@ -130,6 +131,10 @@ class _CalendarPageState extends State<CalendarPage> {
                     body: DatePopup(
                       date: date,
                       events: events.cast<Event>(),
+                      onEventPop: () {
+                        // in case that register information has changed
+                        _updateDataWithSetState();
+                      },
                     )
                   );
                 },
@@ -159,9 +164,7 @@ class _CalendarPageState extends State<CalendarPage> {
               highlighted: _myEvents,
               callback: (event) async {
                 await pushScreen(context, () => EventScreen(event));
-                setState(() {
-                  _updateData();
-                });
+                _updateDataWithSetState();
               },
             ),
           ),

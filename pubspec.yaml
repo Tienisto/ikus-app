@@ -32,6 +32,7 @@ dependencies:
   uuid: ^3.0.2 # create device id
   html: ^0.15.0 # parse html
   collection: ^1.15.0 # collection utilities
+  crypto: ^3.0.0 # hash registration tokens
 
   # storage
   hive: ^2.0.0 # persistent storage

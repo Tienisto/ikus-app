@@ -5,7 +5,9 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
+import 'package:ikus_app/model/local/event_registration_data.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
@@ -20,6 +22,7 @@ class CalendarService implements SyncableService {
   late ChannelHandler<Event> _channelHandler;
   late List<Event> _events;
   late List<Event> _myEvents;
+  late EventRegistrationData _eventRegistrationData;
 
   @override
   String id = 'CALENDAR';
@@ -62,6 +65,7 @@ class CalendarService implements SyncableService {
     _channelHandler = ChannelHandler(channels, subscribedChannels);
     _events = events;
     _myEvents = myEvents;
+    _eventRegistrationData = await PersistentService.instance.getEventRegistrationData();
     _lastUpdate = data.timestamp;
   }
 
@@ -90,6 +94,39 @@ class CalendarService implements SyncableService {
 
   List<Channel> getSubscribed() {
     return _channelHandler.getSubscribed();
+  }
+
+  EventRegistrationData getEventRegistrationData() {
+    return _eventRegistrationData;
+  }
+
+  Future<void> saveEventRegistrationToken(int eventId, String token) async {
+    final newInstance = _eventRegistrationData.copyWithNewTokens({
+      ..._eventRegistrationData.registrationTokens,
+      eventId: token
+    });
+    _eventRegistrationData = newInstance;
+    await PersistentService.instance.setEventRegistrationData(newInstance);
+  }
+
+  Future<void> deleteEventRegistrationToken(int eventId) async {
+    final newInstance = _eventRegistrationData.copyWithNewTokens(Map.from(_eventRegistrationData.registrationTokens)..remove(eventId));
+    _eventRegistrationData = newInstance;
+    await PersistentService.instance.setEventRegistrationData(newInstance);
+  }
+
+  Future<void> saveEventRegistrationAutofill({required int? matriculationNumber, required String? firstName, required String? lastName, required String? email, required String? address, required String? country}) async {
+    final newInstance = EventRegistrationData(
+        matriculationNumber: matriculationNumber,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        address: address,
+        country: country,
+        registrationTokens: _eventRegistrationData.registrationTokens
+    );
+    _eventRegistrationData = newInstance;
+    await PersistentService.instance.setEventRegistrationData(newInstance);
   }
 
   void subscribe(Channel channel) {

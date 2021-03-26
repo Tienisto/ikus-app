@@ -8,9 +8,9 @@ import 'package:ikus_app/constants.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/service/app_config_service.dart';
-import 'package:ikus_app/service/jwt_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
+import 'package:ikus_app/utility/crypto.dart';
 import 'package:intl/intl.dart';
 
 /// manages data from the server
@@ -123,7 +123,7 @@ class ApiService {
     String? deviceId = PersistentService.instance.getDeviceId();
 
     Map<String, dynamic> body = {
-      'token': JwtService.generateToken(),
+      'token': Crypto.generateToken(),
       'deviceId': deviceId ?? 'unknown',
       'platform': Platform.isIOS ? 'IOS' : 'ANDROID',
     };
@@ -133,5 +133,73 @@ class ApiService {
       headers: {'content-type': 'application/json'},
       body: json.encode(body)
     );
+  }
+
+  /// register an event
+  /// returns a token if successful, null otherwise
+  static Future<String?> registerEvent({
+    required int eventId,
+    required int? matriculationNumber,
+    required String? firstName,
+    required String? lastName,
+    required String? email,
+    required String? address,
+    required String? country
+  }) async {
+
+    Map<String, dynamic> body = {
+      'jwt': Crypto.generateToken(),
+      'eventId': eventId,
+      'matriculationNumber': matriculationNumber,
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'address': address,
+      'country': country,
+    };
+
+    try {
+      final response = await post(
+          Uri.parse('$URL/event/register'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode(body)
+      );
+
+      if (response.statusCode != 200)
+        return null;
+
+      final raw = utf8.decode(response.bodyBytes);
+      final obj = json.decode(raw);
+      return obj['token'];
+    } catch (_) {
+      log('register failed', name: LOG_NAME);
+      return null;
+    }
+  }
+
+  /// deletes an event registration
+  /// returns true if successful, otherwise false
+  static Future<bool> unregisterEvent({
+    required int eventId,
+    required String token,
+  }) async {
+
+    Map<String, dynamic> body = {
+      'jwt': Crypto.generateToken(),
+      'eventId': eventId,
+      'token': token
+    };
+
+    try {
+      final response = await post(
+          Uri.parse('$URL/event/unregister'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode(body)
+      );
+      return response.statusCode == 200;
+    } catch (_) {
+      log('unregister failed', name: LOG_NAME);
+      return false;
+    }
   }
 }

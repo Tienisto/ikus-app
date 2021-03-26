@@ -5,16 +5,18 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/utility/adaptive.dart';
+import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class DatePopup extends StatelessWidget {
 
+  final Callback onEventPop;
   final DateTime date;
   final List<Event> events;
 
-  const DatePopup({required this.date, required this.events});
+  const DatePopup({required this.date, required this.events, required this.onEventPop});
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +68,10 @@ class DatePopup extends StatelessWidget {
                       elevation: OvguPixels.elevation,
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     ),
-                    onPressed: () {
-                      pushScreen(context, () => EventScreen(event));
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await pushScreen(context, () => EventScreen(event));
+                      onEventPop();
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,

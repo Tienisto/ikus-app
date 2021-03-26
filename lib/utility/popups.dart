@@ -14,7 +14,7 @@ class Popups {
     double height = DEFAULT_HEIGHT,
     bool dismissible = true,
   }) async {
-    showGeneralDialog(
+    await showGeneralDialog(
       context: context,
       transitionDuration: Duration(milliseconds: 300),
       barrierColor: Colors.black.withOpacity(0.5),

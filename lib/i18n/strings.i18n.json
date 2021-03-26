@@ -117,6 +117,20 @@
   },
   "event": {
     "title": "Event",
+    "registration": {
+      "title": "Registration",
+      "slots": "$registered/$slots People",
+      "status": {
+        "open": "OPEN",
+        "registered": "REGISTERED",
+        "waitingList": "WAITING LIST ($position)",
+        "full": "FULL",
+        "closed": "CLOSED"
+      },
+      "register": "Register",
+      "cancel": "Cancel",
+      "canceling": "Canceling..."
+    },
     "when": "When?",
     "to": "to",
     "where": "Where?"
@@ -201,6 +215,20 @@
     "title": "My Events",
     "info": "You can select events which are important to you. These events appear here and under \"Next Events\" on the start screen."
   },
+  "registerEvent": {
+    "title": "Register",
+    "matriculationNumber": "Matriculation No.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "address": "Address",
+    "country": "Country",
+    "register": "Register",
+    "registering": "Registering...",
+    "errors": {
+      "validation": "Please fill in all fields."
+    }
+  },
   "ovguAccount": {
     "title": "OVGU Account",
     "info": "You can access your mails as soon as you setup the OVGU account.",
@@ -277,6 +305,12 @@
       "title": "Event is already over",
       "info": "You can only add events which are in the future.",
       "ok": "OK"
+    },
+    "eventUnregister": {
+      "title": "Delete Registration",
+      "info": "You will lose your current position.",
+      "cancel": "Cancel",
+      "delete": "Delete"
     },
     "handbook": {
       "title": "Structure",

@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ikus_app/model/local/background_task.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
+import 'package:ikus_app/model/local/event_registration_data.dart';
 import 'package:ikus_app/model/local/log_error.dart';
 import 'package:ikus_app/model/local/mail_metadata.dart';
 import 'package:ikus_app/model/local/ovgu_account.dart';
@@ -193,6 +194,29 @@ class PersistentService {
     await _secureStorage.delete(key: 'ovgu_name');
     await _secureStorage.delete(key: 'ovgu_password');
     await _secureStorage.delete(key: 'ovgu_mail_address');
+  }
+
+  // event registrations
+
+  Future<EventRegistrationData> getEventRegistrationData() async {
+    final eventRegistrationData = await _secureStorage.read(key: 'e_registration_data');
+    if (eventRegistrationData != null) {
+      return EventRegistrationData.fromMap(json.decode(eventRegistrationData));
+    } else {
+      return EventRegistrationData(
+        matriculationNumber: null,
+        firstName: null,
+        lastName: null,
+        email: null,
+        address: null,
+        country: null,
+        registrationTokens: {}
+      );
+    }
+  }
+
+  Future<void> setEventRegistrationData(EventRegistrationData data) async {
+    await _secureStorage.write(key: 'e_registration_data', value: json.encode(data.toMap()));
   }
 
   // mails

@@ -117,6 +117,20 @@
   },
   "event": {
     "title": "Event",
+    "registration": {
+      "title": "Registrierung",
+      "slots": "$registered/$slots Personen",
+      "status": {
+        "open": "OFFEN",
+        "registered": "ANGEMELDET",
+        "waitingList": "WARTELISTE ($position)",
+        "full": "VOLL",
+        "closed": "GESCHLOSSEN"
+      },
+      "register": "Anmelden",
+      "cancel": "Abmelden",
+      "canceling": "Abmelden..."
+    },
     "when": "Wann?",
     "to": "bis",
     "where": "Wo?"
@@ -201,6 +215,20 @@
     "title": "Meine Events",
     "info": "Du kannst Events mit einem Herzchen versehen. Diese Events erscheinen hier und unter \"Nächsten Events\" auf der Startseite."
   },
+  "registerEvent": {
+    "title": "Event anmelden",
+    "matriculationNumber": "Matrikel-Nr.",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "country": "Land",
+    "register": "Anmelden",
+    "registering": "Anmelden...",
+    "errors": {
+      "validation": "Bitte alle Felder ausfüllen."
+    }
+  },
   "ovguAccount": {
     "title": "OVGU-Account",
     "info": "Du kannst auf deine E-Mails zugreifen, sobald du dich mit deinem OVGU-Account anmeldest.",
@@ -277,6 +305,12 @@
       "title": "Event ist schon vorbei",
       "info": "Du kannst nur Events hinzufügen, die in der Zukunft liegen.",
       "ok": "OK"
+    },
+    "eventUnregister": {
+      "title": "Anmeldung löschen",
+      "info": "Du wirst deine aktuelle Position in der Liste verlieren.",
+      "cancel": "Abbrechen",
+      "delete": "Löschen"
     },
     "handbook": {
       "title": "Inhaltsverzeichnis",
