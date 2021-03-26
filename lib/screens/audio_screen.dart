@@ -29,8 +29,6 @@ class _AudioScreenState extends State<AudioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.audio.title),
       ),
       body: MainListView(

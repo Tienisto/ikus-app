@@ -62,8 +62,6 @@ class _SyncScreenState extends State<SyncScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.sync.title)
       ),
       body: MainListView(

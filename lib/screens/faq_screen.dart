@@ -43,8 +43,6 @@ class _FAQScreenState extends State<FAQScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.faq.title),
       ),
       body: MainListView(

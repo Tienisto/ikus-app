@@ -224,8 +224,6 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
     final node = FocusScope.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.registerEvent.title),
       ),
       body: MainListView(

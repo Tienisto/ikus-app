@@ -28,8 +28,6 @@ class _DevScreenState extends State<DevScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.dev.title)
       ),
       body: MainListView(

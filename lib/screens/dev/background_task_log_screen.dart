@@ -69,8 +69,6 @@ class _BackgroundTaskLogScreenState extends State<BackgroundTaskLogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text('Background Tasks')
       ),
       body: Center(

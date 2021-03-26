@@ -117,8 +117,6 @@ class _MensaScreenState extends State<MensaScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.mensa.title),
       ),
       body: RefreshIndicator(

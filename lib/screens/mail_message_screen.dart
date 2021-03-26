@@ -28,8 +28,6 @@ class MailMessageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.mailMessage.title),
       ),
       body: MainListView(

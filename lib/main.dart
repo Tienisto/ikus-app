@@ -77,6 +77,10 @@ class IkusAppState extends State<IkusApp> {
         primaryColor: OvguColor.primary,
         accentColor: OvguColor.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+          brightness: Brightness.dark,
+          color: OvguColor.primary
+        )
       ),
       home: _home!,
       navigatorObservers: [ _navObserver ],

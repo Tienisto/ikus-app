@@ -34,8 +34,6 @@ class _HandbookScreenState extends State<HandbookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.handbook.title)
       ),
       body: Stack(

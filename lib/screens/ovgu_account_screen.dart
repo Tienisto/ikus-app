@@ -70,8 +70,6 @@ class _OvguAccountScreenState extends State<OvguAccountScreen> {
     final node = FocusScope.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.ovguAccount.title)
       ),
       body: MainListView(

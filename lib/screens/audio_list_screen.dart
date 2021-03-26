@@ -33,8 +33,6 @@ class _AudioListScreenState extends State<AudioListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: OvguColor.primary,
-        brightness: Brightness.dark,
         title: Text(t.audioList.title),
       ),
       body: MainListView(

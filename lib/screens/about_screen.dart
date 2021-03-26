@@ -13,8 +13,6 @@ class AboutScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: OvguColor.primary,
-          brightness: Brightness.dark,
           title: Text(t.about.title)
       ),
       body: MainListView(

@@ -332,8 +332,6 @@ class _MailScreenState extends State<MailScreen> {
     final preWidgets = getPreWidgets(context);
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: OvguColor.primary,
-          brightness: Brightness.dark,
           title: Text(t.mails.title)
       ),
       body: Center(
