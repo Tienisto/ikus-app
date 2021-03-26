@@ -11,7 +11,10 @@ class StatusBarColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(statusBarBrightness: brightness),
+      value: SystemUiOverlayStyle(
+        statusBarIconBrightness: brightness == Brightness.light ? Brightness.dark : Brightness.light, // for android
+        statusBarBrightness: brightness // for ios
+      ),
       child: child,
     );
   }
