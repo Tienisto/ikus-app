@@ -439,7 +439,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -450,12 +450,10 @@ packages:
   hive_generator:
     dependency: "direct dev"
     description:
-      path: hive_generator
-      ref: "3e5452466a7259887020a9fabf4b5955d3952abc"
-      resolved-ref: "3e5452466a7259887020a9fabf4b5955d3952abc"
-      url: "git@github.com:hivedb/hive.git"
-    source: git
-    version: "1.0.0"
+      name: hive_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   html:
     dependency: "direct main"
     description:

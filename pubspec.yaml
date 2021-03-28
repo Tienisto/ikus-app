@@ -35,7 +35,7 @@ dependencies:
   crypto: ^3.0.0 # hash registration tokens
 
   # storage
-  hive: ^2.0.0 # persistent storage
+  hive: ^2.0.1 # persistent storage
   hive_flutter: ^1.0.0 # helper for hive
   flutter_secure_storage: ^4.1.0 # for ovgu account
 
@@ -68,11 +68,7 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  hive_generator: # TODO: migrate when >= 1.0.1 comes out
-    git:
-      url: git@github.com:hivedb/hive.git
-      path: hive_generator
-      ref: 3e5452466a7259887020a9fabf4b5955d3952abc
+  hive_generator: ^1.0.1
   build_runner: any
   flutter_test:
     sdk: flutter
