@@ -29,7 +29,7 @@ dependencies:
   fast_i18n: ^3.0.2 # translations
   dart_jsonwebtoken: ^2.0.1 # jwt
   package_info: ^2.0.0 # show version and build of the app
-  uuid: ^3.0.2 # create device id
+  uuid: ^3.0.3 # create device id
   html: ^0.15.0 # parse html
   collection: ^1.15.0 # collection utilities
   crypto: ^3.0.0 # hash registration tokens
@@ -43,14 +43,14 @@ dependencies:
   http: ^0.13.1 # make http requests
   add_2_calendar: ^2.0.1 # add calendar reminders
   map_launcher: ^2.0.0-nullsafety.0 # launch external map app
-  url_launcher: ^6.0.2 # open links
+  url_launcher: ^6.0.3 # open links
   enough_mail: ^1.0.0 # emails
   workmanager: # run tasks in background (use PR version for now)
     git:
       url: git@github.com:ened/flutter_workmanager.git
       ref: 1c4e162ea4e71855856fb9e55a1545b3dae9a25d
   flutter_local_notifications: ^5.0.0 # show notifications
-  audioplayers: 0.18.0 # play audio
+  audioplayers: 0.18.2 # play audio
 
   # components
   flutter_html: ^2.0.0-nullsafety.0 # show post content encoded in html
@@ -59,7 +59,7 @@ dependencies:
     git:
       url: git://github.com/escamoteur/flutter_map.git
       ref: nullsafety
-  carousel_slider: ^2.3.1 # slider (e.g. home page)
+  carousel_slider: ^3.0.0 # slider (e.g. home page)
   table_calendar: ^2.3.1 # calendar
   native_pdf_view: ^4.0.1 # render handbook as pdf
 
