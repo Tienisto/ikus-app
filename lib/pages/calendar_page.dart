@@ -111,7 +111,7 @@ class _CalendarPageState extends State<CalendarPage> {
             padding: OvguPixels.mainScreenPadding,
             child: OvguCard(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                 child: TableCalendar(
                   focusedDay: _focusedDay,
                   firstDay: DateTime(2020, 8, 1),
