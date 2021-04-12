@@ -24,14 +24,13 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
 
-  late CalendarController _calendarController;
+  DateTime _focusedDay = DateTime.now();
   late Map<DateTime, List<Event>> _events;
   late List<Event> _myEvents;
 
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
     _updateData();
   }
 
@@ -49,15 +48,22 @@ class _CalendarPageState extends State<CalendarPage> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _calendarController.dispose();
+  Map<DateTime, List<Event>> _getVisibleEvents() {
+    DateTime currDate = DateTime(_focusedDay.year, _focusedDay.month, 1);
+
+    Map<DateTime, List<Event>> events = {};
+    do {
+      List<Event> eventsOfCurrDay = _events[DateTime(currDate.year, currDate.month, currDate.day)] ?? [];
+      if (eventsOfCurrDay.isNotEmpty)
+        events[currDate] = eventsOfCurrDay;
+
+      currDate = currDate.add(Duration(days: 1));
+    } while (currDate.month == _focusedDay.month);
+    return events;
   }
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
     return SafeArea(
       child: MainListView(
         children: [
@@ -104,40 +110,49 @@ class _CalendarPageState extends State<CalendarPage> {
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: OvguCard(
-              child: TableCalendar(
-                locale: LocaleSettings.currentLocale,
-                calendarController: _calendarController,
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                headerStyle: HeaderStyle(
-                  centerHeaderTitle: true,
-                  formatButtonVisible: false,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: TableCalendar(
+                  focusedDay: _focusedDay,
+                  firstDay: DateTime(2020, 8, 1),
+                  lastDay: DateTime.now().add(Duration(days: 365)),
+                  locale: LocaleSettings.currentLocale,
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  headerStyle: HeaderStyle(
+                    titleCentered: true,
+                    formatButtonVisible: false,
+                  ),
+                  availableGestures: AvailableGestures.none,
+                  calendarStyle: CalendarStyle(
+                    todayDecoration: BoxDecoration(
+                      color: OvguColor.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  eventLoader: (date) {
+                    return _events[DateTime(date.year, date.month, date.day)] ?? [];
+                  },
+                  onPageChanged: (date) {
+                    setState(() {
+                      _focusedDay = date;
+                    });
+                  },
+                  onDaySelected: (DateTime date, _) {
+                    List<Event> currEvents = _events[DateTime(date.year, date.month, date.day)] ?? [];
+                    Popups.generic(
+                      context: context,
+                      height: currEvents.length >= 3 ? 275 : 250,
+                      body: DatePopup(
+                        date: date,
+                        events: currEvents.cast<Event>(),
+                        onEventPop: () {
+                          // in case that register information has changed
+                          _updateDataWithSetState();
+                        },
+                      )
+                    );
+                  },
                 ),
-                availableGestures: AvailableGestures.none,
-                calendarStyle: CalendarStyle(
-                  todayColor: OvguColor.primary,
-                  highlightSelected: false,
-                ),
-                events: _events,
-                onCalendarCreated: (first, last, format) {
-                  nextFrame(() {
-                    setState(() {});
-                  });
-                },
-                onVisibleDaysChanged: (first, last, format) { setState(() {}); },
-                onDaySelected: (DateTime date, List<dynamic> events, _) {
-                  Popups.generic(
-                    context: context,
-                    height: events.length >= 3 ? 275 : 250,
-                    body: DatePopup(
-                      date: date,
-                      events: events.cast<Event>(),
-                      onEventPop: () {
-                        // in case that register information has changed
-                        _updateDataWithSetState();
-                      },
-                    )
-                  );
-                },
               ),
             ),
           ),
@@ -155,12 +170,7 @@ class _CalendarPageState extends State<CalendarPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: EventList(
-              events: _calendarController.visibleEvents
-                  .map((key, value) => MapEntry(key, [...value].cast<Event>()))
-                  ..removeWhere((key, value) {
-                    value.removeWhere((event) => !CalendarService.instance.isInFuture(event, now));
-                    return value.isEmpty;
-                  }),
+              events: _getVisibleEvents(),
               highlighted: _myEvents,
               callback: (event) async {
                 await pushScreen(context, () => EventScreen(event));

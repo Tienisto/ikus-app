@@ -57,7 +57,7 @@ dependencies:
       url: git://github.com/escamoteur/flutter_map.git
       ref: nullsafety
   carousel_slider: ^3.0.0 # slider (e.g. home page)
-  table_calendar: ^2.3.1 # calendar
+  table_calendar: ^3.0.0 # calendar
   native_pdf_view: ^4.0.1 # render handbook as pdf
 
   # The following adds the Cupertino Icons font to your application.
