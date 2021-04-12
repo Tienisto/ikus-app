@@ -33,7 +33,7 @@ class MailFacade {
       final client = ImapClient();
       await client.connectToServer('cyrus.ovgu.de', 993);
       await client.login(name, password);
-      await client.closeConnection();
+      await client.disconnect();
       return true;
     } catch (e) {
       log(e.toString(), error: e, name: LOG_NAME);
@@ -134,7 +134,7 @@ class MailFacade {
       }
 
       try {
-        await imapClient.closeConnection();
+        await imapClient.disconnect();
       } catch (e) {
         log(' -> IMAP logout failed', name: LOG_NAME);
       }
@@ -155,7 +155,7 @@ class MailFacade {
       final uidSequence = MessageSequence()..add(uid);
       await imapClient.uidMarkDeleted(uidSequence);
       await imapClient.expunge();
-      await imapClient.closeConnection();
+      await imapClient.disconnect();
       return true;
     } catch (e) {
       log(e.toString(), error: e, name: LOG_NAME);
@@ -166,31 +166,31 @@ class MailFacade {
   static Future<bool> sendMessage(MailMessageSend message, {required String name, required String password}) async {
 
     try {
-      final client = SmtpClient('ovgu.de');
-      await client.connectToServer('mail.ovgu.de', 587, isSecure: false);
-      final ehloResponse = await client.ehlo();
+      final smtpClient = SmtpClient('ovgu.de');
+      await smtpClient.connectToServer('mail.ovgu.de', 587, isSecure: false);
+      final ehloResponse = await smtpClient.ehlo();
       if (ehloResponse.isFailedStatus) {
         return false;
       }
 
-      final tlsResponse = await client.startTls();
+      final tlsResponse = await smtpClient.startTls();
       if (tlsResponse.isFailedStatus)
         return false;
 
-      final loginResponse = await client.authenticate(name, password);
+      final loginResponse = await smtpClient.authenticate(name, password);
       if (loginResponse.isFailedStatus)
         return false;
 
-      final sendResponse = await client.sendMessage(message.toMimeMessage());
+      final sendResponse = await smtpClient.sendMessage(message.toMimeMessage());
       if (sendResponse.isFailedStatus)
         return false;
 
-      await client.closeConnection();
+      await smtpClient.disconnect();
 
       // add email to sent folder
       final imapClient = await getImapClient(name: name, password: password);
       await imapClient.appendMessage(message.toMimeMessage(), targetMailboxPath: MAILBOX_PATH_SEND);
-      await imapClient.closeConnection();
+      await imapClient.disconnect();
 
       return true;
     } catch (e) {
