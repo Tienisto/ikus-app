@@ -62,7 +62,7 @@ class MailFacade {
 
       log(' -> Provided ${existing.length} cached mails, need to fetch ${fetchSequence.length}.', name: LOG_NAME);
 
-      if (fetchSequence.isEmpty()) {
+      if (fetchSequence.isEmpty) {
         return resultMap; // all mails has already been fetched (no new mails)
       }
 

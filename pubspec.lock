@@ -14,7 +14,7 @@ packages:
       name: add_2_calendar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   analyzer:
     dependency: transitive
     description:
@@ -42,7 +42,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0-nullsafety.0"
+    version: "1.0.0"
   async:
     dependency: transitive
     description:
@@ -56,14 +56,14 @@ packages:
       name: audioplayers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.18.2"
+    version: "0.18.3"
   basic_utils:
     dependency: transitive
     description:
       name: basic_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-nullsafety.1"
+    version: "3.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -210,7 +210,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   css_colors:
     dependency: transitive
     description:
@@ -273,7 +273,7 @@ packages:
       name: encrypt
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0-beta.1"
+    version: "5.0.0"
   enough_convert:
     dependency: transitive
     description:
@@ -287,7 +287,7 @@ packages:
       name: enough_mail
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.2.1"
   enough_serialization:
     dependency: transitive
     description:
@@ -322,7 +322,7 @@ packages:
       name: fast_i18n
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.3"
   ffi:
     dependency: transitive
     description:
@@ -439,7 +439,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -544,7 +544,7 @@ packages:
       name: map_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-nullsafety.0"
+    version: "2.0.0"
   matcher:
     dependency: transitive
     description:
@@ -672,7 +672,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.2"
+    version: "4.1.0"
   photo_view:
     dependency: transitive
     description:
@@ -938,7 +938,7 @@ packages:
       name: uuid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.4"
   vector_math:
     dependency: transitive
     description:
@@ -1035,11 +1035,9 @@ packages:
   workmanager:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "1c4e162ea4e71855856fb9e55a1545b3dae9a25d"
-      resolved-ref: "1c4e162ea4e71855856fb9e55a1545b3dae9a25d"
-      url: "git@github.com:ened/flutter_workmanager.git"
-    source: git
+      name: workmanager
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.2.4"
   xdg_directories:
     dependency: transitive
@@ -1054,7 +1052,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.2"
+    version: "5.1.0"
   yaml:
     dependency: transitive
     description:

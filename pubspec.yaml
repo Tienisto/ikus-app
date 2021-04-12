@@ -26,31 +26,28 @@ dependencies:
 
   # core
   intl: ^0.17.0 # used by table_calendar and for formatting dates
-  fast_i18n: ^3.0.2 # translations
+  fast_i18n: ^3.0.3 # translations
   dart_jsonwebtoken: ^2.0.1 # jwt
   package_info: ^2.0.0 # show version and build of the app
-  uuid: ^3.0.3 # create device id
+  uuid: ^3.0.4 # create device id
   html: ^0.15.0 # parse html
   collection: ^1.15.0 # collection utilities
-  crypto: ^3.0.0 # hash registration tokens
+  crypto: ^3.0.1 # hash registration tokens
 
   # storage
-  hive: ^2.0.1 # persistent storage
+  hive: ^2.0.2 # persistent storage
   hive_flutter: ^1.0.0 # helper for hive
   flutter_secure_storage: ^4.1.0 # for ovgu account
 
   # native utilities
   http: ^0.13.1 # make http requests
-  add_2_calendar: ^2.0.1 # add calendar reminders
-  map_launcher: ^2.0.0-nullsafety.0 # launch external map app
+  add_2_calendar: ^2.0.2 # add calendar reminders
+  map_launcher: ^2.0.0 # launch external map app
   url_launcher: ^6.0.3 # open links
-  enough_mail: ^1.0.0 # emails
-  workmanager: # run tasks in background (use PR version for now)
-    git:
-      url: git@github.com:ened/flutter_workmanager.git
-      ref: 1c4e162ea4e71855856fb9e55a1545b3dae9a25d
+  enough_mail: ^1.2.1 # emails
+  workmanager: ^0.2.4 # run tasks in background
   flutter_local_notifications: ^5.0.0 # show notifications
-  audioplayers: 0.18.2 # play audio
+  audioplayers: ^0.18.3 # play audio
 
   # components
   flutter_html: ^2.0.0-nullsafety.0 # show post content encoded in html
