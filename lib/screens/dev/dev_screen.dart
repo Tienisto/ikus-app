@@ -12,7 +12,6 @@ import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/globals.dart';
-import 'package:ikus_app/utility/ui.dart';
 
 class DevScreen extends StatefulWidget {
 

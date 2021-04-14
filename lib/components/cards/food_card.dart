@@ -6,7 +6,7 @@ import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
 
 class FoodCard extends StatelessWidget {
-  static NumberFormat currencyFormat = NumberFormat("0.00", LocaleSettings.currentLocale);
+  static NumberFormat currencyFormat = NumberFormat("0.00", LocaleSettings.currentLocale.languageTag);
   final Food food;
 
   const FoodCard({required this.food});

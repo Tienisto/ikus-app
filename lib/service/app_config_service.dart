@@ -35,7 +35,7 @@ class AppConfigService implements SyncableService {
 
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'app-config',
-      locale: LocaleSettings.currentLocale,
+      locale: LocaleSettings.currentLocale.languageTag,
       useJSON: useJSON,
       useNetwork: useNetwork,
       fallback: { 'version': API_VERSION, 'features': [] }

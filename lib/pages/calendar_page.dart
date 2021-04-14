@@ -116,7 +116,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   focusedDay: _focusedDay,
                   firstDay: DateTime(2020, 8, 1),
                   lastDay: DateTime.now().add(Duration(days: 365)),
-                  locale: LocaleSettings.currentLocale,
+                  locale: LocaleSettings.currentLocale.languageTag,
                   startingDayOfWeek: StartingDayOfWeek.monday,
                   headerStyle: HeaderStyle(
                     titleCentered: true,

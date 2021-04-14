@@ -25,7 +25,7 @@ class ContactService implements SyncableService {
   Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'contacts',
-      locale: LocaleSettings.currentLocale,
+      locale: LocaleSettings.currentLocale.languageTag,
       useJSON: useJSON,
       useNetwork: useNetwork,
       fallback: []

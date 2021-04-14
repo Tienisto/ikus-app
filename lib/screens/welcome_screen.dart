@@ -132,24 +132,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   OvguButton(
-                                    color: LocaleSettings.currentLocale == 'en' ? OvguColor.primary : Colors.grey.shade300,
+                                    color: LocaleSettings.currentLocale == AppLocale.en ? OvguColor.primary : Colors.grey.shade300,
                                     callback: () {
                                       setState(() {
-                                        LocaleSettings.setLocale('en');
+                                        LocaleSettings.setLocale(AppLocale.en);
                                         SettingsService.instance.setLocale('en');
                                       });
                                     },
-                                    child: Text(t.welcome.english, style: TextStyle(color: LocaleSettings.currentLocale == 'en' ? Colors.white : Colors.black)),
+                                    child: Text(t.welcome.english, style: TextStyle(color: LocaleSettings.currentLocale == AppLocale.en ? Colors.white : Colors.black)),
                                   ),
                                   OvguButton(
-                                    color: LocaleSettings.currentLocale == 'de' ? OvguColor.primary : Colors.grey.shade300,
+                                    color: LocaleSettings.currentLocale == AppLocale.de ? OvguColor.primary : Colors.grey.shade300,
                                     callback: () {
                                       setState(() {
-                                        LocaleSettings.setLocale('de');
+                                        LocaleSettings.setLocale(AppLocale.de);
                                         SettingsService.instance.setLocale('de');
                                       });
                                     },
-                                    child: Text(t.welcome.german, style: TextStyle(color: LocaleSettings.currentLocale == 'de' ? Colors.white : Colors.black)),
+                                    child: Text(t.welcome.german, style: TextStyle(color: LocaleSettings.currentLocale == AppLocale.de ? Colors.white : Colors.black)),
                                   )
                                 ],
                               ),

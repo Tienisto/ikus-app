@@ -29,7 +29,7 @@ class _MensaScreenState extends State<MensaScreen> {
   static DateFormat _lastUpdateFormatter = DateFormat("dd.MM.yyyy, HH:mm");
   static DateFormat _lastUpdateFormatterTimeOnly = DateFormat("HH:mm");
   static DateFormat _dateFormatter = DateFormat("dd.MM.yyyy");
-  DateFormat _dateWithWeekdayFormatter = DateFormat("EEEE, dd.MM.yyyy", LocaleSettings.currentLocale);
+  DateFormat _dateWithWeekdayFormatter = DateFormat("EEEE, dd.MM.yyyy", LocaleSettings.currentLocale.languageTag);
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   final GlobalKey<SmartAnimationState> _headerAnimationKey = new GlobalKey<SmartAnimationState>();

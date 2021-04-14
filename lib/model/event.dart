@@ -12,10 +12,10 @@ enum RegistrationField {
 
 class Event {
 
-  static final DateFormat _formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale);
-  static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEE, dd.MM.yyyy', LocaleSettings.currentLocale);
-  static final DateFormat _formatOnlyTimeDe = DateFormat('HH:mm', LocaleSettings.currentLocale);
-  static final DateFormat _formatOnlyTimeEn = DateFormat('h:mm a', LocaleSettings.currentLocale);
+  static final DateFormat _formatOnlyDate = DateFormat('dd.MM.yyyy', LocaleSettings.currentLocale.languageTag);
+  static final DateFormat _formatOnlyDateWithWeekday = DateFormat('EEE, dd.MM.yyyy', LocaleSettings.currentLocale.languageTag);
+  static final DateFormat _formatOnlyTimeDe = DateFormat('HH:mm', LocaleSettings.currentLocale.languageTag);
+  static final DateFormat _formatOnlyTimeEn = DateFormat('h:mm a', LocaleSettings.currentLocale.languageTag);
 
   final int id;
   final String name;
@@ -77,7 +77,7 @@ class Event {
   }
 
   static String formatTime(DateTime time) {
-    if (LocaleSettings.currentLocale == 'en')
+    if (LocaleSettings.currentLocale == AppLocale.en)
       return _formatOnlyTimeEn.format(time);
     else
       return _formatOnlyTimeDe.format(time);

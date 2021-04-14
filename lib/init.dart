@@ -125,9 +125,9 @@ class Init {
     String? locale = SettingsService.instance.getLocale();
     if (locale != null) {
       log(' -> use locale: $locale', name: LOG_NAME);
-      LocaleSettings.setLocale(locale);
+      LocaleSettings.setLocaleRaw(locale);
     } else {
-      String deviceLocale = LocaleSettings.currentLocale;
+      String deviceLocale = LocaleSettings.currentLocale.languageTag;
       log(' -> use default device locale: $deviceLocale', name: LOG_NAME);
       SettingsService.instance.setLocale(deviceLocale);
     }
@@ -191,7 +191,7 @@ class Init {
         .toList();
     if (routes.isNotEmpty) {
       log(' -> (2/4) fetch batch route', name: LOG_NAME);
-      String? response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale, routes: routes);
+      String? response = await ApiService.fetchBatchString(locale: LocaleSettings.currentLocale.languageTag, routes: routes);
       if (response != null) {
         Map<String, dynamic> parsed = json.decode(response);
         for (final entry in parsed.entries) {

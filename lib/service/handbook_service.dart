@@ -25,7 +25,7 @@ class HandbookService implements SyncableService {
   // useJSON applies only to the rest route
   @override
   Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
-    String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale, false);
+    String handbookUrl = getHandbookUrl(LocaleSettings.currentLocale.languageTag, false);
     DataWithTimestamp pdfData = await ApiService.getCacheOrFetchBinary(
       route: handbookUrl,
       useNetwork: useNetwork,
@@ -34,7 +34,7 @@ class HandbookService implements SyncableService {
 
     DataWithTimestamp bookmarksData = await ApiService.getCacheOrFetchString(
         route: 'handbook-bookmarks',
-        locale: LocaleSettings.currentLocale,
+        locale: LocaleSettings.currentLocale.languageTag,
         useJSON: useJSON,
         useNetwork: useNetwork,
         fallback: []

@@ -22,7 +22,7 @@ class MailMessage {
 
   String get formattedTimestamp {
     if (timestamp.isSameDay(DateTime.now())) {
-      if (LocaleSettings.currentLocale == 'en')
+      if (LocaleSettings.currentLocale == AppLocale.en)
         return _timeFormatterEn.format(timestamp);
       else
         return _timeFormatterDe.format(timestamp);

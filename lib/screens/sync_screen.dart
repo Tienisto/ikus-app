@@ -8,7 +8,6 @@ import 'package:ikus_app/components/rotating.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
-import 'package:ikus_app/utility/ui.dart';
 import 'package:intl/intl.dart';
 
 class SyncScreen extends StatefulWidget {
@@ -31,7 +30,7 @@ class _SyncScreenState extends State<SyncScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(LocaleSettings.currentLocale == 'en' ? _dateFormatterEn.format(lastUpdate) : _dateFormatterDe.format(lastUpdate))
+                Text(LocaleSettings.currentLocale == AppLocale.en ? _dateFormatterEn.format(lastUpdate) : _dateFormatterDe.format(lastUpdate))
               ],
             )
         ),

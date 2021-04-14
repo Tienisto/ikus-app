@@ -25,7 +25,7 @@ class MensaService implements SyncableService {
   Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'mensa',
-      locale: LocaleSettings.currentLocale,
+      locale: LocaleSettings.currentLocale.languageTag,
       useNetwork: useNetwork,
       useJSON: useJSON,
       fallback: []

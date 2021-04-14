@@ -64,15 +64,15 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsItem(
               left: t.main.settings.language,
               right: OvguSwitch(
-                state: LocaleSettings.currentLocale == 'en' ? SwitchState.LEFT : SwitchState.RIGHT,
+                state: LocaleSettings.currentLocale == AppLocale.en ? SwitchState.LEFT : SwitchState.RIGHT,
                 left: 'EN',
                 right: 'DE',
                 callback: (state) {
-                  String locale = state == SwitchState.LEFT ? 'en' : 'de';
+                  AppLocale locale = state == SwitchState.LEFT ? AppLocale.en : AppLocale.de;
                   if (locale == LocaleSettings.currentLocale)
                     return;
                   LocaleSettings.setLocale(locale);
-                  SettingsService.instance.setLocale(locale);
+                  SettingsService.instance.setLocale(locale.languageTag);
                   setScreen(context, () => ChangeLanguageScreen());
                 },
               )

@@ -80,7 +80,7 @@ class _HandbookScreenState extends State<HandbookScreen> {
                   SizedBox(width: 20),
                   OvguButton(
                     callback: () async {
-                      await launch(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale, true));
+                      await launch(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale.languageTag, true));
                     },
                     child: Icon(Icons.cloud_download, color: Colors.white),
                   ),

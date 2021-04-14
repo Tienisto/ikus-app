@@ -25,7 +25,7 @@ class FAQService implements SyncableService {
   Future<void> sync({required bool useNetwork, String? useJSON, bool showNotifications = false, AddFutureCallback? onBatchFinished}) async {
     DataWithTimestamp data = await ApiService.getCacheOrFetchString(
       route: 'faq',
-      locale: LocaleSettings.currentLocale,
+      locale: LocaleSettings.currentLocale.languageTag,
       useJSON: useJSON,
       useNetwork: useNetwork,
       fallback: []
