@@ -13,9 +13,9 @@ class BackgroundService {
   static BackgroundService get instance => _instance;
 
   void init() {
-    Workmanager.initialize(workmanagerWrapper);
+    Workmanager().initialize(workmanagerWrapper);
     if (Platform.isAndroid) {
-      Workmanager.registerPeriodicTask(
+      Workmanager().registerPeriodicTask(
           "1",
           "fetchTask",
           frequency: Duration(minutes: 15), // at least 15min
@@ -35,7 +35,7 @@ Future<void> backgroundTask(String taskId, BackgroundSyncCallback logServiceSync
 }
 
 void workmanagerWrapper() {
-  Workmanager.executeTask((String task, Map<String, dynamic> inputData) async {
+  Workmanager().executeTask((String task, Map<String, dynamic>? inputData) async {
     DateTime start = DateTime.now();
     bool success = false;
     String? message;

@@ -45,7 +45,7 @@ dependencies:
   map_launcher: ^2.0.0 # launch external map app
   url_launcher: ^6.0.3 # open links
   enough_mail: ^1.2.2 # emails
-  workmanager: ^0.2.4 # run tasks in background
+  workmanager: ^0.4.0 # run tasks in background
   flutter_local_notifications: ^5.0.0 # show notifications
   audioplayers: ^0.18.3 # play audio
 
