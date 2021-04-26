@@ -98,16 +98,16 @@
       "title": "Idea",
       "people": [
         "M.A. Anne-Katrin Behnert",
-        "M.Sc. Anne Schulze",
         "Christin Scheil",
-        "Mrs. Eva Böhning",
-        "International Office team"
+        "IKUS",
+        "Dormitory Advisors of the Studentenwerk",
+        "Fachschaftrat der Informatik"
       ]
     },
     "technicalImplementation": {
       "title": "Technical Implementation",
       "people": [
-        "Tien Do Nam<br>August 2020 - today<br>(former) Student at FIN<br><a href=\"https://tiendonam.de\">tiendonam.de</a>"
+        "Tien Do Nam<br>August 2020 - today<br>former Student at FIN<br><a href=\"https://tiendonam.de\">tiendonam.de</a>"
       ]
     },
     "contribute": "This app is open source.<br>You can checkout the code <a href=\"https://github.com/Tienisto/ikus-app\">here</a>.<br>Feel free to create an <a href=\"https://github.com/Tienisto/ikus-app/issues\">issue</a> or a <a href=\"https://github.com/Tienisto/ikus-app/pulls\">pull request</a>."
