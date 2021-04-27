@@ -49,10 +49,10 @@
   "tutorial": {
     "steps": [
       "This is the start screen.\nHere you can find the latest news.",
-      "On the 2nd page there is the calendar so that you don't miss any event!",
-      "On the 3rd page is a list of all features.",
-      "You often use a feature?\nYou can tap on the heart to add it to the start screen.",
-      "These features appear here on the top.",
+      "On the 2nd page, you can find the calendar so you won't miss any event!",
+      "On the 3rd page, you'll find a list of all features.",
+      "You use a particular feature often?\nYou can tap on the heart to add it to the start screen.",
+      "All features you liked will appear here on the top.",
       "That's it! :)"
     ],
     "skip": "Skip",
@@ -101,7 +101,7 @@
         "Christin Scheil",
         "IKUS",
         "Dormitory Advisors of the Studentenwerk",
-        "Fachschaftrat der Informatik"
+        "Fachschaftsrat Informatik"
       ]
     },
     "technicalImplementation": {
