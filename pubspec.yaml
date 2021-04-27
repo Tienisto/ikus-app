@@ -35,13 +35,13 @@ dependencies:
   crypto: ^3.0.1 # hash registration tokens
 
   # storage
-  hive: ^2.0.3 # persistent storage
+  hive: ^2.0.4 # persistent storage
   hive_flutter: ^1.0.0 # helper for hive
-  flutter_secure_storage: ^4.1.0 # for ovgu account
+  flutter_secure_storage: ^4.2.0 # for ovgu account
 
   # native utilities
   http: ^0.13.1 # make http requests
-  add_2_calendar: ^2.0.2 # add calendar reminders
+  add_2_calendar: ^2.1.0 # add calendar reminders
   map_launcher: ^2.0.0 # launch external map app
   url_launcher: ^6.0.3 # open links
   enough_mail: ^1.2.2 # emails
@@ -65,8 +65,8 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  hive_generator: ^1.0.1
-  build_runner: any
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.1
   flutter_test:
     sdk: flutter
 
