@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
+import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
@@ -228,8 +229,13 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
       ),
       body: MainListView(
         children: [
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           ...widget.requiredFields.map((f) => getInputField(f, node)),
+          SizedBox(height: 30),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: InfoText(t.registerEvent.disclaimer)
+          ),
           SizedBox(height: 20),
           Padding(
             padding: OvguPixels.mainScreenPadding,
