@@ -26,7 +26,7 @@ dependencies:
 
   # core
   intl: ^0.17.0 # used by table_calendar and for formatting dates
-  fast_i18n: ^4.1.1 # translations
+  fast_i18n: ^4.2.0 # translations
   dart_jsonwebtoken: ^2.1.0 # jwt
   package_info: ^2.0.0 # show version and build of the app
   uuid: ^3.0.4 # create device id
@@ -40,7 +40,7 @@ dependencies:
   flutter_secure_storage: ^4.2.0 # for ovgu account
 
   # native utilities
-  http: ^0.13.1 # make http requests
+  http: ^0.13.2 # make http requests
   add_2_calendar: ^2.1.0 # add calendar reminders
   map_launcher: ^2.0.0 # launch external map app
   url_launcher: ^6.0.3 # open links
