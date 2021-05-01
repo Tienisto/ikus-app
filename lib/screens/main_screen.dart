@@ -188,7 +188,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: Padding(
-                          padding: EdgeInsets.only(top: 67, right: 14),
+                          padding: EdgeInsets.only(top: 67, right: 3),
                           child: TutorialFeatureHighlight(
                             visible: tutorialFeatureHeartHighlight!,
                             width: 60,
