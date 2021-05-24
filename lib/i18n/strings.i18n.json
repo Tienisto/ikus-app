@@ -67,8 +67,10 @@
       "Settings"
     ],
     "home": {
-      "nextEventsSingular": "Next Event",
-      "nextEventsPlural": "Next Events",
+      "nextEvents": {
+        "one": "Next Event",
+        "other": "Next Events"
+      },
       "news": "News"
     },
     "calendar": {
@@ -350,8 +352,10 @@
   },
   "notifications": {
     "newMail": {
-      "titleOne": "New Mail",
-      "titleMultiple": "$count new mails"
+      "title": {
+        "one": "New Mail",
+        "other": "$count new mails"
+      }
     }
   },
   "timeFormat": "$time"

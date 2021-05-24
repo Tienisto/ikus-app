@@ -65,22 +65,22 @@ class NotificationService {
     );
 
     final id = _getRandomId();
+    final title = t.notifications.newMail.title(count: mails.length);
+    final String info;
+    final String payload;
     if (mails.length == 1) {
       final mail = mails.first;
-      final info = mail.subject;
-      final payload = NotificationPayloadSerialization.mailScreen(mail.uid);
-      await _plugin.show(id, t.notifications.newMail.titleOne,
-          info.substring(0, min(info.length, 100)),
-          platformChannelSpecifics, payload: payload
-      );
+      info = mail.subject;
+      payload = NotificationPayloadSerialization.mailScreen(mail.uid);
     } else {
-      final info = mails.map((m) => m.subject).join(', ');
-      final payload = NotificationPayloadSerialization.mailScreen(null);
-      await _plugin.show(id, t.notifications.newMail.titleMultiple(count: mails.length),
-          info.substring(0, min(info.length, 100)),
-          platformChannelSpecifics, payload: payload
-      );
+      info = mails.map((m) => m.subject).join(', ');
+      payload = NotificationPayloadSerialization.mailScreen(null);
     }
+
+    await _plugin.show(id, title,
+        info.substring(0, min(info.length, 100)),
+        platformChannelSpecifics, payload: payload
+    );
   }
 
   static Future<void> onSelectNotification(String? payload) async {

@@ -67,8 +67,10 @@
       "Einst."
     ],
     "home": {
-      "nextEventsSingular": "Nächstes Event",
-      "nextEventsPlural": "Nächste Events",
+      "nextEvents": {
+        "one": "Nächstes Event",
+        "other": "Nächste Events"
+      },
       "news": "Neuigkeiten"
     },
     "calendar": {
@@ -350,8 +352,10 @@
   },
   "notifications": {
     "newMail": {
-      "titleOne": "Neue E-Mail",
-      "titleMultiple": "$count neue E-Mails"
+      "title": {
+        "one": "Neue E-Mail",
+        "other": "$count neue E-Mails"
+      }
     }
   },
   "timeFormat": "$time Uhr"

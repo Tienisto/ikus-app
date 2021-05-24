@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      fast_i18n:i18nBuilder:
+        options:
+          pluralization:
+            cardinal:
+              - main.home.nextEvents
+              - notifications.newMail.title
