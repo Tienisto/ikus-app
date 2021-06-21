@@ -3,7 +3,6 @@ targets:
     builders:
       fast_i18n:i18nBuilder:
         options:
+          input_directory: lib/i18n
           pluralization:
-            cardinal:
-              - main.home.nextEvents
-              - notifications.newMail.title
+            auto: cardinal
