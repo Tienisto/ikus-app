@@ -137,7 +137,7 @@ class ApiService {
 
   /// register an event
   /// returns a token if successful, null otherwise
-  static Future<String?> registerEvent({
+  static Future<String> registerEvent({
     required int eventId,
     required int? matriculationNumber,
     required String? firstName,
@@ -158,23 +158,20 @@ class ApiService {
       'country': country,
     };
 
-    try {
-      final response = await post(
-          Uri.parse('$URL/event/register'),
-          headers: {'content-type': 'application/json'},
-          body: json.encode(body)
-      );
+    final response = await post(
+        Uri.parse('$URL/event/register'),
+        headers: {'content-type': 'application/json'},
+        body: json.encode(body)
+    );
 
-      if (response.statusCode != 200)
-        return null;
-
-      final raw = utf8.decode(response.bodyBytes);
-      final obj = json.decode(raw);
-      return obj['token'];
-    } catch (_) {
-      log('register failed', name: LOG_NAME);
-      return null;
+    if (response.statusCode != 200) {
+      log('register failed (HTTP response: ${response.statusCode}', name: LOG_NAME);
+      throw response.statusCode;
     }
+
+    final raw = utf8.decode(response.bodyBytes);
+    final obj = json.decode(raw);
+    return obj['token'];
   }
 
   /// deletes an event registration

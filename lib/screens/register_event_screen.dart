@@ -126,26 +126,37 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
         country: _country
     );
 
-    final token = await ApiService.registerEvent(
-        eventId: widget.eventId,
-        matriculationNumber: int.tryParse(_matriculationNo),
-        firstName: _firstName,
-        lastName: _lastName,
-        email: _email,
-        address: _address,
-        country: _country
-    );
+    try {
+      final token = await ApiService.registerEvent(
+          eventId: widget.eventId,
+          matriculationNumber: int.tryParse(_matriculationNo),
+          firstName: _firstName,
+          lastName: _lastName,
+          email: _email,
+          address: _address,
+          country: _country
+      );
 
-    await CalendarService.instance.sync(useNetwork: true);
-    // at least 1sec popup time
-    await sleepRemaining(1000, start);
-    Navigator.pop(context);
+      await CalendarService.instance.sync(useNetwork: true);
+      // at least 1sec popup time
+      await sleepRemaining(1000, start);
+      Navigator.pop(context);
 
-    if (token != null) {
       await CalendarService.instance.saveEventRegistrationToken(widget.eventId, token);
       Navigator.pop(context);
-    } else {
-      ErrorPopup.open(context);
+    } catch (e) {
+      Navigator.pop(context);
+      switch (e) {
+        case 403:
+          ErrorPopup.open(context, message: t.registerEvent.errors.closed);
+          break;
+        case 409:
+          ErrorPopup.open(context, message: t.registerEvent.errors.full);
+          break;
+        default:
+          ErrorPopup.open(context);
+          break;
+      }
     }
   }
 
