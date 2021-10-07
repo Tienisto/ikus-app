@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # core
   intl: ^0.17.0 # used by table_calendar and for formatting dates
@@ -49,24 +51,21 @@ dependencies:
   audioplayers: ^0.18.3 # play audio
 
   # components
-  flutter_html: ^2.0.0-nullsafety.0 # show post content encoded in html
-  # flutter_map: ^0.10.1 # show event location in-app TODO: migrate to flutter_map when it does no longer depend on latlong
-  flutter_map:
-    git:
-      url: git://github.com/escamoteur/flutter_map.git
-      ref: nullsafety
-  carousel_slider: ^4.0.0-nullsafety.0 # slider (e.g. home page)
+  flutter_html: ^2.1.3 # show post content encoded in html
+  flutter_map: 0.13.1
+  carousel_slider: ^4.0.0 # slider (e.g. home page)
   table_calendar: ^3.0.0 # calendar
-  native_pdf_view: ^4.0.1 # render handbook as pdf
+  native_pdf_view: ^4.2.0 # render handbook as pdf
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  fast_i18n: 4.9.2 # translations
+  fast_i18n: 5.1.0 # translations
   hive_generator: ^1.1.0
   build_runner: ^2.0.1
+  analyzer: 2.3.0  # somehow the implicit older version causes build_runner problems
   flutter_test:
     sdk: flutter
 

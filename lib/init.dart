@@ -31,7 +31,6 @@ class Init {
     WidgetsFlutterBinding.ensureInitialized();
     LocaleSettings.useDeviceLocale();
     BackgroundService.instance.init();
-    await initializeDateFormatting();
     NotificationAppLaunchDetails? details = await FlutterLocalNotificationsPlugin().getNotificationAppLaunchDetails();
     if (details != null && details.didNotificationLaunchApp && details.payload != null) {
       return NotificationPayloadSerialization.parse(details.payload!);

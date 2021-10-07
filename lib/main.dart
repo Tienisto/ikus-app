@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/screens/main_screen.dart';
@@ -74,15 +75,23 @@ class IkusAppState extends State<IkusApp> {
       debugShowCheckedModeBanner: false,
       builder: Adaptive.getBehaviour(),
       theme: ThemeData(
-        primaryColor: OvguColor.primary,
-        accentColor: OvguColor.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
           brightness: Brightness.dark,
           color: OvguColor.primary
-        )
+        ),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: OvguColor.primary,
+          secondary: OvguColor.secondary,
+        ),
       ),
       home: _home!,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: LocaleSettings.supportedLocales,
       navigatorObservers: [ _navObserver ],
     );
   }

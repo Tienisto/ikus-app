@@ -1,8 +1,6 @@
 targets:
   $default:
     builders:
-      fast_i18n:i18nBuilder:
+      fast_i18n:
         options:
           input_directory: lib/i18n
-          pluralization:
-            auto: cardinal
