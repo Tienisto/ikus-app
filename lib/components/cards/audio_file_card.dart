@@ -24,7 +24,7 @@ class AudioFileCard extends StatefulWidget {
 class _AudioFileCardState extends State<AudioFileCard> {
 
   AudioPlayer audioPlayer = AudioPlayer();
-  AudioPlayerState _playerState = AudioPlayerState.STOPPED;
+  PlayerState _playerState = PlayerState.STOPPED;
   bool _loading = false;
   double? _targetTime; // in sec, not null during dragging
   double _currTime = 0; // in sec
@@ -55,7 +55,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
         setState(() => _playerState = state);
     });
 
-    _playerState = AudioPlayerState.PLAYING;
+    _playerState = PlayerState.PLAYING;
   }
 
   Future<void> stop() async {
@@ -125,7 +125,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
                     return;
 
                   final position = Duration(seconds: (value * _duration!).floor());
-                  if (_playerState == AudioPlayerState.COMPLETED)
+                  if (_playerState == PlayerState.COMPLETED)
                     play(position: position);
                   else
                     audioPlayer.seek(position);
@@ -156,13 +156,13 @@ class _AudioFileCardState extends State<AudioFileCard> {
                     if (_loading)
                       return;
 
-                    if (_playerState == AudioPlayerState.PLAYING) {
+                    if (_playerState == PlayerState.PLAYING) {
                       stop();
                     } else {
                       play();
                     }
                   },
-                  child: _loading ? Rotating(child: Icon(Icons.sync)) : Icon(_playerState == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow)
+                  child: _loading ? Rotating(child: Icon(Icons.sync)) : Icon(_playerState == PlayerState.PLAYING ? Icons.pause : Icons.play_arrow)
                 )
               ],
             ),

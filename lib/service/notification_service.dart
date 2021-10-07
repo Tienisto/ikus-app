@@ -37,12 +37,11 @@ class NotificationService {
         android: AndroidNotificationDetails(
           'test',
           'Test',
-          'Showing Test Notification',
           importance: Importance.max,
           priority: Priority.high,
           color: OvguColor.primary
         ),
-        iOS: IOSNotificationDetails()
+        iOS: IOSNotificationDetails(),
     );
 
     await _plugin.show(0, 'Test',
@@ -56,12 +55,11 @@ class NotificationService {
         android: AndroidNotificationDetails(
             'newMail',
             'New Mail',
-            'New Mail',
             importance: Importance.max,
             priority: Priority.high,
             color: OvguColor.primary
         ),
-        iOS: IOSNotificationDetails()
+        iOS: IOSNotificationDetails(),
     );
 
     final id = _getRandomId();

@@ -28,9 +28,9 @@ dependencies:
 
   # core
   intl: ^0.17.0 # used by table_calendar and for formatting dates
-  dart_jsonwebtoken: ^2.1.0 # jwt
-  package_info: ^2.0.0 # show version and build of the app
-  uuid: ^3.0.4 # create device id
+  dart_jsonwebtoken: ^2.3.2 # jwt
+  package_info: ^2.0.2 # show version and build of the app
+  uuid: ^3.0.5 # create device id
   html: ^0.15.0 # parse html
   collection: ^1.15.0 # collection utilities
   crypto: ^3.0.1 # hash registration tokens
@@ -38,23 +38,23 @@ dependencies:
   # storage
   hive: ^2.0.4 # persistent storage
   hive_flutter: ^1.0.0 # helper for hive
-  flutter_secure_storage: ^4.2.0 # for ovgu account
+  flutter_secure_storage: ^4.2.1 # for ovgu account
 
   # native utilities
-  http: ^0.13.2 # make http requests
-  add_2_calendar: ^2.1.0 # add calendar reminders
-  map_launcher: ^2.0.0 # launch external map app
-  url_launcher: ^6.0.3 # open links
+  http: ^0.13.4 # make http requests
+  add_2_calendar: ^2.1.2 # add calendar reminders
+  map_launcher: ^2.1.1 # launch external map app
+  url_launcher: ^6.0.12 # open links
   enough_mail: ^1.2.2 # emails
-  workmanager: ^0.4.0 # run tasks in background
-  flutter_local_notifications: ^5.0.0 # show notifications
-  audioplayers: ^0.18.3 # play audio
+  workmanager: ^0.4.1 # run tasks in background
+  flutter_local_notifications: ^9.0.0 # show notifications
+  audioplayers: ^0.20.1 # play audio
 
   # components
-  flutter_html: 2.1.5 # show post content encoded in html
-  flutter_map: 0.13.1
+  flutter_html: ^2.1.5 # show post content encoded in html
+  flutter_map: ^0.13.1
   carousel_slider: ^4.0.0 # slider (e.g. home page)
-  table_calendar: ^3.0.0 # calendar
+  table_calendar: ^3.0.2 # calendar
   native_pdf_view: ^4.2.0 # render handbook as pdf
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,10 +62,9 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  fast_i18n: 5.2.0 # translations
+  fast_i18n: ^5.2.0 # translations
   hive_generator: ^1.1.0
   build_runner: ^2.0.1
-  analyzer: 2.3.0  # somehow the implicit older version causes build_runner problems
   flutter_test:
     sdk: flutter
 
