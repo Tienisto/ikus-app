@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "appName": "Welcome to OVGU"
+  },
   "features": {
     "map": {
       "short": "Campus",
@@ -38,7 +41,7 @@
     }
   },
   "welcome": {
-    "title": "Welcome to OVGU",
+    "title": "@:meta.appName",
     "intro": "Herzlich willkommen in unserer App! Hier erhältst du alle wichtigen Informationen über das Leben an der Uni Magdeburg gebündelt und übersichtlich an einem Ort.",
     "selectLanguage": "Sprache auswählen:",
     "english": "Englisch",
@@ -89,13 +92,12 @@
       "reset": "Daten zurücksetzen",
       "licenses": "Lizenzen",
       "about": "Über die App",
-      "dev": "Entwickler-Einstellungen",
-      "appName": "Welcome to OVGU"
+      "dev": "Entwickler-Einstellungen"
     }
   },
   "about": {
     "title": "Über die App",
-    "main": "Die Welcome to OVGU-App ist eine Initiative des Akademischen Auslandsamtes der Otto-von-Guericke-Universität Magdeburg mit dem Ziel, die Digitalisierung an der Universität voranzutreiben und den Studienalltag - insbesondere für internationale Studierende - zu erleichtern.",
+    "main": "Die @:meta.appName-App ist eine Initiative des Akademischen Auslandsamtes der Otto-von-Guericke-Universität Magdeburg mit dem Ziel, die Digitalisierung an der Universität voranzutreiben und den Studienalltag - insbesondere für internationale Studierende - zu erleichtern.",
     "idea": {
       "title": "Idee",
       "people": [

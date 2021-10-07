@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "appName": "Welcome to OVGU"
+  },
   "features": {
     "map": {
       "short": "Campus",
@@ -38,7 +41,7 @@
     }
   },
   "welcome": {
-    "title": "Welcome to OVGU",
+    "title": "@:meta.appName",
     "intro": "You've just enrolled at Magdeburg University? With this app, you get an overview of all important information about life at OVGU.",
     "selectLanguage": "Select language:",
     "english": "English",
@@ -89,13 +92,12 @@
       "reset": "Reset Data",
       "licenses": "Licenses",
       "about": "About the app",
-      "dev": "Developer Settings",
-      "appName": "Welcome to OVGU"
+      "dev": "Developer Settings"
     }
   },
   "about": {
     "title": "About the app",
-    "main": "The Welcome to OVGU app is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
+    "main": "The @:meta.appName app is an initiative of the Otto-von-Guericke University Magdeburg. The goal is to make everyday student life easier - especially for international students.",
     "idea": {
       "title": "Idea",
       "people": [

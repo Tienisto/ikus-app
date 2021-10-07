@@ -130,7 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
               left: t.main.settings.licenses,
               right: OvguButton(
                 callback: () {
-                  pushScreen(context, () => LicensePage(applicationName: t.main.settings.appName, applicationVersion: _version));
+                  pushScreen(context, () => LicensePage(applicationName: t.meta.appName, applicationVersion: _version));
                 },
                 child: Icon(Icons.description, color: Colors.white),
               )
@@ -165,7 +165,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Image.asset('assets/img/logo-512-alpha.png', width: 200)
           ),
           SizedBox(height: 10),
-          Text(t.main.settings.appName, style: TextStyle(color: LOGO_COLOR, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 2)),
+          Text(t.meta.appName, style: TextStyle(color: LOGO_COLOR, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 2)),
           SizedBox(height: 10),
           InkWell(
             onTap: () {
