@@ -30,17 +30,19 @@ class Feature {
   final bool recommendedFavorite;
   final FutureWithContextCallback onOpen;
 
-  Feature({required this.id, required this.index, required this.icon, required this.shortName, required this.longName, required this.recommendedFavorite, required this.onOpen});
+  Feature({required this.id, required this.index, required this.icon, required FeatureName name, required this.recommendedFavorite, required this.onOpen}) : shortName = name.short, longName = name.long;
 
-  static Feature get MAP => Feature(id: 0, index: 0, icon: Icons.map, shortName: t.features.map.short, longName: t.features.map.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MapScreen()));
-  static Feature get MY_EVENTS => Feature(id: 0, index: 0, icon: Icons.today, shortName: t.features.myEvents.short, longName: t.features.myEvents.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MyEventsScreen()));
-  static Feature get MENSA => Feature(id: 0, index: 0, icon: Icons.restaurant, shortName: t.features.mensa.short, longName: t.features.mensa.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MensaScreen()));
-  static Feature get LINKS => Feature(id: 0, index: 0, icon: Icons.language, shortName: t.features.links.short, longName: t.features.links.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => LinksScreen()));
-  static Feature get HANDBOOK => Feature(id: 0, index: 0, icon: Icons.book, shortName: t.features.handbook.short, longName: t.features.handbook.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => HandbookScreen()));
-  static Feature get AUDIO => Feature(id: 0, index: 0, icon: Icons.headset, shortName: t.features.audio.short, longName: t.features.audio.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => AudioListScreen()));
-  static Feature get FAQ => Feature(id: 0, index: 0, icon: Icons.help, shortName: t.features.faq.short, longName: t.features.faq.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
-  static Feature get CONTACTS => Feature(id: 0, index: 0, icon: Icons.person, shortName: t.features.contacts.short, longName: t.features.contacts.long, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
-  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, shortName: t.features.emails.short, longName: t.features.emails.long, recommendedFavorite: false, onOpen: (context) => _pushScreenWithOvguAccount(context, () => MailScreen()));
+  Feature.custom({required this.id, required this.index, required this.icon, required this.shortName, required this.longName, required this.recommendedFavorite, required this.onOpen});
+
+  static Feature get MAP => Feature(id: 0, index: 0, icon: Icons.map, name: t.features.map, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MapScreen()));
+  static Feature get MY_EVENTS => Feature(id: 0, index: 0, icon: Icons.today, name: t.features.myEvents, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MyEventsScreen()));
+  static Feature get MENSA => Feature(id: 0, index: 0, icon: Icons.restaurant, name: t.features.mensa, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => MensaScreen()));
+  static Feature get LINKS => Feature(id: 0, index: 0, icon: Icons.language, name: t.features.links, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => LinksScreen()));
+  static Feature get HANDBOOK => Feature(id: 0, index: 0, icon: Icons.book, name: t.features.handbook, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => HandbookScreen()));
+  static Feature get AUDIO => Feature(id: 0, index: 0, icon: Icons.headset, name: t.features.audio, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => AudioListScreen()));
+  static Feature get FAQ => Feature(id: 0, index: 0, icon: Icons.help, name: t.features.faq, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => FAQScreen()));
+  static Feature get CONTACTS => Feature(id: 0, index: 0, icon: Icons.person, name: t.features.contacts, recommendedFavorite: false, onOpen: (context) => pushScreen(context, () => ContactScreen()));
+  static Feature get EMAILS => Feature(id: 0, index: 0, icon: Icons.mail, name: t.features.emails, recommendedFavorite: false, onOpen: (context) => _pushScreenWithOvguAccount(context, () => MailScreen()));
 
   /// returns the feature with the specified index from the json map
   /// returns null if parsing failed
@@ -96,7 +98,7 @@ class Feature {
         return null;
       }
 
-      return Feature(
+      return Feature.custom(
         id: map['id'],
         index: index,
         icon: IconMap.icons[map['icon']] ?? Icons.report,
@@ -110,7 +112,7 @@ class Feature {
 
   /// returns a new instance with information which cannot be hardcoded (must be fetched from the server)
   Feature withServerData({required int id, required int index, required bool favorite}) {
-    return Feature(id: id, index: index, icon: icon, shortName: shortName, longName: longName, recommendedFavorite: favorite, onOpen: onOpen);
+    return Feature.custom(id: id, index: index, icon: icon, shortName: shortName, longName: longName, recommendedFavorite: favorite, onOpen: onOpen);
   }
 
   @override

@@ -4,3 +4,5 @@ targets:
       fast_i18n:
         options:
           input_directory: lib/i18n
+          interfaces:
+            FeatureName: features.*
