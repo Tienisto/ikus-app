@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/map_preview_card.dart';
 import 'package:ikus_app/components/icon_text.dart';

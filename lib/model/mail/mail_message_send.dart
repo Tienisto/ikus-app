@@ -1,5 +1,4 @@
 import 'package:enough_mail/enough_mail.dart';
-import 'package:enough_mail/mime_message.dart';
 
 class MailMessageSend {
 

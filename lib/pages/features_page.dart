@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/feature_button.dart';
 import 'package:ikus_app/components/icon_text.dart';

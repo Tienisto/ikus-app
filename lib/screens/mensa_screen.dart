@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/animations/smart_animation.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';

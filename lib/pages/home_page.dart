@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';

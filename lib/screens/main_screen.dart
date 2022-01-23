@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ikus_app/components/bottom_navigator.dart';
 import 'package:ikus_app/components/popups/need_update_popup.dart';
 import 'package:ikus_app/components/status_bar_color.dart';
