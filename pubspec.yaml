@@ -45,7 +45,7 @@ dependencies:
   add_2_calendar: 2.1.3 # add calendar reminders
   map_launcher: 2.2.1+1 # launch external map app
   url_launcher: 6.0.20 # open links
-  enough_mail: ^1.2.2 # emails
+  enough_mail: 1.3.6 # emails
   workmanager: ^0.4.1 # run tasks in background
   flutter_local_notifications: 9.4.0 # show notifications
   audioplayers: ^0.20.1 # play audio
