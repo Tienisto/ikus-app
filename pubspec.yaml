@@ -44,17 +44,17 @@ dependencies:
   http: ^0.13.4 # make http requests
   add_2_calendar: 2.1.3 # add calendar reminders
   map_launcher: 2.2.1+1 # launch external map app
-  url_launcher: ^6.0.17 # open links
+  url_launcher: 6.0.20 # open links
   enough_mail: ^1.2.2 # emails
   workmanager: ^0.4.1 # run tasks in background
-  flutter_local_notifications: ^9.1.4 # show notifications
+  flutter_local_notifications: 9.4.0 # show notifications
   audioplayers: ^0.20.1 # play audio
 
   # components
-  flutter_html: ^2.1.5 # show post content encoded in html
+  flutter_html: 2.2.1 # show post content encoded in html
   flutter_map: 0.14.0 # show map location of events
   carousel_slider: ^4.0.0 # slider (e.g. home page)
-  table_calendar: ^3.0.3 # calendar
+  table_calendar: 3.0.4 # calendar
   native_pdf_view: ^4.2.0 # render handbook as pdf
 
   # The following adds the Cupertino Icons font to your application.
