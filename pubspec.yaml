@@ -30,20 +30,20 @@ dependencies:
   intl: ^0.17.0 # used by table_calendar and for formatting dates
   dart_jsonwebtoken: 2.4.1 # jwt
   package_info: ^2.0.2 # show version and build of the app
-  uuid: ^3.0.5 # create device id
+  uuid: 3.0.6 # create device id
   html: ^0.15.0 # parse html
   collection: 1.15.0 # collection utilities
   crypto: ^3.0.1 # hash registration tokens
 
   # storage
-  hive: ^2.0.4 # persistent storage
+  hive: 2.0.6 # persistent storage
   hive_flutter: ^1.1.0 # helper for hive
   flutter_secure_storage: ^4.2.1 # for ovgu account
 
   # native utilities
   http: ^0.13.4 # make http requests
   add_2_calendar: 2.1.3 # add calendar reminders
-  map_launcher: ^2.1.1 # launch external map app
+  map_launcher: 2.2.1+1 # launch external map app
   url_launcher: ^6.0.17 # open links
   enough_mail: ^1.2.2 # emails
   workmanager: ^0.4.1 # run tasks in background
@@ -63,8 +63,8 @@ dependencies:
 
 dev_dependencies:
   fast_i18n: 5.11.0 # translations
-  hive_generator: ^1.1.0
-  build_runner: ^2.1.5
+  hive_generator: 1.1.2
+  build_runner: 2.1.7
   flutter_test:
     sdk: flutter
 
