@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/init.dart';
@@ -16,7 +17,7 @@ import 'package:ikus_app/utility/ui.dart';
 void main() async {
   final openScreen = await Init.preInit();
   final app = TranslationProvider(
-    child: IkusApp(screen: openScreen)
+    child: IkusApp(screen: openScreen),
   );
 
   runZonedGuarded(() async {
@@ -58,6 +59,12 @@ class IkusAppState extends State<IkusApp> {
     setState((){
       _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen(screen: widget.screen, key: MainScreen.mainScreenKey);
     });
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: OvguColor.primary,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ));
+    });
     await Init.postInit();
   }
 
@@ -77,8 +84,8 @@ class IkusAppState extends State<IkusApp> {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
-          brightness: Brightness.dark,
-          color: OvguColor.primary
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          color: OvguColor.primary,
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: OvguColor.primary,
