@@ -85,7 +85,7 @@ class IkusAppState extends State<IkusApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          color: OvguColor.primary,
+          color: OvguColor.primary, // already set in android styles.xml, but just to make sure
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: OvguColor.primary,
