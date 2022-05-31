@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.12.5+68
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -32,8 +32,12 @@ dependencies:
   package_info: ^2.0.2 # show version and build of the app
   uuid: 3.0.6 # create device id
   html: ^0.15.0 # parse html
-  collection: 1.15.0 # collection utilities
+  collection: 1.16.0 # collection utilities
   crypto: ^3.0.1 # hash registration tokens
+
+  # i18n
+  slang: 2.4.1
+  slang_flutter: 2.4.1
 
   # storage
   hive: 2.0.6 # persistent storage
@@ -51,22 +55,29 @@ dependencies:
   audioplayers: ^0.20.1 # play audio
 
   # components
-  flutter_html: 2.2.1 # show post content encoded in html
+  flutter_html: 3.0.0-alpha.3 # show post content encoded in html
   flutter_map: 0.14.0 # show map location of events
   carousel_slider: ^4.0.0 # slider (e.g. home page)
   table_calendar: 3.0.4 # calendar
-  native_pdf_view: ^4.2.0 # render handbook as pdf
+  native_pdf_view: 6.0.0 # render handbook as pdf
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  fast_i18n: 5.11.0 # translations
   hive_generator: 1.1.2
   build_runner: 2.1.7
+  slang_build_runner: 2.4.0
   flutter_test:
     sdk: flutter
+
+dependency_overrides:
+  win32: 2.5.2
+  workmanager:
+    git:
+      url: https://github.com/fluttercommunity/flutter_workmanager
+      ref: 6b7a45a32db07f3e6756f63eec7539e8cc7f5b72
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

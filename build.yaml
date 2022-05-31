@@ -1,7 +1,7 @@
 targets:
   $default:
     builders:
-      fast_i18n:
+      slang_build_runner:
         options:
           input_directory: lib/i18n
           interfaces:

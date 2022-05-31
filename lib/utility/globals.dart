@@ -11,7 +11,7 @@ Future<void> sleepRemaining(int millis, DateTime start) async {
     await sleep(remainingTime);
 }
 
-void nextFrame(Callback callback) => WidgetsBinding.instance?.addPostFrameCallback((_) => callback());
+void nextFrame(Callback callback) => WidgetsBinding.instance.addPostFrameCallback((_) => callback());
 
 /// push another screen on top of the current screen
 typedef Widget SimpleWidgetBuilder();

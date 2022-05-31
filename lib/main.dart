@@ -59,7 +59,7 @@ class IkusAppState extends State<IkusApp> {
     setState((){
       _home = SettingsService.instance.getWelcome() ? WelcomeScreen() : MainScreen(screen: widget.screen, key: MainScreen.mainScreenKey);
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: OvguColor.primary,
         systemNavigationBarIconBrightness: Brightness.light,

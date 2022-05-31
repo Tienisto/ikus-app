@@ -36,7 +36,6 @@ class IconMap {
     "5k": Icons.five_k,
     "5k_plus": Icons.five_k_plus,
     "5mp": Icons.five_mp,
-    "6_ft_apart": Icons.six__ft_apart,
     "6k": Icons.six_k,
     "6k_plus": Icons.six_k_plus,
     "6mp": Icons.six_mp,

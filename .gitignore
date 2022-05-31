@@ -1,3 +1,5 @@
+/.fvm/flutter_sdk
+
 # key
 ikus_key.jks
 android/key.properties
