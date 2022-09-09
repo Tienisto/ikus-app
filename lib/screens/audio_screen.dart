@@ -38,9 +38,9 @@ class _AudioScreenState extends State<AudioScreen> {
       android: AudioContextAndroid(
         isSpeakerphoneOn: true,
         stayAwake: true,
-        contentType: AndroidContentType.sonification,
-        usageType: AndroidUsageType.assistanceSonification,
-        audioFocus: AndroidAudioFocus.none,
+        contentType: AndroidContentType.music,
+        usageType: AndroidUsageType.media,
+        audioFocus: AndroidAudioFocus.gain,
       ),
     );
     AudioPlayer.global.setGlobalAudioContext(audioContext);
