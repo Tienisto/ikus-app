@@ -128,13 +128,13 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
 
     try {
       final token = await ApiService.registerEvent(
-          eventId: widget.eventId,
-          matriculationNumber: int.tryParse(_matriculationNo),
-          firstName: _firstName,
-          lastName: _lastName,
-          email: _email,
-          address: _address,
-          country: _country
+        eventId: widget.eventId,
+        matriculationNumber: widget.requiredFields.contains(RegistrationField.MATRICULATION_NUMBER) ? int.tryParse(_matriculationNo) : null,
+        firstName: widget.requiredFields.contains(RegistrationField.FIRST_NAME) ? _firstName : null,
+        lastName: widget.requiredFields.contains(RegistrationField.LAST_NAME) ? _lastName : null,
+        email: widget.requiredFields.contains(RegistrationField.EMAIL) ? _email : null,
+        address: widget.requiredFields.contains(RegistrationField.ADDRESS) ? _address : null,
+        country: widget.requiredFields.contains(RegistrationField.COUNTRY) ? _country : null,
       );
 
       await CalendarService.instance.sync(useNetwork: true);
