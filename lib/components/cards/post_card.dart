@@ -23,7 +23,7 @@ class PostCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 5),
             child: Icon(Icons.push_pin, size: 16, color: OvguColor.secondaryDarken2),
-          )
+          ),
       ],
       right: post.formattedDate,
       child: Padding(
@@ -40,7 +40,7 @@ class PostCard extends StatelessWidget {
             Text(post.preview),
           ],
         ),
-      )
+      ),
     );
   }
 }

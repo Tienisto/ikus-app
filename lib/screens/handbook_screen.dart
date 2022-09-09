@@ -11,7 +11,7 @@ import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HandbookScreen extends StatefulWidget {
   @override
@@ -80,7 +80,8 @@ class _HandbookScreenState extends State<HandbookScreen> {
                   SizedBox(width: 20),
                   OvguButton(
                     callback: () async {
-                      await launchUrlString(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale.languageTag, true));
+                      final uri = Uri.parse(HandbookService.instance.getHandbookUrl(LocaleSettings.currentLocale.languageTag, true));
+                      await launchUrl(uri);
                     },
                     child: Icon(Icons.cloud_download, color: Colors.white),
                   ),

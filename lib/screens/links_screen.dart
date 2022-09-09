@@ -5,7 +5,7 @@ import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/link_group.dart';
 import 'package:ikus_app/service/link_service.dart';
 import 'package:ikus_app/utility/ui.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LinksScreen extends StatelessWidget {
   @override
@@ -49,7 +49,7 @@ class LinksScreen extends StatelessWidget {
                         ),
                         OvguButton(
                           callback: () async {
-                            await launchUrlString(link.url);
+                            await launchUrl(Uri.parse(link.url));
                           },
                           child: Icon(Icons.arrow_forward, color: Colors.white),
                         ),

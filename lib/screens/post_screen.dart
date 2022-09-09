@@ -12,7 +12,6 @@ import 'package:ikus_app/utility/ui.dart';
 import 'package:uuid/uuid.dart';
 
 class PostScreen extends StatelessWidget {
-
   final Post post;
 
   const PostScreen(this.post);
@@ -42,17 +41,17 @@ class PostScreen extends StatelessWidget {
           Padding(
             padding: OvguPixels.mainScreenPadding,
             child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(post.title, style: TextStyle(fontSize: OvguPixels.headerSize, fontWeight: FontWeight.bold))
+              alignment: Alignment.centerLeft,
+              child: Text(post.title, style: TextStyle(fontSize: OvguPixels.headerSize, fontWeight: FontWeight.bold)),
             ),
           ),
           SizedBox(height: 30),
           HtmlView(
             padding: EdgeInsets.symmetric(horizontal: 12),
-            html: post.content
+            html: post.content,
           ),
           SizedBox(height: 30),
-          if(post.images.length == 1)
+          if (post.images.length == 1)
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
@@ -61,16 +60,16 @@ class PostScreen extends StatelessWidget {
                     pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(post.images.first)), tag: 'postImage'));
                   },
                   child: ClipRRect(
-                      borderRadius: OvguPixels.borderRadiusImage,
-                      child: Hero(
-                        tag: 'postImage',
-                        child: Image.network(ApiService.getFileUrl(post.images.first))
-                      )
+                    borderRadius: OvguPixels.borderRadiusImage,
+                    child: Hero(
+                      tag: 'postImage',
+                      child: Image.network(ApiService.getFileUrl(post.images.first)),
+                    ),
                   ),
                 ),
               ),
             ),
-          if(post.images.length > 1)
+          if (post.images.length > 1)
             SizedBox(
               height: 400,
               child: ListView(
@@ -88,11 +87,11 @@ class PostScreen extends StatelessWidget {
                           pushScreen(context, () => ImageScreen(image: Image.network(ApiService.getFileUrl(image)), tag: tag));
                         },
                         child: ClipRRect(
-                            borderRadius: OvguPixels.borderRadiusImage,
-                            child: Hero(
-                                tag: tag,
-                                child: Image.network(ApiService.getFileUrl(image), width: displayWidth * 0.7, fit: BoxFit.fitWidth)
-                            )
+                          borderRadius: OvguPixels.borderRadiusImage,
+                          child: Hero(
+                            tag: tag,
+                            child: Image.network(ApiService.getFileUrl(image), width: displayWidth * 0.7, fit: BoxFit.fitWidth),
+                          ),
                         ),
                       ),
                     ),
@@ -100,7 +99,7 @@ class PostScreen extends StatelessWidget {
                 }).toList(),
               ),
             ),
-          SizedBox(height: 50)
+          SizedBox(height: 50),
         ],
       ),
     );

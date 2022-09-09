@@ -7,7 +7,6 @@ import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactCard extends StatelessWidget {
 
@@ -138,11 +137,7 @@ class ContactCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: contact.links.map((link) {
                           return InkWell(
-                            onTap: () async {
-                              if (await canLaunchUrlString(link)) {
-                                await launchUrlString(link);
-                              }
-                            },
+                            onTap: () => launchUrl(Uri.parse(link)),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Text(link.replaceFirst('https://', '').replaceFirst('http://', ''), style: TextStyle(fontSize: ATTRIBUTE_SIZE), overflow: TextOverflow.fade, softWrap: false),
