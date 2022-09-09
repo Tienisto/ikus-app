@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/audio_file_card.dart';
 import 'package:ikus_app/components/main_list_view.dart';
@@ -23,6 +24,26 @@ class _AudioScreenState extends State<AudioScreen> {
   @override
   void initState() {
     super.initState();
+
+    // https://github.com/bluefireteam/audioplayers/issues/1194
+    final AudioContext audioContext = AudioContext(
+      iOS: AudioContextIOS(
+        defaultToSpeaker: true,
+        category: AVAudioSessionCategory.ambient,
+        options: [
+          AVAudioSessionOptions.defaultToSpeaker,
+          AVAudioSessionOptions.mixWithOthers,
+        ],
+      ),
+      android: AudioContextAndroid(
+        isSpeakerphoneOn: true,
+        stayAwake: true,
+        contentType: AndroidContentType.sonification,
+        usageType: AndroidUsageType.assistanceSonification,
+        audioFocus: AndroidAudioFocus.none,
+      ),
+    );
+    AudioPlayer.global.setGlobalAudioContext(audioContext);
   }
 
   @override

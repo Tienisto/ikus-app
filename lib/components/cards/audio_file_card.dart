@@ -23,23 +23,17 @@ class AudioFileCard extends StatefulWidget {
 
 class _AudioFileCardState extends State<AudioFileCard> {
 
-  final audioPlayer = AudioPlayer();
+  late AudioPlayer audioPlayer;
   PlayerState _playerState = PlayerState.stopped;
   bool _loading = false;
   double? _targetTime; // in sec, not null during dragging
   double _currTime = 0; // in sec
   double? _duration; // in sec
 
-  Future<void> play({Duration? position}) async {
-    if (_loading) {
-      return;
-    }
-
-    // lock
-    _loading = true;
-    setState(() {});
-
-    await audioPlayer.play(UrlSource(ApiService.getFileUrl(widget.file.file)), position: position);
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer = AudioPlayer();
     audioPlayer.onDurationChanged.listen((Duration d) {
       if (mounted) {
         setState(() => _duration = d.inMilliseconds / 1000);
@@ -49,7 +43,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
       if (mounted) {
         setState(() {
           _currTime = d.inMilliseconds / 1000;
-          if (_currTime > _duration!) {
+          if (_duration != null && _currTime > _duration!) {
             _currTime = _duration!;
           }
           _loading = false; // release lock
@@ -61,8 +55,21 @@ class _AudioFileCardState extends State<AudioFileCard> {
         setState(() => _playerState = state);
       }
     });
+  }
 
-    _playerState = PlayerState.playing;
+  Future<void> play({Duration? position}) async {
+    if (_loading) {
+      return;
+    }
+
+    // lock
+    _loading = true;
+    setState(() {});
+
+    await audioPlayer.play(UrlSource(ApiService.getFileUrl(widget.file.file)), position: position);
+    if (mounted) {
+      setState(() => _playerState = PlayerState.playing);
+    }
   }
 
   Future<void> stop() async {
