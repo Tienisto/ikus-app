@@ -5,6 +5,7 @@ import 'package:ikus_app/model/contact.dart';
 import 'package:ikus_app/screens/image_screen.dart';
 import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/globals.dart';
+import 'package:ikus_app/utility/open_browser.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,15 +88,10 @@ class ContactCard extends StatelessWidget {
             if (contact.phoneNumber != null)
               InkWell(
                 onTap: () async {
-                  final uri = Uri(
+                  await launchUrl(Uri(
                     scheme: 'tel',
                     path: contact.phoneNumber!.replaceAll(' ', '').replaceAll('-', '').replaceAll('/', ''),
-                  );
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri);
-                  } else {
-                    print('could not launch $uri');
-                  }
+                  ));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
@@ -137,7 +133,7 @@ class ContactCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: contact.links.map((link) {
                           return InkWell(
-                            onTap: () => launchUrl(Uri.parse(link)),
+                            onTap: () => openBrowser(link),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Text(link.replaceFirst('https://', '').replaceFirst('http://', ''), style: TextStyle(fontSize: ATTRIBUTE_SIZE), overflow: TextOverflow.fade, softWrap: false),

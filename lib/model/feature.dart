@@ -18,7 +18,7 @@ import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/icon_map.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ikus_app/utility/open_browser.dart';
 
 class Feature {
   final int id;
@@ -91,8 +91,8 @@ class Feature {
       if (map['post'] != null) {
         onOpen = (context) => pushScreen(context, () => PostScreen(Post.fromMap(map['post'])));
       } else if (map['link'] != null) {
-        Link link = Link.fromMap(map['link']);
-        onOpen = (context) async => await launchUrl(Uri.parse(link.url));
+        final link = Link.fromMap(map['link']);
+        onOpen = (context) => openBrowser(link.url);
       } else {
         return null;
       }

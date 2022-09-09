@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ikus_app/utility/open_browser.dart';
 
 /// wrapper for html-widget with default settings
 class HtmlView extends StatelessWidget {
@@ -21,7 +21,7 @@ class HtmlView extends StatelessWidget {
         },
         onLinkTap: (String? url, context, attributes, element) async {
           if (url != null) {
-            await launchUrl(Uri.parse(url));
+            openBrowser(url);
           }
         },
       ),
