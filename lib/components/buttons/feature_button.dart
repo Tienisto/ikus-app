@@ -19,7 +19,7 @@ class FeatureButton extends StatelessWidget {
         Expanded(
           child: TextButton(
             style: TextButton.styleFrom(
-              primary: Colors.black,
+              foregroundColor: Colors.black,
               padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
               shape: OvguPixels.shape,
             ),
@@ -35,7 +35,7 @@ class FeatureButton extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            primary: Colors.black,
+            foregroundColor: Colors.black,
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
             shape: OvguPixels.shape,
           ),

@@ -11,7 +11,6 @@ import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class DatePopup extends StatelessWidget {
-
   final Callback onEventPop;
   final DateTime date;
   final List<Event> events;
@@ -37,7 +36,7 @@ class DatePopup extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Icon(Icons.close),
-            )
+            ),
           ],
         ),
         SizedBox(height: 20),
@@ -52,50 +51,55 @@ class DatePopup extends StatelessWidget {
             child: Text(t.popups.date.normal, style: TextStyle(fontSize: 16)),
           ),
         if (events.isNotEmpty)
-        Expanded(
-          child: ListView(
-            physics: Adaptive.getScrollPhysics(),
-            padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-            children: events.map((event) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: OvguColor.primary,
-                      shape: OvguPixels.shape,
-                      elevation: OvguPixels.elevation,
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    ),
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      await pushScreen(context, () => EventScreen(event));
-                      onEventPop();
-                    },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(event.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold), overflow: TextOverflow.fade, softWrap: false),
-                          if (event.startTime.hasTime())
-                            IconText(
-                              size: 14,
-                              icon: Icons.access_time,
-                              text: t.timeFormat(time: event.formattedSameDayTime),
-                              color: Colors.white,
-                            )
-                        ],
+          Expanded(
+            child: ListView(
+              physics: Adaptive.getScrollPhysics(),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+              children: events.map((event) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: OvguColor.primary,
+                        shape: OvguPixels.shape,
+                        elevation: OvguPixels.elevation,
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      ),
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await pushScreen(context, () => EventScreen(event));
+                        onEventPop();
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              event.name,
+                              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.fade,
+                              softWrap: false,
+                            ),
+                            if (event.startTime.hasTime())
+                              IconText(
+                                size: 14,
+                                icon: Icons.access_time,
+                                text: t.timeFormat(time: event.formattedSameDayTime),
+                                color: Colors.white,
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
-        ),
       ],
     );
   }

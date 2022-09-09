@@ -22,7 +22,7 @@ class OvguButton extends StatelessWidget {
             padding: padding,
             shape: OvguPixels.shape,
             minimumSize: Size(50, 40),
-            primary: Colors.black
+            foregroundColor: Colors.black,
           ),
           onPressed: callback,
           child: child,
@@ -33,8 +33,7 @@ class OvguButton extends StatelessWidget {
         minWidth: 0,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: color,
-            onPrimary: Colors.black,
+            backgroundColor: color,
             shape: OvguPixels.shape,
             elevation: OvguPixels.elevation,
             padding: padding,
