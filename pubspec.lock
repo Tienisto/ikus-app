@@ -390,7 +390,7 @@ packages:
       name: flutter_html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-alpha.3"
+    version: "3.0.0-alpha.5"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -601,7 +601,7 @@ packages:
       name: map_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1+1"
+    version: "2.3.0+1"
   matcher:
     dependency: transitive
     description:
@@ -643,7 +643,7 @@ packages:
       name: native_pdf_view
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.0+1"
   numerus:
     dependency: transitive
     description:
@@ -928,7 +928,7 @@ packages:
       name: table_calendar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4"
+    version: "3.0.7"
   term_glyph:
     dependency: transitive
     description:
@@ -998,7 +998,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.20"
+    version: "6.1.5"
   url_launcher_android:
     dependency: transitive
     description:
@@ -1033,7 +1033,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.1.0"
   url_launcher_web:
     dependency: transitive
     description:

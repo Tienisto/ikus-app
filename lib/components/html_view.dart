@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 /// wrapper for html-widget with default settings
 class HtmlView extends StatelessWidget {
@@ -20,8 +20,9 @@ class HtmlView extends StatelessWidget {
           "body": Style(fontSize: FontSize.large, padding: EdgeInsets.zero), // make text bigger
         },
         onLinkTap: (String? url, context, attributes, element) async {
-          if (url != null)
-            await launch(url);
+          if (url != null && await canLaunchUrlString(url)) {
+            await launchUrlString(url);
+          }
         },
       ),
     );

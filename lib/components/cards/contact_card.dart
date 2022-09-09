@@ -7,6 +7,7 @@ import 'package:ikus_app/service/api_service.dart';
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactCard extends StatelessWidget {
 
@@ -67,7 +68,10 @@ class ContactCard extends StatelessWidget {
             if (contact.email != null)
               InkWell(
                 onTap: () async {
-                  await launch('mailto:${contact.email}');
+                  await launchUrl(Uri(
+                    scheme: 'mailto',
+                    path: contact.email,
+                  ));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
@@ -84,11 +88,15 @@ class ContactCard extends StatelessWidget {
             if (contact.phoneNumber != null)
               InkWell(
                 onTap: () async {
-                  String url = 'tel:${contact.phoneNumber!.replaceAll(' ', '').replaceAll('-', '').replaceAll('/', '')}';
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    print('could not launch $url');
+                  final uri = Uri(
+                    scheme: 'tel',
+                    path: contact.phoneNumber!.replaceAll(' ', '').replaceAll('-', '').replaceAll('/', ''),
+                  );
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  } else {
+                    print('could not launch $uri');
+                  }
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: ATTRIBUTE_PADDING),
@@ -131,7 +139,9 @@ class ContactCard extends StatelessWidget {
                         children: contact.links.map((link) {
                           return InkWell(
                             onTap: () async {
-                              await launch(link);
+                              if (await canLaunchUrlString(link)) {
+                                await launchUrlString(link);
+                              }
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
