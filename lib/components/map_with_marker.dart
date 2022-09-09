@@ -11,7 +11,6 @@ import 'package:latlong2/latlong.dart';
 /// displays a map showing the marker
 /// also has a navigation button
 class MapWithMarker extends StatelessWidget {
-
   final String? name;
   final model.Coords coords;
 
@@ -26,23 +25,23 @@ class MapWithMarker extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: OvguColor.secondaryDarken1,
-                borderRadius: OvguPixels.borderRadius
+              color: OvguColor.secondaryDarken1,
+              borderRadius: OvguPixels.borderRadius,
             ),
             padding: const EdgeInsets.all(2),
             child: ClipRRect(
               borderRadius: OvguPixels.borderRadius,
               child: FlutterMap(
                 options: MapOptions(
-                    center: position,
-                    zoom: 14.5
+                  center: position,
+                  zoom: 14.5,
                 ),
-                layers: [
-                  TileLayerOptions(
-                      urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c']
+                children: [
+                  TileLayer(
+                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
                   ),
-                  MarkerLayerOptions(
+                  MarkerLayer(
                     markers: [
                       Marker(
                         width: MarkerSymbol.width,
@@ -65,7 +64,7 @@ class MapWithMarker extends StatelessWidget {
               },
               child: Text(t.components.mapWithMarker.openMapApp, style: TextStyle(color: Colors.white)),
             ),
-          )
+          ),
         ],
       ),
     );
