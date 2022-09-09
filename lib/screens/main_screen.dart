@@ -80,6 +80,10 @@ class _MainScreenState extends State<MainScreen> {
         index, duration: Duration(milliseconds: 500), curve: Curves.ease);
   }
 
+  void jumpToPage(int index) {
+    _pageController.jumpToPage(index);
+  }
+
   void nextTutorial() {
     setState(() {
       currTutorialStep++;
@@ -170,6 +174,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               PageView(
                 controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (index) {
                   setState(() {
                     _page = index;
@@ -233,7 +238,7 @@ class _MainScreenState extends State<MainScreen> {
           selectedIndex: _page,
           callback: (index) {
             setState(() {
-              animateToPage(index);
+              jumpToPage(index);
             });
           },
           disabled: tutorialMode,
