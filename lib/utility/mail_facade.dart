@@ -48,7 +48,7 @@ class MailFacade {
       final imapClient = await getImapClient(name: name, password: password);
       await imapClient.selectMailboxByPath(mailbox.path);
 
-      final ids = await imapClient.uidSearchMessages('YOUNGER ${MAILS_YOUNGER_THAN.inSeconds}');
+      final ids = await imapClient.uidSearchMessages(searchCriteria: 'YOUNGER ${MAILS_YOUNGER_THAN.inSeconds}');
 
       final fetchSequence = MessageSequence();
       final resultMap = Map<int, MailMessage>();
