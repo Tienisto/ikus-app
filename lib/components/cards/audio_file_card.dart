@@ -23,49 +23,50 @@ class AudioFileCard extends StatefulWidget {
 
 class _AudioFileCardState extends State<AudioFileCard> {
 
-  AudioPlayer audioPlayer = AudioPlayer();
-  PlayerState _playerState = PlayerState.STOPPED;
+  final audioPlayer = AudioPlayer();
+  PlayerState _playerState = PlayerState.stopped;
   bool _loading = false;
   double? _targetTime; // in sec, not null during dragging
   double _currTime = 0; // in sec
   double? _duration; // in sec
 
-  Future<void> play({position}) async {
-    if (_loading)
+  Future<void> play({Duration? position}) async {
+    if (_loading) {
       return;
+    }
 
     // lock
     _loading = true;
     setState(() {});
 
-    await audioPlayer.play(ApiService.getFileUrl(widget.file.file), isLocal: false, position: position);
+    await audioPlayer.play(UrlSource(ApiService.getFileUrl(widget.file.file)), position: position);
     audioPlayer.onDurationChanged.listen((Duration d) {
-      if (mounted)
+      if (mounted) {
         setState(() => _duration = d.inMilliseconds / 1000);
+      }
     });
-    audioPlayer.onAudioPositionChanged.listen((Duration d) {
-      if (mounted)
+    audioPlayer.onPositionChanged.listen((Duration d) {
+      if (mounted) {
         setState(() {
           _currTime = d.inMilliseconds / 1000;
+          if (_currTime > _duration!) {
+            _currTime = _duration!;
+          }
           _loading = false; // release lock
         });
+      }
     });
     audioPlayer.onPlayerStateChanged.listen((state) {
-      if (mounted)
+      if (mounted) {
         setState(() => _playerState = state);
+      }
     });
 
-    _playerState = PlayerState.PLAYING;
+    _playerState = PlayerState.playing;
   }
 
   Future<void> stop() async {
     await audioPlayer.pause();
-  }
-
-  String secondsToString(double sec) {
-    int minutes = sec ~/ 60;
-    int seconds = sec.floor() % 60;
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 
   @override
@@ -125,7 +126,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
                     return;
 
                   final position = Duration(seconds: (value * _duration!).floor());
-                  if (_playerState == PlayerState.COMPLETED)
+                  if (_playerState == PlayerState.completed)
                     play(position: position);
                   else
                     audioPlayer.seek(position);
@@ -140,7 +141,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(_duration != null ? '${secondsToString(_targetTime ?? _currTime)} / ${secondsToString(_duration!)}' : '')
+                  child: Text(_duration != null ? '${(_targetTime ?? _currTime).secondsToString()} / ${_duration!.secondsToString()}' : '')
                 ),
                 if (widget.file.text != null)
                   OvguButton(
@@ -148,7 +149,7 @@ class _AudioFileCardState extends State<AudioFileCard> {
                     callback: () {
                       AudioTextPopup.open(context: context, name: widget.file.name, text: widget.file.text!);
                     },
-                    child: Icon(Icons.notes)
+                    child: Icon(Icons.notes),
                   ),
                 OvguButton(
                   flat: true,
@@ -156,20 +157,29 @@ class _AudioFileCardState extends State<AudioFileCard> {
                     if (_loading)
                       return;
 
-                    if (_playerState == PlayerState.PLAYING) {
+                    if (_playerState == PlayerState.playing) {
                       stop();
                     } else {
                       play();
                     }
                   },
-                  child: _loading ? Rotating(child: Icon(Icons.sync)) : Icon(_playerState == PlayerState.PLAYING ? Icons.pause : Icons.play_arrow)
-                )
+                  child: _loading ? Rotating(child: Icon(Icons.sync)) : Icon(_playerState == PlayerState.playing ? Icons.pause : Icons.play_arrow)
+                ),
               ],
             ),
           ),
           SizedBox(height: 10),
         ],
-      )
+      ),
     );
+  }
+}
+
+extension on double {
+  String secondsToString() {
+    final sec = this;
+    int minutes = sec ~/ 60;
+    int seconds = sec.floor() % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 }
