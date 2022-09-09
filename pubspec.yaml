@@ -41,9 +41,9 @@ dependencies:
   slang_flutter: 2.7.0
 
   # storage
-  hive: 2.0.6 # persistent storage
-  hive_flutter: ^1.1.0 # helper for hive
-  flutter_secure_storage: 5.0.2 # for ovgu account
+  hive: 2.2.3 # persistent storage
+  hive_flutter: 1.1.0 # helper for hive
+  flutter_secure_storage: 6.0.0 # for ovgu account
 
   # native utilities
   http: 0.13.5 # make http requests
