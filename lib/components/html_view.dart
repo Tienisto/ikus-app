@@ -17,9 +17,9 @@ class HtmlView extends StatelessWidget {
       child: Html(
         data: html,
         style: {
-          "body": Style(fontSize: FontSize.large, padding: EdgeInsets.zero), // make text bigger
+          "body": Style(fontSize: FontSize.large, padding: HtmlPaddings.zero), // make text bigger
         },
-        onLinkTap: (String? url, context, attributes, element) async {
+        onLinkTap: (String? url, attributes, element) async {
           if (url != null) {
             openBrowser(url);
           }

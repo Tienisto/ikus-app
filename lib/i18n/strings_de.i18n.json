@@ -358,7 +358,7 @@
     "newMail": {
       "title": {
         "one": "Neue E-Mail",
-        "other": "$count neue E-Mails"
+        "other": "$n neue E-Mails"
       }
     }
   },

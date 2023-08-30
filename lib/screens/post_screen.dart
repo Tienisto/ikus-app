@@ -30,9 +30,9 @@ class PostScreen extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(width: 20),
-                Center(child: Badge(text: post.channel.name)),
+                Center(child: IkusBadge(text: post.channel.name)),
                 SizedBox(width: 10),
-                Center(child: Badge(text: post.formattedDate)),
+                Center(child: IkusBadge(text: post.formattedDate)),
                 SizedBox(width: 20),
               ],
             ),

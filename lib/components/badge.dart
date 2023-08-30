@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/utility/ui.dart';
 
-class Badge extends StatelessWidget {
+class IkusBadge extends StatelessWidget {
 
   final String text;
 
-  const Badge({required this.text});
+  const IkusBadge({required this.text});
 
   @override
   Widget build(BuildContext context) {

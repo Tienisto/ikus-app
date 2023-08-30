@@ -4,7 +4,6 @@ import 'dart:io' show Platform;
 typedef Widget Behaviour(BuildContext context, Widget? widget);
 
 class Adaptive {
-
   // removes overscroll 'waves' effect on iOS devices and resets the scale factor
   static Behaviour getBehaviour() {
     if(Platform.isAndroid) {
@@ -21,10 +20,9 @@ class Adaptive {
 }
 
 class NoScrollOverflow extends ScrollBehavior {
-
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }

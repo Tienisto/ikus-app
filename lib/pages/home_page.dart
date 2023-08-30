@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                     size: OvguPixels.headerSize,
                     distance: OvguPixels.headerDistance,
                     icon: Icons.today,
-                    text: t.main.home.nextEvents(count: _nextEvents.length),
+                    text: t.main.home.nextEvents(n: _nextEvents.length),
                   ),
                 ),
                 SizedBox(height: 20),

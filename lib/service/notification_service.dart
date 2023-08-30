@@ -63,7 +63,7 @@ class NotificationService {
     );
 
     final id = _getRandomId();
-    final title = t.notifications.newMail.title(count: mails.length);
+    final title = t.notifications.newMail.title(n: mails.length);
     final String info;
     final String payload;
     if (mails.length == 1) {

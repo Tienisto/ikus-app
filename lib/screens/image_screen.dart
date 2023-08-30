@@ -35,7 +35,7 @@ class ImageScreen extends StatelessWidget {
               alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.only(top: 10, right: 10),
-                child: Badge(text: title!),
+                child: IkusBadge(text: title!),
               ),
             ),
           ),

@@ -140,7 +140,7 @@ class _EventScreenState extends State<EventScreen> {
             padding: const EdgeInsets.only(left: 10),
             child: Row(
               children: [
-                Badge(text: event.channel.name),
+                IkusBadge(text: event.channel.name),
                 OvguButton(
                   flat: true,
                   callback: () {

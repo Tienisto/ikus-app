@@ -37,9 +37,9 @@ class MailMessageScreen extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(width: 20),
-                Center(child: Badge(text: mailbox == MailboxType.INBOX ? mail.from : mail.to.firstWhere((to) => true, orElse: () => ''))),
+                Center(child: IkusBadge(text: mailbox == MailboxType.INBOX ? mail.from : mail.to.firstWhere((to) => true, orElse: () => ''))),
                 SizedBox(width: 10),
-                Center(child: Badge(text: mail.formattedTimestamp)),
+                Center(child: IkusBadge(text: mail.formattedTimestamp)),
                 SizedBox(width: 20),
               ],
             ),

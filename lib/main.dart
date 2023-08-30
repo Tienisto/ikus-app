@@ -92,7 +92,7 @@ class IkusAppState extends State<IkusApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: LocaleSettings.supportedLocales,
+      supportedLocales: AppLocaleUtils.supportedLocales,
       navigatorObservers: [ _navObserver ],
     );
   }
