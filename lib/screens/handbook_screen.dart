@@ -11,7 +11,7 @@ import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/open_browser.dart';
 import 'package:ikus_app/utility/popups.dart';
 import 'package:ikus_app/utility/ui.dart';
-import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:pdfx/pdfx.dart';
 
 class HandbookScreen extends StatefulWidget {
   @override
@@ -19,29 +19,35 @@ class HandbookScreen extends StatefulWidget {
 }
 
 class _HandbookScreenState extends State<HandbookScreen> {
-
   PdfController? pdfController;
 
   @override
   void initState() {
     super.initState();
     Uint8List pdf = HandbookService.instance.getPDF();
-    if (pdf.isNotEmpty)
+    if (pdf.isNotEmpty) {
       pdfController = PdfController(document: PdfDocument.openData(pdf));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.handbook.title)
+        title: Text(t.handbook.title),
       ),
       body: Stack(
         children: [
           if (pdfController == null)
             Center(
               child: Container(
-                child: Text(t.handbook.wip, style: TextStyle(color: OvguColor.secondaryDarken2, fontSize: 20)),
+                child: Text(
+                  t.handbook.wip,
+                  style: TextStyle(
+                    color: OvguColor.secondaryDarken2,
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
           if (pdfController != null)
@@ -60,19 +66,16 @@ class _HandbookScreenState extends State<HandbookScreen> {
                       List<PdfBookmark> bookmarks = HandbookService.instance.getBookmarks();
                       double height = MediaQuery.of(context).size.height;
                       Popups.generic(
-                          context: context,
-                          height: min(height - 300, 500),
-                          body: HandbookPopup(
-                            bookmarks: bookmarks,
-                            callback: (page) async {
-                              Navigator.pop(context);
-                              await sleep(300);
-                              pdfController!.animateToPage(page,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.easeInOutCubic
-                              );
-                            },
-                          )
+                        context: context,
+                        height: min(height - 300, 500),
+                        body: HandbookPopup(
+                          bookmarks: bookmarks,
+                          callback: (page) async {
+                            Navigator.pop(context);
+                            await sleep(300);
+                            pdfController!.animateToPage(page, duration: Duration(milliseconds: 1000), curve: Curves.easeInOutCubic);
+                          },
+                        ),
                       );
                     },
                     child: Icon(Icons.list, color: Colors.white),

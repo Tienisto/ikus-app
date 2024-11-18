@@ -1,5 +1,3 @@
-/.fvm/flutter_sdk
-
 # key
 ikus_key.jks
 android/key.properties
@@ -50,3 +48,6 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# FVM Version Cache
+.fvm/

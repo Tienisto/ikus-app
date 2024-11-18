@@ -47,7 +47,7 @@ class PostScreen extends StatelessWidget {
           ),
           SizedBox(height: 30),
           HtmlView(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: OvguPixels.mainScreenPadding,
             html: post.content,
           ),
           SizedBox(height: 30),

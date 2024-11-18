@@ -18,8 +18,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.12.7+76
 
 environment:
-  flutter: '>=3.3.0'
-  sdk: ">=2.17.0 <3.0.0"
+  flutter: '>=3.24.0'
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -28,44 +28,43 @@ dependencies:
     sdk: flutter
 
   # core
-  intl: 0.17.0 # used by table_calendar and for formatting dates
-  dart_jsonwebtoken: 2.8.0 # jwt
+  intl: 0.19.0 # used by table_calendar and for formatting dates
+  dart_jsonwebtoken: 2.14.1 # jwt
   package_info: ^2.0.2 # show version and build of the app
-  uuid: 3.0.7 # create device id
-  html: ^0.15.0 # parse html
-  collection: 1.17.0 # collection utilities
-  crypto: 3.0.2 # hash registration tokens
+  uuid: 4.5.1 # create device id
+  collection: 1.18.0 # collection utilities
+  crypto: 3.0.6 # hash registration tokens
 
   # i18n
-  slang: 3.23.0
-  slang_flutter: 3.23.0
+  slang: 4.2.1
+  slang_flutter: 4.2.0
 
   # storage
   hive: 2.2.3 # persistent storage
   hive_flutter: 1.1.0 # helper for hive
-  flutter_secure_storage: 6.0.0 # for ovgu account
+  flutter_secure_storage: 9.2.2 # for ovgu account
 
   # native utilities
-  http: 0.13.6 # make http requests
-  add_2_calendar: 2.2.4 # add calendar reminders
-  map_launcher: 2.3.0+1 # launch external map app
-  url_launcher: 6.1.11 # open links
-  enough_mail: 2.1.1 # emails
-  workmanager: 0.5.0 # run tasks in background
-  flutter_local_notifications: 9.9.1 # show notifications
-  audioplayers: 1.0.1 # play audio
+  http: 1.2.2 # make http requests
+  add_2_calendar: 3.0.1 # add calendar reminders
+  map_launcher: 3.5.0 # launch external map app
+  url_launcher: 6.3.1 # open links
+  enough_mail: 2.1.6 # emails
+  workmanager: 0.5.2 # run tasks in background
+  flutter_local_notifications: 18.0.1 # show notifications
+  audioplayers: 6.1.0 # play audio
 
   # components
-  flutter_html: 3.0.0-beta.2 # show post content encoded in html
-  flutter_map: 3.0.0 # show map location of events
-  carousel_slider: 4.2.1 # slider (e.g. home page)
-  table_calendar: 3.0.8 # calendar
-  native_pdf_view: 6.0.0+1 # render handbook as pdf
+  flutter_widget_from_html: 0.15.3 # show post content encoded in html
+  flutter_map: 7.0.2 # show map location of events
+  carousel_slider: 5.0.0 # slider (e.g. home page)
+  table_calendar: 3.1.2 # calendar
+  pdfx: 2.8.0 # render handbook as pdf
 
 dev_dependencies:
-  hive_generator: 1.1.3
-  build_runner: 2.3.3
-  slang_build_runner: 3.23.0
+  hive_generator: 2.0.1
+  build_runner: 2.4.13
+  slang_build_runner: 4.2.0
   flutter_test:
     sdk: flutter
 

@@ -7,6 +7,7 @@ import 'package:ikus_app/model/coords.dart' as model;
 import 'package:ikus_app/utility/globals.dart';
 import 'package:ikus_app/utility/ui.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// displays a map showing the marker
 /// also has a navigation button
@@ -33,13 +34,12 @@ class MapWithMarker extends StatelessWidget {
               borderRadius: OvguPixels.borderRadius,
               child: FlutterMap(
                 options: MapOptions(
-                  center: position,
-                  zoom: 14.5,
+                  initialCenter: position,
+                  initialZoom: 14.5,
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'],
+                    urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                   ),
                   MarkerLayer(
                     markers: [
@@ -47,7 +47,16 @@ class MapWithMarker extends StatelessWidget {
                         width: MarkerSymbol.width,
                         height: MarkerSymbol.height,
                         point: position,
-                        builder: (ctx) => MarkerSymbol(),
+                        child: MarkerSymbol(),
+                      ),
+                    ],
+                  ),
+                  RichAttributionWidget(
+                    alignment: AttributionAlignment.bottomLeft,
+                    attributions: [
+                      TextSourceAttribution(
+                        'OpenStreetMap contributors',
+                        onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
                       ),
                     ],
                   ),

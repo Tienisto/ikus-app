@@ -32,8 +32,8 @@ class Init {
     LocaleSettings.useDeviceLocale();
     BackgroundService.instance.init();
     NotificationAppLaunchDetails? details = await FlutterLocalNotificationsPlugin().getNotificationAppLaunchDetails();
-    if (details != null && details.didNotificationLaunchApp && details.payload != null) {
-      return NotificationPayloadSerialization.parse(details.payload!);
+    if (details != null && details.didNotificationLaunchApp && details.notificationResponse?.payload != null) {
+      return NotificationPayloadSerialization.parse(details.notificationResponse!.payload!);
     } else {
       return null;
     }

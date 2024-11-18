@@ -42,13 +42,13 @@ class AboutScreen extends StatelessWidget {
           ),
           ...t.about.technicalImplementation.people.map((p) {
             return HtmlView(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: OvguPixels.mainScreenPadding,
               html: p
             );
           }),
           SizedBox(height: 10),
           HtmlView(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: OvguPixels.mainScreenPadding,
             html: t.about.contribute
           ),
           SizedBox(height: 50)
