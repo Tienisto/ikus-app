@@ -20,18 +20,12 @@ void main() async {
     child: IkusApp(screen: openScreen),
   );
 
-  runZonedGuarded(() async {
-    runApp(app);
-  }, (error, stackTrace) {
-    print('ERROR: $error');
-    print(stackTrace);
-    PersistentService.instance.logError(error.toString(), stackTrace.toString());
-  });
-
   FlutterError.onError = (FlutterErrorDetails details) {
     PersistentService.instance.logError(details.exception.toString(), details.stack?.toString());
     FlutterError.presentError(details);
   };
+
+  runApp(app);
 }
 
 class IkusApp extends StatefulWidget {
