@@ -2,7 +2,7 @@
   "meta": {
     "appName": "Welcome to OVGU"
   },
-  "features": {
+  "features(interface=FeatureName)": {
     "map": {
       "short": "Campus",
       "long": "Campusplan"

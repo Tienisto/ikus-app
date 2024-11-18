@@ -4,5 +4,5 @@ targets:
       slang_build_runner:
         options:
           input_directory: lib/i18n
-          interfaces:
-            FeatureName: features.*
+          input_file_pattern: .json
+          flat_map: false
