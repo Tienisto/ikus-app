@@ -6,10 +6,16 @@ typedef Widget Behaviour(BuildContext context, Widget? widget);
 class Adaptive {
   // removes overscroll 'waves' effect on iOS devices and resets the scale factor
   static Behaviour getBehaviour() {
-    if(Platform.isAndroid) {
-      return (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(textScaleFactor: 1), child: child!);
+    if (Platform.isAndroid) {
+      return (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1)),
+            child: child!,
+          );
     } else {
-      return (context, child) => ScrollConfiguration(behavior: NoScrollOverflow(), child: MediaQuery(data: MediaQuery.of(context).copyWith(textScaleFactor: 1), child: child!));
+      return (context, child) => ScrollConfiguration(
+            behavior: NoScrollOverflow(),
+            child: MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1)), child: child!),
+          );
     }
   }
 
@@ -21,8 +27,7 @@ class Adaptive {
 
 class NoScrollOverflow extends ScrollBehavior {
   @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }

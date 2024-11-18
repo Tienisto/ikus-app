@@ -160,7 +160,7 @@ class PersistentService {
     await box.put('news_channels', data.newsChannels);
     await box.put('calendar_channels', data.calendarChannels);
     await box.put('my_events', data.myEvents);
-    await box.put('mensa', describeEnum(data.mensa));
+    await box.put('mensa', data.mensa.name);
     await box.put('dev_settings', data.devSettings);
     await box.put('dev_server', data.devServer);
   }

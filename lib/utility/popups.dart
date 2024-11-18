@@ -5,7 +5,6 @@ import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/utility/ui.dart';
 
 class Popups {
-
   static const double DEFAULT_HEIGHT = 270;
 
   static Future<void> generic({
@@ -23,8 +22,8 @@ class Popups {
       transitionBuilder: (context, a1, a2, widget) {
         final double curvedValue = Curves.easeInOutQuad.transform(1 - a1.value);
         final double width = min(MediaQuery.of(context).size.width - 2, 600);
-        return WillPopScope(
-          onWillPop: () async => dismissible,
+        return PopScope(
+          canPop: dismissible,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Transform.translate(
@@ -34,18 +33,22 @@ class Popups {
                 height: height,
                 child: OvguCard(
                   color: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(OvguPixels.borderRadiusPlain), topRight: Radius.circular(OvguPixels.borderRadiusPlain))),
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: body
-                  )
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(OvguPixels.borderRadiusPlain),
+                      topRight: Radius.circular(
+                        OvguPixels.borderRadiusPlain,
+                      ),
+                    ),
+                  ),
+                  child: Material(type: MaterialType.transparency, child: body),
                 ),
               ),
             ),
           ),
         );
       },
-      pageBuilder: (context, animation1, animation2) { return Container(); }
+      pageBuilder: (context, animation1, animation2) => Container(),
     );
   }
 }

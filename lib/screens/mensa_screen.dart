@@ -167,7 +167,7 @@ class _MensaScreenState extends State<MensaScreen> {
                           startOpacity: 0,
                           endOpacity: 1,
                           curve: Curves.easeOutCubic,
-                          child: Text(curr.name.name, style: TextStyle(color: OvguColor.primary, fontSize: 30))
+                          child: Text(curr.name.label, style: TextStyle(color: OvguColor.primary, fontSize: 30))
                         ),
                       ),
                     ),
@@ -197,7 +197,7 @@ class _MensaScreenState extends State<MensaScreen> {
                         callback: () {
                           MensaOpeningHoursPopup.open(
                             context: context,
-                            mensa: curr.name.name.replaceAll('\n', ' '),
+                            mensa: curr.name.label.replaceAll('\n', ' '),
                             openingHours: curr.openingHours!
                           );
                         },
@@ -207,7 +207,7 @@ class _MensaScreenState extends State<MensaScreen> {
                       OvguButton(
                         flat: true,
                         callback: () async {
-                          await openMap(curr.coords!, curr.name.name);
+                          await openMap(curr.coords!, curr.name.label);
                         },
                         child: Icon(Icons.location_pin),
                       ),

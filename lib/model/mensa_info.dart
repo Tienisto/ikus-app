@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 import 'package:ikus_app/model/coords.dart';
 import 'package:ikus_app/model/menu.dart';
@@ -38,7 +37,7 @@ class MensaInfo {
 }
 
 extension MensaLocationMembers on Mensa {
-  String get name {
+  String get label {
     switch (this) {
       case Mensa.UNI_CAMPUS_DOWN:
         return t.mensa.locations.uniCampusDown;
@@ -54,6 +53,6 @@ extension MensaLocationMembers on Mensa {
 
 extension MensaLocationParser on String {
   Mensa? toMensa() {
-    return Mensa.values.firstWhereOrNull((element) => describeEnum(element) == this);
+    return Mensa.values.firstWhereOrNull((element) => this == element.name);
   }
 }

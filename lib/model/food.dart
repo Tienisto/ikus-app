@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ikus_app/i18n/strings.g.dart';
 
@@ -13,7 +12,38 @@ enum FoodTag {
   PIG,
   SOUP,
   ALCOHOL,
-  SIDES
+  SIDES,
+  ;
+
+  String get label {
+    return switch (this) {
+      FoodTag.VEGAN => t.mensa.tags.vegan,
+      FoodTag.VEGETARIAN => t.mensa.tags.vegetarian,
+      FoodTag.GARLIC => t.mensa.tags.garlic,
+      FoodTag.FISH => t.mensa.tags.fish,
+      FoodTag.CHICKEN => t.mensa.tags.chicken,
+      FoodTag.BEEF => t.mensa.tags.beef,
+      FoodTag.PIG => t.mensa.tags.pig,
+      FoodTag.SOUP => t.mensa.tags.soup,
+      FoodTag.ALCOHOL => t.mensa.tags.alcohol,
+      FoodTag.SIDES => t.mensa.tags.sides,
+    };
+  }
+
+  Color get color {
+    return switch (this) {
+      FoodTag.VEGAN => Colors.green,
+      FoodTag.VEGETARIAN => Colors.green,
+      FoodTag.GARLIC => Colors.purple,
+      FoodTag.FISH => Colors.blue,
+      FoodTag.CHICKEN => Colors.pink,
+      FoodTag.BEEF => Colors.pink,
+      FoodTag.PIG => Colors.pink,
+      FoodTag.SOUP => Colors.lime,
+      FoodTag.ALCOHOL => Colors.grey,
+      FoodTag.SIDES => Colors.blueGrey,
+    };
+  }
 }
 
 class Food {
@@ -28,67 +58,14 @@ class Food {
         name: map['name'],
         price: map['price'],
         tags: map['tags']
-            .map((tag) => FoodTag.values.firstWhereOrNull((element) => describeEnum(element) == tag))
+            .map((tag) => FoodTag.values.firstWhereOrNull((element) => tag == element.name))
             .where((tag) => tag != null)
             .toList()
-            .cast<FoodTag>()
-    );
+            .cast<FoodTag>());
   }
 
   @override
   String toString() {
     return '$name ($price)';
-  }
-}
-
-extension FoodMembers on FoodTag {
-  String get name {
-    switch (this) {
-      case FoodTag.VEGAN:
-        return t.mensa.tags.vegan;
-      case FoodTag.VEGETARIAN:
-        return t.mensa.tags.vegetarian;
-      case FoodTag.GARLIC:
-        return t.mensa.tags.garlic;
-      case FoodTag.FISH:
-        return t.mensa.tags.fish;
-      case FoodTag.CHICKEN:
-        return t.mensa.tags.chicken;
-      case FoodTag.BEEF:
-        return t.mensa.tags.beef;
-      case FoodTag.PIG:
-        return t.mensa.tags.pig;
-      case FoodTag.SOUP:
-        return t.mensa.tags.soup;
-      case FoodTag.ALCOHOL:
-        return t.mensa.tags.alcohol;
-      case FoodTag.SIDES:
-        return t.mensa.tags.sides;
-    }
-  }
-
-  Color get color {
-    switch (this) {
-      case FoodTag.VEGAN:
-        return Colors.green;
-      case FoodTag.VEGETARIAN:
-        return Colors.green;
-      case FoodTag.GARLIC:
-        return Colors.purple;
-      case FoodTag.FISH:
-        return Colors.blue;
-      case FoodTag.CHICKEN:
-        return Colors.pink;
-      case FoodTag.BEEF:
-        return Colors.pink;
-      case FoodTag.PIG:
-        return Colors.pink;
-      case FoodTag.SOUP:
-        return Colors.lime;
-      case FoodTag.ALCOHOL:
-        return Colors.grey;
-      case FoodTag.SIDES:
-        return Colors.blueGrey;
-    }
   }
 }
