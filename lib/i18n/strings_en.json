@@ -196,7 +196,8 @@
       "uniCampusDown": "UniCampus\nGround Floor",
       "uniCampusUp": "UniCampus\nUpper Floor",
       "zschokke": "Café\nZschokkestraße",
-      "herrenkrug": "Café\nHerrenkrug"
+      "herrenkrug": "Café\nHerrenkrug",
+      "pier16": "Café\nPier 16"
     },
     "lastUpdate": "Last Update: $timestamp",
     "today": "Today, $date",

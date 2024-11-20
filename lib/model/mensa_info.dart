@@ -7,7 +7,8 @@ enum Mensa {
   UNI_CAMPUS_DOWN,
   UNI_CAMPUS_UP,
   ZSCHOKKE,
-  HERRENKRUG
+  HERRENKRUG,
+  PIER_16
 }
 
 class MensaInfo {
@@ -47,6 +48,8 @@ extension MensaLocationMembers on Mensa {
         return t.mensa.locations.zschokke;
       case Mensa.HERRENKRUG:
         return t.mensa.locations.herrenkrug;
+      case Mensa.PIER_16:
+        return t.mensa.locations.pier16;
     }
   }
 }

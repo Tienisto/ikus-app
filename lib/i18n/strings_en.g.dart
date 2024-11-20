@@ -680,6 +680,7 @@ class TranslationsMensaLocationsEn {
 	String get uniCampusUp => 'UniCampus\nUpper Floor';
 	String get zschokke => 'Café\nZschokkestraße';
 	String get herrenkrug => 'Café\nHerrenkrug';
+	String get pier16 => 'Café\nPier 16';
 }
 
 // Path: mensa.tags

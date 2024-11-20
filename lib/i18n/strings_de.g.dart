@@ -676,6 +676,7 @@ class _TranslationsMensaLocationsDe implements TranslationsMensaLocationsEn {
 	@override String get uniCampusUp => 'UniCampus\nOberer Saal';
 	@override String get zschokke => 'Kellercafé\nZschokkestraße';
 	@override String get herrenkrug => 'Café\nHerrenkrug';
+	@override String get pier16 => 'Café\nPier 16';
 }
 
 // Path: mensa.tags

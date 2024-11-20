@@ -196,7 +196,8 @@
       "uniCampusDown": "UniCampus\nUnterer Saal",
       "uniCampusUp": "UniCampus\nOberer Saal",
       "zschokke": "Kellercafé\nZschokkestraße",
-      "herrenkrug": "Café\nHerrenkrug"
+      "herrenkrug": "Café\nHerrenkrug",
+      "pier16": "Café\nPier 16"
     },
     "lastUpdate": "Stand: $timestamp",
     "today": "Heute, $date",
