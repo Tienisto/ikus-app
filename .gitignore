@@ -1,4 +1,6 @@
 # key
+.env.prod
+lib/gen/env.g.dart
 ikus_key.jks
 android/key.properties
 

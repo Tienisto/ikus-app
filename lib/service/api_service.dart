@@ -5,7 +5,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import 'package:ikus_app/constants.dart';
+import 'package:ikus_app/gen/env.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/service/app_config_service.dart';
@@ -19,7 +19,7 @@ import 'package:intl/intl.dart';
 class ApiService {
 
   static const String LOG_NAME = 'API';
-  static String get URL => SettingsService.instance.getDevServer() ? Constants.apiUrlDebug : Constants.apiUrlLive;
+  static String get URL => SettingsService.instance.getDevServer() ? Env.apiDevUrl : Env.apiUrl;
   static final DateTime FALLBACK_TIME = DateTime(2020, 8, 1);
   static final DateFormat _lastModifiedFormatter = DateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", 'en');
 
