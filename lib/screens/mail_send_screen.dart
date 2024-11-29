@@ -6,7 +6,7 @@ import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/error_popup.dart';
 import 'package:ikus_app/components/popups/generic_text_popup.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/local/ovgu_account.dart';
 import 'package:ikus_app/model/mail/mail_message_send.dart';
 import 'package:ikus_app/service/mail_service.dart';

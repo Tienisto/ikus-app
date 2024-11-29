@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/icon_text.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/event_screen.dart';
 import 'package:ikus_app/utility/adaptive.dart';

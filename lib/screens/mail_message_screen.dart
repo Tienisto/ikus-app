@@ -8,7 +8,7 @@ import 'package:ikus_app/components/popups/generic_text_popup.dart';
 import 'package:ikus_app/components/popups/mail_delete_popup.dart';
 import 'package:ikus_app/components/popups/mail_people_popup.dart';
 import 'package:ikus_app/components/popups/wip_popup.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/mail/mail_message.dart';
 import 'package:ikus_app/model/mail/mailbox_type.dart';
 import 'package:ikus_app/service/mail_service.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/popups/generic_info_popup.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/utility/popups.dart';
 
 class MensaOpeningHoursPopup extends StatelessWidget {

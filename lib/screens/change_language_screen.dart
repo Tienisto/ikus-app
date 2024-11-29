@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/status_bar_color.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/globals.dart';

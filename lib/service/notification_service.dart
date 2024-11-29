@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/mail/mail_message.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/utility/globals.dart';

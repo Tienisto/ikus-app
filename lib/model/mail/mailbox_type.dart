@@ -1,4 +1,4 @@
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/utility/mail_facade.dart';
 
 enum MailboxType {

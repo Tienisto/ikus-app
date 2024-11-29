@@ -3,7 +3,7 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/settings_item.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/screens/dev/background_task_log_screen.dart';
 import 'package:ikus_app/screens/dev/log_error_screen.dart';
 import 'package:ikus_app/screens/main_screen.dart';

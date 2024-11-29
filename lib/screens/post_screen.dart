@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ikus_app/components/badge.dart';
 import 'package:ikus_app/components/html_view.dart';
 import 'package:ikus_app/components/main_list_view.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/screens/image_screen.dart';
 import 'package:ikus_app/service/api_service.dart';

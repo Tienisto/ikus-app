@@ -7,7 +7,7 @@ import 'package:ikus_app/components/animated_progress_bar.dart';
 import 'package:ikus_app/components/buttons/quadratic_button.dart';
 import 'package:ikus_app/components/cards/mail_card.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/mail/mail_collection.dart';
 import 'package:ikus_app/model/mail/mail_message.dart';
 import 'package:ikus_app/model/local/mail_progress.dart';

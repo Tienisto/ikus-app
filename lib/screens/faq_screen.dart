@@ -3,7 +3,7 @@ import 'package:ikus_app/components/cards/faq_group_card.dart';
 import 'package:ikus_app/components/cards/faq_result_item.dart';
 import 'package:ikus_app/components/inputs/ovgu_text_field.dart';
 import 'package:ikus_app/components/main_list_view.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/post.dart';
 import 'package:ikus_app/model/post_group.dart';
 import 'package:ikus_app/screens/post_screen.dart';

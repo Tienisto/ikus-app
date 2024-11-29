@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/link_group.dart';
 import 'package:ikus_app/service/api_service.dart';

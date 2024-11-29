@@ -5,7 +5,7 @@ import 'package:ikus_app/components/buttons/ovgu_button.dart';
 import 'package:ikus_app/components/cards/ovgu_card.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/rotating.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:intl/intl.dart';

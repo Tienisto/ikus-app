@@ -8,7 +8,7 @@ import 'package:ikus_app/components/status_bar_color.dart';
 import 'package:ikus_app/components/tutorial/tutorial_background.dart';
 import 'package:ikus_app/components/tutorial/tutorial_feature_highlight.dart';
 import 'package:ikus_app/components/tutorial/tutorial_overlay.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/pages/calendar_page.dart';
 import 'package:ikus_app/pages/features_page.dart';

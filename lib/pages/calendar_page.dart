@@ -6,7 +6,7 @@ import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/channel_popup.dart';
 import 'package:ikus_app/components/popups/date_popup.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/event_screen.dart';

@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/coords.dart';
 import 'package:ikus_app/model/menu.dart';
 

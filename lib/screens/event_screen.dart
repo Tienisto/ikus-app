@@ -11,7 +11,7 @@ import 'package:ikus_app/components/popups/event_added_popup.dart';
 import 'package:ikus_app/components/popups/event_past_popup.dart';
 import 'package:ikus_app/components/popups/event_unregister_popup.dart';
 import 'package:ikus_app/components/popups/generic_text_popup.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/screens/my_events_screen.dart';
 import 'package:ikus_app/screens/register_event_screen.dart';

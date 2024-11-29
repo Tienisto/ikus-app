@@ -1,5 +1,5 @@
 import 'package:html/parser.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/utility/extensions.dart';
 import 'package:intl/intl.dart';
 

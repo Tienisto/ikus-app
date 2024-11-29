@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
 import 'package:ikus_app/model/local/mail_metadata.dart';
 import 'package:ikus_app/model/mail/mail_collection.dart';

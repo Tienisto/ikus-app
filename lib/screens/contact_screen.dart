@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/cards/contact_card.dart';
 import 'package:ikus_app/components/main_list_view.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/contact.dart';
 import 'package:ikus_app/service/contact_service.dart';
 

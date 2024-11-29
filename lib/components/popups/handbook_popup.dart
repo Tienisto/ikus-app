@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ikus_app/components/buttons/ovgu_button.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/pdf_bookmark.dart';
 import 'package:ikus_app/utility/adaptive.dart';
 import 'package:ikus_app/utility/callbacks.dart';

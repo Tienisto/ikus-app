@@ -7,7 +7,7 @@ import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/ovgu_switch.dart';
 import 'package:ikus_app/components/popups/reset_popup.dart';
 import 'package:ikus_app/components/settings_item.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/screens/about_screen.dart';
 import 'package:ikus_app/screens/change_language_screen.dart';
 import 'package:ikus_app/screens/dev/dev_screen.dart';

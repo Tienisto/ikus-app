@@ -7,7 +7,7 @@ import 'package:ikus_app/components/cards/food_card.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
 import 'package:ikus_app/components/popups/mensa_opening_hours_popup.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/mensa_info.dart';
 import 'package:ikus_app/service/mensa_service.dart';
 import 'package:ikus_app/service/settings_service.dart';

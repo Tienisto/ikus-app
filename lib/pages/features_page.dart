@@ -3,7 +3,7 @@ import 'package:ikus_app/components/buttons/feature_button.dart';
 import 'package:ikus_app/components/icon_text.dart';
 import 'package:ikus_app/components/info_text.dart';
 import 'package:ikus_app/components/main_list_view.dart';
-import 'package:ikus_app/i18n/strings.g.dart';
+import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/model/feature.dart';
 import 'package:ikus_app/service/app_config_service.dart';
 import 'package:ikus_app/utility/ui.dart';
