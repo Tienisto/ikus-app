@@ -69,6 +69,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+dependency_overrides:
+  device_info_plus: 11.1.1 # next release, or https://github.com/ScerIO/packages.flutter/pull/544
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
