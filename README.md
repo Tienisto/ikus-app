@@ -18,12 +18,6 @@ Run: `flutter run`
 
 Only important if you are allowed to submit this app.
 
-Ignore security related files:
-- `git update-index --skip-worktree lib/constants.dart`
-- `git update-index --skip-worktree android/app/build.gradle`
-
-Now add the signing key for android according to the config.
-
 ### Android
 
 run `flutter build appbundle`
