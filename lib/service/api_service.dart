@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:ikus_app/gen/env.g.dart';
 import 'package:ikus_app/init.dart';
 import 'package:ikus_app/model/local/data_with_timestamp.dart';
@@ -33,14 +33,12 @@ class ApiService {
   /// fetch batch route (no cache mechanism)
   /// preparation for [getCacheOrFetchString] with useJSON
   static Future<String?> fetchBatchString({required String locale, required List<String> routes}) async {
-
     assert(routes.isNotEmpty, 'routes must not be empty');
 
-    String routesQuery = routes.join(',');
-    String url = '$URL/batch?locale=${locale.toUpperCase()}&routes=$routesQuery';
+    String url = '$URL/batch?locale=${locale.toUpperCase()}&routes=${routes.join(',')}';
     try {
 
-      Response response = await get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url));
       log('[${response.statusCode}] $url', name: LOG_NAME);
 
       if (response.statusCode == 200)
@@ -68,10 +66,10 @@ class ApiService {
       return newData;
     }
 
-    Response? response;
+    http.Response? response;
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
-        response = await get(Uri.parse('$URL/$route?locale=${locale.toUpperCase()}'));
+        response = await http.get(Uri.parse('$URL/$route?locale=${locale.toUpperCase()}'));
         log('[${response.statusCode}] $route', name: LOG_NAME);
         usedNetworkOnLastJSONFetch = true;
       } catch (e) {
@@ -96,13 +94,13 @@ class ApiService {
   /// 2: use cache
   /// 3: use [fallback]
   static Future<DataWithTimestamp<Uint8List>> getCacheOrFetchBinary({required String route, required bool useNetwork, required fallback}) async {
-    Response? response;
+    http.Response? response;
     final String key = 'api_binary/$route';
 
     if ((!Init.postInitFinished || AppConfigService.instance.isCompatibleWithApi() != false) && useNetwork) {
       try {
         DateTime timestamp = await PersistentService.instance.getApiTimestamp(key) ?? FALLBACK_TIME;
-        response = await get(Uri.parse('$URL/file/$route'), headers: {
+        response = await http.get(Uri.parse('$URL/file/$route'), headers: {
           'If-Modified-Since': _lastModifiedFormatter.format(timestamp.toUtc())
         });
         log('[${response.statusCode}] $route', name: LOG_NAME);
@@ -129,7 +127,7 @@ class ApiService {
       'platform': Platform.isIOS ? 'IOS' : 'ANDROID',
     };
 
-    await post(
+    await http.post(
       Uri.parse('$URL/start'),
       headers: {'content-type': 'application/json'},
       body: json.encode(body)
@@ -148,7 +146,7 @@ class ApiService {
     required String? country
   }) async {
 
-    Map<String, dynamic> body = {
+    final body = {
       'jwt': Crypto.generateToken(),
       'eventId': eventId,
       'matriculationNumber': matriculationNumber,
@@ -159,7 +157,7 @@ class ApiService {
       'country': country,
     };
 
-    final response = await post(
+    final response = await http.post(
         Uri.parse('$URL/event/register'),
         headers: {'content-type': 'application/json'},
         body: json.encode(body)
@@ -181,18 +179,17 @@ class ApiService {
     required int eventId,
     required String token,
   }) async {
-
-    Map<String, dynamic> body = {
+    final body = {
       'jwt': Crypto.generateToken(),
       'eventId': eventId,
       'token': token
     };
 
     try {
-      final response = await post(
+      final response = await http.post(
           Uri.parse('$URL/event/unregister'),
           headers: {'content-type': 'application/json'},
-          body: json.encode(body)
+          body: json.encode(body),
       );
       return response.statusCode == 200;
     } catch (_) {

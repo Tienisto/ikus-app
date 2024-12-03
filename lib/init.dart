@@ -114,7 +114,6 @@ class Init {
 
   /// initializes the settings
   static Future<void> _initLocalSettings() async {
-
     log('[3 / 4] init settings', name: LOG_NAME);
 
     // init settings
@@ -154,22 +153,22 @@ class Init {
 
   /// update old data based on maxAge
   static Future<void> _updateOldData(BackgroundSyncCallback? backgroundSyncCallback) async {
-
     log('[3 / 3] check if old data needs to be refetched', name: LOG_NAME);
 
     // not on the first start
-    if (SettingsService.instance.getWelcome())
+    if (SettingsService.instance.getWelcome()) {
       return;
+    }
 
-    DateTime now = DateTime.now();
-    List<SyncableService> fetchList = [];
-    Map<SyncableService, String> batchResult = Map();
+    final now = DateTime.now();
+    final fetchList = <SyncableService>[];
+    final batchResult = <SyncableService, String>{};
 
     // prepare outdated services
     log(' -> (1/4) check outdated', name: LOG_NAME);
-    for (SyncableService service in SyncableService.servicesWithoutAppConfig) {
-      Duration age = now.difference(service.getLastUpdate());
-      String lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
+    for (final service in SyncableService.servicesWithoutAppConfig) {
+      final age = now.difference(service.getLastUpdate());
+      final lastUpdateString = _lastModifiedFormatter.format(service.getLastUpdate());
       if (age >= service.maxAge) {
         log(' -> ${service.id.padRight(18)}: $lastUpdateString ($age >= ${service.maxAge}) -> fetch', name: LOG_NAME);
         fetchList.add(service);
@@ -183,10 +182,10 @@ class Init {
     }
 
     // batch fetch
-    List<String> routes = fetchList
+    final List<String> routes = fetchList
         .where((service) => service.batchKey != null)
         .map((service) => service.batchKey)
-        .cast<String>()
+        .nonNulls
         .toList();
     if (routes.isNotEmpty) {
       log(' -> (2/4) fetch batch route', name: LOG_NAME);
@@ -206,9 +205,9 @@ class Init {
 
     // apply fetch list with batch data
     log(' -> (3/4) sync', name: LOG_NAME);
-    List<FutureCallback> postSyncTasks = [];
+    final postSyncTasks = <FutureCallback>[];
     for (SyncableService service in fetchList) {
-      String? useJSON = batchResult[service];
+      final String? useJSON = batchResult[service];
       log(' -> ${service.id.padRight(18)}: ${useJSON != null ? 'has batch result' : 'no batch (fetch individually)'}', name: LOG_NAME);
       await service.sync(
         useNetwork: true, // useNetwork must be true, e.g. handbook
@@ -224,7 +223,6 @@ class Init {
       await postSyncTask();
     }
 
-    DateTime after = DateTime.now();
-    log(' -> update old data step took ${after.difference(now)}', name: LOG_NAME);
+    log(' -> update old data step took ${DateTime.now().difference(now)}', name: LOG_NAME);
   }
 }
