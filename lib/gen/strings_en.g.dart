@@ -608,7 +608,7 @@ class TranslationsAboutIdeaEn {
 	// Translations
 	String get title => 'Idea';
 	List<String> get people => [
-		'M.A. Anne-Katrin Behnert',
+		'M.A. Anne-Katrin Güldenpfennig',
 		'Christin Scheil',
 		'IKUS',
 		'Dormitory Advisors of the Studentenwerk',

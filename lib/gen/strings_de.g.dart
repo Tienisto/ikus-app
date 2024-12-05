@@ -604,7 +604,7 @@ class _TranslationsAboutIdeaDe implements TranslationsAboutIdeaEn {
 	// Translations
 	@override String get title => 'Idee';
 	@override List<String> get people => [
-		'M.A. Anne-Katrin Behnert',
+		'M.A. Anne-Katrin Güldenpfennig',
 		'Christin Scheil',
 		'IKUS',
 		'Wohnheimtutoren des Studentenwerks',
