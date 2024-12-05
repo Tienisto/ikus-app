@@ -8,6 +8,7 @@ class SettingsData {
   List<int>? newsChannels;
   List<int>? calendarChannels;
   List<int> myEvents;
+  List<int> myEventsNotified2h;
   Mensa mensa; // last opened mensa
   bool devSettings;
   bool devServer;
@@ -19,6 +20,7 @@ class SettingsData {
     required this.newsChannels,
     required this.calendarChannels,
     required this.myEvents,
+    required this.myEventsNotified2h,
     required this.mensa,
     required this.devSettings,
     required this.devServer

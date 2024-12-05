@@ -81,6 +81,32 @@ class NotificationService {
     );
   }
 
+  Future<void> showEventReminder({
+    required int eventId,
+    required String title,
+    required String description,
+  }) async {
+    final platformChannelSpecifics = NotificationDetails(
+      android: AndroidNotificationDetails(
+        'eventReminder',
+        'Event Reminder',
+        importance: Importance.max,
+        priority: Priority.high,
+        color: OvguColor.primary,
+      ),
+      iOS: DarwinNotificationDetails(),
+    );
+
+    final id = _getRandomId();
+    await _plugin.show(
+      id,
+      title,
+      description.substring(0, min(description.length, 100)),
+      platformChannelSpecifics,
+      payload: NotificationPayloadSerialization.event(eventId),
+    );
+  }
+
   static Future<void> onSelectNotification(NotificationResponse response) async {
     print('Received notification callback');
     final payload = response.payload;

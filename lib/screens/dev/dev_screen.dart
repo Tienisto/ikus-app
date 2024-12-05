@@ -6,6 +6,7 @@ import 'package:ikus_app/components/settings_item.dart';
 import 'package:ikus_app/gen/strings.g.dart';
 import 'package:ikus_app/screens/dev/background_task_log_screen.dart';
 import 'package:ikus_app/screens/dev/log_error_screen.dart';
+import 'package:ikus_app/screens/dev/notified_events_screen.dart';
 import 'package:ikus_app/screens/main_screen.dart';
 import 'package:ikus_app/service/mail_service.dart';
 import 'package:ikus_app/service/notification_service.dart';
@@ -61,6 +62,16 @@ class _DevScreenState extends State<DevScreen> {
               right: OvguButton(
                 callback: () {
                   pushScreen(context, () => BackgroundTaskLogScreen());
+                },
+                child: Icon(Icons.schedule, color: Colors.white),
+              )
+          ),
+          SizedBox(height: SPACE_BETWEEN),
+          SettingsItem(
+              left: 'Notified events',
+              right: OvguButton(
+                callback: () {
+                  pushScreen(context, () => NotifiedEventsScreen());
                 },
                 child: Icon(Icons.schedule, color: Colors.white),
               )

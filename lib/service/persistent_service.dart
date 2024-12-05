@@ -146,6 +146,9 @@ class PersistentService {
       myEvents: box
           .get('my_events', defaultValue: [])
           .cast<int>(),
+      myEventsNotified2h: box
+          .get('my_events_notified_2h', defaultValue: [])
+          .cast<int>(),
       mensa: (box.get('mensa') as String?)?.toMensa() ?? Mensa.UNI_CAMPUS_DOWN,
       devSettings: box.get('dev_settings', defaultValue: false),
       devServer: box.get('dev_server', defaultValue: false)
@@ -160,6 +163,7 @@ class PersistentService {
     await box.put('news_channels', data.newsChannels);
     await box.put('calendar_channels', data.calendarChannels);
     await box.put('my_events', data.myEvents);
+    await box.put('my_events_notified_2h', data.myEventsNotified2h);
     await box.put('mensa', data.mensa.name);
     await box.put('dev_settings', data.devSettings);
     await box.put('dev_server', data.devServer);

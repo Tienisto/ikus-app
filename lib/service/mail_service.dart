@@ -107,17 +107,19 @@ class MailService implements SyncableService {
 
     // show notifications
     if (showNotifications && prevInboxMails != null) {
-      List<MailMessage> newMails = newMailCollection.inbox.values
+      final List<MailMessage> newMails = newMailCollection.inbox.values
           .where((mail) => !prevInboxMails!.contains(mail.uid))
           .toList();
 
       if (newMails.isNotEmpty) {
+        final showNotification = () => NotificationService.createInstance().showNewMail(newMails);
+
         if (onBatchFinished != null) {
           // show at the end of batch update
-          onBatchFinished(() => NotificationService.createInstance().showNewMail(newMails));
+          onBatchFinished(showNotification);
         } else {
           // show immediately
-          NotificationService.createInstance().showNewMail(newMails);
+          showNotification();
         }
       }
     }

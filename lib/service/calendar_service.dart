@@ -7,11 +7,13 @@ import 'package:ikus_app/model/channel.dart';
 import 'package:ikus_app/model/event.dart';
 import 'package:ikus_app/model/local/event_registration_data.dart';
 import 'package:ikus_app/service/api_service.dart';
+import 'package:ikus_app/service/notification_service.dart';
 import 'package:ikus_app/service/persistent_service.dart';
 import 'package:ikus_app/service/settings_service.dart';
 import 'package:ikus_app/service/syncable_service.dart';
 import 'package:ikus_app/utility/callbacks.dart';
 import 'package:ikus_app/utility/channel_handler.dart';
+import 'package:intl/intl.dart';
 
 class CalendarService implements SyncableService {
 
@@ -61,6 +63,28 @@ class CalendarService implements SyncableService {
         .where((event) => event != null && isInFuture(event, now))
         .cast<Event>()
         .toList();
+
+    // show notifications
+    final notifiedEventIds = SettingsService.instance.getMyEventsNotified2h();
+    final notifyingEvent = myEvents.firstWhereOrNull((event) => event.startTime.isBefore(now.add(Duration(hours: 2))) && !notifiedEventIds.contains(event.id));
+    if (showNotifications && notifyingEvent != null) {
+      final showNotification = () => NotificationService.createInstance().showEventReminder(
+        eventId: notifyingEvent.id,
+        title: notifyingEvent.name,
+        description: DateFormat('HH:mm').format(notifyingEvent.startTime),
+      );
+
+      if (onBatchFinished != null) {
+        // show at the end of batch update
+        onBatchFinished(showNotification);
+      } else {
+        // show immediately
+        showNotification();
+      }
+
+      notifiedEventIds.add(notifyingEvent.id);
+      SettingsService.instance.setMyEventsNotified2h(notifiedEventIds);
+    }
 
     _channelHandler = ChannelHandler(channels, subscribedChannels);
     _events = events;

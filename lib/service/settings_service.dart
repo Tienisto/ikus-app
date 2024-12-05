@@ -77,6 +77,15 @@ class SettingsService {
     return _settings.myEvents;
   }
 
+  void setMyEventsNotified2h(List<int> events) {
+    _settings.myEventsNotified2h = events;
+    _persistSettings();
+  }
+
+  List<int> getMyEventsNotified2h() {
+    return _settings.myEventsNotified2h;
+  }
+
   void setMensa(Mensa mensa) {
     _settings.mensa = mensa;
     _persistSettings();
