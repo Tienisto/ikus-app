@@ -29,7 +29,6 @@ void main() async {
 }
 
 class IkusApp extends StatefulWidget {
-
   final SimpleWidgetBuilder? screen; // will open this screen after init
   const IkusApp({this.screen});
 
@@ -38,7 +37,6 @@ class IkusApp extends StatefulWidget {
 }
 
 class IkusAppState extends State<IkusApp> {
-
   final NavigatorObserver _navObserver = NavigatorObserverWithOrientation();
   Widget? _home;
 
@@ -73,12 +71,10 @@ class IkusAppState extends State<IkusApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
           systemOverlayStyle: SystemUiOverlayStyle.light,
+          foregroundColor: Colors.white,
           color: OvguColor.primary, // already set in android styles.xml, but just to make sure
         ),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: OvguColor.primary,
-          secondary: OvguColor.secondary,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: OvguColor.primary),
       ),
       home: _home!,
       localizationsDelegates: const [
