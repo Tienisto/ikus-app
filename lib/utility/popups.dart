@@ -16,7 +16,7 @@ class Popups {
     await showGeneralDialog(
       context: context,
       transitionDuration: Duration(milliseconds: 300),
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       barrierDismissible: dismissible,
       barrierLabel: '',
       transitionBuilder: (context, a1, a2, widget) {
