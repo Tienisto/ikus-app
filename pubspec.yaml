@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.12.7+76
+version: 1.12.8+77
 
 environment:
   flutter: '>=3.24.0'
@@ -31,7 +31,7 @@ dependencies:
   intl: 0.19.0 # used by table_calendar and for formatting dates
   dart_jsonwebtoken: 2.14.1 # jwt
   enven: 1.2.1 # environment variables
-  package_info: ^2.0.2 # show version and build of the app
+  package_info_plus: 8.3.0 # show version and build of the app
   uuid: 4.5.1 # create device id
   collection: 1.19.1 # collection utilities
   crypto: 3.0.6 # hash registration tokens
@@ -70,7 +70,11 @@ dev_dependencies:
     sdk: flutter
 
 dependency_overrides:
-  device_info_plus: 11.1.1 # next release, or https://github.com/ScerIO/packages.flutter/pull/544
+  workmanager: # https://github.com/fluttercommunity/flutter_workmanager/issues/588
+    git:
+      url: https://github.com/fluttercommunity/flutter_workmanager.git
+      path: workmanager
+      ref: 4ce065135dc1b91fee918f81596b42a56850391d
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

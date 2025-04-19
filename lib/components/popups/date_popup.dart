@@ -54,45 +54,42 @@ class DatePopup extends StatelessWidget {
           Expanded(
             child: ListView(
               physics: Adaptive.getScrollPhysics(),
-              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
               children: events.map((event) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: OvguColor.primary,
-                        shape: OvguPixels.shape,
-                        elevation: OvguPixels.elevation,
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      ),
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        await pushScreen(context, () => EventScreen(event));
-                        onEventPop();
-                      },
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              event.name,
-                              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.fade,
-                              softWrap: false,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: OvguColor.primary,
+                      shape: OvguPixels.shape,
+                      elevation: OvguPixels.elevation,
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    ),
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await pushScreen(context, () => EventScreen(event));
+                      onEventPop();
+                    },
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            event.name,
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.fade,
+                            softWrap: false,
+                          ),
+                          if (event.startTime.hasTime())
+                            IconText(
+                              size: 14,
+                              icon: Icons.access_time,
+                              text: t.timeFormat(time: event.formattedSameDayTime),
+                              color: Colors.white,
                             ),
-                            if (event.startTime.hasTime())
-                              IconText(
-                                size: 14,
-                                icon: Icons.access_time,
-                                text: t.timeFormat(time: event.formattedSameDayTime),
-                                color: Colors.white,
-                              ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ),
