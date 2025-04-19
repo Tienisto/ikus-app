@@ -30,15 +30,15 @@ dependencies:
   # core
   intl: 0.19.0 # used by table_calendar and for formatting dates
   dart_jsonwebtoken: 2.14.1 # jwt
-  enven: 1.0.1 # environment variables
+  enven: 1.2.1 # environment variables
   package_info: ^2.0.2 # show version and build of the app
   uuid: 4.5.1 # create device id
   collection: 1.18.0 # collection utilities
   crypto: 3.0.6 # hash registration tokens
 
   # i18n
-  slang: 4.3.0
-  slang_flutter: 4.3.0
+  slang: 4.7.1
+  slang_flutter: 4.7.0
 
   # storage
   hive: 2.2.3 # persistent storage
@@ -53,19 +53,19 @@ dependencies:
   enough_mail: 2.1.6 # emails
   workmanager: 0.5.2 # run tasks in background
   flutter_local_notifications: 18.0.1 # show notifications
-  audioplayers: 6.1.0 # play audio
+  audioplayers: 6.4.0 # play audio
 
   # components
   flutter_widget_from_html: 0.15.3 # show post content encoded in html
   flutter_map: 7.0.2 # show map location of events
   carousel_slider: 5.0.0 # slider (e.g. home page)
   table_calendar: 3.1.2 # calendar
-  pdfx: 2.8.0 # render handbook as pdf
+  pdfx: 2.9.0 # render handbook as pdf
 
 dev_dependencies:
   hive_generator: 2.0.1
   build_runner: 2.4.13
-  slang_build_runner: 4.3.0
+  slang_build_runner: 4.7.0
   flutter_test:
     sdk: flutter
 
