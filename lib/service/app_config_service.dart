@@ -64,8 +64,8 @@ class AppConfigService implements SyncableService {
 
     List<int> favoriteIds = SettingsService.instance.getFavorites();
     _favoriteFeatures = _features.where((feature) => favoriteIds.any((id) => feature.id == id)).toList();
-    if (_lastUpdate == ApiService.FALLBACK_TIME) {
-      log(' -> first app config fetch ($_lastUpdate) -> use recommended favorites', name: LOG_NAME);
+    if (SettingsService.instance.getWelcome()) {
+      log(' -> first app start -> use recommended favorites', name: LOG_NAME);
       useRecommendedFavorites();
     }
 
